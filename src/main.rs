@@ -1,6 +1,6 @@
-use std::time::Duration;
 use bevy::prelude::*;
 use iyes_loopless::prelude::*;
+use std::time::Duration;
 
 #[allow(dead_code)]
 enum GameSpeed {
