@@ -5,6 +5,7 @@ edition = "2021"
 
 [dependencies]
 bevy = "0.9"
+bevy_framepace = "0.11"
 iyes_loopless = "0.9"
 
 # Enable max optimizations for dependencies, but not for our code:
