@@ -3,7 +3,7 @@ use bevy::window::CursorGrabMode;
 
 /// How far from the edge of the screen the mouse needs to be to start scrolling, in pixels.
 const EDGE_SCROLL_PX: f32 = 4.0;
-const MOUSE_PAN_SPEED: f32 = 800.0;
+const MOUSE_PAN_SPEED: f32 = 1600.0;
 
 pub struct CameraControlPlugin;
 

@@ -5,8 +5,13 @@ edition = "2021"
 
 [dependencies]
 bevy = "0.9"
+bevy_ecs_tilemap = "0.9"
 bevy_framepace = "0.11"
 iyes_loopless = "0.9"
+
+[dependencies.broodmap]
+git = "https://github.com/ShieldBattery/broodmap.git"
+rev = "1efb288e8c13088127c4e85b1b31b76542cc1309"
 
 # Enable max optimizations for dependencies, but not for our code:
 [profile.dev.package."*"]

@@ -1,3 +1,4 @@
+use crate::maps::CurrentMap;
 use bevy::diagnostic::{Diagnostics, FrameTimeDiagnosticsPlugin};
 use bevy::prelude::*;
 use bevy::window::PresentMode;
@@ -5,6 +6,7 @@ use iyes_loopless::prelude::*;
 use std::time::Duration;
 
 mod camera;
+mod maps;
 mod selection;
 
 #[allow(dead_code)]
@@ -39,6 +41,7 @@ fn main() {
             window: WindowDescriptor {
                 title: "neobrood".into(),
                 present_mode: PresentMode::AutoNoVsync,
+                mode: WindowMode::BorderlessFullscreen,
                 ..default()
             },
             ..default()
@@ -48,21 +51,30 @@ fn main() {
         .add_plugin(FrameTimeDiagnosticsPlugin)
         .add_plugin(bevy_framepace::FramepacePlugin)
         .add_plugin(camera::CameraControlPlugin)
+        .add_plugin(maps::MapsPlugin)
         .add_plugin(selection::DragSelectionPlugin)
         .add_startup_system(setup)
         .add_system(update_fps_text)
+        // TODO(tec27): Remove this once we have actual game stuff
+        .add_system(bevy::window::close_on_esc)
         .run();
 }
 
 #[derive(Component)]
 struct FpsText;
 
-fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
+fn setup(
+    mut commands: Commands,
+    asset_server: Res<AssetServer>,
+    mut current_map: ResMut<CurrentMap>,
+) {
+    current_map.handle = asset_server.load("lt.scm");
+
     commands.spawn(Camera2dBundle::default());
 
     commands.spawn(SpriteBundle {
         transform: Transform {
-            translation: Vec3::new(0.0, 0.0, 0.0),
+            translation: Vec3::new(0.0, 0.0, 10.0),
             scale: Vec3::new(40.0, 40.0, 0.0),
             ..default()
         },
