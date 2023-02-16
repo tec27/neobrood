@@ -72,25 +72,12 @@ fn setup(
 
     commands.spawn(Camera2dBundle::default());
 
-    commands.spawn(SpriteBundle {
-        transform: Transform {
-            translation: Vec3::new(0.0, 0.0, 10.0),
-            scale: Vec3::new(40.0, 40.0, 0.0),
-            ..default()
-        },
-        sprite: Sprite {
-            color: Color::rgb(0.3, 0.3, 0.8),
-            ..default()
-        },
-        ..default()
-    });
-
     let font = asset_server.load("fonts/JetbrainsMono-Regular.ttf");
     commands.spawn((
         TextBundle::from_section(
             "FPS: 0",
             TextStyle {
-                font: font.clone(),
+                font,
                 font_size: 16.0,
                 color: Color::rgb(0.7, 0.7, 0.7),
             },

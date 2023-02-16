@@ -60,15 +60,12 @@ fn tilemap_init(
     asset_server: Res<AssetServer>,
 ) {
     for event in asset_events.iter() {
-        match event {
-            AssetEvent::Created { handle } => {
-                if *handle == current_map.handle {
-                    println!("Map loaded!");
-                    let map = map_assets.get(handle).unwrap();
-                    create_tilemap(&mut commands, &asset_server, map);
-                }
+        if let AssetEvent::Created { handle } = event {
+            if *handle == current_map.handle {
+                println!("Map loaded!");
+                let map = map_assets.get(handle).unwrap();
+                create_tilemap(&mut commands, &asset_server, map);
             }
-            _ => {}
         }
     }
 }

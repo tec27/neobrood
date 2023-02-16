@@ -138,6 +138,7 @@ fn drag_selection(
                 camera_pan_locked.0 = true;
             }
             ButtonState::Released => {
+                #[allow(clippy::if_same_then_else)]
                 if state.is_dragging(mouse_pos) {
                     // TODO(tec27): complete drag
                 } else {
