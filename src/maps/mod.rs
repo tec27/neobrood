@@ -7,9 +7,7 @@ use bevy_ecs_tilemap::prelude::*;
 use broodmap::chk::terrain::TerrainTileIds;
 use broodmap::chk::tileset::Tileset;
 
-use crate::maps::tileset::{
-    load_mega_tile_lookup, load_tile_textures, MegaTileFlags, MegaTileInfo,
-};
+use crate::maps::tileset::{load_mega_tile_lookup, load_tile_textures, MegaTileInfo};
 
 mod tileset;
 
@@ -131,29 +129,10 @@ fn create_tilemap(commands: &mut Commands, map: &MapAsset) {
             let mapped_y = map_size.y - 1 - y;
             let tile_pos = TilePos { x, y: mapped_y };
 
-            // TODO(tec27): Use actual graphics, this is just to see that the tilemap is working
-            let walkable_multiplier = if mega_tile.flags.contains(MegaTileFlags::WALKABLE) {
-                1.5f32
-            } else if mega_tile.flags.contains(MegaTileFlags::PARTIALLY_WALKABLE) {
-                1.25f32
-            } else {
-                1.0f32
-            };
-            let color = if mega_tile.flags.contains(MegaTileFlags::BLOCKS_VISION) {
-                Color::rgb(0.8, 0.8, (0.8 * walkable_multiplier).min(1.0))
-            } else if mega_tile.flags.contains(MegaTileFlags::LEVEL_HIGH) {
-                Color::rgb(0.65, 0.65, (0.65 * walkable_multiplier).min(1.0))
-            } else if mega_tile.flags.contains(MegaTileFlags::LEVEL_MID) {
-                Color::rgb(0.5, 0.5, (0.5 * walkable_multiplier).min(1.0))
-            } else {
-                Color::rgb(0.35, 0.35, (0.35 * walkable_multiplier).min(1.0))
-            };
-
             let tile_entity = commands
                 .spawn(TileBundle {
                     position: tile_pos,
                     tilemap_id: TilemapId(tilemap_entity),
-                    color: color.into(),
                     texture_index: *map.tile_texture_indices.get(&mega_tile.id).unwrap(),
                     ..default()
                 })
