@@ -175,14 +175,12 @@ async fn load_mini_tile_flags(
     Ok(data
         .chunks_exact(32)
         .map(|entry| {
-            entry
-                .chunks_exact(2)
-                .map(|f| {
-                    MiniTileFlags::from_bits_truncate(u16::from_le_bytes(f.try_into().unwrap()))
-                })
-                .collect::<Vec<_>>()
-                .try_into()
-                .unwrap()
+            let mut iter = entry.chunks_exact(2);
+            let flags: [MiniTileFlags; 16] = std::array::from_fn(|_| {
+                let f = iter.next().unwrap();
+                MiniTileFlags::from_bits_truncate(u16::from_le_bytes(f.try_into().unwrap()))
+            });
+            flags
         })
         .collect())
 }
