@@ -128,7 +128,7 @@ fn setup(
 ) {
     info!("Using settings: {:?}", *settings);
 
-    current_map.handle = asset_server.load("lt.scm");
+    current_map.handle = asset_server.load("(2)Blue_Storm_1.3.scx");
 
     commands.spawn(Camera2dBundle::default());
 
