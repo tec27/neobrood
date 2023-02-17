@@ -12,6 +12,15 @@ git lfs install
 git lfs pull
 ```
 
+### Rust build tools
+
+This uses the LLD linker, which may not be installed by default. Run this once to get it:
+
+```shell
+cargo install -f cargo-binutils
+rustup component add llvm-tools-preview
+```
+
 ### CASC files
 
 This makes use of assets from SC:R's CASC archive, but I haven't yet written the code to load them
@@ -33,4 +42,16 @@ time to build):
 
 ```shell
 cargo run --release
+```
+
+## Settings
+
+The game will load settings from `My Documents\Starcraft\neobrood-settings.json`. See `GameSettings`
+in [main.rs](src/main.rs) for the available options. An example of a basic settings file might be:
+
+```json
+{
+  "windowMode": "Windowed",
+  "windowSize": [1920, 1080]
+}
 ```

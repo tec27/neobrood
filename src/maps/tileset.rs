@@ -187,8 +187,17 @@ async fn load_mini_tile_flags(
 
 #[derive(Debug, Clone, Copy, Eq, PartialEq, Hash)]
 pub struct MegaTileInfo {
+    /// Flags that apply to any tiles of this type when the game begins. Note that there are flags
+    /// that do *not* get transferred over, see `MegaTileFlags::ignored_cv5_flags`.
     pub flags: MegaTileFlags,
+    /// The ID of the mega-tile. This can be used to look up other related tile assets, such as
+    /// the VF4 mini-tile flags (already in this struct), or the texture for this tile from the
+    /// VR4 file.
     pub id: u16,
+    /// Flags for the mini-tiles that make up this mega-tile. Each mega-tile contains 8x8
+    /// mini-tiles, which can have separate walkability flags that are used in pathfinding. With
+    /// SC:R assets, mini-tiles are no longer used for rendering, just pathing (contrary to what
+    /// documentation about this format may specify).
     pub mini_tiles: [MiniTileFlags; 16],
 }
 
@@ -250,13 +259,9 @@ pub async fn load_mega_tile_lookup(
     let mut result = HashMap::new();
 
     for id in &terrain_mega_tiles.tiles {
-        // NOTE(tec27): The most significant bit indicates that the tile has creep
-        let id = id & 0x7FFF;
-        result.entry(id).or_insert_with(|| {
-            let group_id = id >> 4;
-            let tile_index = id & 0xF;
-
-            tile_groups.get(group_id as usize).map_or(
+        let entry_id = id.id();
+        result.entry(entry_id).or_insert_with(|| {
+            tile_groups.get(id.group_id() as usize).map_or(
                 // TODO(tec27): Would probably be better not to insert in this case? Unsure what
                 // MegaTile 0 is gonna correspond to here
                 MegaTileInfo {
@@ -265,7 +270,7 @@ pub async fn load_mega_tile_lookup(
                     mini_tiles: [MiniTileFlags::empty(); 16],
                 },
                 |group| {
-                    let mega_tile = group.mega_tiles[tile_index as usize];
+                    let mega_tile = group.mega_tiles[id.tile_index() as usize];
                     let mini_tiles = mini_tile_flags
                         .get(mega_tile as usize)
                         .copied()

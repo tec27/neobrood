@@ -9,12 +9,18 @@ bitflags = "1.3"
 bevy = "0.9"
 bevy_ecs_tilemap = "0.9"
 bevy_framepace = "0.11"
+directories = "4.0"
 iyes_loopless = "0.9"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
 
 [dependencies.broodmap]
 git = "https://github.com/ShieldBattery/broodmap.git"
-rev = "1f002b1"
+rev = "5ffe11ca8df79ea2a643fa03a82da06288b3309b"
 
 # Enable max optimizations for dependencies, but not for our code:
 [profile.dev.package."*"]
 opt-level = 3
+
+[profile.release]
+lto = "thin"

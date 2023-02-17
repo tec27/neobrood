@@ -2,7 +2,10 @@ use crate::maps::CurrentMap;
 use bevy::diagnostic::{Diagnostics, FrameTimeDiagnosticsPlugin};
 use bevy::prelude::*;
 use bevy::window::PresentMode;
+use directories::UserDirs;
 use iyes_loopless::prelude::*;
+use serde::{Deserialize, Serialize};
+use std::fs::File;
 use std::time::Duration;
 
 mod camera;
@@ -34,18 +37,72 @@ impl GameSpeed {
     }
 }
 
+#[derive(Copy, Clone, Debug, Default, Serialize, Deserialize)]
+enum NeobroodWindowMode {
+    Windowed,
+    #[default]
+    BorderlessFullscreen,
+    ExclusiveFullscreen,
+}
+
+impl From<NeobroodWindowMode> for WindowMode {
+    fn from(value: NeobroodWindowMode) -> Self {
+        match value {
+            NeobroodWindowMode::Windowed => WindowMode::Windowed,
+            NeobroodWindowMode::BorderlessFullscreen => WindowMode::BorderlessFullscreen,
+            NeobroodWindowMode::ExclusiveFullscreen => WindowMode::Fullscreen,
+        }
+    }
+}
+
+// TODO(tec27): Write a way to configure these ingame and save them to the file
+#[derive(Resource, Clone, Copy, Debug, Default, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct GameSettings {
+    #[serde(default)]
+    window_mode: NeobroodWindowMode,
+    window_size: Option<(u32, u32)>,
+}
+
 fn main() {
+    let user_dirs = UserDirs::new().expect("Couldn't get user directories!");
+    let documents_dir = user_dirs
+        .document_dir()
+        .expect("Couldn't get Documents directory!");
+    let settings_file = documents_dir
+        .join("Starcraft")
+        .join("neobrood-settings.json");
+    let settings = match File::open(&settings_file) {
+        Ok(mut file) => serde_json::from_reader::<_, GameSettings>(&mut file).unwrap_or_else(|e| {
+            warn!(
+                "Using default settings due to error parsing settings file: {}",
+                e
+            );
+            GameSettings::default()
+        }),
+        Err(e) => {
+            warn!(
+                "Using default settings due to error reading settings file: {}",
+                e
+            );
+            GameSettings::default()
+        }
+    };
+
     App::new()
         // TODO(tec27): Use a smaller set of plugins, we really don't need most of this
         .add_plugins(DefaultPlugins.set(WindowPlugin {
             window: WindowDescriptor {
                 title: "neobrood".into(),
                 present_mode: PresentMode::AutoNoVsync,
-                mode: WindowMode::BorderlessFullscreen,
+                mode: settings.window_mode.into(),
+                width: settings.window_size.map(|(w, _)| w).unwrap_or(1280) as f32,
+                height: settings.window_size.map(|(_, h)| h).unwrap_or(960) as f32,
                 ..default()
             },
             ..default()
         }))
+        .insert_resource(settings)
         .insert_resource(ClearColor(Color::rgb(0.0, 0.0, 0.0)))
         .add_fixed_timestep(GameSpeed::Fastest.to_turn_duration(), "fixed_update")
         .add_plugin(FrameTimeDiagnosticsPlugin)
@@ -67,7 +124,10 @@ fn setup(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
     mut current_map: ResMut<CurrentMap>,
+    settings: Res<GameSettings>,
 ) {
+    info!("Using settings: {:?}", *settings);
+
     current_map.handle = asset_server.load("lt.scm");
 
     commands.spawn(Camera2dBundle::default());
