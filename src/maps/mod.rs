@@ -89,7 +89,7 @@ fn tilemap_init(
     for event in asset_events.iter() {
         if let AssetEvent::Created { handle } = event {
             if *handle == current_map.handle {
-                println!("Map loaded!");
+                info!("Map loaded!");
                 let map = map_assets.get(handle).unwrap();
                 create_tilemap(&mut commands, &asset_server, map);
             }
@@ -112,7 +112,6 @@ fn create_tilemap(commands: &mut Commands, asset_server: &Res<AssetServer>, map:
             // TODO(tec27): Write a type that handles the creep flag masking automatically when
             // indexing our map
             let tile_id = map.terrain[y as usize][x as usize] & 0x7FFF;
-            info!("Looking up mega tile for tile ID {}", tile_id);
             let mega_tile = map.mega_tile_lookup.get(&tile_id).unwrap();
             // Bevy coords start from the bottom-left, rather than top-left like the map data
             let mapped_y = map_size.y - 1 - y;
