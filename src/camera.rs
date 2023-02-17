@@ -54,17 +54,18 @@ fn camera_control(
     }
 
     let scroll_delta = scroll_events.iter().fold(0.0, |acc, event| {
-        acc + match event.unit {
+        acc - match event.unit {
             MouseScrollUnit::Line => event.y * 20.0,
             MouseScrollUnit::Pixel => event.y,
         }
     });
     if scroll_delta != 0.0 {
         let mut camera_transform = camera_query.single_mut();
-        camera_transform.scale += Vec3::splat(-scroll_delta * MOUSE_ZOOM_SPEED);
+        let scale_change = scroll_delta * MOUSE_ZOOM_SPEED;
+        camera_transform.scale += Vec3::new(scale_change, scale_change, 0.0);
         camera_transform.scale = camera_transform
             .scale
-            .clamp(Vec3::splat(1.0), Vec3::splat(10.0));
+            .clamp(Vec3::splat(0.5), Vec3::splat(10.0));
     }
 
     let width = window.width();
