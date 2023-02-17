@@ -164,7 +164,7 @@ fn create_tilemap(commands: &mut Commands, map: &MapAsset) {
 
     // TODO(tec27): Handle different tile sizes depending on resolution:
     // 4k => 128, 2k => 64, SD => 32
-    let tile_size = TilemapTileSize { x: 128.0, y: 128.0 };
+    let tile_size = TilemapTileSize { x: 64.0, y: 64.0 };
     let grid_size = tile_size.into();
     let map_type = TilemapType::Square;
 

@@ -38,15 +38,15 @@ impl TilesetFilename {
     }
 
     fn vr4_path(&self) -> String {
-        format!("tileset/{}.dds.vr4", self.0)
+        format!("hd2/tileset/{}.dds.vr4", self.0)
     }
 
     fn grp_path(&self) -> String {
-        format!("tileset/{}.dds.grp", self.0)
+        format!("hd2/tileset/{}.dds.grp", self.0)
     }
 
     fn tmsk_path(&self) -> String {
-        format!("tileset/{}.tmsk", self.0)
+        format!("hd2/tileset/{}.tmsk", self.0)
     }
 }
 
