@@ -5,8 +5,11 @@ use bevy::reflect::TypeUuid;
 use bevy::utils::HashMap;
 use bevy_ecs_tilemap::prelude::*;
 use broodmap::chk::terrain::TerrainTileIds;
+use broodmap::chk::tileset::Tileset;
 
-use crate::maps::tileset::{load_mega_tile_lookup, MegaTileFlags, MegaTileInfo};
+use crate::maps::tileset::{
+    load_mega_tile_lookup, load_tile_textures, MegaTileFlags, MegaTileInfo,
+};
 
 mod tileset;
 
@@ -33,11 +36,17 @@ pub struct MapAsset {
     pub width: u32,
     /// Height of the map in tiles.
     pub height: u32,
+    /// The map's tileset.
+    pub tileset: Tileset,
     /// The map's terrain, as a 2D vector of tile IDs (can be converted to mega-tiles via
     /// `mega_tile_lookup`).
     pub terrain: TerrainTileIds,
     /// A hashmap of tile IDs to their mega-tile info.
     pub mega_tile_lookup: HashMap<u16, MegaTileInfo>,
+    /// A Vec of handles to textures for each mega-tile.
+    pub tile_textures: Vec<Handle<Image>>,
+    /// A map of mega-tile IDs -> an index into `tile_textures`.
+    pub tile_texture_indices: HashMap<u16, TileTextureIndex>,
 }
 
 impl AssetLoader for MapAssetLoader {
@@ -58,13 +67,21 @@ impl AssetLoader for MapAssetLoader {
             let mega_tile_lookup = load_mega_tile_lookup(tileset, terrain, load_context).await?;
             info!("Mega tile lookup has {} entries", mega_tile_lookup.len());
 
+            let (tile_textures, tile_texture_indices) =
+                load_tile_textures(tileset, &mega_tile_lookup, load_context).await?;
+            info!("Loaded {} tile textures", tile_textures.len());
+
             let map = MapAsset {
                 width: chk.width() as u32,
                 height: chk.height() as u32,
+                tileset,
                 terrain: terrain.clone(),
                 mega_tile_lookup,
+                tile_textures,
+                tile_texture_indices,
             };
             load_context.set_default_asset(LoadedAsset::new(map));
+
             Ok(())
         })
     }
@@ -84,28 +101,25 @@ fn tilemap_init(
     mut asset_events: EventReader<AssetEvent<MapAsset>>,
     current_map: Res<CurrentMap>,
     map_assets: Res<Assets<MapAsset>>,
-    asset_server: Res<AssetServer>,
 ) {
     for event in asset_events.iter() {
         if let AssetEvent::Created { handle } = event {
             if *handle == current_map.handle {
                 info!("Map loaded!");
                 let map = map_assets.get(handle).unwrap();
-                create_tilemap(&mut commands, &asset_server, map);
+                create_tilemap(&mut commands, map);
             }
         }
     }
 }
 
-fn create_tilemap(commands: &mut Commands, asset_server: &Res<AssetServer>, map: &MapAsset) {
+fn create_tilemap(commands: &mut Commands, map: &MapAsset) {
     let map_size = TilemapSize {
         x: map.width,
         y: map.height,
     };
     let tilemap_entity = commands.spawn_empty().id();
     let mut tile_storage = TileStorage::empty(map_size);
-
-    let texture_handle: Handle<Image> = asset_server.load("dev-tile.png");
 
     for x in 0..map_size.x {
         for y in 0..map_size.y {
@@ -140,7 +154,7 @@ fn create_tilemap(commands: &mut Commands, asset_server: &Res<AssetServer>, map:
                     position: tile_pos,
                     tilemap_id: TilemapId(tilemap_entity),
                     color: color.into(),
-                    texture_index: TileTextureIndex(0),
+                    texture_index: *map.tile_texture_indices.get(&mega_tile.id).unwrap(),
                     ..default()
                 })
                 .id();
@@ -148,9 +162,13 @@ fn create_tilemap(commands: &mut Commands, asset_server: &Res<AssetServer>, map:
         }
     }
 
-    let tile_size = TilemapTileSize { x: 32.0, y: 32.0 };
+    // TODO(tec27): Handle different tile sizes depending on resolution:
+    // 4k => 128, 2k => 64, SD => 32
+    let tile_size = TilemapTileSize { x: 128.0, y: 128.0 };
     let grid_size = tile_size.into();
     let map_type = TilemapType::Square;
+
+    let texture_vec = TilemapTexture::Vector(map.tile_textures.clone());
 
     commands.entity(tilemap_entity).insert(TilemapBundle {
         grid_size,
@@ -159,7 +177,7 @@ fn create_tilemap(commands: &mut Commands, asset_server: &Res<AssetServer>, map:
         storage: tile_storage,
         tile_size,
         transform: get_tilemap_center_transform(&map_size, &grid_size, &map_type, 0.0),
-        texture: TilemapTexture::Single(texture_handle),
+        texture: texture_vec,
         ..default()
     });
 }

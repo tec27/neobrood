@@ -1,9 +1,12 @@
+use bevy::input::mouse::{MouseScrollUnit, MouseWheel};
 use bevy::prelude::*;
 use bevy::window::CursorGrabMode;
 
 /// How far from the edge of the screen the mouse needs to be to start scrolling, in pixels.
 const EDGE_SCROLL_PX: f32 = 4.0;
 const MOUSE_PAN_SPEED: f32 = 3000.0;
+/// How fast the camera zooms in/out from scrolling.
+const MOUSE_ZOOM_SPEED: f32 = 0.05;
 
 pub struct CameraControlPlugin;
 
@@ -39,6 +42,7 @@ fn camera_control(
     time: Res<Time>,
     camera_pan_locked: Res<CameraPanLocked>,
     mut camera_query: Query<&mut Transform, With<Camera>>,
+    mut scroll_events: EventReader<MouseWheel>,
 ) {
     // TODO(tec27): implement arrow key scrolling + middle mouse panning as well
     let window = windows.get_primary().unwrap();
@@ -49,29 +53,44 @@ fn camera_control(
         return;
     }
 
+    let scroll_delta = scroll_events.iter().fold(0.0, |acc, event| {
+        acc + match event.unit {
+            MouseScrollUnit::Line => event.y * 20.0,
+            MouseScrollUnit::Pixel => event.y,
+        }
+    });
+    if scroll_delta != 0.0 {
+        let mut camera_transform = camera_query.single_mut();
+        camera_transform.scale += Vec3::splat(-scroll_delta * MOUSE_ZOOM_SPEED);
+        camera_transform.scale = camera_transform
+            .scale
+            .clamp(Vec3::splat(1.0), Vec3::splat(10.0));
+    }
+
     let width = window.width();
     let height = window.height();
 
-    let mut scroll_x = 0.0;
-    let mut scroll_y = 0.0;
+    let mut pan_x = 0.0;
+    let mut pan_y = 0.0;
 
     if mouse_position.x < EDGE_SCROLL_PX {
-        scroll_x = -1.0;
+        pan_x = -1.0;
     } else if mouse_position.x > width - EDGE_SCROLL_PX {
-        scroll_x = 1.0;
+        pan_x = 1.0;
     }
 
     if mouse_position.y < EDGE_SCROLL_PX {
-        scroll_y = -1.0;
+        pan_y = -1.0;
     } else if mouse_position.y > height - EDGE_SCROLL_PX {
-        scroll_y = 1.0;
+        pan_y = 1.0;
     }
 
-    if scroll_x != 0.0 || scroll_y != 0.0 {
+    if pan_x != 0.0 || pan_y != 0.0 {
         let mut camera_transform = camera_query.single_mut();
+        let scale = camera_transform.scale.x;
         camera_transform.translation += Vec3::new(
-            scroll_x * MOUSE_PAN_SPEED * time.delta_seconds(),
-            scroll_y * MOUSE_PAN_SPEED * time.delta_seconds(),
+            pan_x * MOUSE_PAN_SPEED * time.delta_seconds() * scale,
+            pan_y * MOUSE_PAN_SPEED * time.delta_seconds() * scale,
             0.0,
         );
     }

@@ -1,10 +1,13 @@
-use anyhow::{Context, Result};
-use bevy::asset::LoadContext;
+use anyhow::{bail, Context, Result};
+use bevy::asset::{LoadContext, LoadedAsset};
 use bevy::prelude::*;
-use bevy::utils::HashMap;
+use bevy::render::texture::{CompressedImageFormats, ImageType};
+use bevy::utils::{HashMap, HashSet};
+use bevy_ecs_tilemap::prelude::TileTextureIndex;
 use bitflags::bitflags;
 use broodmap::chk::terrain::TerrainTileIds;
 use broodmap::chk::tileset::Tileset;
+use byteorder::{LittleEndian, ReadBytesExt};
 
 #[derive(Debug, Clone, Copy, Eq, PartialEq, Hash, Ord, PartialOrd)]
 struct TilesetFilename(&'static str);
@@ -287,4 +290,63 @@ pub async fn load_mega_tile_lookup(
     }
 
     Ok(result)
+}
+
+/// Loads the needed tile textures from the VR4 file for the given tileset/mega-tiles.
+///
+/// Returns a tuple of a vector of texture handles and a map from mega-tile IDs to indices into the
+/// texture vector.
+pub async fn load_tile_textures(
+    tileset: Tileset,
+    mega_tile_lookup: &HashMap<u16, MegaTileInfo>,
+    load_context: &mut LoadContext<'_>,
+) -> Result<(Vec<Handle<Image>>, HashMap<u16, TileTextureIndex>)> {
+    let filename: TilesetFilename = tileset.into();
+    let path = format!("casc-extracted/{}", filename.vr4_path());
+    let data = load_context
+        .read_asset_bytes(path)
+        .await
+        .context("Failed to load VR4 file")?;
+
+    if data.len() < 8 {
+        bail!("VR4 file is too short");
+    }
+
+    let mega_tile_ids = mega_tile_lookup
+        .values()
+        .map(|info| info.id)
+        .collect::<HashSet<_>>();
+
+    let mut data = &data[4..];
+    let frame_count = data.read_u16::<LittleEndian>()?;
+    info!("frame count: {}", frame_count);
+    let mut textures = Vec::with_capacity(frame_count as usize);
+    let mut texture_indices = HashMap::new();
+
+    data = &data[2..];
+    for i in 0..frame_count {
+        data = &data[8..];
+        let size = data.read_u32::<LittleEndian>()?;
+
+        if mega_tile_ids.contains(&i) {
+            let image = Image::from_buffer(
+                &data[..size as usize],
+                ImageType::Extension("dds"),
+                // TODO(tec27): Get the right supported compressed image formats? I think this code
+                // does what we'd need to, but it kinda seems weird that *I* have to do that:
+                // https://github.com/bevyengine/bevy/blob/16feb9acb7760943db13599015d60ef0e810b38e/crates/bevy_render/src/texture/image_texture_loader.rs#L49
+                CompressedImageFormats::all(),
+                true,
+            )?;
+            let handle = load_context
+                .set_labeled_asset(format!("texture{}", i).as_str(), LoadedAsset::new(image));
+
+            texture_indices.insert(i as u16, TileTextureIndex(textures.len() as u32));
+            textures.push(handle);
+        }
+
+        data = &data[size as usize..];
+    }
+
+    Ok((textures, texture_indices))
 }
