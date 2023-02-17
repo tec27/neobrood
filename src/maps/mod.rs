@@ -1,8 +1,14 @@
+use anyhow::anyhow;
 use bevy::asset::{AssetLoader, BoxedFuture, Error, LoadContext, LoadedAsset};
 use bevy::prelude::*;
 use bevy::reflect::TypeUuid;
+use bevy::utils::HashMap;
 use bevy_ecs_tilemap::prelude::*;
-use broodmap::Chk;
+use broodmap::chk::terrain::TerrainTileIds;
+
+use crate::maps::tileset::{load_mega_tile_lookup, MegaTileFlags, MegaTileInfo};
+
+mod tileset;
 
 pub struct MapsPlugin;
 
@@ -23,7 +29,15 @@ pub struct MapAssetLoader;
 #[derive(Debug, TypeUuid)]
 #[uuid = "78325f88-6895-4e38-acc9-1aa90879c261"]
 pub struct MapAsset {
-    pub chk: Chk,
+    /// Width of the map in tiles.
+    pub width: u32,
+    /// Height of the map in tiles.
+    pub height: u32,
+    /// The map's terrain, as a 2D vector of tile IDs (can be converted to mega-tiles via
+    /// `mega_tile_lookup`).
+    pub terrain: TerrainTileIds,
+    /// A hashmap of tile IDs to their mega-tile info.
+    pub mega_tile_lookup: HashMap<u16, MegaTileInfo>,
 }
 
 impl AssetLoader for MapAssetLoader {
@@ -36,7 +50,20 @@ impl AssetLoader for MapAssetLoader {
             // TODO(tec27): At some point we'll need the MPQ to be able to laod other assets
             // (for UMS), but I don't want to deal with the lifetimes for now, so we just drop it
             let (chk, _mpq) = broodmap::extract_chk_from_map(bytes, None, None)?;
-            let map = MapAsset { chk };
+            let tileset = chk.tileset();
+            let Ok(terrain) = chk.terrain() else {
+                return Err(anyhow!("Could not load map's terrain"));
+            };
+
+            let mega_tile_lookup = load_mega_tile_lookup(tileset, terrain, load_context).await?;
+            info!("Mega tile lookup has {} entries", mega_tile_lookup.len());
+
+            let map = MapAsset {
+                width: chk.width() as u32,
+                height: chk.height() as u32,
+                terrain: terrain.clone(),
+                mega_tile_lookup,
+            };
             load_context.set_default_asset(LoadedAsset::new(map));
             Ok(())
         })
@@ -72,32 +99,42 @@ fn tilemap_init(
 
 fn create_tilemap(commands: &mut Commands, asset_server: &Res<AssetServer>, map: &MapAsset) {
     let map_size = TilemapSize {
-        x: map.chk.width() as u32,
-        y: map.chk.height() as u32,
+        x: map.width,
+        y: map.height,
     };
     let tilemap_entity = commands.spawn_empty().id();
     let mut tile_storage = TileStorage::empty(map_size);
-
-    let Ok(terrain) = map.chk.terrain_mega_tiles() else {
-        // TODO(tec27): Probably we should fail during the asset load instead of here, maybe we
-        // should just copy out the data we care about and not pass around the Chk?
-        panic!("Failed to load terrain from map!");
-    };
 
     let texture_handle: Handle<Image> = asset_server.load("dev-tile.png");
 
     for x in 0..map_size.x {
         for y in 0..map_size.y {
-            let mega_tile = terrain[y as usize][x as usize];
+            // TODO(tec27): Write a type that handles the creep flag masking automatically when
+            // indexing our map
+            let tile_id = map.terrain[y as usize][x as usize] & 0x7FFF;
+            info!("Looking up mega tile for tile ID {}", tile_id);
+            let mega_tile = map.mega_tile_lookup.get(&tile_id).unwrap();
             // Bevy coords start from the bottom-left, rather than top-left like the map data
             let mapped_y = map_size.y - 1 - y;
             let tile_pos = TilePos { x, y: mapped_y };
 
             // TODO(tec27): Use actual graphics, this is just to see that the tilemap is working
-            let red = (mega_tile >> 8) as f32 / 255.0;
-            let green = ((mega_tile >> 6) & 0xFF) as f32 / 255.0;
-            let blue = (mega_tile & 0xFF) as f32 / 255.0;
-            let color = Color::rgb(red, green, blue);
+            let walkable_multiplier = if mega_tile.flags.contains(MegaTileFlags::WALKABLE) {
+                1.5f32
+            } else if mega_tile.flags.contains(MegaTileFlags::PARTIALLY_WALKABLE) {
+                1.25f32
+            } else {
+                1.0f32
+            };
+            let color = if mega_tile.flags.contains(MegaTileFlags::BLOCKS_VISION) {
+                Color::rgb(0.8, 0.8, (0.8 * walkable_multiplier).min(1.0))
+            } else if mega_tile.flags.contains(MegaTileFlags::LEVEL_HIGH) {
+                Color::rgb(0.65, 0.65, (0.65 * walkable_multiplier).min(1.0))
+            } else if mega_tile.flags.contains(MegaTileFlags::LEVEL_MID) {
+                Color::rgb(0.5, 0.5, (0.5 * walkable_multiplier).min(1.0))
+            } else {
+                Color::rgb(0.35, 0.35, (0.35 * walkable_multiplier).min(1.0))
+            };
 
             let tile_entity = commands
                 .spawn(TileBundle {
