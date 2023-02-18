@@ -6,7 +6,7 @@ use bevy::window::CursorGrabMode;
 const EDGE_SCROLL_PX: f32 = 4.0;
 const MOUSE_PAN_SPEED: f32 = 3000.0;
 /// How fast the camera zooms in/out from scrolling.
-const MOUSE_ZOOM_SPEED: f32 = 0.05;
+const MOUSE_ZOOM_SPEED: f32 = 0.5;
 
 pub struct CameraControlPlugin;
 
@@ -55,8 +55,8 @@ fn camera_control(
 
     let scroll_delta = scroll_events.iter().fold(0.0, |acc, event| {
         acc - match event.unit {
-            MouseScrollUnit::Line => event.y * 20.0,
-            MouseScrollUnit::Pixel => event.y,
+            MouseScrollUnit::Line => event.y,
+            MouseScrollUnit::Pixel => event.y / 20.0,
         }
     });
     if scroll_delta != 0.0 {
@@ -65,7 +65,7 @@ fn camera_control(
         camera_transform.scale += Vec3::new(scale_change, scale_change, 0.0);
         camera_transform.scale = camera_transform
             .scale
-            .clamp(Vec3::splat(0.5), Vec3::splat(10.0));
+            .clamp(Vec3::splat(0.25), Vec3::splat(10.0));
     }
 
     let width = window.width();
