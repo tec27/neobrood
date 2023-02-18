@@ -341,7 +341,7 @@ pub async fn load_tile_textures(
             let handle = load_context
                 .set_labeled_asset(format!("texture{}", i).as_str(), LoadedAsset::new(image));
 
-            texture_indices.insert(i as u16, TileTextureIndex(textures.len() as u32));
+            texture_indices.insert(i, TileTextureIndex(textures.len() as u32));
             textures.push(handle);
         }
 

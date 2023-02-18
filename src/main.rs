@@ -3,6 +3,7 @@ use bevy::diagnostic::{Diagnostics, FrameTimeDiagnosticsPlugin};
 use bevy::prelude::*;
 use bevy::window::PresentMode;
 use bevy_ecs_tilemap::prelude::TileStorage;
+use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use directories::UserDirs;
 use iyes_loopless::prelude::*;
 use serde::{Deserialize, Serialize};
@@ -81,7 +82,7 @@ fn main() {
     let settings_file = documents_dir
         .join("Starcraft")
         .join("neobrood-settings.json");
-    let settings = match File::open(&settings_file) {
+    let settings = match File::open(settings_file) {
         Ok(mut file) => serde_json::from_reader::<_, GameSettings>(&mut file).unwrap_or_else(|e| {
             warn!(
                 "Using default settings due to error parsing settings file: {}",
@@ -150,6 +151,7 @@ fn main() {
         .add_fixed_timestep(GameSpeed::Fastest.to_turn_duration(), "fixed_update")
         .add_plugin(FrameTimeDiagnosticsPlugin)
         .add_plugin(bevy_framepace::FramepacePlugin)
+        .add_plugin(WorldInspectorPlugin)
         .add_plugin(camera::CameraControlPlugin)
         .add_plugin(maps::MapsPlugin)
         .add_plugin(selection::DragSelectionPlugin)

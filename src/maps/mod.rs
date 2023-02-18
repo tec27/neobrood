@@ -2,6 +2,7 @@ use anyhow::anyhow;
 use bevy::asset::{AssetLoader, BoxedFuture, Error, LoadContext, LoadedAsset};
 use bevy::prelude::*;
 use bevy::reflect::TypeUuid;
+use bevy::render::render_resource::TextureFormat;
 use bevy::utils::HashMap;
 use bevy_ecs_tilemap::prelude::*;
 use broodmap::chk::terrain::TerrainTileIds;
@@ -101,13 +102,14 @@ fn tilemap_init(
     mut asset_events: EventReader<AssetEvent<MapAsset>>,
     current_map: Res<CurrentMap>,
     map_assets: Res<Assets<MapAsset>>,
+    array_texture_loader: Res<ArrayTextureLoader>,
 ) {
     for event in asset_events.iter() {
         if let AssetEvent::Created { handle } = event {
             if *handle == current_map.handle {
                 info!("Map loaded!");
                 let map = map_assets.get(handle).unwrap();
-                create_tilemap(&mut commands, map);
+                create_tilemap(&mut commands, map, &array_texture_loader);
             }
         }
     }
@@ -117,7 +119,11 @@ fn tilemap_init(
 /// that all map sizes evenly divide by, or the tilemap will not center properly at (0,0).
 const CHUNK_SIZE_TILES: UVec2 = UVec2::splat(8);
 
-fn create_tilemap(commands: &mut Commands, map: &MapAsset) {
+fn create_tilemap(
+    commands: &mut Commands,
+    map: &MapAsset,
+    array_texture_loader: &Res<ArrayTextureLoader>,
+) {
     let num_chunks = UVec2 {
         x: map.width - 1,
         y: map.height - 1,
@@ -190,6 +196,13 @@ fn create_tilemap(commands: &mut Commands, map: &MapAsset) {
         ));
 
         let texture_vec = TilemapTexture::Vector(textures);
+
+        array_texture_loader.add(TilemapArrayTexture {
+            texture: texture_vec.clone(),
+            tile_size,
+            format: TextureFormat::Bc1RgbaUnormSrgb,
+            ..default()
+        });
 
         commands.entity(tilemap_entity).insert(TilemapBundle {
             grid_size: tile_size.into(),
