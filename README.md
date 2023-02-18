@@ -44,6 +44,8 @@ time to build):
 cargo run --release
 ```
 
+A map path can be specified as the first argument (otherwise it will load a default map).
+
 ## Settings
 
 The game will load settings from `My Documents\Starcraft\neobrood-settings.json`. See `GameSettings`

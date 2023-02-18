@@ -5,7 +5,9 @@ use bevy::window::PresentMode;
 use directories::UserDirs;
 use iyes_loopless::prelude::*;
 use serde::{Deserialize, Serialize};
+use std::env;
 use std::fs::File;
+use std::path::PathBuf;
 use std::time::Duration;
 
 mod camera;
@@ -129,7 +131,19 @@ fn setup(
 ) {
     info!("Using settings: {:?}", *settings);
 
-    current_map.handle = asset_server.load("(4)Revolver_SE_2.0.scx");
+    let args: Vec<String> = env::args().collect();
+    let map_path = args
+        .get(1)
+        .map(|path| {
+            // Bevy will treat relative paths as relative to `assets/`, so we "fix" that here so any
+            // relative paths are relative to the program dir. This is kind of a hack and may not
+            // always work properly but this arg is temporary so...
+            let mut p = PathBuf::from("..");
+            p.push(path);
+            p
+        })
+        .unwrap_or(PathBuf::from("lt.scm"));
+    current_map.handle = asset_server.load(map_path);
 
     commands.spawn(Camera2dBundle::default());
 
