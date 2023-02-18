@@ -2,6 +2,7 @@ use crate::maps::CurrentMap;
 use bevy::diagnostic::{Diagnostics, FrameTimeDiagnosticsPlugin};
 use bevy::prelude::*;
 use bevy::window::PresentMode;
+use bevy_ecs_tilemap::prelude::TileStorage;
 use directories::UserDirs;
 use iyes_loopless::prelude::*;
 use serde::{Deserialize, Serialize};
@@ -66,6 +67,12 @@ struct GameSettings {
     window_size: Option<(u32, u32)>,
 }
 
+#[derive(Resource, Clone, Debug, Default)]
+struct LoadableMaps {
+    maps: Vec<PathBuf>,
+    cur_index: usize,
+}
+
 fn main() {
     let user_dirs = UserDirs::new().expect("Couldn't get user directories!");
     let documents_dir = user_dirs
@@ -91,6 +98,38 @@ fn main() {
         }
     };
 
+    let maps = env::args()
+        .skip(1)
+        .flat_map(|path| {
+            let mut path = PathBuf::from(path);
+            if !path.is_absolute() {
+                // Bevy will treat relative paths as relative to `assets/`, so we "fix" that here so
+                // any relative paths are relative to the program dir
+                path = env::current_dir().unwrap_or(PathBuf::from("..")).join(path);
+            }
+
+            if path.is_dir() {
+                path.read_dir()
+                    .expect("Couldn't read specified map directory")
+                    .filter_map(|entry| {
+                        let entry = entry.expect("Couldn't read directory entry");
+                        let path = entry.path();
+                        let extension = path.extension().map_or("".into(), |s| {
+                            s.to_ascii_lowercase().to_string_lossy().to_string()
+                        });
+                        if extension == "scm" || extension == "scx" {
+                            Some(path)
+                        } else {
+                            None
+                        }
+                    })
+                    .collect()
+            } else {
+                vec![path]
+            }
+        })
+        .collect::<Vec<_>>();
+
     App::new()
         // TODO(tec27): Use a smaller set of plugins, we really don't need most of this
         .add_plugins(DefaultPlugins.set(WindowPlugin {
@@ -107,6 +146,7 @@ fn main() {
         }))
         .insert_resource(settings)
         .insert_resource(ClearColor(Color::rgb(0.0, 0.0, 0.0)))
+        .insert_resource(LoadableMaps { maps, cur_index: 0 })
         .add_fixed_timestep(GameSpeed::Fastest.to_turn_duration(), "fixed_update")
         .add_plugin(FrameTimeDiagnosticsPlugin)
         .add_plugin(bevy_framepace::FramepacePlugin)
@@ -115,6 +155,7 @@ fn main() {
         .add_plugin(selection::DragSelectionPlugin)
         .add_startup_system(setup)
         .add_system(update_fps_text)
+        .add_system(map_navigator)
         // TODO(tec27): Remove this once we have actual game stuff
         .add_system(bevy::window::close_on_esc)
         .run();
@@ -128,20 +169,14 @@ fn setup(
     asset_server: Res<AssetServer>,
     mut current_map: ResMut<CurrentMap>,
     settings: Res<GameSettings>,
+    loadable_maps: Res<LoadableMaps>,
 ) {
     info!("Using settings: {:?}", *settings);
 
-    let args: Vec<String> = env::args().collect();
-    let map_path = args
-        .get(1)
-        .map(|path| {
-            // Bevy will treat relative paths as relative to `assets/`, so we "fix" that here so any
-            // relative paths are relative to the program dir. This is kind of a hack and may not
-            // always work properly but this arg is temporary so...
-            let mut p = PathBuf::from("..");
-            p.push(path);
-            p
-        })
+    let map_path = loadable_maps
+        .maps
+        .get(0)
+        .cloned()
         .unwrap_or(PathBuf::from("lt.scm"));
     current_map.handle = asset_server.load(map_path);
 
@@ -180,4 +215,24 @@ fn update_fps_text(diagnostics: Res<Diagnostics>, mut query: Query<&mut Text, Wi
 
     let mut text = query.single_mut();
     text.sections[0].value = format!("FPS: {:.1}", fps);
+}
+
+fn map_navigator(
+    mut commands: Commands,
+    asset_server: Res<AssetServer>,
+    keys: Res<Input<KeyCode>>,
+    tilemaps: Query<Entity, With<TileStorage>>,
+    mut current_map: ResMut<CurrentMap>,
+    mut loadable_maps: ResMut<LoadableMaps>,
+) {
+    if keys.just_pressed(KeyCode::Space) && loadable_maps.maps.len() > 1 {
+        for entity in tilemaps.iter() {
+            commands.entity(entity).despawn_recursive();
+        }
+
+        loadable_maps.cur_index = (loadable_maps.cur_index + 1) % loadable_maps.maps.len();
+        let map_path = loadable_maps.maps[loadable_maps.cur_index].clone();
+        info!("Loading map: {}", map_path.to_string_lossy());
+        current_map.handle = asset_server.load(map_path);
+    }
 }

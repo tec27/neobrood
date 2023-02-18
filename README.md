@@ -44,7 +44,9 @@ time to build):
 cargo run --release
 ```
 
-A map path can be specified as the first argument (otherwise it will load a default map).
+A series of map paths can be specified as arguments (otherwise it will open a default map). Any
+directories in the arguments will have their contents added (non-recursively), so you can specify
+a directory of maps to open. To navigate to the next map, press spacebar.
 
 ## Settings
 
