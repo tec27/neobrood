@@ -113,29 +113,56 @@ fn tilemap_init(
     }
 }
 
-fn create_tilemap(commands: &mut Commands, map: &MapAsset) {
-    let map_size = TilemapSize {
-        x: map.width,
-        y: map.height,
-    };
-    let tilemap_entity = commands.spawn_empty().id();
-    let mut tile_storage = TileStorage::empty(map_size);
+/// How many tiles should be managed as one chunk by the tilemap. Ideally this should be something
+/// that all map sizes evenly divide by, or the tilemap will not center properly at (0,0).
+const CHUNK_SIZE_TILES: UVec2 = UVec2::splat(8);
 
-    for x in 0..map_size.x {
-        for y in 0..map_size.y {
-            // TODO(tec27): Write a type that handles the creep flag masking automatically when
-            // indexing our map
+fn create_tilemap(commands: &mut Commands, map: &MapAsset) {
+    let num_chunks = UVec2 {
+        x: map.width - 1,
+        y: map.height - 1,
+    } / CHUNK_SIZE_TILES
+        + UVec2::splat(1);
+
+    let mut tilemaps = (0..(num_chunks.x * num_chunks.y))
+        .map(|_| {
+            (
+                commands.spawn_empty().id(),
+                TileStorage::empty(CHUNK_SIZE_TILES.into()),
+                HashMap::new(),
+                Vec::new(),
+            )
+        })
+        .collect::<Vec<_>>();
+
+    for x in 0..map.width {
+        for y in 0..map.height {
             let tile_id = map.terrain[y as usize][x as usize].id();
             let mega_tile = map.mega_tile_lookup.get(&tile_id).unwrap();
+            let texture = map.tile_textures
+                [map.tile_texture_indices.get(&mega_tile.id).unwrap().0 as usize]
+                .clone();
+
             // Bevy coords start from the bottom-left, rather than top-left like the map data
-            let mapped_y = map_size.y - 1 - y;
-            let tile_pos = TilePos { x, y: mapped_y };
+            let y = map.height - 1 - y;
+            let chunk = UVec2 { x, y } / CHUNK_SIZE_TILES;
+            let (tilemap_entity, tile_storage, texture_ids, textures) =
+                &mut tilemaps[(chunk.x + chunk.y * num_chunks.x) as usize];
+
+            let x = x % CHUNK_SIZE_TILES.x;
+            let y = y % CHUNK_SIZE_TILES.y;
+
+            let tile_pos = TilePos { x, y };
+            let texture_index = *texture_ids.entry(texture.id()).or_insert_with(|| {
+                textures.push(texture);
+                TileTextureIndex((textures.len() - 1) as u32)
+            });
 
             let tile_entity = commands
                 .spawn(TileBundle {
                     position: tile_pos,
-                    tilemap_id: TilemapId(tilemap_entity),
-                    texture_index: *map.tile_texture_indices.get(&mega_tile.id).unwrap(),
+                    tilemap_id: TilemapId(*tilemap_entity),
+                    texture_index,
                     ..default()
                 })
                 .id();
@@ -146,37 +173,33 @@ fn create_tilemap(commands: &mut Commands, map: &MapAsset) {
     // TODO(tec27): Handle different tile sizes depending on resolution:
     // 4k => 128, 2k => 64, SD => 32
     let tile_size = TilemapTileSize { x: 64.0, y: 64.0 };
-    let grid_size = tile_size.into();
     let map_type = TilemapType::Square;
 
-    let texture_vec = TilemapTexture::Vector(map.tile_textures.clone());
+    let chunk_max_pos = Vec2::new(
+        (num_chunks.x * CHUNK_SIZE_TILES.x) as f32 * tile_size.x / 2.0,
+        (num_chunks.y * CHUNK_SIZE_TILES.y) as f32 * tile_size.y / 2.0,
+    );
 
-    commands.entity(tilemap_entity).insert(TilemapBundle {
-        grid_size,
-        map_type,
-        size: map_size,
-        storage: tile_storage,
-        tile_size,
-        transform: get_tilemap_center_transform(&map_size, &grid_size, &map_type, 0.0),
-        texture: texture_vec,
-        ..default()
-    });
-}
+    for (i, (tilemap_entity, tile_storage, _, textures)) in tilemaps.into_iter().enumerate() {
+        let chunk_y = i as u32 / num_chunks.x;
+        let chunk_x = i as u32 % num_chunks.x;
+        let transform = Transform::from_translation(Vec3::new(
+            (chunk_x * CHUNK_SIZE_TILES.x) as f32 * tile_size.x - chunk_max_pos.x,
+            (chunk_y * CHUNK_SIZE_TILES.y) as f32 * tile_size.y - chunk_max_pos.y,
+            0.0,
+        ));
 
-// TODO(tec27): Is 0,0 the best spot for the center for us? maybe placing the bottom-left corner
-// there would be better?
-/// Calculates a [`Transform`] for a tilemap that places it so that its center is at
-/// `(0.0, 0.0, 0.0)` in world space.
-pub fn get_tilemap_center_transform(
-    size: &TilemapSize,
-    grid_size: &TilemapGridSize,
-    map_type: &TilemapType,
-    z: f32,
-) -> Transform {
-    let low = TilePos::new(0, 0).center_in_world(grid_size, map_type);
-    let high = TilePos::new(size.x - 1, size.y - 1).center_in_world(grid_size, map_type);
+        let texture_vec = TilemapTexture::Vector(textures);
 
-    let diff = high - low;
-
-    Transform::from_xyz(-diff.x / 2., -diff.y / 2., z)
+        commands.entity(tilemap_entity).insert(TilemapBundle {
+            grid_size: tile_size.into(),
+            map_type,
+            size: CHUNK_SIZE_TILES.into(),
+            storage: tile_storage,
+            tile_size,
+            transform,
+            texture: texture_vec,
+            ..default()
+        });
+    }
 }
