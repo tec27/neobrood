@@ -98,6 +98,7 @@ fn main() {
                 mode: settings.window_mode.into(),
                 width: settings.window_size.map(|(w, _)| w).unwrap_or(1280) as f32,
                 height: settings.window_size.map(|(_, h)| h).unwrap_or(960) as f32,
+                position: WindowPosition::Centered,
                 ..default()
             },
             ..default()
@@ -128,7 +129,7 @@ fn setup(
 ) {
     info!("Using settings: {:?}", *settings);
 
-    current_map.handle = asset_server.load("(2)Blue_Storm_1.3.scx");
+    current_map.handle = asset_server.load("(4)Revolver_SE_2.0.scx");
 
     commands.spawn(Camera2dBundle::default());
 

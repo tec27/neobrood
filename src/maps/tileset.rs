@@ -320,7 +320,7 @@ pub async fn load_tile_textures(
     let mut data = &data[4..];
     let frame_count = data.read_u16::<LittleEndian>()?;
     info!("frame count: {}", frame_count);
-    let mut textures = Vec::with_capacity(frame_count as usize);
+    let mut textures = Vec::with_capacity(mega_tile_ids.len());
     let mut texture_indices = HashMap::new();
 
     data = &data[2..];
@@ -343,6 +343,11 @@ pub async fn load_tile_textures(
 
             texture_indices.insert(i as u16, TileTextureIndex(textures.len() as u32));
             textures.push(handle);
+        }
+
+        if texture_indices.len() >= mega_tile_ids.len() {
+            // We found a texture for every mega-tile, no need to keep reading
+            break;
         }
 
         data = &data[size as usize..];

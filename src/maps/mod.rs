@@ -62,9 +62,11 @@ impl AssetLoader for MapAssetLoader {
                 return Err(anyhow!("Could not load map's terrain"));
             };
 
+            info!("Loading mega tile lookup...");
             let mega_tile_lookup = load_mega_tile_lookup(tileset, terrain, load_context).await?;
             info!("Mega tile lookup has {} entries", mega_tile_lookup.len());
 
+            info!("Loading tileset textures...");
             let (tile_textures, tile_texture_indices) =
                 load_tile_textures(tileset, &mega_tile_lookup, load_context).await?;
             info!("Loaded {} tile textures", tile_textures.len());
