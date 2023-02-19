@@ -28,6 +28,43 @@ impl From<Tileset> for TilesetFilename {
 }
 
 #[allow(unused)]
+#[derive(Debug, Clone, Copy, Eq, PartialEq, Hash, Ord, PartialOrd)]
+pub enum AssetQuality {
+    /// Classic assets.
+    Standard,
+    /// High definition assets, suitable for resolutions below 4K.
+    High,
+    /// Extra high definition assets, suitable for 4K and above.
+    ExtraHigh,
+}
+
+impl AssetQuality {
+    fn asset_path(&self) -> &'static str {
+        match self {
+            Self::Standard => "sd/",
+            Self::High => "hd2/",
+            Self::ExtraHigh => "",
+        }
+    }
+}
+
+#[allow(unused)]
+#[derive(Debug, Clone, Copy, Eq, PartialEq, Hash, Ord, PartialOrd)]
+pub enum AssetPack {
+    Standard,
+    Carbot,
+}
+
+impl AssetPack {
+    fn asset_path(&self) -> &'static str {
+        match self {
+            Self::Standard => "",
+            Self::Carbot => "carbot/",
+        }
+    }
+}
+
+#[allow(unused)]
 impl TilesetFilename {
     fn cv5_path(&self) -> String {
         format!("tileset/{}.cv5", self.0)
@@ -37,16 +74,31 @@ impl TilesetFilename {
         format!("tileset/{}.vf4", self.0)
     }
 
-    fn vr4_path(&self) -> String {
-        format!("hd2/tileset/{}.dds.vr4", self.0)
+    fn vr4_path(&self, quality: AssetQuality, pack: AssetPack) -> String {
+        format!(
+            "{}{}tileset/{}.dds.vr4",
+            quality.asset_path(),
+            pack.asset_path(),
+            self.0
+        )
     }
 
-    fn grp_path(&self) -> String {
-        format!("hd2/tileset/{}.dds.grp", self.0)
+    fn grp_path(&self, quality: AssetQuality, pack: AssetPack) -> String {
+        format!(
+            "{}{}tileset/{}.dds.grp",
+            quality.asset_path(),
+            pack.asset_path(),
+            self.0
+        )
     }
 
-    fn tmsk_path(&self) -> String {
-        format!("hd2/tileset/{}.tmsk", self.0)
+    fn tmsk_path(&self, quality: AssetQuality, pack: AssetPack) -> String {
+        format!(
+            "{}{}tileset/{}.tmsk",
+            quality.asset_path(),
+            pack.asset_path(),
+            self.0
+        )
     }
 }
 
@@ -302,7 +354,11 @@ pub async fn load_tile_textures(
     load_context: &mut LoadContext<'_>,
 ) -> Result<(Vec<Handle<Image>>, HashMap<u16, TileTextureIndex>)> {
     let filename: TilesetFilename = tileset.into();
-    let path = format!("casc-extracted/{}", filename.vr4_path());
+    let path = format!(
+        "casc-extracted/{}",
+        // TODO(tec27): Pass in asset quality + pack
+        filename.vr4_path(AssetQuality::High, AssetPack::Carbot)
+    );
     let data = load_context
         .read_asset_bytes(path)
         .await
