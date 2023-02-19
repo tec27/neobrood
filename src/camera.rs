@@ -41,7 +41,7 @@ fn camera_control(
     windows: Res<Windows>,
     time: Res<Time>,
     camera_pan_locked: Res<CameraPanLocked>,
-    mut camera_query: Query<&mut Transform, With<Camera>>,
+    mut camera_query: Query<(&mut Transform, &mut OrthographicProjection), With<Camera>>,
     mut scroll_events: EventReader<MouseWheel>,
 ) {
     // TODO(tec27): implement arrow key scrolling + middle mouse panning as well
@@ -60,12 +60,12 @@ fn camera_control(
         }
     });
     if scroll_delta != 0.0 {
-        let mut camera_transform = camera_query.single_mut();
+        let (_, mut projection) = camera_query.single_mut();
         let scale_change = scroll_delta * MOUSE_ZOOM_SPEED;
-        camera_transform.scale += Vec3::new(scale_change, scale_change, 0.0);
-        camera_transform.scale = camera_transform
-            .scale
-            .clamp(Vec3::splat(0.25), Vec3::splat(10.0));
+        let mut log_scale = projection.scale.ln();
+        log_scale += scale_change;
+
+        projection.scale = log_scale.exp().clamp(0.25, 10.0);
     }
 
     let width = window.width();
@@ -87,9 +87,9 @@ fn camera_control(
     }
 
     if pan_x != 0.0 || pan_y != 0.0 {
-        let mut camera_transform = camera_query.single_mut();
-        let scale = camera_transform.scale.x;
-        camera_transform.translation += Vec3::new(
+        let (mut transform, projection) = camera_query.single_mut();
+        let scale = projection.scale;
+        transform.translation += Vec3::new(
             pan_x * MOUSE_PAN_SPEED * time.delta_seconds() * scale,
             pan_y * MOUSE_PAN_SPEED * time.delta_seconds() * scale,
             0.0,
