@@ -117,7 +117,9 @@ fn tilemap_init(
 
 /// How many tiles should be managed as one chunk by the tilemap. Ideally this should be something
 /// that all map sizes evenly divide by, or the tilemap will not center properly at (0,0).
-const CHUNK_SIZE_TILES: UVec2 = UVec2::splat(8);
+/// This value should ensure that even if every tile in the chunk has a unique texture, it will
+/// not exceed 2048 textures for the chunk (so keep it at 32 or less!).
+const CHUNK_SIZE_TILES: UVec2 = UVec2::splat(32);
 
 fn create_tilemap(
     commands: &mut Commands,

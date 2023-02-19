@@ -3,7 +3,6 @@ use bevy::diagnostic::{Diagnostics, FrameTimeDiagnosticsPlugin};
 use bevy::prelude::*;
 use bevy::window::PresentMode;
 use bevy_ecs_tilemap::prelude::TileStorage;
-use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use directories::UserDirs;
 use iyes_loopless::prelude::*;
 use serde::{Deserialize, Serialize};
@@ -151,7 +150,7 @@ fn main() {
         .add_fixed_timestep(GameSpeed::Fastest.to_turn_duration(), "fixed_update")
         .add_plugin(FrameTimeDiagnosticsPlugin)
         .add_plugin(bevy_framepace::FramepacePlugin)
-        .add_plugin(WorldInspectorPlugin)
+        // .add_plugin(WorldInspectorPlugin)
         .add_plugin(camera::CameraControlPlugin)
         .add_plugin(maps::MapsPlugin)
         .add_plugin(selection::DragSelectionPlugin)
