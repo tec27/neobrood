@@ -55,7 +55,7 @@ impl AssetLoader for MapAssetLoader {
         load_context: &'a mut LoadContext,
     ) -> BoxedFuture<'a, Result<(), Error>> {
         Box::pin(async move {
-            // TODO(tec27): At some point we'll need the MPQ to be able to laod other assets
+            // TODO(tec27): At some point we'll need the MPQ to be able to load other assets
             // (for UMS), but I don't want to deal with the lifetimes for now, so we just drop it
             let (chk, _mpq) = broodmap::extract_chk_from_map(bytes, None, None)?;
             let tileset = chk.tileset();

@@ -157,6 +157,7 @@ fn main() {
         .add_startup_system(setup)
         .add_system(update_fps_text)
         .add_system(map_navigator)
+        .add_system(map_drag_and_drop)
         // TODO(tec27): Remove this once we have actual game stuff
         .add_system(bevy::window::close_on_esc)
         .run();
@@ -235,5 +236,31 @@ fn map_navigator(
         let map_path = loadable_maps.maps[loadable_maps.cur_index].clone();
         info!("Loading map: {}", map_path.to_string_lossy());
         current_map.handle = asset_server.load(map_path);
+    }
+}
+
+fn map_drag_and_drop(
+    mut drop_events: EventReader<FileDragAndDrop>,
+    mut commands: Commands,
+    asset_server: Res<AssetServer>,
+    tilemaps: Query<Entity, With<TileStorage>>,
+    mut current_map: ResMut<CurrentMap>,
+) {
+    for event in drop_events.iter() {
+        let FileDragAndDrop::DroppedFile { path_buf, .. } = event else {
+            continue;
+        };
+
+        let extension = path_buf.extension().map_or("".into(), |s| {
+            s.to_ascii_lowercase().to_string_lossy().to_string()
+        });
+        if extension == "scm" || extension == "scx" {
+            for entity in tilemaps.iter() {
+                commands.entity(entity).despawn_recursive();
+            }
+
+            info!("Loading map: {}", path_buf.to_string_lossy());
+            current_map.handle = asset_server.load(path_buf.clone());
+        }
     }
 }
