@@ -907,7 +907,7 @@ checksum = "0d8c1fef690941d3e7788d328517591fecc684c084084702d6ff1641e993699a"
 [[package]]
 name = "broodmap"
 version = "0.1.0"
-source = "git+https://github.com/ShieldBattery/broodmap.git?rev=5ffe11ca8df79ea2a643fa03a82da06288b3309b#5ffe11ca8df79ea2a643fa03a82da06288b3309b"
+source = "git+https://github.com/ShieldBattery/broodmap.git?rev=b1681f3a3b72a50870e053a3650cc9d239dcd72c#b1681f3a3b72a50870e053a3650cc9d239dcd72c"
 dependencies = [
  "bitflags",
  "encoding_rs",

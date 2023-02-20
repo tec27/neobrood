@@ -23,7 +23,7 @@ features = [
 
 [dependencies.broodmap]
 git = "https://github.com/ShieldBattery/broodmap.git"
-rev = "5ffe11ca8df79ea2a643fa03a82da06288b3309b"
+rev = "b1681f3a3b72a50870e053a3650cc9d239dcd72c"
 
 # Enable max optimizations for dependencies, but not for our code:
 [profile.dev.package."*"]
