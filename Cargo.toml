@@ -6,7 +6,7 @@ edition = "2021"
 [dependencies]
 anyhow = "1.0"
 bitflags = "1.3"
-bevy_ecs_tilemap = { git = "https://github.com/tec27/bevy_ecs_tilemap", rev = "28ca4141f427095e238fead6aff00cfb666136a0"}
+bevy_ecs_tilemap = { git = "https://github.com/tec27/bevy_ecs_tilemap", rev = "03affe3abe155e28918e3ad657fbfd2c7f7c89bd"}
 bevy_framepace = "0.11"
 byteorder = "1.4"
 directories = "4.0"
