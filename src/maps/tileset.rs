@@ -351,6 +351,7 @@ pub async fn load_tile_textures(
     tileset: Tileset,
     mega_tile_lookup: &HashMap<u16, MegaTileInfo>,
     load_context: &mut LoadContext<'_>,
+    supported_compressed_formats: CompressedImageFormats,
 ) -> Result<(Vec<Handle<Image>>, HashMap<u16, usize>)> {
     let filename: TilesetFilename = tileset.into();
     let path = format!(
@@ -387,10 +388,7 @@ pub async fn load_tile_textures(
             let image = Image::from_buffer(
                 &data[..size as usize],
                 ImageType::Extension("dds"),
-                // TODO(tec27): Get the right supported compressed image formats? I think this code
-                // does what we'd need to, but it kinda seems weird that *I* have to do that:
-                // https://github.com/bevyengine/bevy/blob/16feb9acb7760943db13599015d60ef0e810b38e/crates/bevy_render/src/texture/image_texture_loader.rs#L49
-                CompressedImageFormats::all(),
+                supported_compressed_formats,
                 true,
             )?;
             let handle = load_context

@@ -3,6 +3,8 @@ use bevy::asset::{AssetLoader, BoxedFuture, Error, LoadContext, LoadedAsset};
 use bevy::prelude::*;
 use bevy::reflect::TypeUuid;
 use bevy::render::render_resource::TextureFormat;
+use bevy::render::renderer::RenderDevice;
+use bevy::render::texture::CompressedImageFormats;
 use bevy::utils::HashMap;
 use bevy_ecs_tilemap::prelude::*;
 use broodmap::chk::terrain::TerrainTileIds;
@@ -25,8 +27,23 @@ impl Plugin for MapsPlugin {
 }
 
 /// A bevy [AssetLoader] for SCM and SCX files.
-#[derive(Default, Debug)]
-pub struct MapAssetLoader;
+#[derive(Debug)]
+pub struct MapAssetLoader {
+    supported_compressed_formats: CompressedImageFormats,
+}
+
+impl FromWorld for MapAssetLoader {
+    fn from_world(world: &mut World) -> Self {
+        let supported_compressed_formats = match world.get_resource::<RenderDevice>() {
+            Some(render_device) => CompressedImageFormats::from_features(render_device.features()),
+            None => CompressedImageFormats::all(),
+        };
+
+        Self {
+            supported_compressed_formats,
+        }
+    }
+}
 
 #[derive(Debug, TypeUuid)]
 #[uuid = "78325f88-6895-4e38-acc9-1aa90879c261"]
@@ -68,8 +85,13 @@ impl AssetLoader for MapAssetLoader {
             info!("Mega tile lookup has {} entries", mega_tile_lookup.len());
 
             info!("Loading tileset textures...");
-            let (tile_textures, tile_texture_indices) =
-                load_tile_textures(tileset, &mega_tile_lookup, load_context).await?;
+            let (tile_textures, tile_texture_indices) = load_tile_textures(
+                tileset,
+                &mega_tile_lookup,
+                load_context,
+                self.supported_compressed_formats,
+            )
+            .await?;
             info!("Loaded {} tile textures", tile_textures.len());
 
             let map = MapAsset {
