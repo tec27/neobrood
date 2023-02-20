@@ -3,7 +3,6 @@ use bevy::asset::{LoadContext, LoadedAsset};
 use bevy::prelude::*;
 use bevy::render::texture::{CompressedImageFormats, ImageType};
 use bevy::utils::{HashMap, HashSet};
-use bevy_ecs_tilemap::prelude::TileTextureIndex;
 use bitflags::bitflags;
 use broodmap::chk::terrain::TerrainTileIds;
 use broodmap::chk::tileset::Tileset;
@@ -352,12 +351,12 @@ pub async fn load_tile_textures(
     tileset: Tileset,
     mega_tile_lookup: &HashMap<u16, MegaTileInfo>,
     load_context: &mut LoadContext<'_>,
-) -> Result<(Vec<Handle<Image>>, HashMap<u16, TileTextureIndex>)> {
+) -> Result<(Vec<Handle<Image>>, HashMap<u16, usize>)> {
     let filename: TilesetFilename = tileset.into();
     let path = format!(
         "casc-extracted/{}",
         // TODO(tec27): Pass in asset quality + pack
-        filename.vr4_path(AssetQuality::High, AssetPack::Carbot)
+        filename.vr4_path(AssetQuality::High, AssetPack::Standard)
     );
     let data = load_context
         .read_asset_bytes(path)
@@ -397,7 +396,7 @@ pub async fn load_tile_textures(
             let handle = load_context
                 .set_labeled_asset(format!("texture{}", i).as_str(), LoadedAsset::new(image));
 
-            texture_indices.insert(i, TileTextureIndex(textures.len() as u32));
+            texture_indices.insert(i, textures.len());
             textures.push(handle);
         }
 

@@ -45,7 +45,7 @@ pub struct MapAsset {
     /// A Vec of handles to textures for each mega-tile.
     pub tile_textures: Vec<Handle<Image>>,
     /// A map of mega-tile IDs -> an index into `tile_textures`.
-    pub tile_texture_indices: HashMap<u16, TileTextureIndex>,
+    pub tile_texture_indices: HashMap<u16, usize>,
 }
 
 impl AssetLoader for MapAssetLoader {
@@ -115,66 +115,96 @@ fn tilemap_init(
     }
 }
 
-/// How many tiles should be managed as one chunk by the tilemap. Ideally this should be something
-/// that all map sizes evenly divide by, or the tilemap will not center properly at (0,0).
-/// This value should ensure that even if every tile in the chunk has a unique texture, it will
-/// not exceed 2048 textures for the chunk (so keep it at 32 or less!).
-const CHUNK_SIZE_TILES: UVec2 = UVec2::splat(32);
+/// The maximum amount of unique textures a single tilemap is allowed to reference. This is to avoid
+/// panics caused by exceeding the max size of an array texture (generally 2048). When a tilemap
+/// would exceed this number, we instead construct a new one with any remaining tiles that need
+/// as-of-yet-unreferenced textures.
+const MAX_TEXTURES_PER_TILEMAP: usize = 1920;
+
+#[derive(Debug)]
+struct TilemapBuilder {
+    entity: Entity,
+    tile_storage: TileStorage,
+    textures: Vec<Handle<Image>>,
+}
+
+impl TilemapBuilder {
+    pub fn new(commands: &mut Commands, tilemap_size: TilemapSize) -> Self {
+        Self {
+            entity: commands.spawn_empty().id(),
+            tile_storage: TileStorage::empty(tilemap_size),
+            textures: Vec::new(),
+        }
+    }
+
+    pub fn texture_count(&self) -> usize {
+        self.textures.len()
+    }
+
+    /// Adds a new texture to the Tilemap, returning the index of that texture to be used for the
+    /// TileBundle.
+    pub fn add_texture(&mut self, texture: Handle<Image>) -> TileTextureIndex {
+        let index = self.texture_count();
+        self.textures.push(texture);
+        TileTextureIndex(index as u32)
+    }
+}
 
 fn create_tilemap(
     commands: &mut Commands,
     map: &MapAsset,
     array_texture_loader: &Res<ArrayTextureLoader>,
 ) {
-    let num_chunks = UVec2 {
-        x: map.width - 1,
-        y: map.height - 1,
-    } / CHUNK_SIZE_TILES
-        + UVec2::splat(1);
+    let tilemap_size = TilemapSize {
+        x: map.width,
+        y: map.height,
+    };
 
-    let mut tilemaps = (0..(num_chunks.x * num_chunks.y))
-        .map(|_| {
-            (
-                commands.spawn_empty().id(),
-                TileStorage::empty(CHUNK_SIZE_TILES.into()),
-                HashMap::new(),
-                Vec::new(),
-            )
-        })
-        .collect::<Vec<_>>();
+    let mut tilemaps = vec![TilemapBuilder::new(commands, tilemap_size)];
+    let mut texture_to_tilemap: HashMap<usize, (usize, TileTextureIndex)> = HashMap::new();
 
     for x in 0..map.width {
         for y in 0..map.height {
             let tile_id = map.terrain[y as usize][x as usize].id();
             let mega_tile = map.mega_tile_lookup.get(&tile_id).unwrap();
-            let texture = map.tile_textures
-                [map.tile_texture_indices.get(&mega_tile.id).unwrap().0 as usize]
-                .clone();
+            let texture_index = *map.tile_texture_indices.get(&mega_tile.id).unwrap();
+            let (tilemap_index, tilemap_texture_index) =
+                match texture_to_tilemap.get(&texture_index) {
+                    Some(&(tilemap_index, tilemap_texture_index)) => {
+                        (tilemap_index, tilemap_texture_index)
+                    }
+                    None => {
+                        if tilemaps.last().unwrap().texture_count() >= MAX_TEXTURES_PER_TILEMAP {
+                            let tilemap = TilemapBuilder::new(commands, tilemap_size);
+                            tilemaps.push(tilemap);
+                        }
+
+                        let tilemap_index = tilemaps.len() - 1;
+                        let last_tilemap = tilemaps.last_mut().unwrap();
+                        let tilemap_texture_index =
+                            last_tilemap.add_texture(map.tile_textures[texture_index].clone());
+                        texture_to_tilemap
+                            .insert(texture_index, (tilemap_index, tilemap_texture_index));
+
+                        (tilemap_index, tilemap_texture_index)
+                    }
+                };
 
             // Bevy coords start from the bottom-left, rather than top-left like the map data
             let y = map.height - 1 - y;
-            let chunk = UVec2 { x, y } / CHUNK_SIZE_TILES;
-            let (tilemap_entity, tile_storage, texture_ids, textures) =
-                &mut tilemaps[(chunk.x + chunk.y * num_chunks.x) as usize];
-
-            let x = x % CHUNK_SIZE_TILES.x;
-            let y = y % CHUNK_SIZE_TILES.y;
-
             let tile_pos = TilePos { x, y };
-            let texture_index = *texture_ids.entry(texture.id()).or_insert_with(|| {
-                textures.push(texture);
-                TileTextureIndex((textures.len() - 1) as u32)
-            });
 
+            let tilemap = &mut tilemaps[tilemap_index];
             let tile_entity = commands
                 .spawn(TileBundle {
                     position: tile_pos,
-                    tilemap_id: TilemapId(*tilemap_entity),
-                    texture_index,
+                    tilemap_id: TilemapId(tilemap.entity),
+                    texture_index: tilemap_texture_index,
                     ..default()
                 })
                 .id();
-            tile_storage.set(&tile_pos, tile_entity);
+            tilemap.tile_storage.set(&tile_pos, tile_entity);
+            commands.entity(tilemap.entity).add_child(tile_entity);
         }
     }
 
@@ -182,23 +212,17 @@ fn create_tilemap(
     // 4k => 128, 2k => 64, SD => 32
     let tile_size = TilemapTileSize { x: 64.0, y: 64.0 };
     let map_type = TilemapType::Square;
+    // Center the map at (0,0)
+    let transform = Transform::from_translation(Vec3::new(
+        -(tilemap_size.x as f32 * tile_size.x / 2.0),
+        -(tilemap_size.y as f32 * tile_size.y / 2.0),
+        0.0,
+    ));
 
-    let chunk_max_pos = Vec2::new(
-        (num_chunks.x * CHUNK_SIZE_TILES.x) as f32 * tile_size.x / 2.0,
-        (num_chunks.y * CHUNK_SIZE_TILES.y) as f32 * tile_size.y / 2.0,
-    );
-
-    for (i, (tilemap_entity, tile_storage, _, textures)) in tilemaps.into_iter().enumerate() {
-        let chunk_y = i as u32 / num_chunks.x;
-        let chunk_x = i as u32 % num_chunks.x;
-        let transform = Transform::from_translation(Vec3::new(
-            (chunk_x * CHUNK_SIZE_TILES.x) as f32 * tile_size.x - chunk_max_pos.x,
-            (chunk_y * CHUNK_SIZE_TILES.y) as f32 * tile_size.y - chunk_max_pos.y,
-            0.0,
-        ));
-
-        let texture_vec = TilemapTexture::Vector(textures);
-
+    info!("Creating {} tilemaps", tilemaps.len());
+    for tilemap in tilemaps.drain(..) {
+        info!("Tilemap has {} textures", tilemap.textures.len());
+        let texture_vec = TilemapTexture::Vector(tilemap.textures);
         array_texture_loader.add(TilemapArrayTexture {
             texture: texture_vec.clone(),
             tile_size,
@@ -206,11 +230,11 @@ fn create_tilemap(
             ..default()
         });
 
-        commands.entity(tilemap_entity).insert(TilemapBundle {
+        commands.entity(tilemap.entity).insert(TilemapBundle {
             grid_size: tile_size.into(),
             map_type,
-            size: CHUNK_SIZE_TILES.into(),
-            storage: tile_storage,
+            size: tilemap_size,
+            storage: tilemap.tile_storage,
             tile_size,
             transform,
             texture: texture_vec,
