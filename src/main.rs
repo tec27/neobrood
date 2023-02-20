@@ -1,19 +1,27 @@
-use crate::maps::CurrentMap;
+use std::env;
+use std::fs::File;
+use std::path::PathBuf;
+use std::time::Duration;
+
 use bevy::diagnostic::{Diagnostics, FrameTimeDiagnosticsPlugin};
 use bevy::prelude::*;
 use bevy::window::PresentMode;
 use bevy_ecs_tilemap::prelude::TileStorage;
 use directories::UserDirs;
 use iyes_loopless::prelude::*;
+#[cfg(feature = "mimalloc")]
+use mimalloc::MiMalloc;
 use serde::{Deserialize, Serialize};
-use std::env;
-use std::fs::File;
-use std::path::PathBuf;
-use std::time::Duration;
+
+use crate::maps::CurrentMap;
 
 mod camera;
 mod maps;
 mod selection;
+
+#[cfg(feature = "mimalloc")]
+#[global_allocator]
+static GLOBAL: MiMalloc = MiMalloc;
 
 #[allow(dead_code)]
 enum GameSpeed {
@@ -150,7 +158,6 @@ fn main() {
         .add_fixed_timestep(GameSpeed::Fastest.to_turn_duration(), "fixed_update")
         .add_plugin(FrameTimeDiagnosticsPlugin)
         .add_plugin(bevy_framepace::FramepacePlugin)
-        // .add_plugin(WorldInspectorPlugin)
         .add_plugin(camera::CameraControlPlugin)
         .add_plugin(maps::MapsPlugin)
         .add_plugin(selection::DragSelectionPlugin)
