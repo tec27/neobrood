@@ -1,6 +1,6 @@
 use bevy::input::mouse::{MouseScrollUnit, MouseWheel};
 use bevy::prelude::*;
-use bevy::window::CursorGrabMode;
+use bevy::window::{CursorGrabMode, PrimaryWindow};
 
 /// How far from the edge of the screen the mouse needs to be to start scrolling, in pixels.
 const EDGE_SCROLL_PX: f32 = 4.0;
@@ -23,12 +23,10 @@ impl Plugin for CameraControlPlugin {
 #[derive(Resource, Default, Debug)]
 pub struct CameraPanLocked(pub bool);
 
-fn camera_control_setup(mut windows: ResMut<Windows>) {
+fn camera_control_setup(mut window: Query<&mut Window, With<PrimaryWindow>>) {
     // TODO(tec27): This probably needs to be redone when the window regains focus
-    windows
-        .get_primary_mut()
-        .unwrap()
-        .set_cursor_grab_mode(CursorGrabMode::Confined);
+    let mut window = window.get_single_mut().unwrap();
+    window.cursor.grab_mode = CursorGrabMode::Confined;
 }
 
 #[derive(Default)]
@@ -38,14 +36,14 @@ struct CameraControlState {
 
 fn camera_control(
     mut state: Local<CameraControlState>,
-    windows: Res<Windows>,
     time: Res<Time>,
     camera_pan_locked: Res<CameraPanLocked>,
+    window: Query<&Window, (With<PrimaryWindow>, Without<Camera>)>,
     mut camera_query: Query<(&mut Transform, &mut OrthographicProjection), With<Camera>>,
     mut scroll_events: EventReader<MouseWheel>,
 ) {
     // TODO(tec27): implement arrow key scrolling + middle mouse panning as well
-    let window = windows.get_primary().unwrap();
+    let window = window.get_single().unwrap();
     let mouse_position = window.cursor_position().unwrap_or(state.last_pos);
     state.last_pos = mouse_position;
 

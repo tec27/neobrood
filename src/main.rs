@@ -5,10 +5,9 @@ use std::time::Duration;
 
 use bevy::diagnostic::{Diagnostics, FrameTimeDiagnosticsPlugin};
 use bevy::prelude::*;
-use bevy::window::PresentMode;
+use bevy::window::{PresentMode, WindowMode, WindowResolution};
 use bevy_ecs_tilemap::prelude::TileStorage;
 use directories::UserDirs;
-use iyes_loopless::prelude::*;
 #[cfg(feature = "mimalloc")]
 use mimalloc::MiMalloc;
 use serde::{Deserialize, Serialize};
@@ -138,36 +137,42 @@ fn main() {
         })
         .collect::<Vec<_>>();
 
-    App::new()
-        // TODO(tec27): Use a smaller set of plugins, we really don't need most of this
-        .add_plugins(DefaultPlugins.set(WindowPlugin {
-            window: WindowDescriptor {
-                title: "neobrood".into(),
-                present_mode: PresentMode::AutoNoVsync,
-                mode: settings.window_mode.into(),
-                width: settings.window_size.map(|(w, _)| w).unwrap_or(1280) as f32,
-                height: settings.window_size.map(|(_, h)| h).unwrap_or(960) as f32,
-                position: WindowPosition::Centered,
-                ..default()
-            },
+    let mut app = App::new();
+    // TODO(tec27): Use a smaller set of plugins, we really don't need most of this
+    app.add_plugins(DefaultPlugins.set(WindowPlugin {
+        primary_window: Some(Window {
+            title: "neobrood".into(),
+            present_mode: PresentMode::AutoNoVsync,
+            mode: settings.window_mode.into(),
+            resolution: WindowResolution::new(
+                settings.window_size.map(|(w, _)| w).unwrap_or(1280) as f32,
+                settings.window_size.map(|(_, h)| h).unwrap_or(960) as f32,
+            ),
+            // TODO(tec27): Save and restore position
+            position: WindowPosition::Centered(MonitorSelection::Primary),
             ..default()
-        }))
-        .insert_resource(settings)
-        .insert_resource(ClearColor(Color::rgb(0.0, 0.0, 0.0)))
-        .insert_resource(LoadableMaps { maps, cur_index: 0 })
-        .add_fixed_timestep(GameSpeed::Fastest.to_turn_duration(), "fixed_update")
-        .add_plugin(FrameTimeDiagnosticsPlugin)
-        .add_plugin(bevy_framepace::FramepacePlugin)
-        .add_plugin(camera::CameraControlPlugin)
-        .add_plugin(maps::MapsPlugin)
-        .add_plugin(selection::DragSelectionPlugin)
-        .add_startup_system(setup)
-        .add_system(update_fps_text)
-        .add_system(map_navigator)
-        .add_system(map_drag_and_drop)
-        // TODO(tec27): Remove this once we have actual game stuff
-        .add_system(bevy::window::close_on_esc)
-        .run();
+        }),
+        ..default()
+    }))
+    .insert_resource(settings)
+    .insert_resource(ClearColor(Color::rgb(0.0, 0.0, 0.0)))
+    .insert_resource(LoadableMaps { maps, cur_index: 0 })
+    .insert_resource(FixedTime::new(GameSpeed::Fastest.to_turn_duration()))
+    .add_plugin(FrameTimeDiagnosticsPlugin)
+    .add_plugin(camera::CameraControlPlugin)
+    .add_plugin(maps::MapsPlugin)
+    .add_plugin(selection::DragSelectionPlugin)
+    .add_startup_system(setup)
+    .add_system(update_fps_text)
+    .add_system(map_navigator)
+    .add_system(map_drag_and_drop)
+    // TODO(tec27): Remove this once we have actual game stuff
+    .add_system(bevy::window::close_on_esc);
+
+    #[cfg(feature = "framepacing")]
+    app.add_plugin(bevy_framepace::FramepacePlugin);
+
+    app.run();
 }
 
 #[derive(Component)]

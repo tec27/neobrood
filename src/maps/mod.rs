@@ -12,6 +12,7 @@ use broodmap::chk::tileset::Tileset;
 
 use crate::maps::tileset::{load_mega_tile_lookup, load_tile_textures, MegaTileInfo};
 
+mod sprites;
 mod tileset;
 
 pub struct MapsPlugin;

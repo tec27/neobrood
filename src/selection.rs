@@ -2,6 +2,7 @@ use crate::camera::CameraPanLocked;
 use bevy::input::mouse::MouseButtonInput;
 use bevy::input::ButtonState;
 use bevy::prelude::*;
+use bevy::window::PrimaryWindow;
 
 pub struct DragSelectionPlugin;
 
@@ -39,7 +40,7 @@ fn drag_selection_setup(mut commands: Commands) {
                     position: UiRect::all(Val::Px(0.0)),
                     ..default()
                 },
-                visibility: Visibility::INVISIBLE,
+                visibility: Visibility::Hidden,
                 ..default()
             },
             DragSelectionBox,
@@ -115,12 +116,12 @@ fn drag_selection_setup(mut commands: Commands) {
 
 fn drag_selection(
     mut state: Local<DragSelectionState>,
-    windows: Res<Windows>,
     mut camera_pan_locked: ResMut<CameraPanLocked>,
     mut mouse_reader: EventReader<MouseButtonInput>,
+    window: Query<&Window, (With<PrimaryWindow>, Without<DragSelectionBox>)>,
     mut drag_box_query: Query<(&mut Style, &mut Visibility), With<DragSelectionBox>>,
 ) {
-    let window = windows.get_primary().unwrap();
+    let window = window.get_single().unwrap();
     let mut mouse_pos = window.cursor_position().unwrap_or_default();
     // Flip the y coordinates to match the Bevy UI coords
     mouse_pos.y = window.height() - mouse_pos.y;
@@ -153,7 +154,7 @@ fn drag_selection(
 
     let (mut box_style, mut box_visibility) = drag_box_query.single_mut();
     if state.is_dragging(mouse_pos) {
-        box_visibility.is_visible = true;
+        *box_visibility = Visibility::Visible;
 
         let (left, right) = if mouse_pos.x < state.mouse_down_pos.x {
             (mouse_pos.x, window.width() - state.mouse_down_pos.x)
@@ -174,6 +175,6 @@ fn drag_selection(
             bottom: Val::Px(bottom),
         }
     } else {
-        box_visibility.is_visible = false;
+        *box_visibility = Visibility::Hidden;
     }
 }

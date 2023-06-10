@@ -3,27 +3,30 @@ name = "neobrood"
 version = "0.1.0"
 edition = "2021"
 
+[features]
+default = ["framepacing"]
+framepacing = ["dep:bevy_framepace"]
+
 [dependencies]
 anyhow = "1.0"
-bitflags = "1.3"
-bevy_ecs_tilemap = { git = "https://github.com/tec27/bevy_ecs_tilemap", rev = "03affe3abe155e28918e3ad657fbfd2c7f7c89bd"}
-bevy_framepace = "0.11"
+bitflags = "2.2"
+bevy_ecs_tilemap = { version = "0.10" }
+bevy_framepace = { version = "0.12", optional = true }
 byteorder = "1.4"
-directories = "4.0"
-iyes_loopless = "0.9"
+directories = "5.0"
 mimalloc = { version = "0.1", optional = true, default-features = false }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 
 [dependencies.bevy]
-version = "0.9"
+version = "0.10"
 features = [
     "dds"
 ]
 
 [dependencies.broodmap]
 git = "https://github.com/ShieldBattery/broodmap.git"
-rev = "b1681f3a3b72a50870e053a3650cc9d239dcd72c"
+rev = "bbd76d677a392bac4e884c2925a3d59ad4a0295a"
 
 # Enable max optimizations for dependencies, but not for our code:
 [profile.dev.package."*"]

@@ -102,7 +102,7 @@ impl TilesetFilename {
 }
 
 bitflags! {
-    #[derive(Default)]
+    #[derive(Debug, Clone, Copy, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
     pub struct MegaTileFlags: u16 {
         const WALKABLE = 0x0001;
         const UNWALKABLE = 0x0004;
@@ -193,7 +193,7 @@ async fn load_tile_groups(
 }
 
 bitflags! {
-    #[derive(Default)]
+    #[derive(Debug, Clone, Copy, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
     pub struct MiniTileFlags: u16 {
         /// This mini-tile allows units to walk on it/path through it.
         const WALKABLE = 0x0001;
