@@ -13,8 +13,8 @@ pub struct CameraControlPlugin;
 impl Plugin for CameraControlPlugin {
     fn build(&self, app: &mut App) {
         app.init_resource::<CameraPanLocked>()
-            .add_startup_system(camera_control_setup)
-            .add_system(camera_control);
+            .add_systems(Startup, camera_control_setup)
+            .add_systems(Update, camera_control);
     }
 }
 
@@ -79,9 +79,9 @@ fn camera_control(
     }
 
     if mouse_position.y < EDGE_SCROLL_PX {
-        pan_y = -1.0;
-    } else if mouse_position.y > height - EDGE_SCROLL_PX {
         pan_y = 1.0;
+    } else if mouse_position.y > height - EDGE_SCROLL_PX {
+        pan_y = -1.0;
     }
 
     if pan_x != 0.0 || pan_y != 0.0 {

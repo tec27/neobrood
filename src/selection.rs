@@ -8,8 +8,8 @@ pub struct DragSelectionPlugin;
 
 impl Plugin for DragSelectionPlugin {
     fn build(&self, app: &mut App) {
-        app.add_startup_system(drag_selection_setup)
-            .add_system(drag_selection);
+        app.add_systems(Startup, drag_selection_setup)
+            .add_systems(Update, drag_selection);
     }
 }
 
@@ -32,86 +32,19 @@ impl DragSelectionState {
 struct DragSelectionBox;
 
 fn drag_selection_setup(mut commands: Commands) {
-    commands
-        .spawn((
-            NodeBundle {
-                style: Style {
-                    position_type: PositionType::Absolute,
-                    position: UiRect::all(Val::Px(0.0)),
-                    ..default()
-                },
-                visibility: Visibility::Hidden,
+    commands.spawn((
+        NodeBundle {
+            style: Style {
+                position_type: PositionType::Absolute,
+                border: UiRect::all(Val::Px(2.0)),
                 ..default()
             },
-            DragSelectionBox,
-        ))
-        .with_children(|parent| {
-            // I don't know of a way to just render borders, so we make our own border by putting a
-            // box at each edge? Probably not that efficient given it has a layout pass but
-            // until I find a better way, this'll do I guess.
-            let color = Color::rgba(0.2, 0.8, 0.4, 0.8);
-            let box_size = Val::Px(2.0);
-            // left
-            parent.spawn(NodeBundle {
-                background_color: color.into(),
-                style: Style {
-                    size: Size::new(box_size, Val::Percent(100.0)),
-                    position_type: PositionType::Absolute,
-                    position: UiRect {
-                        left: Val::Px(0.0),
-                        top: Val::Px(0.0),
-                        ..default()
-                    },
-                    ..default()
-                },
-                ..default()
-            });
-            // right
-            parent.spawn(NodeBundle {
-                background_color: color.into(),
-                style: Style {
-                    size: Size::new(box_size, Val::Percent(100.0)),
-                    position_type: PositionType::Absolute,
-                    position: UiRect {
-                        right: Val::Px(0.0),
-                        top: Val::Px(0.0),
-                        ..default()
-                    },
-                    ..default()
-                },
-                ..default()
-            });
-            // top
-            parent.spawn(NodeBundle {
-                background_color: color.into(),
-                style: Style {
-                    size: Size::new(Val::Percent(100.0), box_size),
-                    position_type: PositionType::Absolute,
-                    position: UiRect {
-                        left: Val::Px(0.0),
-                        top: Val::Px(0.0),
-                        ..default()
-                    },
-                    ..default()
-                },
-                ..default()
-            });
-            // bottom
-            parent.spawn(NodeBundle {
-                background_color: color.into(),
-                style: Style {
-                    size: Size::new(Val::Percent(100.0), box_size),
-                    position_type: PositionType::Absolute,
-                    position: UiRect {
-                        left: Val::Px(0.0),
-                        bottom: Val::Px(0.0),
-                        ..default()
-                    },
-                    ..default()
-                },
-                ..default()
-            });
-        });
+            border_color: Color::rgba(0.2, 0.8, 0.4, 0.8).into(),
+            visibility: Visibility::Hidden,
+            ..default()
+        },
+        DragSelectionBox,
+    ));
 }
 
 fn drag_selection(
@@ -122,10 +55,7 @@ fn drag_selection(
     mut drag_box_query: Query<(&mut Style, &mut Visibility), With<DragSelectionBox>>,
 ) {
     let window = window.get_single().unwrap();
-    let mut mouse_pos = window.cursor_position().unwrap_or_default();
-    // Flip the y coordinates to match the Bevy UI coords
-    mouse_pos.y = window.height() - mouse_pos.y;
-    let mouse_pos = mouse_pos;
+    let mouse_pos = window.cursor_position().unwrap_or_default();
 
     for event in mouse_reader.iter() {
         if event.button != MouseButton::Left {
@@ -168,12 +98,10 @@ fn drag_selection(
             (state.mouse_down_pos.y, window.height() - mouse_pos.y)
         };
 
-        box_style.position = UiRect {
-            left: Val::Px(left),
-            right: Val::Px(right),
-            top: Val::Px(top),
-            bottom: Val::Px(bottom),
-        }
+        box_style.left = Val::Px(left);
+        box_style.right = Val::Px(right);
+        box_style.top = Val::Px(top);
+        box_style.bottom = Val::Px(bottom);
     } else {
         *box_visibility = Visibility::Hidden;
     }

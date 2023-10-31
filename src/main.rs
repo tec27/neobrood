@@ -3,7 +3,7 @@ use std::fs::File;
 use std::path::PathBuf;
 use std::time::Duration;
 
-use bevy::diagnostic::{Diagnostics, FrameTimeDiagnosticsPlugin};
+use bevy::diagnostic::{DiagnosticsStore, FrameTimeDiagnosticsPlugin};
 use bevy::prelude::*;
 use bevy::window::{PresentMode, WindowMode, WindowResolution};
 use bevy_ecs_tilemap::prelude::TileStorage;
@@ -158,19 +158,19 @@ fn main() {
     .insert_resource(ClearColor(Color::rgb(0.0, 0.0, 0.0)))
     .insert_resource(LoadableMaps { maps, cur_index: 0 })
     .insert_resource(FixedTime::new(GameSpeed::Fastest.to_turn_duration()))
-    .add_plugin(FrameTimeDiagnosticsPlugin)
-    .add_plugin(camera::CameraControlPlugin)
-    .add_plugin(maps::MapsPlugin)
-    .add_plugin(selection::DragSelectionPlugin)
-    .add_startup_system(setup)
-    .add_system(update_fps_text)
-    .add_system(map_navigator)
-    .add_system(map_drag_and_drop)
+    .add_plugins((
+        FrameTimeDiagnosticsPlugin,
+        camera::CameraControlPlugin,
+        maps::MapsPlugin,
+        selection::DragSelectionPlugin,
+    ))
+    .add_systems(Startup, setup)
+    .add_systems(Update, (update_fps_text, map_navigator, map_drag_and_drop))
     // TODO(tec27): Remove this once we have actual game stuff
-    .add_system(bevy::window::close_on_esc);
+    .add_systems(Update, bevy::window::close_on_esc);
 
     #[cfg(feature = "framepacing")]
-    app.add_plugin(bevy_framepace::FramepacePlugin);
+    app.add_plugins(bevy_framepace::FramepacePlugin);
 
     app.run();
 }
@@ -208,18 +208,15 @@ fn setup(
         )
         .with_style(Style {
             position_type: PositionType::Absolute,
-            position: UiRect {
-                left: Val::Px(2.0),
-                top: Val::Px(2.0),
-                ..default()
-            },
+            left: Val::Px(2.0),
+            top: Val::Px(2.0),
             ..default()
         }),
         FpsText,
     ));
 }
 
-fn update_fps_text(diagnostics: Res<Diagnostics>, mut query: Query<&mut Text, With<FpsText>>) {
+fn update_fps_text(diagnostics: Res<DiagnosticsStore>, mut query: Query<&mut Text, With<FpsText>>) {
     let mut fps = 0.0;
     if let Some(fps_diagnostic) = diagnostics.get(FrameTimeDiagnosticsPlugin::FPS) {
         if let Some(fps_smoothed) = fps_diagnostic.smoothed() {

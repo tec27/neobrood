@@ -1,7 +1,7 @@
 use anyhow::anyhow;
 use bevy::asset::{AssetLoader, BoxedFuture, Error, LoadContext, LoadedAsset};
 use bevy::prelude::*;
-use bevy::reflect::TypeUuid;
+use bevy::reflect::{TypePath, TypeUuid};
 use bevy::render::render_resource::TextureFormat;
 use bevy::render::renderer::RenderDevice;
 use bevy::render::texture::CompressedImageFormats;
@@ -19,11 +19,11 @@ pub struct MapsPlugin;
 
 impl Plugin for MapsPlugin {
     fn build(&self, app: &mut App) {
-        app.add_plugin(TilemapPlugin)
+        app.add_plugins(TilemapPlugin)
             .add_asset::<MapAsset>()
             .init_asset_loader::<MapAssetLoader>()
             .init_resource::<CurrentMap>()
-            .add_system(tilemap_init);
+            .add_systems(Update, tilemap_init);
     }
 }
 
@@ -46,7 +46,7 @@ impl FromWorld for MapAssetLoader {
     }
 }
 
-#[derive(Debug, TypeUuid)]
+#[derive(Debug, TypePath, TypeUuid)]
 #[uuid = "78325f88-6895-4e38-acc9-1aa90879c261"]
 pub struct MapAsset {
     /// Width of the map in tiles.

@@ -10,8 +10,8 @@ framepacing = ["dep:bevy_framepace"]
 [dependencies]
 anyhow = "1.0"
 bitflags = "2.2"
-bevy_ecs_tilemap = { version = "0.10" }
-bevy_framepace = { version = "0.12", optional = true }
+bevy_ecs_tilemap = { version = "0.11" }
+bevy_framepace = { version = "0.13", optional = true }
 byteorder = "1.4"
 directories = "5.0"
 mimalloc = { version = "0.1", optional = true, default-features = false }
@@ -19,7 +19,7 @@ serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 
 [dependencies.bevy]
-version = "0.10"
+version = "0.11"
 features = [
     "dds"
 ]
