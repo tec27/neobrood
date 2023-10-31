@@ -1111,7 +1111,7 @@ dependencies = [
 [[package]]
 name = "broodmap"
 version = "0.1.0"
-source = "git+https://github.com/ShieldBattery/broodmap.git?rev=bbd76d677a392bac4e884c2925a3d59ad4a0295a#bbd76d677a392bac4e884c2925a3d59ad4a0295a"
+source = "git+https://github.com/ShieldBattery/broodmap.git?rev=37b633fd200a43dcbf6b5e9f72065558092c2dfd#37b633fd200a43dcbf6b5e9f72065558092c2dfd"
 dependencies = [
  "bitflags 2.4.1",
  "encoding_rs",
