@@ -4,14 +4,16 @@ version = "0.1.0"
 edition = "2021"
 
 [features]
-default = ["framepacing"]
+default = ["framepacing", "inspector"]
 framepacing = ["dep:bevy_framepace"]
+inspector = ["dep:bevy-inspector-egui"]
 
 [dependencies]
 anyhow = "1.0"
 bitflags = "2.2"
 bevy_ecs_tilemap = { version = "0.11" }
 bevy_framepace = { version = "0.13", optional = true }
+bevy-inspector-egui = { version = "0.20.0", optional = true }
 byteorder = "1.4"
 directories = "5.0"
 mimalloc = { version = "0.1", optional = true, default-features = false }
@@ -20,13 +22,11 @@ serde_json = "1.0"
 
 [dependencies.bevy]
 version = "0.11"
-features = [
-    "dds"
-]
+features = ["dds"]
 
 [dependencies.broodmap]
 git = "https://github.com/ShieldBattery/broodmap.git"
-rev = "37b633fd200a43dcbf6b5e9f72065558092c2dfd"
+rev = "366096b917834047184375777bd6c35976b4dec2"
 
 # Enable max optimizations for dependencies, but not for our code:
 [profile.dev.package."*"]

@@ -6,10 +6,8 @@ use std::time::Duration;
 use bevy::diagnostic::{DiagnosticsStore, FrameTimeDiagnosticsPlugin};
 use bevy::prelude::*;
 use bevy::window::{PresentMode, WindowMode, WindowResolution};
-use bevy_ecs_tilemap::prelude::TileStorage;
 use directories::UserDirs;
-#[cfg(feature = "mimalloc")]
-use mimalloc::MiMalloc;
+use maps::game_map::GameMap;
 use serde::{Deserialize, Serialize};
 
 use crate::maps::CurrentMap;
@@ -20,7 +18,7 @@ mod selection;
 
 #[cfg(feature = "mimalloc")]
 #[global_allocator]
-static GLOBAL: MiMalloc = MiMalloc;
+static GLOBAL: mimalloc::MiMalloc = mimalloc::MiMalloc;
 
 #[allow(dead_code)]
 enum GameSpeed {
@@ -172,6 +170,9 @@ fn main() {
     #[cfg(feature = "framepacing")]
     app.add_plugins(bevy_framepace::FramepacePlugin);
 
+    #[cfg(feature = "inspector")]
+    app.add_plugins(bevy_inspector_egui::quick::WorldInspectorPlugin::new());
+
     app.run();
 }
 
@@ -232,12 +233,12 @@ fn map_navigator(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
     keys: Res<Input<KeyCode>>,
-    tilemaps: Query<Entity, With<TileStorage>>,
+    game_maps: Query<Entity, With<GameMap>>,
     mut current_map: ResMut<CurrentMap>,
     mut loadable_maps: ResMut<LoadableMaps>,
 ) {
     if keys.just_pressed(KeyCode::Space) && loadable_maps.maps.len() > 1 {
-        for entity in tilemaps.iter() {
+        for entity in game_maps.iter() {
             commands.entity(entity).despawn_recursive();
         }
 
@@ -252,7 +253,7 @@ fn map_drag_and_drop(
     mut drop_events: EventReader<FileDragAndDrop>,
     mut commands: Commands,
     asset_server: Res<AssetServer>,
-    tilemaps: Query<Entity, With<TileStorage>>,
+    game_maps: Query<Entity, With<GameMap>>,
     mut current_map: ResMut<CurrentMap>,
 ) {
     for event in drop_events.iter() {
@@ -264,7 +265,7 @@ fn map_drag_and_drop(
             s.to_ascii_lowercase().to_string_lossy().to_string()
         });
         if extension == "scm" || extension == "scx" {
-            for entity in tilemaps.iter() {
+            for entity in game_maps.iter() {
                 commands.entity(entity).despawn_recursive();
             }
 
