@@ -3,7 +3,7 @@ use bevy::render::render_resource::TextureFormat;
 use bevy::utils::HashMap;
 use bevy_ecs_tilemap::prelude::*;
 
-use crate::maps::game_map::GameMapBundle;
+use crate::maps::{game_map::GameMapBundle, sprites::create_placed_units};
 
 use self::{
     asset::{MapAsset, MapAssetLoader},
@@ -47,6 +47,7 @@ fn map_init(
                 let map_entity = commands.spawn(GameMapBundle::default()).id();
                 create_tilemap(&mut commands, map, &array_texture_loader, map_entity);
                 create_map_sprites(&mut commands, map, map_entity);
+                create_placed_units(&mut commands, map, map_entity);
             }
         }
     }
