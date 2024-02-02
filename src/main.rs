@@ -86,16 +86,18 @@ fn main() {
     let settings_file = documents_dir
         .join("Starcraft")
         .join("neobrood-settings.json");
+    // NOTE(tec27): We avoid using any tracing functions for logging here as that won't be
+    // initialized until Bevy's LogPlugin is
     let settings = match File::open(settings_file) {
         Ok(mut file) => serde_json::from_reader::<_, GameSettings>(&mut file).unwrap_or_else(|e| {
-            warn!(
+            eprintln!(
                 "Using default settings due to error parsing settings file: {}",
                 e
             );
             GameSettings::default()
         }),
         Err(e) => {
-            warn!(
+            eprintln!(
                 "Using default settings due to error reading settings file: {}",
                 e
             );
