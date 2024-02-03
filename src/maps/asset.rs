@@ -1,7 +1,8 @@
 use anyhow::anyhow;
-use bevy::asset::{AssetLoader, BoxedFuture, Error, LoadContext, LoadedAsset};
+use bevy::asset::io::Reader;
+use bevy::asset::{AssetLoader, AsyncReadExt, BoxedFuture, LoadContext};
 use bevy::prelude::*;
-use bevy::reflect::{TypePath, TypeUuid};
+use bevy::reflect::TypePath;
 use bevy::render::renderer::RenderDevice;
 use bevy::render::texture::CompressedImageFormats;
 use bevy::utils::HashMap;
@@ -30,8 +31,7 @@ impl FromWorld for MapAssetLoader {
     }
 }
 
-#[derive(Debug, TypePath, TypeUuid)]
-#[uuid = "78325f88-6895-4e38-acc9-1aa90879c261"]
+#[derive(Asset, Debug, TypePath)]
 pub struct MapAsset {
     /// Width of the map in tiles.
     pub width: u32,
@@ -55,15 +55,22 @@ pub struct MapAsset {
 }
 
 impl AssetLoader for MapAssetLoader {
+    type Asset = MapAsset;
+    type Settings = ();
+    type Error = anyhow::Error;
+
     fn load<'a>(
         &'a self,
-        bytes: &'a [u8],
+        reader: &'a mut Reader,
+        _settings: &'a Self::Settings,
         load_context: &'a mut LoadContext,
-    ) -> BoxedFuture<'a, Result<(), Error>> {
+    ) -> BoxedFuture<'a, Result<Self::Asset, Self::Error>> {
         Box::pin(async move {
             // TODO(tec27): At some point we'll need the MPQ to be able to load other assets
             // (for UMS), but I don't want to deal with the lifetimes for now, so we just drop it
-            let (chk, _mpq) = broodmap::extract_chk_from_map(bytes, None, None)?;
+            let mut bytes = Vec::new();
+            reader.read_to_end(&mut bytes).await?;
+            let (chk, _mpq) = broodmap::extract_chk_from_map(&bytes, None, None)?;
             let tileset = chk.tileset();
             let Ok(terrain) = chk.terrain() else {
                 return Err(anyhow!("Could not load map's terrain"));
@@ -76,6 +83,9 @@ impl AssetLoader for MapAssetLoader {
                 return Err(anyhow!("Could not load map's sprites"));
             };
 
+            // TODO(tec27): Use load_context.labeled_asset_scope for these so that they get properly
+            // marked as dependencies (and probably load the files out of the casc via a loader
+            // call instead of doing it directly in these functions?)
             info!("Loading mega tile lookup...");
             let mega_tile_lookup = load_mega_tile_lookup(tileset, terrain, load_context).await?;
             info!("Mega tile lookup has {} entries", mega_tile_lookup.len());
@@ -90,7 +100,7 @@ impl AssetLoader for MapAssetLoader {
             .await?;
             info!("Loaded {} tile textures", tile_textures.len());
 
-            let map = MapAsset {
+            Ok(MapAsset {
                 width: chk.width() as u32,
                 height: chk.height() as u32,
                 tileset,
@@ -100,10 +110,7 @@ impl AssetLoader for MapAssetLoader {
                 tile_texture_indices,
                 placed_units: placed_units.clone(),
                 sprites: sprites.clone(),
-            };
-            load_context.set_default_asset(LoadedAsset::new(map));
-
-            Ok(())
+            })
         })
     }
 

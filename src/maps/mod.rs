@@ -20,7 +20,7 @@ pub struct MapsPlugin;
 impl Plugin for MapsPlugin {
     fn build(&self, app: &mut App) {
         app.add_plugins(TilemapPlugin)
-            .add_asset::<MapAsset>()
+            .init_asset::<MapAsset>()
             .init_asset_loader::<MapAssetLoader>()
             .init_resource::<CurrentMap>()
             .add_systems(Update, map_init);
@@ -39,11 +39,11 @@ fn map_init(
     map_assets: Res<Assets<MapAsset>>,
     array_texture_loader: Res<ArrayTextureLoader>,
 ) {
-    for event in asset_events.iter() {
-        if let AssetEvent::Created { handle } = event {
-            if *handle == current_map.handle {
+    for event in asset_events.read() {
+        if let AssetEvent::LoadedWithDependencies { id } = event {
+            if *id == current_map.handle.id() {
                 info!("Map loaded!");
-                let map = map_assets.get(handle).unwrap();
+                let map = map_assets.get(*id).unwrap();
                 let map_entity = commands.spawn(GameMapBundle::default()).id();
                 create_tilemap(&mut commands, map, &array_texture_loader, map_entity);
                 create_map_sprites(&mut commands, map, map_entity);

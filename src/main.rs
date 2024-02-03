@@ -157,7 +157,9 @@ fn main() {
     .insert_resource(settings)
     .insert_resource(ClearColor(Color::rgb(0.0, 0.0, 0.0)))
     .insert_resource(LoadableMaps { maps, cur_index: 0 })
-    .insert_resource(FixedTime::new(GameSpeed::Fastest.to_turn_duration()))
+    .insert_resource(Time::<Fixed>::from_duration(
+        GameSpeed::Fastest.to_turn_duration(),
+    ))
     .add_plugins((
         FrameTimeDiagnosticsPlugin,
         camera::CameraControlPlugin,
@@ -258,7 +260,7 @@ fn map_drag_and_drop(
     game_maps: Query<Entity, With<GameMap>>,
     mut current_map: ResMut<CurrentMap>,
 ) {
-    for event in drop_events.iter() {
+    for event in drop_events.read() {
         let FileDragAndDrop::DroppedFile { path_buf, .. } = event else {
             continue;
         };

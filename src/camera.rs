@@ -26,7 +26,7 @@ fn handle_window_focus(
     mut window: Query<&mut Window, With<PrimaryWindow>>,
     mut events: EventReader<WindowFocused>,
 ) {
-    for event in events.iter() {
+    for event in events.read() {
         if !window.contains(event.window) {
             continue;
         }
@@ -64,7 +64,7 @@ fn camera_control(
         return;
     }
 
-    let scroll_delta = scroll_events.iter().fold(0.0, |acc, event| {
+    let scroll_delta = scroll_events.read().fold(0.0, |acc, event| {
         acc - match event.unit {
             MouseScrollUnit::Line => event.y,
             MouseScrollUnit::Pixel => event.y / 20.0,

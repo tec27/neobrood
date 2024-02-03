@@ -1,7 +1,7 @@
 use anyhow::{bail, Context, Result};
-use bevy::asset::{LoadContext, LoadedAsset};
+use bevy::asset::LoadContext;
 use bevy::prelude::*;
-use bevy::render::texture::{CompressedImageFormats, ImageType};
+use bevy::render::texture::{CompressedImageFormats, ImageSampler, ImageType};
 use bevy::utils::{HashMap, HashSet};
 use bitflags::bitflags;
 use broodmap::chk::terrain::TerrainTileIds;
@@ -390,9 +390,9 @@ pub async fn load_tile_textures(
                 ImageType::Extension("dds"),
                 supported_compressed_formats,
                 true,
+                ImageSampler::Default,
             )?;
-            let handle = load_context
-                .set_labeled_asset(format!("texture{}", i).as_str(), LoadedAsset::new(image));
+            let handle = load_context.add_labeled_asset(format!("texture{}", i), image);
 
             texture_indices.insert(i, textures.len());
             textures.push(handle);

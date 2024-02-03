@@ -57,7 +57,7 @@ fn drag_selection(
     let window = window.get_single().unwrap();
     let mouse_pos = window.cursor_position().unwrap_or_default();
 
-    for event in mouse_reader.iter() {
+    for event in mouse_reader.read() {
         if event.button != MouseButton::Left {
             continue;
         }
