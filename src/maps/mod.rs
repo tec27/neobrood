@@ -8,11 +8,13 @@ use crate::maps::{game_map::GameMapBundle, sprites::create_placed_units};
 use self::{
     asset::{MapAsset, MapAssetLoader},
     sprites::create_map_sprites,
+    tbl::TblAssetLoader,
 };
 
 mod asset;
 pub mod game_map;
 mod sprites;
+mod tbl;
 mod tileset;
 
 pub struct MapsPlugin;
@@ -22,6 +24,7 @@ impl Plugin for MapsPlugin {
         app.add_plugins(TilemapPlugin)
             .init_asset::<MapAsset>()
             .init_asset_loader::<MapAssetLoader>()
+            .init_asset_loader::<TblAssetLoader>()
             .init_resource::<CurrentMap>()
             .add_systems(Update, map_init);
     }

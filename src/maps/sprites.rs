@@ -8,6 +8,10 @@ use super::asset::MapAsset;
 // https://github.com/neivv/animosity/blob/master/src/anim.rs
 // https://github.com/alexpineda/titan-reactor/blob/974f3b30a5a19c14dfcf03f85c82f869342ac76d/src/renderer/image/formats/parse-anim.ts
 
+// Look up unit ID in units.dat, map flingy ID to flingy.dat, map sprite ID to sprites.dat, map
+// image ID to images.dat (although I think this is actually unnecessary and you just load that ID
+// as main_###.anim ?)
+
 pub fn create_map_sprites(commands: &mut Commands, map: &MapAsset, map_entity: Entity) {
     info!(
         "Creating map sprites, map has {} sprites",

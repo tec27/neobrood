@@ -194,7 +194,7 @@ fn setup(
 
     let map_path = loadable_maps
         .maps
-        .get(0)
+        .first()
         .cloned()
         .unwrap_or(PathBuf::from("lt.scm"));
     current_map.handle = asset_server.load(map_path);
