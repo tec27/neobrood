@@ -12,6 +12,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::maps::CurrentMap;
 
+mod bytes;
 mod camera;
 mod maps;
 mod selection;
