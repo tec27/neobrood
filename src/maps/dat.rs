@@ -52,10 +52,66 @@ pub struct DatAssetLoader {}
 // but then we have to do our own mapping to a proper loader/output type.
 #[derive(Asset, Debug, TypePath)]
 pub enum DatAsset {
-    Flingy,
-    Images,
-    Sprites,
+    Flingy(Box<FlingyData>),
+    Images(Box<ImageData>),
+    Sprites(Box<SpriteData>),
     Units(Box<UnitData>),
+}
+
+/// How many flingy types are specified in the flingy.dat file.
+const NUM_FLINGY_DATA: usize = 209;
+/// How much data each flingy instance takes up in the flingy.dat file (in bytes).
+const FLINGY_DATA_SIZE: usize = 15;
+
+#[allow(dead_code)]
+#[derive(Clone, Debug)]
+pub struct FlingyData {
+    pub sprite: [u16; NUM_FLINGY_DATA],
+    pub speed: [u32; NUM_FLINGY_DATA],
+    pub acceleration: [u16; NUM_FLINGY_DATA],
+    pub halt_distance: [u32; NUM_FLINGY_DATA],
+    pub turn_radius: [u8; NUM_FLINGY_DATA],
+    pub unused: [u8; NUM_FLINGY_DATA],
+    pub movement_control: [u8; NUM_FLINGY_DATA],
+}
+
+/// How many images are specified in the images.dat file.
+const NUM_IMAGE_DATA: usize = 999;
+/// How much data each image instance takes up in the images.dat file (in bytes).
+const IMAGE_DATA_SIZE: usize = 38;
+
+#[allow(dead_code)]
+#[derive(Clone, Debug)]
+pub struct ImageData {
+    pub grp: [u32; NUM_IMAGE_DATA],
+    pub graphics_turns: [u8; NUM_IMAGE_DATA],
+    pub clickable: [u8; NUM_IMAGE_DATA],
+    pub use_full_iscript: [u8; NUM_IMAGE_DATA],
+    pub draw_if_cloaked: [u8; NUM_IMAGE_DATA],
+    pub draw_function: [u8; NUM_IMAGE_DATA],
+    pub remapping: [u8; NUM_IMAGE_DATA],
+    pub iscript: [u32; NUM_IMAGE_DATA],
+    pub shield_overlay: [u32; NUM_IMAGE_DATA],
+    pub attack_overlay: [u32; NUM_IMAGE_DATA],
+    pub damage_overlay: [u32; NUM_IMAGE_DATA],
+    pub special_overlay: [u32; NUM_IMAGE_DATA],
+    pub landing_dust_overlay: [u32; NUM_IMAGE_DATA],
+    pub lift_off_dust_overlay: [u32; NUM_IMAGE_DATA],
+}
+
+const NUM_SPRITE_DATA: usize = 517;
+const NUM_SELECTABLE_SPRITES: usize = 387;
+const EXPECTED_SPRITES_DAT_SIZE: usize = 0xC9C;
+
+#[allow(dead_code)]
+#[derive(Clone, Debug)]
+pub struct SpriteData {
+    pub image: [u16; NUM_SPRITE_DATA],
+    pub health_bar: [u8; NUM_SELECTABLE_SPRITES],
+    pub unknown_0: [u8; NUM_SPRITE_DATA],
+    pub visible: [u8; NUM_SPRITE_DATA],
+    pub selection_circle: [u8; NUM_SELECTABLE_SPRITES],
+    pub selection_circle_offset: [u8; NUM_SELECTABLE_SPRITES],
 }
 
 /// How many things (units + buildings + other) are specified in the units.dat file.
@@ -73,7 +129,7 @@ pub struct UnitData {
     sub_unit_1: [u16; NUM_UNIT_DATA],
     sub_unit_2: [u16; NUM_UNIT_DATA],
     infestation: [u16; NUM_BUILDINGS],
-    construction_animation: [u32; NUM_UNIT_DATA],
+    construction_image: [u32; NUM_UNIT_DATA],
     unit_direction: [u8; NUM_UNIT_DATA],
     shield_enabled: [u8; NUM_UNIT_DATA],
     shield_amount: [i16; NUM_UNIT_DATA],
@@ -101,10 +157,10 @@ pub struct UnitData {
     ready_sound: [u16; NUM_UNITS],
     what_sound_start: [u16; NUM_UNIT_DATA],
     what_sound_end: [u16; NUM_UNIT_DATA],
-    piss_sound_start: [u16; NUM_UNIT_DATA],
-    piss_sound_end: [u16; NUM_UNIT_DATA],
-    yes_sound_start: [u16; NUM_UNIT_DATA],
-    yes_sound_end: [u16; NUM_UNIT_DATA],
+    piss_sound_start: [u16; NUM_UNITS],
+    piss_sound_end: [u16; NUM_UNITS],
+    yes_sound_start: [u16; NUM_UNITS],
+    yes_sound_end: [u16; NUM_UNITS],
     placebox_size: [Point16; NUM_UNIT_DATA],
     addon_size: [Point16; NUM_BUILDINGS],
     unit_rect: [Rect16; NUM_UNIT_DATA],
@@ -143,9 +199,21 @@ impl AssetLoader for DatAssetLoader {
                 .map(|name| name.to_ascii_lowercase().to_string_lossy().to_string())
                 .as_deref()
             {
-                Some("flingy") => DatAsset::Flingy,
-                Some("images") => DatAsset::Images,
-                Some("sprites") => DatAsset::Sprites,
+                Some("flingy") => {
+                    let mut bytes = Vec::new();
+                    reader.read_to_end(&mut bytes).await?;
+                    DatAsset::Flingy(Box::new(load_flingy_dat(&bytes)?))
+                }
+                Some("images") => {
+                    let mut bytes = Vec::new();
+                    reader.read_to_end(&mut bytes).await?;
+                    DatAsset::Images(Box::new(load_images_dat(&bytes)?))
+                }
+                Some("sprites") => {
+                    let mut bytes = Vec::new();
+                    reader.read_to_end(&mut bytes).await?;
+                    DatAsset::Sprites(Box::new(load_sprites_dat(&bytes)?))
+                }
                 Some("units") => {
                     let mut bytes = Vec::new();
                     reader.read_to_end(&mut bytes).await?;
@@ -174,7 +242,7 @@ fn load_units_dat(mut bytes: &[u8]) -> anyhow::Result<UnitData> {
         sub_unit_1: bytes.read_u16_array::<NUM_UNIT_DATA>()?,
         sub_unit_2: bytes.read_u16_array::<NUM_UNIT_DATA>()?,
         infestation: bytes.read_u16_array::<NUM_BUILDINGS>()?,
-        construction_animation: bytes.read_u32_array::<NUM_UNIT_DATA>()?,
+        construction_image: bytes.read_u32_array::<NUM_UNIT_DATA>()?,
         unit_direction: bytes.read_u8_array::<NUM_UNIT_DATA>()?,
         shield_enabled: bytes.read_u8_array::<NUM_UNIT_DATA>()?,
         shield_amount: bytes.read_i16_array::<NUM_UNIT_DATA>()?,
@@ -202,10 +270,10 @@ fn load_units_dat(mut bytes: &[u8]) -> anyhow::Result<UnitData> {
         ready_sound: bytes.read_u16_array::<NUM_UNITS>()?,
         what_sound_start: bytes.read_u16_array::<NUM_UNIT_DATA>()?,
         what_sound_end: bytes.read_u16_array::<NUM_UNIT_DATA>()?,
-        piss_sound_start: bytes.read_u16_array::<NUM_UNIT_DATA>()?,
-        piss_sound_end: bytes.read_u16_array::<NUM_UNIT_DATA>()?,
-        yes_sound_start: bytes.read_u16_array::<NUM_UNIT_DATA>()?,
-        yes_sound_end: bytes.read_u16_array::<NUM_UNIT_DATA>()?,
+        piss_sound_start: bytes.read_u16_array::<NUM_UNITS>()?,
+        piss_sound_end: bytes.read_u16_array::<NUM_UNITS>()?,
+        yes_sound_start: bytes.read_u16_array::<NUM_UNITS>()?,
+        yes_sound_end: bytes.read_u16_array::<NUM_UNITS>()?,
         placebox_size: bytes.read_array::<Point16, NUM_UNIT_DATA>()?,
         addon_size: bytes.read_array::<Point16, NUM_BUILDINGS>()?,
         unit_rect: bytes.read_array::<Rect16, NUM_UNIT_DATA>()?,
@@ -224,5 +292,59 @@ fn load_units_dat(mut bytes: &[u8]) -> anyhow::Result<UnitData> {
         unit_map_string: bytes.read_u16_array::<NUM_UNIT_DATA>()?,
         brood_war_unit_flag: bytes.read_u8_array::<NUM_UNIT_DATA>()?,
         star_edit_availability_flag: bytes.read_u16_array::<NUM_UNIT_DATA>()?,
+    })
+}
+
+fn load_flingy_dat(mut bytes: &[u8]) -> anyhow::Result<FlingyData> {
+    if bytes.len() < NUM_FLINGY_DATA * FLINGY_DATA_SIZE {
+        return Err(anyhow!("flingy.dat file is too small: {}", bytes.len()));
+    }
+
+    Ok(FlingyData {
+        sprite: bytes.read_u16_array::<NUM_FLINGY_DATA>()?,
+        speed: bytes.read_u32_array::<NUM_FLINGY_DATA>()?,
+        acceleration: bytes.read_u16_array::<NUM_FLINGY_DATA>()?,
+        halt_distance: bytes.read_u32_array::<NUM_FLINGY_DATA>()?,
+        turn_radius: bytes.read_u8_array::<NUM_FLINGY_DATA>()?,
+        unused: bytes.read_u8_array::<NUM_FLINGY_DATA>()?,
+        movement_control: bytes.read_u8_array::<NUM_FLINGY_DATA>()?,
+    })
+}
+
+fn load_images_dat(mut bytes: &[u8]) -> anyhow::Result<ImageData> {
+    if bytes.len() < NUM_IMAGE_DATA * IMAGE_DATA_SIZE {
+        return Err(anyhow!("images.dat file is too small: {}", bytes.len()));
+    }
+
+    Ok(ImageData {
+        grp: bytes.read_u32_array::<NUM_IMAGE_DATA>()?,
+        graphics_turns: bytes.read_u8_array::<NUM_IMAGE_DATA>()?,
+        clickable: bytes.read_u8_array::<NUM_IMAGE_DATA>()?,
+        use_full_iscript: bytes.read_u8_array::<NUM_IMAGE_DATA>()?,
+        draw_if_cloaked: bytes.read_u8_array::<NUM_IMAGE_DATA>()?,
+        draw_function: bytes.read_u8_array::<NUM_IMAGE_DATA>()?,
+        remapping: bytes.read_u8_array::<NUM_IMAGE_DATA>()?,
+        iscript: bytes.read_u32_array::<NUM_IMAGE_DATA>()?,
+        shield_overlay: bytes.read_u32_array::<NUM_IMAGE_DATA>()?,
+        attack_overlay: bytes.read_u32_array::<NUM_IMAGE_DATA>()?,
+        damage_overlay: bytes.read_u32_array::<NUM_IMAGE_DATA>()?,
+        special_overlay: bytes.read_u32_array::<NUM_IMAGE_DATA>()?,
+        landing_dust_overlay: bytes.read_u32_array::<NUM_IMAGE_DATA>()?,
+        lift_off_dust_overlay: bytes.read_u32_array::<NUM_IMAGE_DATA>()?,
+    })
+}
+
+fn load_sprites_dat(mut bytes: &[u8]) -> anyhow::Result<SpriteData> {
+    if bytes.len() < EXPECTED_SPRITES_DAT_SIZE {
+        return Err(anyhow!("sprites.dat file is too small: {}", bytes.len()));
+    }
+
+    Ok(SpriteData {
+        image: bytes.read_u16_array::<NUM_SPRITE_DATA>()?,
+        health_bar: bytes.read_u8_array::<NUM_SELECTABLE_SPRITES>()?,
+        unknown_0: bytes.read_u8_array::<NUM_SPRITE_DATA>()?,
+        visible: bytes.read_u8_array::<NUM_SPRITE_DATA>()?,
+        selection_circle: bytes.read_u8_array::<NUM_SELECTABLE_SPRITES>()?,
+        selection_circle_offset: bytes.read_u8_array::<NUM_SELECTABLE_SPRITES>()?,
     })
 }
