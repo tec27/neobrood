@@ -1,5 +1,7 @@
 use bevy::prelude::*;
 
+use crate::gamedata::BwGameData;
+
 use super::asset::MapAsset;
 
 // Useful links for .anim stuff:
@@ -12,7 +14,12 @@ use super::asset::MapAsset;
 // image ID to images.dat (although I think this is actually unnecessary and you just load that ID
 // as main_###.anim ?)
 
-pub fn create_map_sprites(commands: &mut Commands, map: &MapAsset, map_entity: Entity) {
+pub fn create_map_sprites(
+    commands: &mut Commands,
+    map: &MapAsset,
+    map_entity: Entity,
+    game_data: &BwGameData,
+) {
     info!(
         "Creating map sprites, map has {} sprites",
         map.sprites.len()
@@ -22,6 +29,20 @@ pub fn create_map_sprites(commands: &mut Commands, map: &MapAsset, map_entity: E
     let max_height = (map.height - 1) as f32;
 
     for (i, sprite) in map.sprites.iter().enumerate() {
+        let image_id = game_data
+            .sprites
+            .image
+            .get(sprite.id as usize)
+            .unwrap_or_else(|| {
+                warn!(
+                    "Encountered Sprite {} which isn't a valid ID, using placeholder sprite",
+                    sprite.id
+                );
+                &0
+            });
+
+        info!("Sprite {} has image ID {}", i, image_id);
+
         // TODO(tec27): Load real sprite images + use actual sizes
         commands
             .spawn(SpriteBundle {

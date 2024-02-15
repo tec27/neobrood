@@ -1,7 +1,7 @@
 use anyhow::anyhow;
 use bevy::{
     asset::{io::Reader, Asset, AssetLoader, AsyncReadExt, LoadContext},
-    reflect::TypePath,
+    reflect::{Reflect, TypePath},
     utils::BoxedFuture,
 };
 use byteorder::{LittleEndian, ReadBytesExt};
@@ -9,7 +9,7 @@ use byteorder::{LittleEndian, ReadBytesExt};
 use crate::bytes::{ByteReadable, ReadByteArraysExt};
 
 // TODO(tec27): Move this somewhere else
-#[derive(Copy, Clone, Eq, PartialEq, Default, Debug)]
+#[derive(Copy, Clone, Eq, PartialEq, Default, Debug, Reflect)]
 pub struct Point16 {
     pub x: i16,
     pub y: i16,
@@ -25,7 +25,7 @@ impl ByteReadable for Point16 {
 }
 
 // TODO(tec27): Move this somewhere else
-#[derive(Copy, Clone, Eq, PartialEq, Default, Debug)]
+#[derive(Copy, Clone, Eq, PartialEq, Default, Debug, Reflect)]
 pub struct Rect16 {
     pub left: i16,
     pub top: i16,
@@ -58,13 +58,63 @@ pub enum DatAsset {
     Units(Box<UnitData>),
 }
 
+impl TryFrom<&DatAsset> for FlingyData {
+    type Error = anyhow::Error;
+
+    fn try_from(value: &DatAsset) -> Result<Self, Self::Error> {
+        match value {
+            DatAsset::Flingy(data) => Ok((**data).clone()),
+            _ => Err(anyhow!(
+                "Tried to convert a non-flingy DatAsset to FlingyData"
+            )),
+        }
+    }
+}
+
+impl TryFrom<&DatAsset> for ImageData {
+    type Error = anyhow::Error;
+
+    fn try_from(value: &DatAsset) -> Result<Self, Self::Error> {
+        match value {
+            DatAsset::Images(data) => Ok((**data).clone()),
+            _ => Err(anyhow!(
+                "Tried to convert a non-images DatAsset to ImageData"
+            )),
+        }
+    }
+}
+
+impl TryFrom<&DatAsset> for SpriteData {
+    type Error = anyhow::Error;
+
+    fn try_from(value: &DatAsset) -> Result<Self, Self::Error> {
+        match value {
+            DatAsset::Sprites(data) => Ok((**data).clone()),
+            _ => Err(anyhow!(
+                "Tried to convert a non-sprites DatAsset to SpriteData"
+            )),
+        }
+    }
+}
+
+impl TryFrom<&DatAsset> for UnitData {
+    type Error = anyhow::Error;
+
+    fn try_from(value: &DatAsset) -> Result<Self, Self::Error> {
+        match value {
+            DatAsset::Units(data) => Ok((**data).clone()),
+            _ => Err(anyhow!("Tried to convert a non-units DatAsset to UnitData")),
+        }
+    }
+}
+
 /// How many flingy types are specified in the flingy.dat file.
 const NUM_FLINGY_DATA: usize = 209;
 /// How much data each flingy instance takes up in the flingy.dat file (in bytes).
 const FLINGY_DATA_SIZE: usize = 15;
 
 #[allow(dead_code)]
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Reflect)]
 pub struct FlingyData {
     pub sprite: [u16; NUM_FLINGY_DATA],
     pub speed: [u32; NUM_FLINGY_DATA],
@@ -81,7 +131,7 @@ const NUM_IMAGE_DATA: usize = 999;
 const IMAGE_DATA_SIZE: usize = 38;
 
 #[allow(dead_code)]
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Reflect)]
 pub struct ImageData {
     pub grp: [u32; NUM_IMAGE_DATA],
     pub graphics_turns: [u8; NUM_IMAGE_DATA],
@@ -104,7 +154,7 @@ const NUM_SELECTABLE_SPRITES: usize = 387;
 const EXPECTED_SPRITES_DAT_SIZE: usize = 0xC9C;
 
 #[allow(dead_code)]
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Reflect)]
 pub struct SpriteData {
     pub image: [u16; NUM_SPRITE_DATA],
     pub health_bar: [u8; NUM_SELECTABLE_SPRITES],
@@ -123,7 +173,7 @@ const NUM_BUILDINGS: usize = 96;
 const EXPECTED_UNITS_DAT_SIZE: usize = 0x4DA4;
 
 #[allow(dead_code)]
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Reflect)]
 pub struct UnitData {
     flingy: [u8; NUM_UNIT_DATA],
     sub_unit_1: [u16; NUM_UNIT_DATA],

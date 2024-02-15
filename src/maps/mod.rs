@@ -3,20 +3,19 @@ use bevy::render::render_resource::TextureFormat;
 use bevy::utils::HashMap;
 use bevy_ecs_tilemap::prelude::*;
 
-use crate::maps::{game_map::GameMapBundle, sprites::create_placed_units};
+use crate::{
+    gamedata::BwGameData,
+    maps::{game_map::GameMapBundle, sprites::create_placed_units},
+};
 
 use self::{
     asset::{MapAsset, MapAssetLoader},
-    dat::{DatAsset, DatAssetLoader},
     sprites::create_map_sprites,
-    tbl::{TblAsset, TblAssetLoader},
 };
 
 mod asset;
-pub mod dat;
 pub mod game_map;
 mod sprites;
-mod tbl;
 mod tileset;
 
 pub struct MapsPlugin;
@@ -26,10 +25,6 @@ impl Plugin for MapsPlugin {
         app.add_plugins(TilemapPlugin)
             .init_asset::<MapAsset>()
             .init_asset_loader::<MapAssetLoader>()
-            .init_asset::<TblAsset>()
-            .init_asset_loader::<TblAssetLoader>()
-            .init_asset::<DatAsset>()
-            .init_asset_loader::<DatAssetLoader>()
             .init_resource::<CurrentMap>()
             .add_systems(Update, map_init);
     }
@@ -43,10 +38,17 @@ pub struct CurrentMap {
 fn map_init(
     mut commands: Commands,
     mut asset_events: EventReader<AssetEvent<MapAsset>>,
+    game_data: Option<Res<BwGameData>>,
     current_map: Res<CurrentMap>,
     map_assets: Res<Assets<MapAsset>>,
     array_texture_loader: Res<ArrayTextureLoader>,
 ) {
+    let Some(game_data) = game_data else {
+        // Wait for game data to load before we process any maps, since we need it to properly deal
+        // with sprites and units
+        return;
+    };
+
     for event in asset_events.read() {
         if let AssetEvent::LoadedWithDependencies { id } = event {
             if *id == current_map.handle.id() {
@@ -54,7 +56,7 @@ fn map_init(
                 let map = map_assets.get(*id).unwrap();
                 let map_entity = commands.spawn(GameMapBundle::default()).id();
                 create_tilemap(&mut commands, map, &array_texture_loader, map_entity);
-                create_map_sprites(&mut commands, map, map_entity);
+                create_map_sprites(&mut commands, map, map_entity, &game_data);
                 create_placed_units(&mut commands, map, map_entity);
             }
         }

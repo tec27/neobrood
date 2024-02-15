@@ -10,11 +10,11 @@ use directories::UserDirs;
 use maps::game_map::GameMap;
 use serde::{Deserialize, Serialize};
 
-use crate::maps::dat::DatAsset;
 use crate::maps::CurrentMap;
 
 mod bytes;
 mod camera;
+mod gamedata;
 mod maps;
 mod selection;
 
@@ -165,6 +165,7 @@ fn main() {
     .add_plugins((
         FrameTimeDiagnosticsPlugin,
         camera::CameraControlPlugin,
+        gamedata::GameDataPlugin,
         maps::MapsPlugin,
         selection::DragSelectionPlugin,
     ))
@@ -202,13 +203,6 @@ fn setup(
     current_map.handle = asset_server.load(map_path);
 
     commands.spawn(Camera2dBundle::default());
-
-    // FIXME: Do this elsewhere and do something with this data (needed for map rendering, among
-    // other things)
-    let _units_dat: Handle<DatAsset> = asset_server.load("casc-extracted/arr/units.dat");
-    let _flingy_dat: Handle<DatAsset> = asset_server.load("casc-extracted/arr/flingy.dat");
-    let _sprites_dat: Handle<DatAsset> = asset_server.load("casc-extracted/arr/sprites.dat");
-    let _images_dat: Handle<DatAsset> = asset_server.load("casc-extracted/arr/images.dat");
 
     let font = asset_server.load("fonts/JetbrainsMono-Regular.ttf");
     commands.spawn((

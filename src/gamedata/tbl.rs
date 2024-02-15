@@ -3,14 +3,14 @@ use std::ops::Index;
 use anyhow::{bail, Context};
 use bevy::{
     asset::{io::Reader, Asset, AssetLoader, AsyncReadExt, LoadContext},
-    reflect::TypePath,
+    reflect::Reflect,
 };
 
 /// A bevy [AssetLoader] for TBL files.
 #[derive(Debug, Default)]
 pub struct TblAssetLoader {}
 
-#[derive(Asset, Debug, TypePath)]
+#[derive(Asset, Clone, Debug, Reflect)]
 pub struct TblAsset {
     entries: Vec<String>,
 }
