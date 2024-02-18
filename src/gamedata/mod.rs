@@ -27,7 +27,9 @@ impl Plugin for GameDataPlugin {
 #[derive(Resource, Default, Debug, Reflect)]
 #[reflect(Resource)]
 pub struct LoadingBwGameDataHandles {
+    pub image_paths: Handle<TblAsset>,
     pub strings: Handle<TblAsset>,
+
     pub flingy: Handle<DatAsset>,
     pub images: Handle<DatAsset>,
     pub sprites: Handle<DatAsset>,
@@ -36,7 +38,9 @@ pub struct LoadingBwGameDataHandles {
 
 #[derive(Resource, Debug)]
 pub struct BwGameData {
+    pub image_paths: TblAsset,
     pub strings: TblAsset,
+
     pub flingy: FlingyData,
     pub images: ImageData,
     pub sprites: SpriteData,
@@ -44,14 +48,18 @@ pub struct BwGameData {
 }
 
 fn load_game_data(mut commands: Commands, asset_server: Res<AssetServer>) {
+    let image_paths = asset_server.load("casc-extracted/arr/images.tbl");
     let strings = asset_server.load("casc-extracted/rez/stat_txt.tbl");
+
     let flingy = asset_server.load("casc-extracted/arr/flingy.dat");
     let images = asset_server.load("casc-extracted/arr/images.dat");
     let sprites = asset_server.load("casc-extracted/arr/sprites.dat");
     let units = asset_server.load("casc-extracted/arr/units.dat");
 
     commands.insert_resource(LoadingBwGameDataHandles {
+        image_paths,
         strings,
+
         flingy,
         images,
         sprites,
@@ -71,7 +79,9 @@ fn check_game_data_load(
         return;
     };
 
-    if asset_server.is_loaded_with_dependencies(&handles.strings)
+    // TODO(tec27): Handle load failures
+    if asset_server.is_loaded_with_dependencies(&handles.image_paths)
+        && asset_server.is_loaded_with_dependencies(&handles.strings)
         && asset_server.is_loaded_with_dependencies(&handles.flingy)
         && asset_server.is_loaded_with_dependencies(&handles.images)
         && asset_server.is_loaded_with_dependencies(&handles.sprites)
@@ -80,7 +90,9 @@ fn check_game_data_load(
         commands.remove_resource::<LoadingBwGameDataHandles>();
 
         commands.insert_resource(BwGameData {
+            image_paths: tbl_assets.get(&handles.image_paths).unwrap().clone(),
             strings: tbl_assets.get(&handles.strings).unwrap().clone(),
+
             flingy: dat_assets
                 .get(&handles.flingy)
                 .unwrap()
