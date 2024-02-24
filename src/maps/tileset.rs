@@ -1,6 +1,7 @@
 use anyhow::{bail, Context, Result};
 use bevy::asset::LoadContext;
 use bevy::prelude::*;
+use bevy::render::render_asset::RenderAssetUsages;
 use bevy::render::texture::{CompressedImageFormats, ImageSampler, ImageType};
 use bevy::utils::{HashMap, HashSet};
 use bitflags::bitflags;
@@ -386,11 +387,14 @@ pub async fn load_tile_textures(
 
         if mega_tile_ids.contains(&i) {
             let image = Image::from_buffer(
+                #[cfg(debug_assertions)]
+                format!("megatile{i}"),
                 &data[..size as usize],
                 ImageType::Extension("dds"),
                 supported_compressed_formats,
                 true,
                 ImageSampler::Default,
+                RenderAssetUsages::default(),
             )?;
             let handle = load_context.add_labeled_asset(format!("texture{}", i), image);
 

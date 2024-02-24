@@ -226,7 +226,7 @@ fn setup(
 
 fn update_fps_text(diagnostics: Res<DiagnosticsStore>, mut query: Query<&mut Text, With<FpsText>>) {
     let mut fps = 0.0;
-    if let Some(fps_diagnostic) = diagnostics.get(FrameTimeDiagnosticsPlugin::FPS) {
+    if let Some(fps_diagnostic) = diagnostics.get(&FrameTimeDiagnosticsPlugin::FPS) {
         if let Some(fps_smoothed) = fps_diagnostic.smoothed() {
             fps = fps_smoothed;
         }
@@ -239,7 +239,7 @@ fn update_fps_text(diagnostics: Res<DiagnosticsStore>, mut query: Query<&mut Tex
 fn map_navigator(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
-    keys: Res<Input<KeyCode>>,
+    keys: Res<ButtonInput<KeyCode>>,
     game_maps: Query<Entity, With<GameMap>>,
     mut current_map: ResMut<CurrentMap>,
     mut loadable_maps: ResMut<LoadableMaps>,
