@@ -1,10 +1,14 @@
-use bevy::prelude::*;
+use bevy::{prelude::*, sprite::Anchor};
+
+use crate::render::ysort::YSort;
 
 use self::{
+    anim::{AnimAsset, AnimAssetLoader},
     dat::{DatAsset, DatAssetLoader, FlingyData, ImageData, SpriteData, UnitData},
     tbl::{TblAsset, TblAssetLoader},
 };
 
+pub mod anim;
 pub mod dat;
 pub mod tbl;
 
@@ -16,8 +20,13 @@ impl Plugin for GameDataPlugin {
             .init_asset_loader::<TblAssetLoader>()
             .init_asset::<DatAsset>()
             .init_asset_loader::<DatAssetLoader>()
+            .init_asset::<AnimAsset>()
+            .init_asset_loader::<AnimAssetLoader>()
+            .register_type::<LoadingAnim>()
+            .register_type::<AnimOffsets>()
             .add_systems(Startup, load_game_data)
-            .add_systems(Update, check_game_data_load);
+            .add_systems(Update, (check_game_data_load, init_loaded_anims))
+            .add_systems(PostUpdate, update_anim_offsets);
     }
 }
 
@@ -45,6 +54,11 @@ pub struct BwGameData {
     pub images: ImageData,
     pub sprites: SpriteData,
     pub units: UnitData,
+}
+
+#[derive(Component, Debug, Default, Reflect)]
+pub struct LoadingAnim {
+    pub handle: Handle<AnimAsset>,
 }
 
 fn load_game_data(mut commands: Commands, asset_server: Res<AssetServer>) {
@@ -116,5 +130,46 @@ fn check_game_data_load(
         });
 
         info!("BW game data has been loaded!");
+    }
+}
+
+#[derive(Component, Debug, Default, Reflect)]
+pub struct AnimOffsets {
+    pub offsets: Vec<Anchor>,
+}
+
+fn init_loaded_anims(
+    mut commands: Commands,
+    query: Query<(Entity, &LoadingAnim)>,
+    anim_assets: Res<Assets<AnimAsset>>,
+) {
+    for (entity, loading_anim) in query.iter() {
+        if let Some(anim) = anim_assets.get(&loading_anim.handle) {
+            commands.entity(entity).remove::<LoadingAnim>().insert((
+                SpriteSheetBundle {
+                    texture: anim.layers.get("diffuse").cloned().unwrap_or_default(),
+                    atlas: anim.layout.clone().into(),
+                    ..default()
+                },
+                AnimOffsets {
+                    offsets: anim.offsets.clone(),
+                },
+            ));
+        }
+    }
+}
+
+fn update_anim_offsets(
+    mut query: Query<
+        (&AnimOffsets, &TextureAtlas, &mut Sprite),
+        Or<(Changed<AnimOffsets>, Changed<TextureAtlas>)>,
+    >,
+) {
+    for (offsets, atlas, mut sprite) in query.iter_mut() {
+        sprite.anchor = offsets
+            .offsets
+            .get(atlas.index)
+            .copied()
+            .unwrap_or_default()
     }
 }

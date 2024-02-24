@@ -16,6 +16,7 @@ mod bytes;
 mod camera;
 mod gamedata;
 mod maps;
+mod render;
 mod selection;
 
 #[cfg(feature = "mimalloc")]
@@ -167,6 +168,7 @@ fn main() {
         camera::CameraControlPlugin,
         gamedata::GameDataPlugin,
         maps::MapsPlugin,
+        render::RenderPlugin,
         selection::DragSelectionPlugin,
     ))
     .add_systems(Startup, setup)
