@@ -47,7 +47,6 @@ fn map_init(
     current_map: Res<CurrentMap>,
     map_assets: Res<Assets<MapAsset>>,
     array_texture_loader: Res<ArrayTextureLoader>,
-    asset_server: Res<AssetServer>,
 ) {
     for event in asset_events.read() {
         if let AssetEvent::LoadedWithDependencies { id } = event {
@@ -56,8 +55,8 @@ fn map_init(
                 let map = map_assets.get(*id).unwrap();
                 let map_entity = commands.spawn(GameMapBundle::default()).id();
                 create_tilemap(&mut commands, map, &array_texture_loader, map_entity);
-                create_map_sprites(&mut commands, map, map_entity, &game_data, &asset_server);
-                create_placed_units(&mut commands, map, map_entity, &game_data, &asset_server);
+                create_map_sprites(&mut commands, map, map_entity, &game_data);
+                create_placed_units(&mut commands, map, map_entity, &game_data);
             }
         }
     }

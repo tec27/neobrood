@@ -9,6 +9,8 @@ use broodmap::chk::terrain::TerrainTileIds;
 use broodmap::chk::tileset::Tileset;
 use byteorder::{LittleEndian, ReadBytesExt};
 
+use crate::asset_packs::{AssetPack, AssetQuality};
+
 #[derive(Debug, Clone, Copy, Eq, PartialEq, Hash, Ord, PartialOrd)]
 struct TilesetFilename(&'static str);
 
@@ -24,43 +26,6 @@ impl From<Tileset> for TilesetFilename {
             Tileset::Arctic => "ice",
             Tileset::Twilight => "twilight",
         })
-    }
-}
-
-#[allow(unused)]
-#[derive(Debug, Clone, Copy, Eq, PartialEq, Hash, Ord, PartialOrd)]
-pub enum AssetQuality {
-    /// Classic assets.
-    Standard,
-    /// High definition assets, suitable for resolutions below 4K.
-    High,
-    /// Extra high definition assets, suitable for 4K and above.
-    ExtraHigh,
-}
-
-impl AssetQuality {
-    fn asset_path(&self) -> &'static str {
-        match self {
-            Self::Standard => "sd/",
-            Self::High => "hd2/",
-            Self::ExtraHigh => "",
-        }
-    }
-}
-
-#[allow(unused)]
-#[derive(Debug, Clone, Copy, Eq, PartialEq, Hash, Ord, PartialOrd)]
-pub enum AssetPack {
-    Standard,
-    Carbot,
-}
-
-impl AssetPack {
-    fn asset_path(&self) -> &'static str {
-        match self {
-            Self::Standard => "",
-            Self::Carbot => "carbot/",
-        }
     }
 }
 

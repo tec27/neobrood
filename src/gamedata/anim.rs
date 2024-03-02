@@ -37,6 +37,8 @@ pub enum AnimError {
     Io(#[from] std::io::Error),
     #[error("failed to decode image: {0}")]
     Image(#[from] image::ImageError),
+    #[error("failed to load a necessary dependency: {0}")]
+    LoadDirectError(#[from] bevy::asset::LoadDirectError),
 }
 
 #[derive(Debug, Default)]

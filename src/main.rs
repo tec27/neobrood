@@ -17,6 +17,7 @@ use states::AppState;
 
 use crate::maps::CurrentMap;
 
+mod asset_packs;
 mod bytes;
 mod camera;
 mod gamedata;

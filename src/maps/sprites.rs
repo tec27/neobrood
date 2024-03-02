@@ -12,7 +12,6 @@ pub fn create_map_sprites(
     map: &MapAsset,
     map_entity: Entity,
     game_data: &BwGameData,
-    asset_server: &Res<AssetServer>,
 ) {
     info!(
         "Creating map sprites, map has {} sprites",
@@ -52,11 +51,7 @@ pub fn create_map_sprites(
             .insert(YSort(2.0))
             .insert(Name::new(format!("Sprite #{i}")))
             .with_children(|builder| {
-                builder.spawn(LoadingAnim {
-                    // FIXME: generate a path based on current settings
-                    handle: asset_server
-                        .load(format!("casc-extracted/HD2/anim/main_{image_id:03}.anim")),
-                });
+                builder.spawn(LoadingAnim::new(image_id));
             })
             .set_parent(map_entity);
     }
@@ -67,7 +62,6 @@ pub fn create_placed_units(
     map: &MapAsset,
     map_entity: Entity,
     game_data: &BwGameData,
-    asset_server: &Res<AssetServer>,
 ) {
     info!(
         "Creating placed units, map has {} placed units",
@@ -130,11 +124,7 @@ pub fn create_placed_units(
             .insert(YSort(2.0))
             .insert(Name::new(format!("Unit {:x}", unit.unit_id)))
             .with_children(|builder| {
-                builder.spawn(LoadingAnim {
-                    // FIXME: generate a path based on current settings
-                    handle: asset_server
-                        .load(format!("casc-extracted/HD2/anim/main_{image_id:03}.anim")),
-                });
+                builder.spawn(LoadingAnim::new(image_id));
             })
             .set_parent(map_entity);
     }

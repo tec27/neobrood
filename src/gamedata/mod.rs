@@ -1,15 +1,20 @@
 use bevy::{prelude::*, sprite::Anchor};
 
-use crate::states::AppState;
+use crate::{
+    asset_packs::{AssetPack, AssetQuality},
+    states::AppState,
+};
 
 use self::{
     anim::{AnimAsset, AnimAssetLoader},
     dat::{DatAsset, DatAssetLoader, FlingyData, ImageData, SpriteData, UnitData},
+    rel::{RelAsset, RelAssetLoader},
     tbl::{TblAsset, TblAssetLoader},
 };
 
 pub mod anim;
 pub mod dat;
+pub mod rel;
 pub mod tbl;
 
 pub struct GameDataPlugin;
@@ -20,6 +25,8 @@ impl Plugin for GameDataPlugin {
             .init_asset_loader::<TblAssetLoader>()
             .init_asset::<DatAsset>()
             .init_asset_loader::<DatAssetLoader>()
+            .init_asset::<RelAsset>()
+            .init_asset_loader::<RelAssetLoader>()
             .init_asset::<AnimAsset>()
             .init_asset_loader::<AnimAssetLoader>()
             .register_type::<LoadingAnim>()
@@ -50,6 +57,8 @@ pub struct LoadingBwGameDataHandles {
     pub images: Handle<DatAsset>,
     pub sprites: Handle<DatAsset>,
     pub units: Handle<DatAsset>,
+
+    pub relations: Handle<RelAsset>,
 }
 
 #[derive(Resource, Debug)]
@@ -61,11 +70,23 @@ pub struct BwGameData {
     pub images: ImageData,
     pub sprites: SpriteData,
     pub units: UnitData,
+
+    pub relations: RelAsset,
 }
 
 #[derive(Component, Debug, Default, Reflect)]
 pub struct LoadingAnim {
-    pub handle: Handle<AnimAsset>,
+    pub anim_id: u16,
+    handle: Option<Handle<AnimAsset>>,
+}
+
+impl LoadingAnim {
+    pub fn new(anim_id: u16) -> Self {
+        Self {
+            anim_id,
+            handle: None,
+        }
+    }
 }
 
 fn load_game_data(
@@ -94,6 +115,8 @@ fn load_game_data(
     let sprites = asset_server.load("casc-extracted/arr/sprites.dat");
     let units = asset_server.load("casc-extracted/arr/units.dat");
 
+    let relations = asset_server.load("casc-extracted/images.rel");
+
     commands.insert_resource(LoadingBwGameDataHandles {
         image_paths,
         strings,
@@ -102,6 +125,8 @@ fn load_game_data(
         images,
         sprites,
         units,
+
+        relations,
     });
 }
 
@@ -112,6 +137,7 @@ fn check_game_data_load(
     handles: Option<Res<LoadingBwGameDataHandles>>,
     tbl_assets: Res<Assets<TblAsset>>,
     dat_assets: Res<Assets<DatAsset>>,
+    rel_assets: Res<Assets<RelAsset>>,
 ) {
     let Some(handles) = handles else {
         // No game data is currently loading, so there's nothing for us to do
@@ -125,6 +151,7 @@ fn check_game_data_load(
         && asset_server.is_loaded_with_dependencies(&handles.images)
         && asset_server.is_loaded_with_dependencies(&handles.sprites)
         && asset_server.is_loaded_with_dependencies(&handles.units)
+        && asset_server.is_loaded_with_dependencies(&handles.relations)
     {
         commands.remove_resource::<LoadingBwGameDataHandles>();
 
@@ -152,6 +179,7 @@ fn check_game_data_load(
                 .unwrap()
                 .try_into()
                 .expect("Failed to convert units DatAsset to underlying data"),
+            relations: rel_assets.get(&handles.relations).unwrap().clone(),
         });
 
         info!("BW game data has been loaded!");
@@ -166,11 +194,36 @@ pub struct AnimOffsets {
 
 fn init_loaded_anims(
     mut commands: Commands,
-    query: Query<(Entity, &LoadingAnim)>,
+    mut query: Query<(Entity, &mut LoadingAnim)>,
     anim_assets: Res<Assets<AnimAsset>>,
+    game_data: Res<BwGameData>,
+    asset_server: Res<AssetServer>,
 ) {
-    for (entity, loading_anim) in query.iter() {
-        if let Some(anim) = anim_assets.get(&loading_anim.handle) {
+    for (entity, mut loading_anim) in &mut query {
+        let Some(ref handle) = loading_anim.handle else {
+            let relation = game_data
+                .relations
+                .entries
+                .get(loading_anim.anim_id as usize)
+                .copied()
+                .unwrap_or_default();
+            let id = if relation.is_image_reference() && relation.ref_image.is_some() {
+                relation.ref_image.unwrap() as u16
+            } else {
+                loading_anim.anim_id
+            };
+
+            loading_anim.handle = Some(asset_server.load(format!(
+                "casc-extracted/{}{}anim/main_{:03}.anim",
+                // TODO(tec27): Make configurable in settings
+                AssetQuality::High.asset_path(),
+                AssetPack::Standard.asset_path(),
+                id
+            )));
+            continue;
+        };
+
+        if let Some(anim) = anim_assets.get(handle) {
             commands.entity(entity).remove::<LoadingAnim>().insert((
                 SpriteSheetBundle {
                     texture: anim.layers.get("diffuse").cloned().unwrap_or_default(),
