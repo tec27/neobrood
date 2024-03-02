@@ -8,7 +8,7 @@ use std::io::{Cursor, Read, Seek, SeekFrom};
 
 use bevy::{
     asset::{io::Reader, Asset, AssetLoader, AsyncReadExt, Handle, LoadContext},
-    log::error,
+    log::{error, info, warn},
     math::{Rect, Vec2},
     reflect::TypePath,
     render::{render_asset::RenderAssetUsages, texture::Image},
@@ -86,6 +86,17 @@ impl AssetLoader for AnimAssetLoader {
             let mut layout = TextureAtlasLayout::new_empty(Vec2::new(width as f32, height as f32));
             let mut offsets = Vec::with_capacity(frames.len());
             let scale = FRAME_SCALE as f32 / scale as f32;
+            let use_offsets = if width == 0 && height == 0 {
+                // TODO(tec27): We should use the GRP sizes instead in this case
+                warn!(
+                    "anim at {:?} has no specified size, not using offsets",
+                    load_context.path()
+                );
+                false
+            } else {
+                true
+            };
+
             let width = width as f32 / scale;
             let height = height as f32 / scale;
             for frame in frames {
@@ -98,13 +109,15 @@ impl AssetLoader for AnimAssetLoader {
                 // Convert offsets into Bevy Anchors. Offsets are expressed as pixel values relative
                 // to the top-left corner of the render position, whereas Bevy anchors are expressed
                 // relative to the center (0,0), and with +Y being up instead of down.
-                let offset_x = frame.offset_x as f32 / scale;
-                let offset_y = frame.offset_y as f32 / scale;
-                let anchor_point = Vec2::new(width / 2.0 - offset_x, height / 2.0 - offset_y);
-                offsets.push(Anchor::Custom(Vec2::new(
-                    anchor_point.x / rect.width() - 0.5,
-                    0.5 - anchor_point.y / rect.height(),
-                )));
+                if use_offsets {
+                    let offset_x = frame.offset_x as f32 / scale;
+                    let offset_y = frame.offset_y as f32 / scale;
+                    let anchor_point = Vec2::new(width / 2.0 - offset_x, height / 2.0 - offset_y);
+                    offsets.push(Anchor::Custom(Vec2::new(
+                        anchor_point.x / rect.width() - 0.5,
+                        0.5 - anchor_point.y / rect.height(),
+                    )));
+                }
                 layout.add_texture(rect);
             }
 
