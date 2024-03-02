@@ -8,8 +8,8 @@ use std::io::{Cursor, Read, Seek, SeekFrom};
 
 use bevy::{
     asset::{io::Reader, Asset, AssetLoader, AsyncReadExt, Handle, LoadContext},
-    log::{error, info},
-    math::{Rect, UVec2, Vec2},
+    log::error,
+    math::{Rect, Vec2},
     reflect::TypePath,
     render::{render_asset::RenderAssetUsages, texture::Image},
     sprite::{Anchor, TextureAtlasLayout},

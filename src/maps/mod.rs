@@ -6,10 +6,12 @@ use bevy_ecs_tilemap::prelude::*;
 use crate::{
     gamedata::BwGameData,
     maps::{game_map::GameMapBundle, sprites::create_placed_units},
+    states::AppState,
 };
 
 use self::{
     asset::{MapAsset, MapAssetLoader},
+    game_map::GameMap,
     sprites::create_map_sprites,
 };
 
@@ -26,7 +28,10 @@ impl Plugin for MapsPlugin {
             .init_asset::<MapAsset>()
             .init_asset_loader::<MapAssetLoader>()
             .init_resource::<CurrentMap>()
-            .add_systems(Update, map_init);
+            // TODO(tec27): Maybe this should be handled as a requirement of PreGame and we
+            // guarantee that exactly one map is loaded for InGame?
+            .add_systems(Update, map_init.run_if(in_state(AppState::InGame)))
+            .add_systems(OnExit(AppState::InGame), map_cleanup);
     }
 }
 
@@ -38,18 +43,12 @@ pub struct CurrentMap {
 fn map_init(
     mut commands: Commands,
     mut asset_events: EventReader<AssetEvent<MapAsset>>,
-    game_data: Option<Res<BwGameData>>,
+    game_data: Res<BwGameData>,
     current_map: Res<CurrentMap>,
     map_assets: Res<Assets<MapAsset>>,
     array_texture_loader: Res<ArrayTextureLoader>,
     asset_server: Res<AssetServer>,
 ) {
-    let Some(game_data) = game_data else {
-        // Wait for game data to load before we process any maps, since we need it to properly deal
-        // with sprites and units
-        return;
-    };
-
     for event in asset_events.read() {
         if let AssetEvent::LoadedWithDependencies { id } = event {
             if *id == current_map.handle.id() {
@@ -61,6 +60,12 @@ fn map_init(
                 create_placed_units(&mut commands, map, map_entity, &game_data, &asset_server);
             }
         }
+    }
+}
+
+fn map_cleanup(mut commands: Commands, maps: Query<Entity, With<GameMap>>) {
+    for entity in maps.iter() {
+        commands.entity(entity).despawn_recursive();
     }
 }
 

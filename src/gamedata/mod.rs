@@ -1,6 +1,6 @@
 use bevy::{prelude::*, sprite::Anchor};
 
-use crate::render::ysort::YSort;
+use crate::states::AppState;
 
 use self::{
     anim::{AnimAsset, AnimAssetLoader},
@@ -24,9 +24,16 @@ impl Plugin for GameDataPlugin {
             .init_asset_loader::<AnimAssetLoader>()
             .register_type::<LoadingAnim>()
             .register_type::<AnimOffsets>()
-            .add_systems(Startup, load_game_data)
-            .add_systems(Update, (check_game_data_load, init_loaded_anims))
-            .add_systems(PostUpdate, update_anim_offsets);
+            .add_systems(OnEnter(AppState::PreGame), load_game_data)
+            .add_systems(
+                Update,
+                check_game_data_load.run_if(in_state(AppState::PreGame)),
+            )
+            .add_systems(Update, init_loaded_anims.run_if(in_state(AppState::InGame)))
+            .add_systems(
+                PostUpdate,
+                update_anim_offsets.run_if(in_state(AppState::InGame)),
+            );
     }
 }
 
@@ -61,7 +68,24 @@ pub struct LoadingAnim {
     pub handle: Handle<AnimAsset>,
 }
 
-fn load_game_data(mut commands: Commands, asset_server: Res<AssetServer>) {
+fn load_game_data(
+    mut commands: Commands,
+    mut next_state: ResMut<NextState<AppState>>,
+    asset_server: Res<AssetServer>,
+    game_data: Option<Res<BwGameData>>,
+    loading_game_data: Option<Res<LoadingBwGameDataHandles>>,
+) {
+    if game_data.is_some() {
+        // We already have game data loaded, so we can proceed to the next state
+        info!("Game data is already loaded, proceeding to InGame state...");
+        next_state.set(AppState::InGame);
+        return;
+    }
+    if loading_game_data.is_some() {
+        // We're already in the process of loading game data, so we can let that play out
+        return;
+    }
+
     let image_paths = asset_server.load("casc-extracted/arr/images.tbl");
     let strings = asset_server.load("casc-extracted/rez/stat_txt.tbl");
 
@@ -83,6 +107,7 @@ fn load_game_data(mut commands: Commands, asset_server: Res<AssetServer>) {
 
 fn check_game_data_load(
     mut commands: Commands,
+    mut next_state: ResMut<NextState<AppState>>,
     asset_server: Res<AssetServer>,
     handles: Option<Res<LoadingBwGameDataHandles>>,
     tbl_assets: Res<Assets<TblAsset>>,
@@ -130,6 +155,7 @@ fn check_game_data_load(
         });
 
         info!("BW game data has been loaded!");
+        next_state.set(AppState::InGame);
     }
 }
 

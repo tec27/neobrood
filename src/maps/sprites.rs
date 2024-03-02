@@ -7,10 +7,6 @@ use crate::{
 
 use super::asset::MapAsset;
 
-// Look up unit ID in units.dat, map flingy ID to flingy.dat, map sprite ID to sprites.dat, map
-// image ID to images.dat (although I think this is actually unnecessary and you just load that ID
-// as main_###.anim ?)
-
 pub fn create_map_sprites(
     commands: &mut Commands,
     map: &MapAsset,
@@ -53,7 +49,7 @@ pub fn create_map_sprites(
                 )),
                 ..default()
             })
-            .insert(YSort(1.0))
+            .insert(YSort(2.0))
             .insert(Name::new(format!("Sprite #{i}")))
             .with_children(|builder| {
                 builder.spawn(LoadingAnim {
@@ -131,7 +127,7 @@ pub fn create_placed_units(
                 )),
                 ..default()
             })
-            .insert(YSort(1.0))
+            .insert(YSort(2.0))
             .insert(Name::new(format!("Unit {:x}", unit.unit_id)))
             .with_children(|builder| {
                 builder.spawn(LoadingAnim {

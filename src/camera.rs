@@ -2,6 +2,8 @@ use bevy::input::mouse::{MouseScrollUnit, MouseWheel};
 use bevy::prelude::*;
 use bevy::window::{CursorGrabMode, PrimaryWindow, WindowFocused};
 
+use crate::states::AppState;
+
 /// How far from the edge of the screen the mouse needs to be to start scrolling, in pixels.
 const EDGE_SCROLL_PX: f32 = 4.0;
 const MOUSE_PAN_SPEED: f32 = 3000.0;
@@ -13,7 +15,11 @@ pub struct CameraControlPlugin;
 impl Plugin for CameraControlPlugin {
     fn build(&self, app: &mut App) {
         app.init_resource::<CameraPanLocked>()
-            .add_systems(Update, (handle_window_focus, camera_control));
+            .add_systems(OnEnter(AppState::InGame), setup)
+            .add_systems(
+                Update,
+                (handle_window_focus, camera_control).run_if(in_state(AppState::InGame)),
+            );
     }
 }
 
@@ -21,6 +27,24 @@ impl Plugin for CameraControlPlugin {
 /// typically occurs because a drag selection is in progress.
 #[derive(Resource, Default, Debug)]
 pub struct CameraPanLocked(pub bool);
+
+fn setup(
+    mut window: Query<&mut Window, With<PrimaryWindow>>,
+    mut camera_query: Query<(&mut Transform, &mut OrthographicProjection), With<Camera>>,
+) {
+    let mut window = window.get_single_mut().unwrap();
+    info!("Confining mouse and centering it within the window...");
+    let cursor_pos = Vec2::new(window.width() / 2.0, window.height() / 2.0);
+    window.focused = true;
+    window.set_cursor_position(Some(cursor_pos));
+    window.cursor.grab_mode = CursorGrabMode::Confined;
+
+    // Reset the camera to the default position/zoom
+    // TODO(tec27): Center on base location if there is one
+    let (mut transform, mut projection) = camera_query.single_mut();
+    transform.translation = Vec3::splat(0.0);
+    projection.scale = 1.0;
+}
 
 fn handle_window_focus(
     mut window: Query<&mut Window, With<PrimaryWindow>>,

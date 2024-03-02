@@ -9,6 +9,7 @@ use bevy::window::{PresentMode, WindowMode, WindowResolution};
 use directories::UserDirs;
 use maps::game_map::GameMap;
 use serde::{Deserialize, Serialize};
+use states::AppState;
 
 use crate::maps::CurrentMap;
 
@@ -18,6 +19,7 @@ mod gamedata;
 mod maps;
 mod render;
 mod selection;
+mod states;
 
 #[cfg(feature = "mimalloc")]
 #[global_allocator]
@@ -140,6 +142,8 @@ fn main() {
         })
         .collect::<Vec<_>>();
 
+    let has_map_args = !maps.is_empty();
+
     let mut app = App::new();
     // TODO(tec27): Use a smaller set of plugins, we really don't need most of this
     app.add_plugins(DefaultPlugins.set(WindowPlugin {
@@ -170,11 +174,19 @@ fn main() {
         maps::MapsPlugin,
         render::RenderPlugin,
         selection::DragSelectionPlugin,
+        states::StatesPlugin,
     ))
     .add_systems(Startup, setup)
-    .add_systems(Update, (update_fps_text, map_navigator, map_drag_and_drop))
+    .add_systems(Update, (update_fps_text, map_drag_and_drop))
+    .add_systems(Update, map_navigator.run_if(in_state(AppState::InGame)))
     // TODO(tec27): Remove this once we have actual game stuff
     .add_systems(Update, bevy::window::close_on_esc);
+
+    if has_map_args {
+        app.insert_state(AppState::PreGame);
+    } else {
+        app.insert_state(AppState::Menu);
+    }
 
     #[cfg(feature = "framepacing")]
     app.add_plugins(bevy_framepace::FramepacePlugin);
@@ -239,17 +251,14 @@ fn update_fps_text(diagnostics: Res<DiagnosticsStore>, mut query: Query<&mut Tex
 }
 
 fn map_navigator(
-    mut commands: Commands,
+    mut next_state: ResMut<NextState<AppState>>,
     asset_server: Res<AssetServer>,
     keys: Res<ButtonInput<KeyCode>>,
-    game_maps: Query<Entity, With<GameMap>>,
     mut current_map: ResMut<CurrentMap>,
     mut loadable_maps: ResMut<LoadableMaps>,
 ) {
     if keys.just_pressed(KeyCode::Space) && loadable_maps.maps.len() > 1 {
-        for entity in game_maps.iter() {
-            commands.entity(entity).despawn_recursive();
-        }
+        next_state.set(AppState::PreGame);
 
         loadable_maps.cur_index = (loadable_maps.cur_index + 1) % loadable_maps.maps.len();
         let map_path = loadable_maps.maps[loadable_maps.cur_index].clone();
