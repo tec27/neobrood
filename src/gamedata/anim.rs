@@ -8,7 +8,7 @@ use std::io::{Cursor, Read, Seek, SeekFrom};
 
 use bevy::{
     asset::{io::Reader, Asset, AssetLoader, AsyncReadExt, Handle, LoadContext},
-    log::{error, info, warn},
+    log::{error, warn},
     math::{Rect, Vec2},
     reflect::TypePath,
     render::{render_asset::RenderAssetUsages, texture::Image},
@@ -121,7 +121,7 @@ impl AssetLoader for AnimAssetLoader {
                 layout.add_texture(rect);
             }
 
-            let layout = load_context.labeled_asset_scope(format!("layout"), |_| layout);
+            let layout = load_context.labeled_asset_scope("layout".to_string(), |_| layout);
 
             Ok(AnimAsset {
                 size: Vec2::new(width, height),
@@ -274,7 +274,7 @@ fn load_anim<R: Read + Seek + Send>(mut r: R) -> Result<AnimFile, AnimError> {
 
 fn read_layer_textures<R: Read>(
     mut r: R,
-    layer_names: &Vec<String>,
+    layer_names: &[String],
 ) -> Result<HashMap<String, AnimTexture>, AnimError> {
     let mut result = HashMap::with_capacity(layer_names.len());
     for layer_name in layer_names.iter() {

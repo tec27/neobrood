@@ -1,3 +1,7 @@
+// NOTE(tec27): This lint is way too sensitive for typical bevy queries, and I think is easy enough
+// to catch in reviews anyway
+#![allow(clippy::type_complexity)]
+
 use std::env;
 use std::fs::File;
 use std::path::PathBuf;
