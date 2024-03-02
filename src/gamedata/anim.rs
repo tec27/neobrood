@@ -178,6 +178,7 @@ pub struct AnimFrame {
     pub unknown: u32,
 }
 
+#[allow(unused)]
 #[derive(Debug, Copy, Clone)]
 struct AnimTexture {
     offset: u32,
