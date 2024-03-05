@@ -10,7 +10,7 @@ impl Plugin for MainMenuPlugin {
             .add_systems(OnExit(AppState::Menu), despawn_all::<OnMainMenu>)
             .add_systems(
                 Update,
-                (actions, update_button_colors).run_if(in_state(AppState::Menu)),
+                (actions, update_button_colors, map_drag_and_drop).run_if(in_state(AppState::Menu)),
             );
     }
 }
@@ -170,6 +170,28 @@ fn actions(
                     app_exit_events.send(AppExit);
                 }
             }
+        }
+    }
+}
+
+fn map_drag_and_drop(
+    mut drop_events: EventReader<FileDragAndDrop>,
+    asset_server: Res<AssetServer>,
+    mut current_map: ResMut<CurrentMap>,
+    mut next_state: ResMut<NextState<AppState>>,
+) {
+    for event in drop_events.read() {
+        let FileDragAndDrop::DroppedFile { path_buf, .. } = event else {
+            continue;
+        };
+
+        let extension = path_buf.extension().map_or("".into(), |s| {
+            s.to_ascii_lowercase().to_string_lossy().to_string()
+        });
+        if extension == "scm" || extension == "scx" {
+            next_state.set(AppState::PreGame);
+            info!("Loading map: {}", path_buf.to_string_lossy());
+            current_map.handle = asset_server.load(path_buf.clone());
         }
     }
 }
