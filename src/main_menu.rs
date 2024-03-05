@@ -163,12 +163,10 @@ fn actions(
         if *interaction == Interaction::Pressed {
             match action {
                 MenuAction::LoadLostTemple => {
-                    info!("Loading Lost Temple...");
                     current_map.handle = asset_server.load("lt.scm");
                     app_state.set(AppState::PreGame);
                 }
                 MenuAction::Quit => {
-                    info!("Sending AppExit");
                     app_exit_events.send(AppExit);
                 }
             }
