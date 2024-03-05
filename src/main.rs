@@ -11,7 +11,6 @@ use bevy::diagnostic::{DiagnosticsStore, FrameTimeDiagnosticsPlugin};
 use bevy::prelude::*;
 use bevy::window::{PresentMode, WindowMode, WindowResolution};
 use directories::UserDirs;
-use maps::game_map::GameMap;
 use serde::{Deserialize, Serialize};
 use states::AppState;
 
@@ -20,7 +19,9 @@ use crate::maps::CurrentMap;
 mod asset_packs;
 mod bytes;
 mod camera;
+mod ecs;
 mod gamedata;
+mod main_menu;
 mod maps;
 mod render;
 mod selection;
@@ -176,6 +177,7 @@ fn main() {
         FrameTimeDiagnosticsPlugin,
         camera::CameraControlPlugin,
         gamedata::GameDataPlugin,
+        main_menu::MainMenuPlugin,
         maps::MapsPlugin,
         render::RenderPlugin,
         selection::DragSelectionPlugin,
@@ -214,12 +216,10 @@ fn setup(
 ) {
     info!("Using settings: {:?}", *settings);
 
-    let map_path = loadable_maps
-        .maps
-        .first()
-        .cloned()
-        .unwrap_or(PathBuf::from("lt.scm"));
-    current_map.handle = asset_server.load(map_path);
+    if !loadable_maps.maps.is_empty() {
+        let map_path = loadable_maps.maps.first().cloned().unwrap();
+        current_map.handle = asset_server.load(map_path);
+    }
 
     commands.spawn(Camera2dBundle::default());
 
@@ -274,10 +274,9 @@ fn map_navigator(
 
 fn map_drag_and_drop(
     mut drop_events: EventReader<FileDragAndDrop>,
-    mut commands: Commands,
     asset_server: Res<AssetServer>,
-    game_maps: Query<Entity, With<GameMap>>,
     mut current_map: ResMut<CurrentMap>,
+    mut next_state: ResMut<NextState<AppState>>,
 ) {
     for event in drop_events.read() {
         let FileDragAndDrop::DroppedFile { path_buf, .. } = event else {
@@ -288,10 +287,7 @@ fn map_drag_and_drop(
             s.to_ascii_lowercase().to_string_lossy().to_string()
         });
         if extension == "scm" || extension == "scx" {
-            for entity in game_maps.iter() {
-                commands.entity(entity).despawn_recursive();
-            }
-
+            next_state.set(AppState::PreGame);
             info!("Loading map: {}", path_buf.to_string_lossy());
             current_map.handle = asset_server.load(path_buf.clone());
         }
