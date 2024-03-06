@@ -4,20 +4,19 @@ use bevy::utils::HashMap;
 use bevy_ecs_tilemap::prelude::*;
 
 use crate::{
-    gamedata::BwGameData,
-    maps::{game_map::GameMapBundle, sprites::create_placed_units},
+    gamedata::{BwGameData, LoadingAnim},
+    maps::game_map::GameMapBundle,
+    render::ysort::YSort,
     states::AppState,
 };
 
 use self::{
     asset::{MapAsset, MapAssetLoader},
     game_map::GameMap,
-    sprites::create_map_sprites,
 };
 
 mod asset;
 pub mod game_map;
-mod sprites;
 mod tileset;
 
 pub struct MapsPlugin;
@@ -30,7 +29,7 @@ impl Plugin for MapsPlugin {
             .init_resource::<CurrentMap>()
             // TODO(tec27): Maybe this should be handled as a requirement of PreGame and we
             // guarantee that exactly one map is loaded for InGame?
-            .add_systems(Update, map_init.run_if(in_state(AppState::InGame)))
+            .add_systems(Update, map_init.run_if(in_state(AppState::PreGame)))
             .add_systems(OnExit(AppState::InGame), map_cleanup);
     }
 }
@@ -42,24 +41,34 @@ pub struct CurrentMap {
 
 fn map_init(
     mut commands: Commands,
-    mut asset_events: EventReader<AssetEvent<MapAsset>>,
-    game_data: Res<BwGameData>,
+    game_data: Option<Res<BwGameData>>,
     current_map: Res<CurrentMap>,
     map_assets: Res<Assets<MapAsset>>,
     array_texture_loader: Res<ArrayTextureLoader>,
+    game_map_query: Query<Entity, With<GameMap>>,
+    mut next_state: ResMut<NextState<AppState>>,
 ) {
-    for event in asset_events.read() {
-        if let AssetEvent::LoadedWithDependencies { id } = event {
-            if *id == current_map.handle.id() {
-                info!("Map loaded!");
-                let map = map_assets.get(*id).unwrap();
-                let map_entity = commands.spawn(GameMapBundle::default()).id();
-                create_tilemap(&mut commands, map, &array_texture_loader, map_entity);
-                create_map_sprites(&mut commands, map, map_entity, &game_data);
-                create_placed_units(&mut commands, map, map_entity, &game_data);
-            }
-        }
+    if !game_map_query.is_empty() {
+        // Map already initialized
+        return;
     }
+
+    let Some(game_data) = game_data else {
+        return;
+    };
+    let Some(map) = map_assets.get(&current_map.handle) else {
+        return;
+    };
+
+    info!("Map loaded!");
+    let map_entity = commands.spawn(GameMapBundle::default()).id();
+    create_tilemap(&mut commands, map, &array_texture_loader, map_entity);
+    create_map_sprites(&mut commands, map, map_entity, &game_data);
+    create_placed_units(&mut commands, map, map_entity, &game_data);
+
+    // TODO(tec27): This should probably be done in response to this stuff we just created being
+    // ready? (i.e. it should wait for all the LoadingAnims that get added to be loaded)
+    next_state.set(AppState::InGame);
 }
 
 fn map_cleanup(mut commands: Commands, maps: Query<Entity, With<GameMap>>) {
@@ -195,5 +204,128 @@ fn create_tilemap(
             texture: texture_vec,
             ..default()
         });
+    }
+}
+
+fn create_map_sprites(
+    commands: &mut Commands,
+    map: &MapAsset,
+    map_entity: Entity,
+    game_data: &BwGameData,
+) {
+    info!(
+        "Creating map sprites, map has {} sprites",
+        map.sprites.len()
+    );
+
+    // Used for inverting y-coords
+    let max_height = (map.height - 1) as f32;
+
+    for (i, sprite) in map.sprites.iter().enumerate() {
+        let image_id = game_data
+            .sprites
+            .image
+            .get(sprite.id as usize)
+            .copied()
+            .unwrap_or_else(|| {
+                warn!(
+                    "Encountered Sprite {} which isn't a valid ID, using placeholder sprite",
+                    sprite.id
+                );
+                0
+            });
+
+        commands
+            .spawn(SpatialBundle {
+                transform: Transform::from_translation(Vec3::new(
+                    // TODO(tec27): Need to base this on the map's tile size, would probably be
+                    // better to write something that keeps track of this sprite in map coords and
+                    // manages this transform value
+                    ((sprite.x as f32) / 32.0 - map.width as f32 / 2.0) * 64.0 - 32.0,
+                    ((max_height - (sprite.y as f32) / 32.0) - map.height as f32 / 2.0) * 64.0
+                        + 32.0,
+                    1.0,
+                )),
+                ..default()
+            })
+            .insert(YSort(2.0))
+            .insert(Name::new(format!("Sprite #{i}")))
+            .with_children(|builder| {
+                builder.spawn(LoadingAnim::new(image_id));
+            })
+            .set_parent(map_entity);
+    }
+}
+
+fn create_placed_units(
+    commands: &mut Commands,
+    map: &MapAsset,
+    map_entity: Entity,
+    game_data: &BwGameData,
+) {
+    info!(
+        "Creating placed units, map has {} placed units",
+        map.placed_units.len()
+    );
+
+    // Used for inverting y-coords
+    let max_height = (map.height - 1) as f32;
+
+    for unit in map.placed_units.iter() {
+        let flingy_id = game_data
+            .units
+            .flingy
+            .get(unit.unit_id as usize)
+            .copied()
+            .unwrap_or_else(|| {
+                warn!(
+                    "Encountered Unit {} which isn't a valid ID, using placeholder flingy",
+                    unit.unit_id
+                );
+                0
+            });
+        let sprite_id = game_data
+            .flingy
+            .sprite
+            .get(flingy_id as usize)
+            .copied()
+            .unwrap_or_else(|| {
+                warn!(
+                    "Encountered Flingy {} which isn't a valid ID, using placeholder sprite",
+                    flingy_id
+                );
+                0
+            });
+        let image_id = game_data
+            .sprites
+            .image
+            .get(sprite_id as usize)
+            .copied()
+            .unwrap_or_else(|| {
+                warn!(
+                    "Encountered Sprite {} which isn't a valid ID, using placeholder sprite",
+                    sprite_id
+                );
+                0
+            });
+
+        commands
+            .spawn(SpatialBundle {
+                transform: Transform::from_translation(Vec3::new(
+                    // TODO(tec27): Need to base this on the map's tile size, would probably be
+                    // better to write something that keeps track of this sprite in map coords and
+                    // manages this transform value
+                    ((unit.x as f32) / 32.0 - map.width as f32 / 2.0) * 64.0 - 32.0,
+                    ((max_height - (unit.y as f32) / 32.0) - map.height as f32 / 2.0) * 64.0 + 32.0,
+                    1.0,
+                )),
+                ..default()
+            })
+            .insert(YSort(2.0))
+            .insert(Name::new(format!("Unit {:x}", unit.unit_id)))
+            .with_children(|builder| {
+                builder.spawn(LoadingAnim::new(image_id));
+            })
+            .set_parent(map_entity);
     }
 }

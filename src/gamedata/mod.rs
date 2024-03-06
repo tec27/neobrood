@@ -36,7 +36,7 @@ impl Plugin for GameDataPlugin {
                 Update,
                 check_game_data_load.run_if(in_state(AppState::PreGame)),
             )
-            .add_systems(Update, init_loaded_anims.run_if(in_state(AppState::InGame)))
+            .add_systems(Update, init_loaded_anims)
             .add_systems(
                 PostUpdate,
                 update_anim_offsets.run_if(in_state(AppState::InGame)),
@@ -132,7 +132,6 @@ fn load_game_data(
 
 fn check_game_data_load(
     mut commands: Commands,
-    mut next_state: ResMut<NextState<AppState>>,
     asset_server: Res<AssetServer>,
     handles: Option<Res<LoadingBwGameDataHandles>>,
     tbl_assets: Res<Assets<TblAsset>>,
@@ -183,7 +182,6 @@ fn check_game_data_load(
         });
 
         info!("BW game data has been loaded!");
-        next_state.set(AppState::InGame);
     }
 }
 
@@ -196,9 +194,14 @@ fn init_loaded_anims(
     mut commands: Commands,
     mut query: Query<(Entity, &mut LoadingAnim)>,
     anim_assets: Res<Assets<AnimAsset>>,
-    game_data: Res<BwGameData>,
+    game_data: Option<Res<BwGameData>>,
     asset_server: Res<AssetServer>,
 ) {
+    let Some(game_data) = game_data else {
+        // We don't have game data yet, so we can't do anything
+        return;
+    };
+
     for (entity, mut loading_anim) in &mut query {
         let Some(ref handle) = loading_anim.handle else {
             let relation = game_data

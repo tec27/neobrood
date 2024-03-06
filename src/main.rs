@@ -26,6 +26,7 @@ mod maps;
 mod render;
 mod selection;
 mod states;
+mod units;
 
 #[cfg(feature = "mimalloc")]
 #[global_allocator]
