@@ -5,15 +5,16 @@
 use std::env;
 use std::fs::File;
 use std::path::PathBuf;
-use std::time::Duration;
 
 use bevy::diagnostic::{DiagnosticsStore, FrameTimeDiagnosticsPlugin};
 use bevy::prelude::*;
 use bevy::window::{PresentMode, WindowMode, WindowResolution};
 use directories::UserDirs;
+use gameplay::GameSpeed;
 use serde::{Deserialize, Serialize};
 use states::AppState;
 
+use crate::gameplay::GameMode;
 use crate::maps::CurrentMap;
 
 mod asset_packs;
@@ -21,8 +22,11 @@ mod bytes;
 mod camera;
 mod ecs;
 mod gamedata;
+mod gameplay;
 mod main_menu;
 mod maps;
+mod players;
+mod races;
 mod render;
 mod selection;
 mod states;
@@ -31,31 +35,6 @@ mod units;
 #[cfg(feature = "mimalloc")]
 #[global_allocator]
 static GLOBAL: mimalloc::MiMalloc = mimalloc::MiMalloc;
-
-#[allow(dead_code)]
-enum GameSpeed {
-    Slowest,
-    Slower,
-    Slow,
-    Normal,
-    Fast,
-    Faster,
-    Fastest,
-}
-
-impl GameSpeed {
-    fn to_turn_duration(&self) -> Duration {
-        match self {
-            GameSpeed::Slowest => Duration::from_millis(167),
-            GameSpeed::Slower => Duration::from_millis(111),
-            GameSpeed::Slow => Duration::from_millis(83),
-            GameSpeed::Normal => Duration::from_millis(67),
-            GameSpeed::Fast => Duration::from_millis(56),
-            GameSpeed::Faster => Duration::from_millis(48),
-            GameSpeed::Fastest => Duration::from_millis(42),
-        }
-    }
-}
 
 #[derive(Copy, Clone, Debug, Default, Serialize, Deserialize)]
 enum NeobroodWindowMode {
@@ -178,6 +157,7 @@ fn main() {
         FrameTimeDiagnosticsPlugin,
         camera::CameraControlPlugin,
         gamedata::GameDataPlugin,
+        gameplay::GameplayPlugin,
         main_menu::MainMenuPlugin,
         maps::MapsPlugin,
         render::RenderPlugin,
@@ -218,8 +198,11 @@ fn setup(
     info!("Using settings: {:?}", *settings);
 
     if !loadable_maps.maps.is_empty() {
+        commands.insert_resource(GameMode::MapView);
         let map_path = loadable_maps.maps.first().cloned().unwrap();
         current_map.handle = asset_server.load(map_path);
+    } else {
+        commands.insert_resource(GameMode::Melee);
     }
 
     commands.spawn(Camera2dBundle::default());

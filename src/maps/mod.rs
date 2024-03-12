@@ -8,6 +8,7 @@ use crate::{
     maps::game_map::GameMapBundle,
     render::ysort::YSort,
     states::AppState,
+    units::UnitType,
 };
 
 use self::{
@@ -321,6 +322,7 @@ fn create_placed_units(
                 )),
                 ..default()
             })
+            .insert(UnitType(unit.unit_id))
             .insert(YSort(2.0))
             .insert(Name::new(format!("Unit {:x}", unit.unit_id)))
             .with_children(|builder| {

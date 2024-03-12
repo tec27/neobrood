@@ -1,4 +1,4 @@
-use bevy::{prelude::*, sprite::Anchor};
+use bevy::{asset::LoadState, prelude::*, sprite::Anchor};
 
 use crate::{
     asset_packs::{AssetPack, AssetQuality},
@@ -237,6 +237,12 @@ fn init_loaded_anims(
                     offsets: anim.offsets.clone(),
                 },
             ));
+        } else if asset_server.load_state(handle) == LoadState::Failed {
+            // TODO(tec27): Show a dialog or something instead?
+            panic!(
+                "Failed to load anim asset for anim_id {}",
+                loading_anim.anim_id
+            );
         }
     }
 }
