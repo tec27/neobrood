@@ -36,9 +36,12 @@ impl Plugin for GameDataPlugin {
                 Update,
                 check_game_data_load.run_if(in_state(AppState::PreGame)),
             )
-            .add_systems(Update, init_loaded_anims)
+            // TODO(tec27): Maybe make a separate schedule for this. This one is public and in the
+            // correct spot (and this is a very similar usecase) but it's not mentioned much in the
+            // docs so it feels a bit iffy that it will exist forever? Unsure
+            .add_systems(SpawnScene, init_loaded_anims)
             .add_systems(
-                PostUpdate,
+                PostUpdate, // TODO(tec27): Probably this should have its own schedule?
                 update_anim_offsets.run_if(in_state(AppState::InGame)),
             );
     }
