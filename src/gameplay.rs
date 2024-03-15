@@ -152,8 +152,6 @@ fn init_melee_game(
             continue;
         };
 
-        // TODO(tec27): Use actual player's race, only do this for start locations that are owned by
-        // an active player
         let building = hq_building(player.race);
         *unit_type = building;
 
