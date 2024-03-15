@@ -1276,7 +1276,7 @@ dependencies = [
 [[package]]
 name = "broodmap"
 version = "0.1.0"
-source = "git+https://github.com/ShieldBattery/broodmap.git?rev=366096b917834047184375777bd6c35976b4dec2#366096b917834047184375777bd6c35976b4dec2"
+source = "git+https://github.com/ShieldBattery/broodmap.git?rev=0ff13013e11720b0e934d43ed6660fc3be2fcb88#0ff13013e11720b0e934d43ed6660fc3be2fcb88"
 dependencies = [
  "bitflags 2.4.2",
  "encoding_rs",
@@ -2850,6 +2850,7 @@ dependencies = [
  "image",
  "memchr",
  "mimalloc",
+ "num_enum 0.7.2",
  "serde",
  "serde_json",
  "thiserror",

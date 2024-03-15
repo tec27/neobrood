@@ -1,5 +1,7 @@
+use bevy::reflect::Reflect;
+
 #[allow(unused)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Reflect)]
 pub enum Race {
     #[default] // sorry Artosis :(
     Protoss,

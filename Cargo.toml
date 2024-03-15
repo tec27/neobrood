@@ -18,6 +18,7 @@ directories = "5.0"
 image = "0.24"
 memchr = "2.7"
 mimalloc = { version = "0.1", optional = true, default-features = false }
+num_enum = "0.7"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 thiserror = "1.0"
@@ -32,7 +33,7 @@ rev = "a7b308aa11ad82ac6b3b74c0237e607f1d4ddf5b"
 
 [dependencies.broodmap]
 git = "https://github.com/ShieldBattery/broodmap.git"
-rev = "366096b917834047184375777bd6c35976b4dec2"
+rev = "0ff13013e11720b0e934d43ed6660fc3be2fcb88"
 
 [dev-dependencies]
 claims = "0.7"

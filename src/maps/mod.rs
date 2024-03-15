@@ -8,7 +8,7 @@ use crate::{
     maps::game_map::GameMapBundle,
     render::ysort::YSort,
     states::AppState,
-    units::UnitType,
+    units::{OwnedUnit, UnitType},
 };
 
 use self::{
@@ -310,24 +310,31 @@ fn create_placed_units(
                 0
             });
 
-        commands
-            .spawn(SpatialBundle {
-                transform: Transform::from_translation(Vec3::new(
-                    // TODO(tec27): Need to base this on the map's tile size, would probably be
-                    // better to write something that keeps track of this sprite in map coords and
-                    // manages this transform value
-                    ((unit.x as f32) / 32.0 - map.width as f32 / 2.0) * 64.0 - 32.0,
-                    ((max_height - (unit.y as f32) / 32.0) - map.height as f32 / 2.0) * 64.0 + 32.0,
-                    1.0,
-                )),
-                ..default()
-            })
-            .insert(UnitType(unit.unit_id))
-            .insert(YSort(2.0))
-            .insert(Name::new(format!("Unit {:x}", unit.unit_id)))
+        let entity = commands
+            .spawn((
+                SpatialBundle {
+                    transform: Transform::from_translation(Vec3::new(
+                        // TODO(tec27): Need to base this on the map's tile size, would probably be
+                        // better to write something that keeps track of this sprite in map coords and
+                        // manages this transform value
+                        ((unit.x as f32) / 32.0 - map.width as f32 / 2.0) * 64.0 - 32.0,
+                        ((max_height - (unit.y as f32) / 32.0) - map.height as f32 / 2.0) * 64.0
+                            + 32.0,
+                        1.0,
+                    )),
+                    ..default()
+                },
+                UnitType::from(unit.unit_id),
+                YSort(2.0),
+                Name::new(format!("Unit #{}", unit.unit_id)),
+            ))
             .with_children(|builder| {
                 builder.spawn(LoadingAnim::new(image_id));
             })
-            .set_parent(map_entity);
+            .set_parent(map_entity)
+            .id();
+        if let Some(owner) = unit.owner {
+            commands.entity(entity).insert(OwnedUnit(owner));
+        }
     }
 }
