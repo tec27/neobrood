@@ -1,11 +1,12 @@
 use bevy::prelude::*;
-use std::time::Duration;
+use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 use crate::{
     ecs::despawn_all,
     gamedata::{BwGameData, LoadingAnim},
     players::{ControlledPlayer, Player},
     races::Race,
+    random::LcgRand,
     states::AppState,
     units::{hq_building, OwnedUnit, UnitType},
 };
@@ -81,9 +82,21 @@ impl Plugin for GameplayPlugin {
     fn build(&self, app: &mut App) {
         app.init_resource::<GameMode>()
             .init_resource::<PlayerEntities>()
+            // TODO(tec27): Depending on what we do in PreGame this might have ordering dependencies
+            // with a bunch of things
+            .add_systems(OnEnter(AppState::PreGame), init_random)
             .add_systems(OnEnter(AppState::InGame), (init_players, init_game).chain())
             .add_systems(OnExit(AppState::InGame), despawn_all::<InGameOnly>);
     }
+}
+
+fn init_random(mut lcg: ResMut<LcgRand>) {
+    let seed = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("System clock set incorrectly")
+        .as_millis() as u32;
+    lcg.reseed(seed);
+    info!("Seeded RNG with {seed}");
 }
 
 fn init_players(mut commands: Commands, mut player_entities: ResMut<PlayerEntities>) {

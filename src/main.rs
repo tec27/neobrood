@@ -11,6 +11,7 @@ use bevy::prelude::*;
 use bevy::window::{PresentMode, WindowMode, WindowResolution};
 use directories::UserDirs;
 use gameplay::GameSpeed;
+use random::LcgRand;
 use serde::{Deserialize, Serialize};
 use states::AppState;
 
@@ -27,6 +28,7 @@ mod main_menu;
 mod maps;
 mod players;
 mod races;
+mod random;
 mod render;
 mod selection;
 mod states;
@@ -153,6 +155,7 @@ fn main() {
     .insert_resource(Time::<Fixed>::from_duration(
         GameSpeed::Fastest.to_turn_duration(),
     ))
+    .insert_resource(LcgRand::new(0))
     .add_plugins((
         FrameTimeDiagnosticsPlugin,
         camera::CameraControlPlugin,
