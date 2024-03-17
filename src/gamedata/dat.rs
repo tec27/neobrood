@@ -52,23 +52,9 @@ pub struct DatAssetLoader {}
 // but then we have to do our own mapping to a proper loader/output type.
 #[derive(Asset, Debug, TypePath)]
 pub enum DatAsset {
-    Flingy(Box<FlingyData>),
     Images(Box<ImageData>),
     Sprites(Box<SpriteData>),
     Units(Box<UnitData>),
-}
-
-impl TryFrom<&DatAsset> for FlingyData {
-    type Error = anyhow::Error;
-
-    fn try_from(value: &DatAsset) -> Result<Self, Self::Error> {
-        match value {
-            DatAsset::Flingy(data) => Ok((**data).clone()),
-            _ => Err(anyhow!(
-                "Tried to convert a non-flingy DatAsset to FlingyData"
-            )),
-        }
-    }
 }
 
 impl TryFrom<&DatAsset> for ImageData {
@@ -106,23 +92,6 @@ impl TryFrom<&DatAsset> for UnitData {
             _ => Err(anyhow!("Tried to convert a non-units DatAsset to UnitData")),
         }
     }
-}
-
-/// How many flingy types are specified in the flingy.dat file.
-const NUM_FLINGY_DATA: usize = 209;
-/// How much data each flingy instance takes up in the flingy.dat file (in bytes).
-const FLINGY_DATA_SIZE: usize = 15;
-
-#[allow(dead_code)]
-#[derive(Clone, Debug, Reflect)]
-pub struct FlingyData {
-    pub sprite: [u16; NUM_FLINGY_DATA],
-    pub speed: [u32; NUM_FLINGY_DATA],
-    pub acceleration: [u16; NUM_FLINGY_DATA],
-    pub halt_distance: [u32; NUM_FLINGY_DATA],
-    pub turn_radius: [u8; NUM_FLINGY_DATA],
-    pub unused: [u8; NUM_FLINGY_DATA],
-    pub movement_control: [u8; NUM_FLINGY_DATA],
 }
 
 /// How many images are specified in the images.dat file.
@@ -249,11 +218,6 @@ impl AssetLoader for DatAssetLoader {
                 .map(|name| name.to_ascii_lowercase().to_string_lossy().to_string())
                 .as_deref()
             {
-                Some("flingy") => {
-                    let mut bytes = Vec::new();
-                    reader.read_to_end(&mut bytes).await?;
-                    DatAsset::Flingy(Box::new(load_flingy_dat(&bytes)?))
-                }
                 Some("images") => {
                     let mut bytes = Vec::new();
                     reader.read_to_end(&mut bytes).await?;
@@ -342,22 +306,6 @@ fn load_units_dat(mut bytes: &[u8]) -> anyhow::Result<UnitData> {
         unit_map_string: bytes.read_u16_array::<NUM_UNIT_DATA>()?,
         brood_war_unit_flag: bytes.read_u8_array::<NUM_UNIT_DATA>()?,
         star_edit_availability_flag: bytes.read_u16_array::<NUM_UNIT_DATA>()?,
-    })
-}
-
-fn load_flingy_dat(mut bytes: &[u8]) -> anyhow::Result<FlingyData> {
-    if bytes.len() < NUM_FLINGY_DATA * FLINGY_DATA_SIZE {
-        return Err(anyhow!("flingy.dat file is too small: {}", bytes.len()));
-    }
-
-    Ok(FlingyData {
-        sprite: bytes.read_u16_array::<NUM_FLINGY_DATA>()?,
-        speed: bytes.read_u32_array::<NUM_FLINGY_DATA>()?,
-        acceleration: bytes.read_u16_array::<NUM_FLINGY_DATA>()?,
-        halt_distance: bytes.read_u32_array::<NUM_FLINGY_DATA>()?,
-        turn_radius: bytes.read_u8_array::<NUM_FLINGY_DATA>()?,
-        unused: bytes.read_u8_array::<NUM_FLINGY_DATA>()?,
-        movement_control: bytes.read_u8_array::<NUM_FLINGY_DATA>()?,
     })
 }
 

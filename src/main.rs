@@ -10,29 +10,12 @@ use bevy::diagnostic::{DiagnosticsStore, FrameTimeDiagnosticsPlugin};
 use bevy::prelude::*;
 use bevy::window::{PresentMode, WindowMode, WindowResolution};
 use directories::UserDirs;
-use gameplay::GameSpeed;
-use random::LcgRand;
+use neobrood::gameplay::GameMode;
+use neobrood::gameplay::GameSpeed;
+use neobrood::maps::CurrentMap;
+use neobrood::random::LcgRand;
+use neobrood::states::AppState;
 use serde::{Deserialize, Serialize};
-use states::AppState;
-
-use crate::gameplay::GameMode;
-use crate::maps::CurrentMap;
-
-mod asset_packs;
-mod bytes;
-mod camera;
-mod ecs;
-mod gamedata;
-mod gameplay;
-mod main_menu;
-mod maps;
-mod players;
-mod races;
-mod random;
-mod render;
-mod selection;
-mod states;
-mod units;
 
 #[cfg(feature = "mimalloc")]
 #[global_allocator]
@@ -158,14 +141,14 @@ fn main() {
     .insert_resource(LcgRand::new(0))
     .add_plugins((
         FrameTimeDiagnosticsPlugin,
-        camera::CameraControlPlugin,
-        gamedata::GameDataPlugin,
-        gameplay::GameplayPlugin,
-        main_menu::MainMenuPlugin,
-        maps::MapsPlugin,
-        render::RenderPlugin,
-        selection::DragSelectionPlugin,
-        states::StatesPlugin,
+        neobrood::camera::CameraControlPlugin,
+        neobrood::gamedata::GameDataPlugin,
+        neobrood::gameplay::GameplayPlugin,
+        neobrood::main_menu::MainMenuPlugin,
+        neobrood::maps::MapsPlugin,
+        neobrood::render::RenderPlugin,
+        neobrood::selection::DragSelectionPlugin,
+        neobrood::states::StatesPlugin,
     ))
     .add_systems(Startup, setup)
     .add_systems(Update, update_fps_text)

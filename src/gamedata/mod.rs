@@ -7,15 +7,20 @@ use crate::{
 
 use self::{
     anim::{AnimAsset, AnimAssetLoader},
-    dat::{DatAsset, DatAssetLoader, FlingyData, ImageData, SpriteData, UnitData},
+    dat::{DatAsset, DatAssetLoader, ImageData, SpriteData, UnitData},
     rel::{RelAsset, RelAssetLoader},
     tbl::{TblAsset, TblAssetLoader},
 };
 
 pub mod anim;
 pub mod dat;
+mod flingy;
+mod generated;
 pub mod rel;
 pub mod tbl;
+
+pub use flingy::Flingy;
+pub use generated::flingy::FLINGIES;
 
 pub struct GameDataPlugin;
 
@@ -56,7 +61,6 @@ pub struct LoadingBwGameDataHandles {
     pub image_paths: Handle<TblAsset>,
     pub strings: Handle<TblAsset>,
 
-    pub flingy: Handle<DatAsset>,
     pub images: Handle<DatAsset>,
     pub sprites: Handle<DatAsset>,
     pub units: Handle<DatAsset>,
@@ -69,7 +73,6 @@ pub struct BwGameData {
     pub image_paths: TblAsset,
     pub strings: TblAsset,
 
-    pub flingy: FlingyData,
     pub images: ImageData,
     pub sprites: SpriteData,
     pub units: UnitData,
@@ -113,7 +116,6 @@ fn load_game_data(
     let image_paths = asset_server.load("casc-extracted/arr/images.tbl");
     let strings = asset_server.load("casc-extracted/rez/stat_txt.tbl");
 
-    let flingy = asset_server.load("casc-extracted/arr/flingy.dat");
     let images = asset_server.load("casc-extracted/arr/images.dat");
     let sprites = asset_server.load("casc-extracted/arr/sprites.dat");
     let units = asset_server.load("casc-extracted/arr/units.dat");
@@ -124,7 +126,6 @@ fn load_game_data(
         image_paths,
         strings,
 
-        flingy,
         images,
         sprites,
         units,
@@ -149,7 +150,6 @@ fn check_game_data_load(
     // TODO(tec27): Handle load failures
     if asset_server.is_loaded_with_dependencies(&handles.image_paths)
         && asset_server.is_loaded_with_dependencies(&handles.strings)
-        && asset_server.is_loaded_with_dependencies(&handles.flingy)
         && asset_server.is_loaded_with_dependencies(&handles.images)
         && asset_server.is_loaded_with_dependencies(&handles.sprites)
         && asset_server.is_loaded_with_dependencies(&handles.units)
@@ -161,11 +161,6 @@ fn check_game_data_load(
             image_paths: tbl_assets.get(&handles.image_paths).unwrap().clone(),
             strings: tbl_assets.get(&handles.strings).unwrap().clone(),
 
-            flingy: dat_assets
-                .get(&handles.flingy)
-                .unwrap()
-                .try_into()
-                .expect("Failed to convert flingy DatAsset to underlying data"),
             images: dat_assets
                 .get(&handles.images)
                 .unwrap()

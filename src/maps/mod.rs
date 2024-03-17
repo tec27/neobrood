@@ -4,7 +4,7 @@ use bevy::utils::HashMap;
 use bevy_ecs_tilemap::prelude::*;
 
 use crate::{
-    gamedata::{BwGameData, LoadingAnim},
+    gamedata::{BwGameData, LoadingAnim, FLINGIES},
     maps::game_map::GameMapBundle,
     render::ysort::YSort,
     states::AppState,
@@ -285,11 +285,9 @@ fn create_placed_units(
                 );
                 0
             });
-        let sprite_id = game_data
-            .flingy
-            .sprite
+        let sprite_id = FLINGIES
             .get(flingy_id as usize)
-            .copied()
+            .map(|f| f.sprite)
             .unwrap_or_else(|| {
                 warn!(
                     "Encountered Flingy {} which isn't a valid ID, using placeholder sprite",

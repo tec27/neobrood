@@ -1,5 +1,3 @@
-// FIXME: Delete this version of this file once gen_rules is completed
-
 use std::io;
 
 use byteorder::{LittleEndian, ReadBytesExt};

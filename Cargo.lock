@@ -2063,6 +2063,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "gen_rules"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "byteorder",
+ "prettyplease",
+ "quote",
+ "syn 2.0.50",
+]
+
+[[package]]
 name = "gethostname"
 version = "0.4.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3257,6 +3268,16 @@ name = "pretty-type-name"
 version = "1.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f0f73cdaf19b52e6143685c3606206e114a4dfa969d6b14ec3894c88eb38bd4b"
+
+[[package]]
+name = "prettyplease"
+version = "0.2.16"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a41cf62165e97c7f814d2221421dbb9afcbcdb0a88068e5ea206e19951c2cbb5"
+dependencies = [
+ "proc-macro2",
+ "syn 2.0.50",
+]
 
 [[package]]
 name = "proc-macro-crate"

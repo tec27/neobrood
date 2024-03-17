@@ -3,7 +3,7 @@ use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 use crate::{
     ecs::despawn_all,
-    gamedata::{BwGameData, LoadingAnim},
+    gamedata::{BwGameData, LoadingAnim, FLINGIES},
     players::{ControlledPlayer, Player},
     races::Race,
     random::LcgRand,
@@ -180,11 +180,9 @@ fn init_melee_game(
                 );
                 0
             });
-        let sprite_id = game_data
-            .flingy
-            .sprite
+        let sprite_id = FLINGIES
             .get(flingy_id as usize)
-            .copied()
+            .map(|f| f.sprite)
             .unwrap_or_else(|| {
                 warn!(
                     "Encountered Flingy {} which isn't a valid ID, using placeholder sprite",

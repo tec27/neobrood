@@ -2,6 +2,17 @@
 name = "neobrood"
 version = "0.1.0"
 edition = "2021"
+default-run = "game"
+
+[workspace]
+members = ["gen_rules"]
+
+[lib]
+path = "src/lib.rs"
+
+[[bin]]
+name = "game"
+path = "src/main.rs"
 
 [features]
 default = ["framepacing", "inspector"]
