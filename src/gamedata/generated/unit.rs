@@ -1,5 +1,5 @@
+use crate::gamedata::{BuildingData, Construct, ConstructKind, UnitData};
 use bevy::math::{I16Vec2, IRect, IVec2};
-use crate::gamedata::{Construct, ConstructKind, BuildingData, UnitData};
 /// Contains data for all units, buildings, and other constructs in the game.
 pub const CONSTRUCTS: [Construct; 228usize] = [
     Construct {
@@ -6334,7 +6334,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 0u16,
         what_sound_end: 0u16,
-        placebox_size: I16Vec2 { x: 140i16, y: 100i16 },
+        placebox_size: I16Vec2 {
+            x: 140i16,
+            y: 100i16,
+        },
         unit_rect: IRect {
             min: IVec2 { x: 60i32, y: 40i32 },
             max: IVec2 { x: 59i32, y: 39i32 },
@@ -6394,7 +6397,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 2u8,
         what_sound_start: 15u16,
         what_sound_end: 15u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 96i16,
+        },
         unit_rect: IRect {
             min: IVec2 { x: 58i32, y: 41i32 },
             max: IVec2 { x: 58i32, y: 41i32 },
@@ -6473,7 +6479,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         star_edit_availability_flag: 463u16,
         kind: ConstructKind::Building(BuildingData {
             infestation: 228u16,
-            addon_size: I16Vec2 { x: 128i16, y: 32i16 },
+            addon_size: I16Vec2 {
+                x: 128i16,
+                y: 32i16,
+            },
         }),
     },
     Construct {
@@ -6530,7 +6539,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         star_edit_availability_flag: 463u16,
         kind: ConstructKind::Building(BuildingData {
             infestation: 228u16,
-            addon_size: I16Vec2 { x: 128i16, y: 32i16 },
+            addon_size: I16Vec2 {
+                x: 128i16,
+                y: 32i16,
+            },
         }),
     },
     Construct {
@@ -6622,7 +6634,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 400u16,
         what_sound_end: 400u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 64i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 64i16,
+        },
         unit_rect: IRect {
             min: IVec2 { x: 56i32, y: 32i32 },
             max: IVec2 { x: 56i32, y: 31i32 },
@@ -6679,7 +6694,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 2u8,
         what_sound_start: 15u16,
         what_sound_end: 15u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 96i16,
+        },
         unit_rect: IRect {
             min: IVec2 { x: 48i32, y: 40i32 },
             max: IVec2 { x: 56i32, y: 32i32 },
@@ -6793,7 +6811,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 2u8,
         what_sound_start: 15u16,
         what_sound_end: 15u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 96i16,
+        },
         unit_rect: IRect {
             min: IVec2 { x: 56i32, y: 40i32 },
             max: IVec2 { x: 56i32, y: 40i32 },
@@ -6850,7 +6871,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 2u8,
         what_sound_start: 15u16,
         what_sound_end: 15u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 96i16,
+        },
         unit_rect: IRect {
             min: IVec2 { x: 48i32, y: 40i32 },
             max: IVec2 { x: 48i32, y: 38i32 },
@@ -6929,7 +6953,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         star_edit_availability_flag: 463u16,
         kind: ConstructKind::Building(BuildingData {
             infestation: 228u16,
-            addon_size: I16Vec2 { x: 128i16, y: 32i16 },
+            addon_size: I16Vec2 {
+                x: 128i16,
+                y: 32i16,
+            },
         }),
     },
     Construct {
@@ -6964,7 +6991,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 2u8,
         what_sound_start: 395u16,
         what_sound_end: 395u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 96i16,
+        },
         unit_rect: IRect {
             min: IVec2 { x: 48i32, y: 38i32 },
             max: IVec2 { x: 48i32, y: 38i32 },
@@ -7043,7 +7073,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         star_edit_availability_flag: 463u16,
         kind: ConstructKind::Building(BuildingData {
             infestation: 228u16,
-            addon_size: I16Vec2 { x: 128i16, y: 32i16 },
+            addon_size: I16Vec2 {
+                x: 128i16,
+                y: 32i16,
+            },
         }),
     },
     Construct {
@@ -7100,7 +7133,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         star_edit_availability_flag: 463u16,
         kind: ConstructKind::Building(BuildingData {
             infestation: 228u16,
-            addon_size: I16Vec2 { x: 128i16, y: 32i16 },
+            addon_size: I16Vec2 {
+                x: 128i16,
+                y: 32i16,
+            },
         }),
     },
     Construct {
@@ -7214,7 +7250,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         star_edit_availability_flag: 463u16,
         kind: ConstructKind::Building(BuildingData {
             infestation: 228u16,
-            addon_size: I16Vec2 { x: 128i16, y: 32i16 },
+            addon_size: I16Vec2 {
+                x: 128i16,
+                y: 32i16,
+            },
         }),
     },
     Construct {
@@ -7306,7 +7345,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 2u8,
         what_sound_start: 402u16,
         what_sound_end: 402u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 96i16,
+        },
         unit_rect: IRect {
             min: IVec2 { x: 48i32, y: 32i32 },
             max: IVec2 { x: 48i32, y: 28i32 },
@@ -7762,7 +7804,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 2u8,
         what_sound_start: 15u16,
         what_sound_end: 15u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 96i16,
+        },
         unit_rect: IRect {
             min: IVec2 { x: 58i32, y: 41i32 },
             max: IVec2 { x: 58i32, y: 41i32 },
@@ -7819,7 +7864,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 759u16,
         what_sound_end: 759u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 96i16,
+        },
         unit_rect: IRect {
             min: IVec2 { x: 49i32, y: 32i32 },
             max: IVec2 { x: 49i32, y: 32i32 },
@@ -7876,7 +7924,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 762u16,
         what_sound_end: 762u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 96i16,
+        },
         unit_rect: IRect {
             min: IVec2 { x: 49i32, y: 32i32 },
             max: IVec2 { x: 49i32, y: 32i32 },
@@ -7933,7 +7984,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 760u16,
         what_sound_end: 760u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 96i16,
+        },
         unit_rect: IRect {
             min: IVec2 { x: 49i32, y: 32i32 },
             max: IVec2 { x: 49i32, y: 32i32 },
@@ -8104,7 +8158,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 766u16,
         what_sound_end: 766u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 64i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 64i16,
+        },
         unit_rect: IRect {
             min: IVec2 { x: 48i32, y: 32i32 },
             max: IVec2 { x: 48i32, y: 4i32 },
@@ -8731,7 +8788,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 769u16,
         what_sound_end: 769u16,
-        placebox_size: I16Vec2 { x: 160i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 160i16,
+            y: 96i16,
+        },
         unit_rect: IRect {
             min: IVec2 { x: 80i32, y: 32i32 },
             max: IVec2 { x: 79i32, y: 40i32 },
@@ -8788,7 +8848,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 769u16,
         what_sound_end: 769u16,
-        placebox_size: I16Vec2 { x: 160i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 160i16,
+            y: 96i16,
+        },
         unit_rect: IRect {
             min: IVec2 { x: 80i32, y: 32i32 },
             max: IVec2 { x: 79i32, y: 40i32 },
@@ -8845,7 +8908,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 761u16,
         what_sound_end: 761u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 64i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 64i16,
+        },
         unit_rect: IRect {
             min: IVec2 { x: 64i32, y: 32i32 },
             max: IVec2 { x: 63i32, y: 31i32 },
@@ -9130,7 +9196,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 484u16,
         what_sound_end: 484u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 96i16,
+        },
         unit_rect: IRect {
             min: IVec2 { x: 56i32, y: 39i32 },
             max: IVec2 { x: 56i32, y: 39i32 },
@@ -9301,7 +9370,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 474u16,
         what_sound_end: 474u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 64i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 64i16,
+        },
         unit_rect: IRect {
             min: IVec2 { x: 48i32, y: 32i32 },
             max: IVec2 { x: 48i32, y: 24i32 },
@@ -9358,7 +9430,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 15u16,
         what_sound_end: 15u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 96i16,
+        },
         unit_rect: IRect {
             min: IVec2 { x: 64i32, y: 48i32 },
             max: IVec2 { x: 63i32, y: 47i32 },
@@ -9472,7 +9547,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 479u16,
         what_sound_end: 479u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 96i16,
+        },
         unit_rect: IRect {
             min: IVec2 { x: 48i32, y: 32i32 },
             max: IVec2 { x: 48i32, y: 40i32 },
@@ -9871,7 +9949,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 15u16,
         what_sound_end: 15u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 96i16,
+        },
         unit_rect: IRect {
             min: IVec2 { x: 48i32, y: 40i32 },
             max: IVec2 { x: 48i32, y: 32i32 },
@@ -9928,7 +10009,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 399u16,
         what_sound_end: 399u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 96i16,
+        },
         unit_rect: IRect {
             min: IVec2 { x: 64i32, y: 48i32 },
             max: IVec2 { x: 63i32, y: 47i32 },
@@ -10213,7 +10297,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 482u16,
         what_sound_end: 482u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 96i16,
+        },
         unit_rect: IRect {
             min: IVec2 { x: 64i32, y: 48i32 },
             max: IVec2 { x: 63i32, y: 47i32 },
@@ -10270,10 +10357,19 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 486u16,
         what_sound_end: 486u16,
-        placebox_size: I16Vec2 { x: 224i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 224i16,
+            y: 96i16,
+        },
         unit_rect: IRect {
-            min: IVec2 { x: 112i32, y: 48i32 },
-            max: IVec2 { x: 111i32, y: 47i32 },
+            min: IVec2 {
+                x: 112i32,
+                y: 48i32,
+            },
+            max: IVec2 {
+                x: 111i32,
+                y: 47i32,
+            },
         },
         portrait: 60u16,
         mineral_cost: 250u16,
@@ -10327,7 +10423,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 486u16,
         what_sound_end: 486u16,
-        placebox_size: I16Vec2 { x: 160i16, y: 128i16 },
+        placebox_size: I16Vec2 {
+            x: 160i16,
+            y: 128i16,
+        },
         unit_rect: IRect {
             min: IVec2 { x: 80i32, y: 34i32 },
             max: IVec2 { x: 79i32, y: 63i32 },
@@ -11068,7 +11167,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 15u16,
         what_sound_end: 15u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 64i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 64i16,
+        },
         unit_rect: IRect {
             min: IVec2 { x: 64i32, y: 32i32 },
             max: IVec2 { x: 63i32, y: 31i32 },
@@ -11182,7 +11284,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 391u16,
         what_sound_end: 391u16,
-        placebox_size: I16Vec2 { x: 160i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 160i16,
+            y: 96i16,
+        },
         unit_rect: IRect {
             min: IVec2 { x: 80i32, y: 38i32 },
             max: IVec2 { x: 69i32, y: 47i32 },
@@ -11752,7 +11857,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 396u16,
         what_sound_end: 396u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 96i16,
+        },
         unit_rect: IRect {
             min: IVec2 { x: 56i32, y: 28i32 },
             max: IVec2 { x: 63i32, y: 43i32 },
@@ -11866,7 +11974,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 0u16,
         what_sound_end: 0u16,
-        placebox_size: I16Vec2 { x: 160i16, y: 160i16 },
+        placebox_size: I16Vec2 {
+            x: 160i16,
+            y: 160i16,
+        },
         unit_rect: IRect {
             min: IVec2 { x: 80i32, y: 80i32 },
             max: IVec2 { x: 79i32, y: 79i32 },
@@ -11974,10 +12085,19 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 30u16,
         what_sound_end: 31u16,
-        placebox_size: I16Vec2 { x: 256i16, y: 128i16 },
+        placebox_size: I16Vec2 {
+            x: 256i16,
+            y: 128i16,
+        },
         unit_rect: IRect {
-            min: IVec2 { x: 128i32, y: 64i32 },
-            max: IVec2 { x: 127i32, y: 63i32 },
+            min: IVec2 {
+                x: 128i32,
+                y: 64i32,
+            },
+            max: IVec2 {
+                x: 127i32,
+                y: 63i32,
+            },
         },
         portrait: 65535u16,
         mineral_cost: 1u16,
@@ -12028,7 +12148,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 24u16,
         what_sound_end: 25u16,
-        placebox_size: I16Vec2 { x: 136i16, y: 136i16 },
+        placebox_size: I16Vec2 {
+            x: 136i16,
+            y: 136i16,
+        },
         unit_rect: IRect {
             min: IVec2 { x: 25i32, y: 17i32 },
             max: IVec2 { x: 44i32, y: 20i32 },
@@ -12082,7 +12205,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 26u16,
         what_sound_end: 27u16,
-        placebox_size: I16Vec2 { x: 136i16, y: 136i16 },
+        placebox_size: I16Vec2 {
+            x: 136i16,
+            y: 136i16,
+        },
         unit_rect: IRect {
             min: IVec2 { x: 44i32, y: 17i32 },
             max: IVec2 { x: 25i32, y: 20i32 },
@@ -12136,7 +12262,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 28u16,
         what_sound_end: 29u16,
-        placebox_size: I16Vec2 { x: 148i16, y: 100i16 },
+        placebox_size: I16Vec2 {
+            x: 148i16,
+            y: 100i16,
+        },
         unit_rect: IRect {
             min: IVec2 { x: 41i32, y: 17i32 },
             max: IVec2 { x: 28i32, y: 20i32 },
@@ -12190,7 +12319,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 30u16,
         what_sound_end: 31u16,
-        placebox_size: I16Vec2 { x: 148i16, y: 100i16 },
+        placebox_size: I16Vec2 {
+            x: 148i16,
+            y: 100i16,
+        },
         unit_rect: IRect {
             min: IVec2 { x: 28i32, y: 17i32 },
             max: IVec2 { x: 41i32, y: 20i32 },
@@ -12514,7 +12646,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 15u16,
         what_sound_end: 15u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 96i16,
+        },
         unit_rect: IRect {
             min: IVec2 { x: 48i32, y: 32i32 },
             max: IVec2 { x: 48i32, y: 32i32 },
