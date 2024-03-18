@@ -180,7 +180,7 @@ fn init_melee_game(
                 );
                 0
             });
-        let sprite_id = FLINGIES
+        let sprite = FLINGIES
             .get(flingy_id as usize)
             .map(|f| f.sprite)
             .unwrap_or_else(|| {
@@ -188,28 +188,15 @@ fn init_melee_game(
                     "Encountered Flingy {} which isn't a valid ID, using placeholder sprite",
                     flingy_id
                 );
-                0
+                FLINGIES[0].sprite
             });
-        let image_id = game_data
-            .sprites
-            .image
-            .get(sprite_id as usize)
-            .copied()
-            .unwrap_or_else(|| {
-                warn!(
-                    "Encountered Sprite {} which isn't a valid ID, using placeholder sprite",
-                    sprite_id
-                );
-                0
-            });
-
         // TODO(tec27): Maybe we should have a change handler for UnitType that does this instead?
         // Could also use that for initializing the placed unit's in the first place
         commands
             .entity(entity)
             .despawn_descendants()
             .with_children(|builder| {
-                builder.spawn(LoadingAnim::new(image_id));
+                builder.spawn(LoadingAnim::new(sprite.image));
             });
     }
 }

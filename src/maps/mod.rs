@@ -4,7 +4,7 @@ use bevy::utils::HashMap;
 use bevy_ecs_tilemap::prelude::*;
 
 use crate::{
-    gamedata::{BwGameData, LoadingAnim, FLINGIES},
+    gamedata::{BwGameData, LoadingAnim, FLINGIES, SPRITES},
     maps::game_map::GameMapBundle,
     render::ysort::YSort,
     states::AppState,
@@ -64,7 +64,7 @@ fn map_init(
     info!("Map loaded!");
     let map_entity = commands.spawn(GameMapBundle::default()).id();
     create_tilemap(&mut commands, map, &array_texture_loader, map_entity);
-    create_map_sprites(&mut commands, map, map_entity, &game_data);
+    create_map_sprites(&mut commands, map, map_entity);
     create_placed_units(&mut commands, map, map_entity, &game_data);
 
     // TODO(tec27): This should probably be done in response to this stuff we just created being
@@ -208,12 +208,7 @@ fn create_tilemap(
     }
 }
 
-fn create_map_sprites(
-    commands: &mut Commands,
-    map: &MapAsset,
-    map_entity: Entity,
-    game_data: &BwGameData,
-) {
+fn create_map_sprites(commands: &mut Commands, map: &MapAsset, map_entity: Entity) {
     info!(
         "Creating map sprites, map has {} sprites",
         map.sprites.len()
@@ -223,11 +218,9 @@ fn create_map_sprites(
     let max_height = (map.height - 1) as f32;
 
     for (i, sprite) in map.sprites.iter().enumerate() {
-        let image_id = game_data
-            .sprites
-            .image
+        let image_id = SPRITES
             .get(sprite.id as usize)
-            .copied()
+            .map(|s| s.image)
             .unwrap_or_else(|| {
                 warn!(
                     "Encountered Sprite {} which isn't a valid ID, using placeholder sprite",
@@ -285,7 +278,7 @@ fn create_placed_units(
                 );
                 0
             });
-        let sprite_id = FLINGIES
+        let sprite = FLINGIES
             .get(flingy_id as usize)
             .map(|f| f.sprite)
             .unwrap_or_else(|| {
@@ -293,20 +286,9 @@ fn create_placed_units(
                     "Encountered Flingy {} which isn't a valid ID, using placeholder sprite",
                     flingy_id
                 );
-                0
+                FLINGIES[0].sprite
             });
-        let image_id = game_data
-            .sprites
-            .image
-            .get(sprite_id as usize)
-            .copied()
-            .unwrap_or_else(|| {
-                warn!(
-                    "Encountered Sprite {} which isn't a valid ID, using placeholder sprite",
-                    sprite_id
-                );
-                0
-            });
+        let image_id = sprite.image;
 
         let entity = commands
             .spawn((

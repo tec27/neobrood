@@ -1,10 +1,10 @@
-use bevy::reflect::Reflect;
+use super::BwSprite;
 
 // TODO(tec27): The types here could probably be made more useful (e.g. some of these are probably
 // float or fixed point, some of these could point to newtypes, etc.)
-#[derive(Debug, Clone, Reflect)]
+#[derive(Debug, Clone)]
 pub struct Flingy {
-    pub sprite: u16,
+    pub sprite: &'static BwSprite,
     pub speed: u32,
     pub acceleration: u16,
     pub halt_distance: u32,

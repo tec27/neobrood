@@ -53,7 +53,6 @@ pub struct DatAssetLoader {}
 #[derive(Asset, Debug, TypePath)]
 pub enum DatAsset {
     Images(Box<ImageData>),
-    Sprites(Box<SpriteData>),
     Units(Box<UnitData>),
 }
 
@@ -65,19 +64,6 @@ impl TryFrom<&DatAsset> for ImageData {
             DatAsset::Images(data) => Ok((**data).clone()),
             _ => Err(anyhow!(
                 "Tried to convert a non-images DatAsset to ImageData"
-            )),
-        }
-    }
-}
-
-impl TryFrom<&DatAsset> for SpriteData {
-    type Error = anyhow::Error;
-
-    fn try_from(value: &DatAsset) -> Result<Self, Self::Error> {
-        match value {
-            DatAsset::Sprites(data) => Ok((**data).clone()),
-            _ => Err(anyhow!(
-                "Tried to convert a non-sprites DatAsset to SpriteData"
             )),
         }
     }
@@ -116,21 +102,6 @@ pub struct ImageData {
     pub special_overlay: [u32; NUM_IMAGE_DATA],
     pub landing_dust_overlay: [u32; NUM_IMAGE_DATA],
     pub lift_off_dust_overlay: [u32; NUM_IMAGE_DATA],
-}
-
-const NUM_SPRITE_DATA: usize = 517;
-const NUM_SELECTABLE_SPRITES: usize = 387;
-const EXPECTED_SPRITES_DAT_SIZE: usize = 0xC9C;
-
-#[allow(dead_code)]
-#[derive(Clone, Debug, Reflect)]
-pub struct SpriteData {
-    pub image: [u16; NUM_SPRITE_DATA],
-    pub health_bar: [u8; NUM_SELECTABLE_SPRITES],
-    pub unknown_0: [u8; NUM_SPRITE_DATA],
-    pub visible: [u8; NUM_SPRITE_DATA],
-    pub selection_circle: [u8; NUM_SELECTABLE_SPRITES],
-    pub selection_circle_offset: [u8; NUM_SELECTABLE_SPRITES],
 }
 
 /// How many things (units + buildings + other) are specified in the units.dat file.
@@ -222,11 +193,6 @@ impl AssetLoader for DatAssetLoader {
                     let mut bytes = Vec::new();
                     reader.read_to_end(&mut bytes).await?;
                     DatAsset::Images(Box::new(load_images_dat(&bytes)?))
-                }
-                Some("sprites") => {
-                    let mut bytes = Vec::new();
-                    reader.read_to_end(&mut bytes).await?;
-                    DatAsset::Sprites(Box::new(load_sprites_dat(&bytes)?))
                 }
                 Some("units") => {
                     let mut bytes = Vec::new();
@@ -329,20 +295,5 @@ fn load_images_dat(mut bytes: &[u8]) -> anyhow::Result<ImageData> {
         special_overlay: bytes.read_u32_array::<NUM_IMAGE_DATA>()?,
         landing_dust_overlay: bytes.read_u32_array::<NUM_IMAGE_DATA>()?,
         lift_off_dust_overlay: bytes.read_u32_array::<NUM_IMAGE_DATA>()?,
-    })
-}
-
-fn load_sprites_dat(mut bytes: &[u8]) -> anyhow::Result<SpriteData> {
-    if bytes.len() < EXPECTED_SPRITES_DAT_SIZE {
-        return Err(anyhow!("sprites.dat file is too small: {}", bytes.len()));
-    }
-
-    Ok(SpriteData {
-        image: bytes.read_u16_array::<NUM_SPRITE_DATA>()?,
-        health_bar: bytes.read_u8_array::<NUM_SELECTABLE_SPRITES>()?,
-        unknown_0: bytes.read_u8_array::<NUM_SPRITE_DATA>()?,
-        visible: bytes.read_u8_array::<NUM_SPRITE_DATA>()?,
-        selection_circle: bytes.read_u8_array::<NUM_SELECTABLE_SPRITES>()?,
-        selection_circle_offset: bytes.read_u8_array::<NUM_SELECTABLE_SPRITES>()?,
     })
 }

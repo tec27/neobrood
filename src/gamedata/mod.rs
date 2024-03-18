@@ -7,7 +7,7 @@ use crate::{
 
 use self::{
     anim::{AnimAsset, AnimAssetLoader},
-    dat::{DatAsset, DatAssetLoader, ImageData, SpriteData, UnitData},
+    dat::{DatAsset, DatAssetLoader, ImageData, UnitData},
     rel::{RelAsset, RelAssetLoader},
     tbl::{TblAsset, TblAssetLoader},
 };
@@ -17,10 +17,13 @@ pub mod dat;
 mod flingy;
 mod generated;
 pub mod rel;
+mod sprite;
 pub mod tbl;
 
 pub use flingy::Flingy;
 pub use generated::flingy::FLINGIES;
+pub use generated::sprite::SPRITES;
+pub use sprite::BwSprite;
 
 pub struct GameDataPlugin;
 
@@ -62,7 +65,6 @@ pub struct LoadingBwGameDataHandles {
     pub strings: Handle<TblAsset>,
 
     pub images: Handle<DatAsset>,
-    pub sprites: Handle<DatAsset>,
     pub units: Handle<DatAsset>,
 
     pub relations: Handle<RelAsset>,
@@ -74,7 +76,6 @@ pub struct BwGameData {
     pub strings: TblAsset,
 
     pub images: ImageData,
-    pub sprites: SpriteData,
     pub units: UnitData,
 
     pub relations: RelAsset,
@@ -117,7 +118,6 @@ fn load_game_data(
     let strings = asset_server.load("casc-extracted/rez/stat_txt.tbl");
 
     let images = asset_server.load("casc-extracted/arr/images.dat");
-    let sprites = asset_server.load("casc-extracted/arr/sprites.dat");
     let units = asset_server.load("casc-extracted/arr/units.dat");
 
     let relations = asset_server.load("casc-extracted/images.rel");
@@ -127,7 +127,6 @@ fn load_game_data(
         strings,
 
         images,
-        sprites,
         units,
 
         relations,
@@ -151,7 +150,6 @@ fn check_game_data_load(
     if asset_server.is_loaded_with_dependencies(&handles.image_paths)
         && asset_server.is_loaded_with_dependencies(&handles.strings)
         && asset_server.is_loaded_with_dependencies(&handles.images)
-        && asset_server.is_loaded_with_dependencies(&handles.sprites)
         && asset_server.is_loaded_with_dependencies(&handles.units)
         && asset_server.is_loaded_with_dependencies(&handles.relations)
     {
@@ -166,11 +164,6 @@ fn check_game_data_load(
                 .unwrap()
                 .try_into()
                 .expect("Failed to convert images DatAsset to underlying data"),
-            sprites: dat_assets
-                .get(&handles.sprites)
-                .unwrap()
-                .try_into()
-                .expect("Failed to convert sprites DatAsset to underlying data"),
             units: dat_assets
                 .get(&handles.units)
                 .unwrap()
