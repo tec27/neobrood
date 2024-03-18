@@ -2,10 +2,7 @@ use anyhow::{anyhow, bail};
 use byteorder::{LittleEndian, ReadBytesExt};
 use proc_macro2::{Delimiter, Group, Span, TokenStream};
 use quote::{quote, ToTokens, TokenStreamExt};
-use std::{
-    arch::is_aarch64_feature_detected, collections::binary_heap::Drain, env, io::IoSlice,
-    path::Path,
-};
+use std::{env, ops::Range, path::Path};
 use syn::Ident;
 
 use crate::bytes::{ByteReadable, ReadByteArraysExt};
@@ -40,6 +37,13 @@ fn main() -> Result<(), anyhow::Error> {
         let bytes = std::fs::read(&path).expect("Couldn't read flingy.dat");
         let data = load_flingy_dat(&bytes)?;
         write_flingy(data)?;
+    }
+
+    {
+        let path = game_data_path.join("arr/units.dat");
+        let bytes = std::fs::read(&path).expect("Couldn't read units.dat");
+        let data = load_units_dat(&bytes)?;
+        write_units(data)?;
     }
 
     Ok(())
@@ -150,9 +154,10 @@ fn write_images(data: ImageData) -> anyhow::Result<()> {
     }
 
     let tokens = quote! {
-        // GENERATED CODE, DO NOT MODIFY BY HAND
         use crate::gamedata::BwImage;
 
+        // GENERATED CODE, DO NOT MODIFY BY HAND
+        /// Contains data for all images in the game.
         pub const IMAGES: [BwImage; #NUM_IMAGE_DATA] = [#(#entries,)*];
     };
 
@@ -205,7 +210,7 @@ fn write_sprites(data: SpriteData) -> anyhow::Result<()> {
         };
 
         let id = i as u16;
-        let image = data.image[i] as usize;
+        let image_id = data.image[i];
         let health_bar = PreservedOption(selectable_index.map(|i| data.health_bar[i]));
         let unknown_0 = data.unknown_0[i];
         let visible = data.visible[i];
@@ -216,7 +221,7 @@ fn write_sprites(data: SpriteData) -> anyhow::Result<()> {
         entries.push(quote! {
             BwSprite {
                 id: #id,
-                image: &IMAGES[#image],
+                image_id: #image_id,
                 health_bar: #health_bar,
                 unknown_0: #unknown_0,
                 visible: #visible,
@@ -227,10 +232,10 @@ fn write_sprites(data: SpriteData) -> anyhow::Result<()> {
     }
 
     let tokens = quote! {
-        // GENERATED CODE, DO NOT MODIFY BY HAND
         use crate::gamedata::BwSprite;
-        use super::image::IMAGES;
 
+        // GENERATED CODE, DO NOT MODIFY BY HAND
+        /// Contains data for all sprites in the game.
         pub const SPRITES: [BwSprite; #NUM_SPRITE_DATA] = [#(#entries,)*];
     };
 
@@ -279,7 +284,7 @@ fn write_flingy(flingy_data: FlingyData) -> anyhow::Result<()> {
     let mut entries = Vec::new();
     for i in 0..NUM_FLINGY_DATA {
         let id = i as u8;
-        let sprite = flingy_data.sprite[i] as usize;
+        let sprite_id = flingy_data.sprite[i];
         let speed = flingy_data.speed[i];
         let acceleration = flingy_data.acceleration[i];
         let halt_distance = flingy_data.halt_distance[i];
@@ -289,7 +294,7 @@ fn write_flingy(flingy_data: FlingyData) -> anyhow::Result<()> {
         entries.push(quote! {
             Flingy {
                 id: #id,
-                sprite: &SPRITES[#sprite],
+                sprite_id: #sprite_id,
                 speed: #speed,
                 acceleration: #acceleration,
                 halt_distance: #halt_distance,
@@ -300,10 +305,10 @@ fn write_flingy(flingy_data: FlingyData) -> anyhow::Result<()> {
     }
 
     let tokens = quote! {
-        // GENERATED CODE, DO NOT MODIFY BY HAND
         use crate::gamedata::Flingy;
-        use super::sprite::SPRITES;
 
+        // GENERATED CODE, DO NOT MODIFY BY HAND
+        /// Contains data for all flingy types in the game.
         pub const FLINGIES: [Flingy; #NUM_FLINGY_DATA] = [#(#entries,)*];
     };
 
@@ -311,6 +316,359 @@ fn write_flingy(flingy_data: FlingyData) -> anyhow::Result<()> {
     let src = prettyplease::unparse(&src);
     std::fs::write("src/gamedata/generated/flingy.rs", src)
         .expect("Couldn't write generated/flingy.rs");
+
+    Ok(())
+}
+
+#[derive(Copy, Clone, Eq, PartialEq, Default, Debug)]
+pub struct Point16 {
+    pub x: i16,
+    pub y: i16,
+}
+
+impl ByteReadable for Point16 {
+    fn read(reader: &mut impl ReadBytesExt) -> anyhow::Result<Self> {
+        Ok(Self {
+            x: reader.read_i16::<LittleEndian>()?,
+            y: reader.read_i16::<LittleEndian>()?,
+        })
+    }
+}
+
+impl ToTokens for Point16 {
+    fn to_tokens(&self, tokens: &mut TokenStream) {
+        let x = self.x;
+        let y = self.y;
+        let code = quote! { I16Vec2 { x: #x, y: #y } };
+        code.to_tokens(tokens);
+    }
+}
+
+#[derive(Copy, Clone, Eq, PartialEq, Default, Debug)]
+pub struct Rect16 {
+    pub left: i16,
+    pub top: i16,
+    pub right: i16,
+    pub bottom: i16,
+}
+
+impl ByteReadable for Rect16 {
+    fn read(reader: &mut impl ReadBytesExt) -> anyhow::Result<Self> {
+        Ok(Self {
+            left: reader.read_i16::<LittleEndian>()?,
+            top: reader.read_i16::<LittleEndian>()?,
+            right: reader.read_i16::<LittleEndian>()?,
+            bottom: reader.read_i16::<LittleEndian>()?,
+        })
+    }
+}
+
+impl ToTokens for Rect16 {
+    fn to_tokens(&self, tokens: &mut TokenStream) {
+        let left = self.left as i32;
+        let top = self.top as i32;
+        let right = self.right as i32;
+        let bottom = self.bottom as i32;
+        // NOTE(tec27): Bevy doesn't have an I16Rect type so I'm just using the base IRect type,
+        // doubt it really matters that much in the scheme of things
+        let code = quote! {
+            IRect {
+                min: IVec2 { x: #left, y: #top },
+                max: IVec2 { x: #right, y: #bottom },
+            }
+        };
+        code.to_tokens(tokens);
+    }
+}
+
+/// How many things (units + buildings + other) are specified in the units.dat file.
+const NUM_UNIT_DATA: usize = 228;
+/// How many units are specified in the units.dat file (these are at the beginning).
+const NUM_UNITS: usize = 106;
+/// How many buildings are specified in the units.dat file (these are in the middle).
+const NUM_BUILDINGS: usize = 96;
+const UNITS_RANGE: Range<usize> = 0..NUM_UNITS;
+const BUILDINGS_RANGE: Range<usize> = NUM_UNITS..NUM_UNITS + NUM_BUILDINGS;
+const EXPECTED_UNITS_DAT_SIZE: usize = 0x4DA4;
+
+#[allow(dead_code)]
+#[derive(Clone, Debug)]
+pub struct UnitData {
+    pub flingy: [u8; NUM_UNIT_DATA],
+    pub sub_unit_1: [u16; NUM_UNIT_DATA],
+    pub sub_unit_2: [u16; NUM_UNIT_DATA],
+    pub infestation: [u16; NUM_BUILDINGS],
+    pub construction_image: [u32; NUM_UNIT_DATA],
+    pub unit_direction: [u8; NUM_UNIT_DATA],
+    pub shield_enabled: [u8; NUM_UNIT_DATA],
+    pub shield_amount: [i16; NUM_UNIT_DATA],
+    pub hit_points: [i32; NUM_UNIT_DATA],
+    pub elevation_level: [u8; NUM_UNIT_DATA],
+    pub unknown_0: [u8; NUM_UNIT_DATA],
+    pub sub_label: [u8; NUM_UNIT_DATA],
+    pub computer_ai_idle: [u8; NUM_UNIT_DATA],
+    pub human_ai_idle: [u8; NUM_UNIT_DATA],
+    pub return_to_idle: [u8; NUM_UNIT_DATA],
+    pub attack_unit: [u8; NUM_UNIT_DATA],
+    pub attack_move: [u8; NUM_UNIT_DATA],
+    pub ground_weapon: [u8; NUM_UNIT_DATA],
+    pub max_ground_hits: [u8; NUM_UNIT_DATA],
+    pub air_weapon: [u8; NUM_UNIT_DATA],
+    pub max_air_hits: [u8; NUM_UNIT_DATA],
+    pub ai_internal: [u8; NUM_UNIT_DATA],
+    pub special_ability_flags: [u32; NUM_UNIT_DATA],
+    pub target_acquisition_range: [u8; NUM_UNIT_DATA],
+    pub sight_range: [u8; NUM_UNIT_DATA],
+    pub armor_upgrade: [u8; NUM_UNIT_DATA],
+    pub unit_size: [u8; NUM_UNIT_DATA],
+    pub armor: [u8; NUM_UNIT_DATA],
+    pub right_click_action: [u8; NUM_UNIT_DATA],
+    pub ready_sound: [u16; NUM_UNITS],
+    pub what_sound_start: [u16; NUM_UNIT_DATA],
+    pub what_sound_end: [u16; NUM_UNIT_DATA],
+    pub piss_sound_start: [u16; NUM_UNITS],
+    pub piss_sound_end: [u16; NUM_UNITS],
+    pub yes_sound_start: [u16; NUM_UNITS],
+    pub yes_sound_end: [u16; NUM_UNITS],
+    pub placebox_size: [Point16; NUM_UNIT_DATA],
+    pub addon_size: [Point16; NUM_BUILDINGS],
+    pub unit_rect: [Rect16; NUM_UNIT_DATA],
+    pub portrait: [u16; NUM_UNIT_DATA],
+    pub mineral_cost: [u16; NUM_UNIT_DATA],
+    pub vespene_cost: [u16; NUM_UNIT_DATA],
+    pub build_time: [u16; NUM_UNIT_DATA],
+    pub requirement_index: [u16; NUM_UNIT_DATA],
+    pub star_edit_group_flags: [u8; NUM_UNIT_DATA],
+    pub supply_provided: [u8; NUM_UNIT_DATA],
+    pub supply_required: [u8; NUM_UNIT_DATA],
+    pub space_required: [u8; NUM_UNIT_DATA],
+    pub space_provided: [u8; NUM_UNIT_DATA],
+    pub build_score: [u16; NUM_UNIT_DATA],
+    pub destroy_score: [u16; NUM_UNIT_DATA],
+    pub unit_map_string: [u16; NUM_UNIT_DATA],
+    pub brood_war_unit_flag: [u8; NUM_UNIT_DATA],
+    pub star_edit_availability_flag: [u16; NUM_UNIT_DATA],
+}
+
+fn load_units_dat(mut bytes: &[u8]) -> anyhow::Result<UnitData> {
+    if bytes.len() < EXPECTED_UNITS_DAT_SIZE {
+        return Err(anyhow!("units.dat file is too small: {}", bytes.len()));
+    }
+
+    Ok(UnitData {
+        flingy: bytes.read_u8_array::<NUM_UNIT_DATA>()?,
+        sub_unit_1: bytes.read_u16_array::<NUM_UNIT_DATA>()?,
+        sub_unit_2: bytes.read_u16_array::<NUM_UNIT_DATA>()?,
+        infestation: bytes.read_u16_array::<NUM_BUILDINGS>()?,
+        construction_image: bytes.read_u32_array::<NUM_UNIT_DATA>()?,
+        unit_direction: bytes.read_u8_array::<NUM_UNIT_DATA>()?,
+        shield_enabled: bytes.read_u8_array::<NUM_UNIT_DATA>()?,
+        shield_amount: bytes.read_i16_array::<NUM_UNIT_DATA>()?,
+        hit_points: bytes.read_i32_array::<NUM_UNIT_DATA>()?,
+        elevation_level: bytes.read_u8_array::<NUM_UNIT_DATA>()?,
+        unknown_0: bytes.read_u8_array::<NUM_UNIT_DATA>()?,
+        sub_label: bytes.read_u8_array::<NUM_UNIT_DATA>()?,
+        computer_ai_idle: bytes.read_u8_array::<NUM_UNIT_DATA>()?,
+        human_ai_idle: bytes.read_u8_array::<NUM_UNIT_DATA>()?,
+        return_to_idle: bytes.read_u8_array::<NUM_UNIT_DATA>()?,
+        attack_unit: bytes.read_u8_array::<NUM_UNIT_DATA>()?,
+        attack_move: bytes.read_u8_array::<NUM_UNIT_DATA>()?,
+        ground_weapon: bytes.read_u8_array::<NUM_UNIT_DATA>()?,
+        max_ground_hits: bytes.read_u8_array::<NUM_UNIT_DATA>()?,
+        air_weapon: bytes.read_u8_array::<NUM_UNIT_DATA>()?,
+        max_air_hits: bytes.read_u8_array::<NUM_UNIT_DATA>()?,
+        ai_internal: bytes.read_u8_array::<NUM_UNIT_DATA>()?,
+        special_ability_flags: bytes.read_u32_array::<NUM_UNIT_DATA>()?,
+        target_acquisition_range: bytes.read_u8_array::<NUM_UNIT_DATA>()?,
+        sight_range: bytes.read_u8_array::<NUM_UNIT_DATA>()?,
+        armor_upgrade: bytes.read_u8_array::<NUM_UNIT_DATA>()?,
+        unit_size: bytes.read_u8_array::<NUM_UNIT_DATA>()?,
+        armor: bytes.read_u8_array::<NUM_UNIT_DATA>()?,
+        right_click_action: bytes.read_u8_array::<NUM_UNIT_DATA>()?,
+        ready_sound: bytes.read_u16_array::<NUM_UNITS>()?,
+        what_sound_start: bytes.read_u16_array::<NUM_UNIT_DATA>()?,
+        what_sound_end: bytes.read_u16_array::<NUM_UNIT_DATA>()?,
+        piss_sound_start: bytes.read_u16_array::<NUM_UNITS>()?,
+        piss_sound_end: bytes.read_u16_array::<NUM_UNITS>()?,
+        yes_sound_start: bytes.read_u16_array::<NUM_UNITS>()?,
+        yes_sound_end: bytes.read_u16_array::<NUM_UNITS>()?,
+        placebox_size: bytes.read_array::<Point16, NUM_UNIT_DATA>()?,
+        addon_size: bytes.read_array::<Point16, NUM_BUILDINGS>()?,
+        unit_rect: bytes.read_array::<Rect16, NUM_UNIT_DATA>()?,
+        portrait: bytes.read_u16_array::<NUM_UNIT_DATA>()?,
+        mineral_cost: bytes.read_u16_array::<NUM_UNIT_DATA>()?,
+        vespene_cost: bytes.read_u16_array::<NUM_UNIT_DATA>()?,
+        build_time: bytes.read_u16_array::<NUM_UNIT_DATA>()?,
+        requirement_index: bytes.read_u16_array::<NUM_UNIT_DATA>()?,
+        star_edit_group_flags: bytes.read_u8_array::<NUM_UNIT_DATA>()?,
+        supply_provided: bytes.read_u8_array::<NUM_UNIT_DATA>()?,
+        supply_required: bytes.read_u8_array::<NUM_UNIT_DATA>()?,
+        space_required: bytes.read_u8_array::<NUM_UNIT_DATA>()?,
+        space_provided: bytes.read_u8_array::<NUM_UNIT_DATA>()?,
+        build_score: bytes.read_u16_array::<NUM_UNIT_DATA>()?,
+        destroy_score: bytes.read_u16_array::<NUM_UNIT_DATA>()?,
+        unit_map_string: bytes.read_u16_array::<NUM_UNIT_DATA>()?,
+        brood_war_unit_flag: bytes.read_u8_array::<NUM_UNIT_DATA>()?,
+        star_edit_availability_flag: bytes.read_u16_array::<NUM_UNIT_DATA>()?,
+    })
+}
+
+fn write_units(data: UnitData) -> anyhow::Result<()> {
+    let mut entries = Vec::new();
+    for i in 0..NUM_UNIT_DATA {
+        let id = i as u16;
+        let flingy_id = data.flingy[i];
+        let sub_unit_1 = data.sub_unit_1[i];
+        let sub_unit_2 = data.sub_unit_2[i];
+        let construction_image_id = data.construction_image[i];
+        let unit_direction = data.unit_direction[i];
+        let shield_enabled = data.shield_enabled[i];
+        let shield_amount = data.shield_amount[i];
+        let hit_points = data.hit_points[i];
+        let elevation_level = data.elevation_level[i];
+        let unknown_0 = data.unknown_0[i];
+        let sub_label = data.sub_label[i];
+        let computer_ai_idle = data.computer_ai_idle[i];
+        let human_ai_idle = data.human_ai_idle[i];
+        let return_to_idle = data.return_to_idle[i];
+        let attack_unit = data.attack_unit[i];
+        let attack_move = data.attack_move[i];
+        let ground_weapon = data.ground_weapon[i];
+        let max_ground_hits = data.max_ground_hits[i];
+        let air_weapon = data.air_weapon[i];
+        let max_air_hits = data.max_air_hits[i];
+        let ai_internal = data.ai_internal[i];
+        let special_ability_flags = data.special_ability_flags[i];
+        let target_acquisition_range = data.target_acquisition_range[i];
+        let sight_range = data.sight_range[i];
+        let armor_upgrade = data.armor_upgrade[i];
+        let unit_size = data.unit_size[i];
+        let armor = data.armor[i];
+        let right_click_action = data.right_click_action[i];
+        let what_sound_start = data.what_sound_start[i];
+        let what_sound_end = data.what_sound_end[i];
+        let placebox_size = data.placebox_size[i];
+        let unit_rect = data.unit_rect[i];
+        let portrait = data.portrait[i];
+        let mineral_cost = data.mineral_cost[i];
+        let vespene_cost = data.vespene_cost[i];
+        let build_time = data.build_time[i];
+        let requirement_index = data.requirement_index[i];
+        let star_edit_group_flags = data.star_edit_group_flags[i];
+        let supply_provided = data.supply_provided[i];
+        let supply_required = data.supply_required[i];
+        let space_required = data.space_required[i];
+        let space_provided = data.space_provided[i];
+        let build_score = data.build_score[i];
+        let destroy_score = data.destroy_score[i];
+        let unit_map_string = data.unit_map_string[i];
+        let is_brood_war = data.brood_war_unit_flag[i] != 0;
+        let star_edit_availability_flag = data.star_edit_availability_flag[i];
+
+        let kind = match (UNITS_RANGE.contains(&i), BUILDINGS_RANGE.contains(&i)) {
+            (true, false) => {
+                let i = i - UNITS_RANGE.start;
+                let ready_sound = data.ready_sound[i];
+                let piss_sound_start = data.piss_sound_start[i];
+                let piss_sound_end = data.piss_sound_end[i];
+                let yes_sound_start = data.yes_sound_start[i];
+                let yes_sound_end = data.yes_sound_end[i];
+                quote! {
+                    ConstructKind::Unit(UnitData {
+                        ready_sound: #ready_sound,
+                        piss_sound_start: #piss_sound_start,
+                        piss_sound_end: #piss_sound_end,
+                        yes_sound_start: #yes_sound_start,
+                        yes_sound_end: #yes_sound_end,
+                    })
+                }
+            }
+            (false, true) => {
+                let i = i - BUILDINGS_RANGE.start;
+                let infestation = data.infestation[i];
+                let addon_size = data.addon_size[i];
+                quote! {
+                    ConstructKind::Building(BuildingData {
+                        infestation: #infestation,
+                        addon_size: #addon_size,
+                    })
+                }
+            }
+            _ => quote! { ConstructKind::Other },
+        };
+
+        entries.push(quote! {
+            Construct {
+                id: #id,
+                flingy_id: #flingy_id,
+                sub_unit_1: #sub_unit_1,
+                sub_unit_2: #sub_unit_2,
+                construction_image_id: #construction_image_id,
+                unit_direction: #unit_direction,
+                shield_enabled: #shield_enabled,
+                shield_amount: #shield_amount,
+                hit_points: #hit_points,
+                elevation_level: #elevation_level,
+                unknown_0: #unknown_0,
+                sub_label: #sub_label,
+                computer_ai_idle: #computer_ai_idle,
+                human_ai_idle: #human_ai_idle,
+                return_to_idle: #return_to_idle,
+                attack_unit: #attack_unit,
+                attack_move: #attack_move,
+                ground_weapon: #ground_weapon,
+                max_ground_hits: #max_ground_hits,
+                air_weapon: #air_weapon,
+                max_air_hits: #max_air_hits,
+                ai_internal: #ai_internal,
+                special_ability_flags: #special_ability_flags,
+                target_acquisition_range: #target_acquisition_range,
+                sight_range: #sight_range,
+                armor_upgrade: #armor_upgrade,
+                unit_size: #unit_size,
+                armor: #armor,
+                right_click_action: #right_click_action,
+                what_sound_start: #what_sound_start,
+                what_sound_end: #what_sound_end,
+                placebox_size: #placebox_size,
+                unit_rect: #unit_rect,
+                portrait: #portrait,
+                mineral_cost: #mineral_cost,
+                vespene_cost: #vespene_cost,
+                build_time: #build_time,
+                requirement_index: #requirement_index,
+                star_edit_group_flags: #star_edit_group_flags,
+                supply_provided: #supply_provided,
+                supply_required: #supply_required,
+                space_required: #space_required,
+                space_provided: #space_provided,
+                build_score: #build_score,
+                destroy_score: #destroy_score,
+                unit_map_string: #unit_map_string,
+                is_brood_war: #is_brood_war,
+                star_edit_availability_flag: #star_edit_availability_flag,
+
+                kind: #kind,
+            }
+        });
+    }
+
+    let num_entries = entries.len();
+
+    let tokens = quote! {
+        use bevy::math::{I16Vec2, IRect, IVec2};
+        use crate::gamedata::{Construct, ConstructKind, BuildingData, UnitData};
+
+        // GENERATED CODE, DO NOT MODIFY BY HAND
+
+        /// Contains data for all units, buildings, and other constructs in the game.
+        pub const CONSTRUCTS: [Construct; #num_entries] = [#(#entries,)*];
+    };
+
+    let src = syn::parse2(tokens).expect("Couldn't parse generated unit.rs");
+    let src = prettyplease::unparse(&src);
+    std::fs::write("src/gamedata/generated/unit.rs", src)
+        .expect("Couldn't write generated/unit.rs");
 
     Ok(())
 }

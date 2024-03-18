@@ -4,11 +4,11 @@ use bevy::utils::HashMap;
 use bevy_ecs_tilemap::prelude::*;
 
 use crate::{
-    gamedata::{BwGameData, LoadingAnim, FLINGIES, SPRITES},
+    constructs::{ConstructTypeId, OwnedConstruct},
+    gamedata::{BwGameData, LoadingAnim, CONSTRUCTS, SPRITES},
     maps::game_map::GameMapBundle,
     render::ysort::YSort,
     states::AppState,
-    units::{OwnedUnit, UnitType},
 };
 
 use self::{
@@ -53,10 +53,9 @@ fn map_init(
         // Map already initialized
         return;
     }
-
-    let Some(game_data) = game_data else {
+    if game_data.is_none() {
         return;
-    };
+    }
     let Some(map) = map_assets.get(&current_map.handle) else {
         return;
     };
@@ -65,7 +64,7 @@ fn map_init(
     let map_entity = commands.spawn(GameMapBundle::default()).id();
     create_tilemap(&mut commands, map, &array_texture_loader, map_entity);
     create_map_sprites(&mut commands, map, map_entity);
-    create_placed_units(&mut commands, map, map_entity, &game_data);
+    create_placed_units(&mut commands, map, map_entity);
 
     // TODO(tec27): This should probably be done in response to this stuff we just created being
     // ready? (i.e. it should wait for all the LoadingAnims that get added to be loaded)
@@ -218,16 +217,13 @@ fn create_map_sprites(commands: &mut Commands, map: &MapAsset, map_entity: Entit
     let max_height = (map.height - 1) as f32;
 
     for (i, sprite) in map.sprites.iter().enumerate() {
-        let image_id = SPRITES
-            .get(sprite.id as usize)
-            .map(|s| s.image.id)
-            .unwrap_or_else(|| {
-                warn!(
-                    "Encountered Sprite {} which isn't a valid ID, using placeholder sprite",
-                    sprite.id
-                );
-                0
-            });
+        let Some(s) = SPRITES.get(sprite.id as usize) else {
+            warn!(
+                "Encountered Sprite {} which isn't a valid ID, skipping",
+                sprite.id
+            );
+            continue;
+        };
 
         commands
             .spawn(SpatialBundle {
@@ -245,18 +241,13 @@ fn create_map_sprites(commands: &mut Commands, map: &MapAsset, map_entity: Entit
             .insert(YSort(2.0))
             .insert(Name::new(format!("Sprite #{i}")))
             .with_children(|builder| {
-                builder.spawn(LoadingAnim::new(image_id));
+                builder.spawn(LoadingAnim::new(s.image_id));
             })
             .set_parent(map_entity);
     }
 }
 
-fn create_placed_units(
-    commands: &mut Commands,
-    map: &MapAsset,
-    map_entity: Entity,
-    game_data: &BwGameData,
-) {
+fn create_placed_units(commands: &mut Commands, map: &MapAsset, map_entity: Entity) {
     info!(
         "Creating placed units, map has {} placed units",
         map.placed_units.len()
@@ -266,28 +257,15 @@ fn create_placed_units(
     let max_height = (map.height - 1) as f32;
 
     for unit in map.placed_units.iter() {
-        let flingy_id = game_data
-            .units
-            .flingy
-            .get(unit.unit_id as usize)
-            .copied()
-            .unwrap_or_else(|| {
-                warn!(
-                    "Encountered Unit {} which isn't a valid ID, using placeholder flingy",
-                    unit.unit_id
-                );
-                0
-            });
-        let image_id = FLINGIES
-            .get(flingy_id as usize)
-            .map(|f| f.sprite.image.id)
-            .unwrap_or_else(|| {
-                warn!(
-                    "Encountered Flingy {} which isn't a valid ID, using placeholder sprite",
-                    flingy_id
-                );
-                0
-            });
+        let Some(construct) = CONSTRUCTS.get(unit.unit_id as usize) else {
+            warn!(
+                "Encountered Unit {} which isn't a valid ID, skipping",
+                unit.unit_id
+            );
+            continue;
+        };
+
+        let image_id = construct.flingy().sprite().image_id;
 
         let entity = commands
             .spawn((
@@ -303,7 +281,7 @@ fn create_placed_units(
                     )),
                     ..default()
                 },
-                UnitType::from(unit.unit_id),
+                ConstructTypeId::from(unit.unit_id),
                 YSort(2.0),
                 Name::new(format!("Unit #{}", unit.unit_id)),
             ))
@@ -313,7 +291,7 @@ fn create_placed_units(
             .set_parent(map_entity)
             .id();
         if let Some(owner) = unit.owner {
-            commands.entity(entity).insert(OwnedUnit(owner));
+            commands.entity(entity).insert(OwnedConstruct(owner));
         }
     }
 }

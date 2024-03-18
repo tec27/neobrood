@@ -1,9 +1,9 @@
-use super::image::IMAGES;
 use crate::gamedata::BwSprite;
+/// Contains data for all sprites in the game.
 pub const SPRITES: [BwSprite; 517usize] = [
     BwSprite {
         id: 0u16,
-        image: &IMAGES[589usize],
+        image_id: 589u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -12,7 +12,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 1u16,
-        image: &IMAGES[591usize],
+        image_id: 591u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -21,7 +21,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 2u16,
-        image: &IMAGES[593usize],
+        image_id: 593u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -30,7 +30,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 3u16,
-        image: &IMAGES[595usize],
+        image_id: 595u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -39,7 +39,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 4u16,
-        image: &IMAGES[597usize],
+        image_id: 597u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -48,7 +48,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 5u16,
-        image: &IMAGES[599usize],
+        image_id: 599u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -57,7 +57,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 6u16,
-        image: &IMAGES[600usize],
+        image_id: 600u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -66,7 +66,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 7u16,
-        image: &IMAGES[601usize],
+        image_id: 601u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -75,7 +75,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 8u16,
-        image: &IMAGES[602usize],
+        image_id: 602u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -84,7 +84,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 9u16,
-        image: &IMAGES[603usize],
+        image_id: 603u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -93,7 +93,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 10u16,
-        image: &IMAGES[604usize],
+        image_id: 604u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -102,7 +102,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 11u16,
-        image: &IMAGES[605usize],
+        image_id: 605u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -111,7 +111,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 12u16,
-        image: &IMAGES[606usize],
+        image_id: 606u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -120,7 +120,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 13u16,
-        image: &IMAGES[607usize],
+        image_id: 607u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -129,7 +129,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 14u16,
-        image: &IMAGES[608usize],
+        image_id: 608u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -138,7 +138,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 15u16,
-        image: &IMAGES[609usize],
+        image_id: 609u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -147,7 +147,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 16u16,
-        image: &IMAGES[610usize],
+        image_id: 610u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -156,7 +156,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 17u16,
-        image: &IMAGES[612usize],
+        image_id: 612u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -165,7 +165,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 18u16,
-        image: &IMAGES[614usize],
+        image_id: 614u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -174,7 +174,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 19u16,
-        image: &IMAGES[616usize],
+        image_id: 616u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -183,7 +183,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 20u16,
-        image: &IMAGES[618usize],
+        image_id: 618u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -192,7 +192,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 21u16,
-        image: &IMAGES[620usize],
+        image_id: 620u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -201,7 +201,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 22u16,
-        image: &IMAGES[622usize],
+        image_id: 622u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -210,7 +210,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 23u16,
-        image: &IMAGES[624usize],
+        image_id: 624u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -219,7 +219,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 24u16,
-        image: &IMAGES[626usize],
+        image_id: 626u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -228,7 +228,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 25u16,
-        image: &IMAGES[628usize],
+        image_id: 628u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -237,7 +237,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 26u16,
-        image: &IMAGES[630usize],
+        image_id: 630u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -246,7 +246,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 27u16,
-        image: &IMAGES[632usize],
+        image_id: 632u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -255,7 +255,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 28u16,
-        image: &IMAGES[634usize],
+        image_id: 634u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -264,7 +264,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 29u16,
-        image: &IMAGES[636usize],
+        image_id: 636u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -273,7 +273,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 30u16,
-        image: &IMAGES[638usize],
+        image_id: 638u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -282,7 +282,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 31u16,
-        image: &IMAGES[640usize],
+        image_id: 640u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -291,7 +291,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 32u16,
-        image: &IMAGES[641usize],
+        image_id: 641u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -300,7 +300,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 33u16,
-        image: &IMAGES[642usize],
+        image_id: 642u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -309,7 +309,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 34u16,
-        image: &IMAGES[643usize],
+        image_id: 643u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -318,7 +318,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 35u16,
-        image: &IMAGES[644usize],
+        image_id: 644u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -327,7 +327,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 36u16,
-        image: &IMAGES[645usize],
+        image_id: 645u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -336,7 +336,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 37u16,
-        image: &IMAGES[646usize],
+        image_id: 646u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -345,7 +345,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 38u16,
-        image: &IMAGES[647usize],
+        image_id: 647u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -354,7 +354,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 39u16,
-        image: &IMAGES[648usize],
+        image_id: 648u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -363,7 +363,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 40u16,
-        image: &IMAGES[649usize],
+        image_id: 649u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -372,7 +372,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 41u16,
-        image: &IMAGES[650usize],
+        image_id: 650u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -381,7 +381,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 42u16,
-        image: &IMAGES[651usize],
+        image_id: 651u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -390,7 +390,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 43u16,
-        image: &IMAGES[652usize],
+        image_id: 652u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -399,7 +399,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 44u16,
-        image: &IMAGES[653usize],
+        image_id: 653u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -408,7 +408,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 45u16,
-        image: &IMAGES[654usize],
+        image_id: 654u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -417,7 +417,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 46u16,
-        image: &IMAGES[655usize],
+        image_id: 655u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -426,7 +426,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 47u16,
-        image: &IMAGES[656usize],
+        image_id: 656u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -435,7 +435,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 48u16,
-        image: &IMAGES[657usize],
+        image_id: 657u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -444,7 +444,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 49u16,
-        image: &IMAGES[658usize],
+        image_id: 658u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -453,7 +453,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 50u16,
-        image: &IMAGES[659usize],
+        image_id: 659u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -462,7 +462,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 51u16,
-        image: &IMAGES[660usize],
+        image_id: 660u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -471,7 +471,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 52u16,
-        image: &IMAGES[661usize],
+        image_id: 661u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -480,7 +480,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 53u16,
-        image: &IMAGES[662usize],
+        image_id: 662u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -489,7 +489,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 54u16,
-        image: &IMAGES[663usize],
+        image_id: 663u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -498,7 +498,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 55u16,
-        image: &IMAGES[664usize],
+        image_id: 664u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -507,7 +507,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 56u16,
-        image: &IMAGES[665usize],
+        image_id: 665u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -516,7 +516,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 57u16,
-        image: &IMAGES[667usize],
+        image_id: 667u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -525,7 +525,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 58u16,
-        image: &IMAGES[669usize],
+        image_id: 669u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -534,7 +534,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 59u16,
-        image: &IMAGES[671usize],
+        image_id: 671u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -543,7 +543,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 60u16,
-        image: &IMAGES[673usize],
+        image_id: 673u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -552,7 +552,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 61u16,
-        image: &IMAGES[675usize],
+        image_id: 675u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -561,7 +561,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 62u16,
-        image: &IMAGES[677usize],
+        image_id: 677u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -570,7 +570,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 63u16,
-        image: &IMAGES[678usize],
+        image_id: 678u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -579,7 +579,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 64u16,
-        image: &IMAGES[679usize],
+        image_id: 679u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -588,7 +588,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 65u16,
-        image: &IMAGES[680usize],
+        image_id: 680u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -597,7 +597,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 66u16,
-        image: &IMAGES[681usize],
+        image_id: 681u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -606,7 +606,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 67u16,
-        image: &IMAGES[682usize],
+        image_id: 682u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -615,7 +615,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 68u16,
-        image: &IMAGES[683usize],
+        image_id: 683u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -624,7 +624,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 69u16,
-        image: &IMAGES[684usize],
+        image_id: 684u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -633,7 +633,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 70u16,
-        image: &IMAGES[685usize],
+        image_id: 685u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -642,7 +642,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 71u16,
-        image: &IMAGES[686usize],
+        image_id: 686u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -651,7 +651,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 72u16,
-        image: &IMAGES[687usize],
+        image_id: 687u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -660,7 +660,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 73u16,
-        image: &IMAGES[688usize],
+        image_id: 688u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -669,7 +669,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 74u16,
-        image: &IMAGES[689usize],
+        image_id: 689u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -678,7 +678,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 75u16,
-        image: &IMAGES[690usize],
+        image_id: 690u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -687,7 +687,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 76u16,
-        image: &IMAGES[691usize],
+        image_id: 691u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -696,7 +696,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 77u16,
-        image: &IMAGES[693usize],
+        image_id: 693u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -705,7 +705,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 78u16,
-        image: &IMAGES[695usize],
+        image_id: 695u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -714,7 +714,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 79u16,
-        image: &IMAGES[697usize],
+        image_id: 697u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -723,7 +723,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 80u16,
-        image: &IMAGES[699usize],
+        image_id: 699u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -732,7 +732,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 81u16,
-        image: &IMAGES[700usize],
+        image_id: 700u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -741,7 +741,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 82u16,
-        image: &IMAGES[701usize],
+        image_id: 701u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -750,7 +750,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 83u16,
-        image: &IMAGES[702usize],
+        image_id: 702u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -759,7 +759,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 84u16,
-        image: &IMAGES[703usize],
+        image_id: 703u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -768,7 +768,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 85u16,
-        image: &IMAGES[704usize],
+        image_id: 704u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -777,7 +777,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 86u16,
-        image: &IMAGES[706usize],
+        image_id: 706u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -786,7 +786,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 87u16,
-        image: &IMAGES[708usize],
+        image_id: 708u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -795,7 +795,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 88u16,
-        image: &IMAGES[710usize],
+        image_id: 710u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -804,7 +804,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 89u16,
-        image: &IMAGES[712usize],
+        image_id: 712u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -813,7 +813,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 90u16,
-        image: &IMAGES[713usize],
+        image_id: 713u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -822,7 +822,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 91u16,
-        image: &IMAGES[714usize],
+        image_id: 714u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -831,7 +831,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 92u16,
-        image: &IMAGES[715usize],
+        image_id: 715u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -840,7 +840,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 93u16,
-        image: &IMAGES[716usize],
+        image_id: 716u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -849,7 +849,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 94u16,
-        image: &IMAGES[717usize],
+        image_id: 717u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -858,7 +858,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 95u16,
-        image: &IMAGES[718usize],
+        image_id: 718u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -867,7 +867,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 96u16,
-        image: &IMAGES[719usize],
+        image_id: 719u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -876,7 +876,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 97u16,
-        image: &IMAGES[720usize],
+        image_id: 720u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -885,7 +885,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 98u16,
-        image: &IMAGES[721usize],
+        image_id: 721u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -894,7 +894,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 99u16,
-        image: &IMAGES[722usize],
+        image_id: 722u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -903,7 +903,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 100u16,
-        image: &IMAGES[723usize],
+        image_id: 723u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -912,7 +912,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 101u16,
-        image: &IMAGES[724usize],
+        image_id: 724u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -921,7 +921,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 102u16,
-        image: &IMAGES[725usize],
+        image_id: 725u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -930,7 +930,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 103u16,
-        image: &IMAGES[726usize],
+        image_id: 726u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -939,7 +939,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 104u16,
-        image: &IMAGES[727usize],
+        image_id: 727u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -948,7 +948,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 105u16,
-        image: &IMAGES[728usize],
+        image_id: 728u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -957,7 +957,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 106u16,
-        image: &IMAGES[729usize],
+        image_id: 729u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -966,7 +966,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 107u16,
-        image: &IMAGES[730usize],
+        image_id: 730u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -975,7 +975,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 108u16,
-        image: &IMAGES[731usize],
+        image_id: 731u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -984,7 +984,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 109u16,
-        image: &IMAGES[732usize],
+        image_id: 732u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -993,7 +993,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 110u16,
-        image: &IMAGES[733usize],
+        image_id: 733u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -1002,7 +1002,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 111u16,
-        image: &IMAGES[734usize],
+        image_id: 734u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -1011,7 +1011,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 112u16,
-        image: &IMAGES[734usize],
+        image_id: 734u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -1020,7 +1020,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 113u16,
-        image: &IMAGES[734usize],
+        image_id: 734u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -1029,7 +1029,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 114u16,
-        image: &IMAGES[734usize],
+        image_id: 734u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -1038,7 +1038,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 115u16,
-        image: &IMAGES[734usize],
+        image_id: 734u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -1047,7 +1047,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 116u16,
-        image: &IMAGES[734usize],
+        image_id: 734u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -1056,7 +1056,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 117u16,
-        image: &IMAGES[734usize],
+        image_id: 734u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -1065,7 +1065,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 118u16,
-        image: &IMAGES[734usize],
+        image_id: 734u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -1074,7 +1074,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 119u16,
-        image: &IMAGES[744usize],
+        image_id: 744u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -1083,7 +1083,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 120u16,
-        image: &IMAGES[745usize],
+        image_id: 745u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -1092,7 +1092,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 121u16,
-        image: &IMAGES[746usize],
+        image_id: 746u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -1101,7 +1101,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 122u16,
-        image: &IMAGES[747usize],
+        image_id: 747u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -1110,7 +1110,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 123u16,
-        image: &IMAGES[748usize],
+        image_id: 748u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -1119,7 +1119,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 124u16,
-        image: &IMAGES[749usize],
+        image_id: 749u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -1128,7 +1128,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 125u16,
-        image: &IMAGES[734usize],
+        image_id: 734u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -1137,7 +1137,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 126u16,
-        image: &IMAGES[734usize],
+        image_id: 734u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -1146,7 +1146,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 127u16,
-        image: &IMAGES[752usize],
+        image_id: 752u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -1155,7 +1155,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 128u16,
-        image: &IMAGES[753usize],
+        image_id: 753u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -1164,7 +1164,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 129u16,
-        image: &IMAGES[734usize],
+        image_id: 734u16,
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -1173,7 +1173,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 130u16,
-        image: &IMAGES[0usize],
+        image_id: 0u16,
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1182,7 +1182,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 131u16,
-        image: &IMAGES[3usize],
+        image_id: 3u16,
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1191,7 +1191,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 132u16,
-        image: &IMAGES[4usize],
+        image_id: 4u16,
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1200,7 +1200,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 133u16,
-        image: &IMAGES[5usize],
+        image_id: 5u16,
         health_bar: Some(34u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1209,7 +1209,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 134u16,
-        image: &IMAGES[7usize],
+        image_id: 7u16,
         health_bar: Some(34u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1218,7 +1218,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 135u16,
-        image: &IMAGES[8usize],
+        image_id: 8u16,
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1227,7 +1227,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 136u16,
-        image: &IMAGES[10usize],
+        image_id: 10u16,
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1236,7 +1236,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 137u16,
-        image: &IMAGES[11usize],
+        image_id: 11u16,
         health_bar: Some(40u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1245,7 +1245,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 138u16,
-        image: &IMAGES[13usize],
+        image_id: 13u16,
         health_bar: Some(34u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1254,7 +1254,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 139u16,
-        image: &IMAGES[16usize],
+        image_id: 16u16,
         health_bar: Some(34u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1263,7 +1263,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 140u16,
-        image: &IMAGES[17usize],
+        image_id: 17u16,
         health_bar: Some(31u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1272,7 +1272,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 141u16,
-        image: &IMAGES[20usize],
+        image_id: 20u16,
         health_bar: Some(31u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1281,7 +1281,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 142u16,
-        image: &IMAGES[21usize],
+        image_id: 21u16,
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1290,7 +1290,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 143u16,
-        image: &IMAGES[24usize],
+        image_id: 24u16,
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1299,7 +1299,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 144u16,
-        image: &IMAGES[25usize],
+        image_id: 25u16,
         health_bar: Some(40u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1308,7 +1308,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 145u16,
-        image: &IMAGES[28usize],
+        image_id: 28u16,
         health_bar: Some(40u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1317,7 +1317,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 146u16,
-        image: &IMAGES[29usize],
+        image_id: 29u16,
         health_bar: Some(25u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1326,7 +1326,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 147u16,
-        image: &IMAGES[32usize],
+        image_id: 32u16,
         health_bar: Some(25u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1335,7 +1335,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 148u16,
-        image: &IMAGES[33usize],
+        image_id: 33u16,
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1344,7 +1344,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 149u16,
-        image: &IMAGES[36usize],
+        image_id: 36u16,
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1353,7 +1353,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 150u16,
-        image: &IMAGES[37usize],
+        image_id: 37u16,
         health_bar: Some(25u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1362,7 +1362,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 151u16,
-        image: &IMAGES[38usize],
+        image_id: 38u16,
         health_bar: Some(40u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1371,7 +1371,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 152u16,
-        image: &IMAGES[41usize],
+        image_id: 41u16,
         health_bar: Some(40u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1380,7 +1380,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 153u16,
-        image: &IMAGES[42usize],
+        image_id: 42u16,
         health_bar: Some(40u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1389,7 +1389,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 154u16,
-        image: &IMAGES[45usize],
+        image_id: 45u16,
         health_bar: Some(40u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1398,7 +1398,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 155u16,
-        image: &IMAGES[46usize],
+        image_id: 46u16,
         health_bar: Some(40u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1407,7 +1407,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 156u16,
-        image: &IMAGES[48usize],
+        image_id: 48u16,
         health_bar: Some(40u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1416,7 +1416,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 157u16,
-        image: &IMAGES[50usize],
+        image_id: 50u16,
         health_bar: Some(52u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1425,7 +1425,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 158u16,
-        image: &IMAGES[53usize],
+        image_id: 53u16,
         health_bar: Some(52u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1434,7 +1434,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 159u16,
-        image: &IMAGES[54usize],
+        image_id: 54u16,
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1443,7 +1443,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 160u16,
-        image: &IMAGES[57usize],
+        image_id: 57u16,
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1452,7 +1452,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 161u16,
-        image: &IMAGES[61usize],
+        image_id: 61u16,
         health_bar: Some(82u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1461,7 +1461,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 162u16,
-        image: &IMAGES[63usize],
+        image_id: 63u16,
         health_bar: Some(110u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1470,7 +1470,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 163u16,
-        image: &IMAGES[64usize],
+        image_id: 64u16,
         health_bar: Some(82u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1479,7 +1479,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 164u16,
-        image: &IMAGES[78usize],
+        image_id: 78u16,
         health_bar: Some(54u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1488,7 +1488,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 165u16,
-        image: &IMAGES[66usize],
+        image_id: 66u16,
         health_bar: Some(82u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1497,7 +1497,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 166u16,
-        image: &IMAGES[68usize],
+        image_id: 68u16,
         health_bar: Some(54u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1506,7 +1506,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 167u16,
-        image: &IMAGES[70usize],
+        image_id: 70u16,
         health_bar: Some(109u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1515,7 +1515,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 168u16,
-        image: &IMAGES[72usize],
+        image_id: 72u16,
         health_bar: Some(109u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1524,7 +1524,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 169u16,
-        image: &IMAGES[74usize],
+        image_id: 74u16,
         health_bar: Some(109u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1533,7 +1533,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 170u16,
-        image: &IMAGES[76usize],
+        image_id: 76u16,
         health_bar: Some(70u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1542,7 +1542,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 171u16,
-        image: &IMAGES[80usize],
+        image_id: 80u16,
         health_bar: Some(70u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1551,7 +1551,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 172u16,
-        image: &IMAGES[82usize],
+        image_id: 82u16,
         health_bar: Some(91u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1560,7 +1560,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 173u16,
-        image: &IMAGES[84usize],
+        image_id: 84u16,
         health_bar: Some(70u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1569,7 +1569,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 174u16,
-        image: &IMAGES[86usize],
+        image_id: 86u16,
         health_bar: Some(82u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1578,7 +1578,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 175u16,
-        image: &IMAGES[88usize],
+        image_id: 88u16,
         health_bar: Some(82u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1587,7 +1587,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 176u16,
-        image: &IMAGES[90usize],
+        image_id: 90u16,
         health_bar: Some(82u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1596,7 +1596,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 177u16,
-        image: &IMAGES[91usize],
+        image_id: 91u16,
         health_bar: Some(82u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1605,7 +1605,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 178u16,
-        image: &IMAGES[93usize],
+        image_id: 93u16,
         health_bar: Some(82u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1614,7 +1614,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 179u16,
-        image: &IMAGES[95usize],
+        image_id: 95u16,
         health_bar: Some(82u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1623,7 +1623,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 180u16,
-        image: &IMAGES[97usize],
+        image_id: 97u16,
         health_bar: Some(70u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1632,7 +1632,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 181u16,
-        image: &IMAGES[99usize],
+        image_id: 99u16,
         health_bar: Some(54u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1641,7 +1641,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 182u16,
-        image: &IMAGES[107usize],
+        image_id: 107u16,
         health_bar: Some(0u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1650,7 +1650,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 183u16,
-        image: &IMAGES[108usize],
+        image_id: 108u16,
         health_bar: Some(0u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1659,7 +1659,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 184u16,
-        image: &IMAGES[109usize],
+        image_id: 109u16,
         health_bar: Some(0u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1668,7 +1668,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 185u16,
-        image: &IMAGES[60usize],
+        image_id: 60u16,
         health_bar: Some(0u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1677,7 +1677,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 186u16,
-        image: &IMAGES[110usize],
+        image_id: 110u16,
         health_bar: Some(0u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1686,7 +1686,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 187u16,
-        image: &IMAGES[111usize],
+        image_id: 111u16,
         health_bar: Some(0u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1695,7 +1695,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 188u16,
-        image: &IMAGES[130usize],
+        image_id: 130u16,
         health_bar: Some(48u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1704,7 +1704,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 189u16,
-        image: &IMAGES[134usize],
+        image_id: 134u16,
         health_bar: Some(34u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1713,7 +1713,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 190u16,
-        image: &IMAGES[112usize],
+        image_id: 112u16,
         health_bar: Some(79u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1722,7 +1722,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 191u16,
-        image: &IMAGES[122usize],
+        image_id: 122u16,
         health_bar: Some(31u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1731,7 +1731,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 192u16,
-        image: &IMAGES[124usize],
+        image_id: 124u16,
         health_bar: Some(31u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1740,7 +1740,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 193u16,
-        image: &IMAGES[116usize],
+        image_id: 116u16,
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1749,7 +1749,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 194u16,
-        image: &IMAGES[137usize],
+        image_id: 137u16,
         health_bar: Some(31u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1758,7 +1758,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 195u16,
-        image: &IMAGES[140usize],
+        image_id: 140u16,
         health_bar: Some(34u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1767,7 +1767,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 196u16,
-        image: &IMAGES[118usize],
+        image_id: 118u16,
         health_bar: Some(40u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1776,7 +1776,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 197u16,
-        image: &IMAGES[126usize],
+        image_id: 126u16,
         health_bar: Some(22u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1785,7 +1785,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 198u16,
-        image: &IMAGES[129usize],
+        image_id: 129u16,
         health_bar: Some(22u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1794,7 +1794,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 199u16,
-        image: &IMAGES[144usize],
+        image_id: 144u16,
         health_bar: Some(40u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1803,7 +1803,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 200u16,
-        image: &IMAGES[147usize],
+        image_id: 147u16,
         health_bar: Some(34u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1812,7 +1812,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 201u16,
-        image: &IMAGES[151usize],
+        image_id: 151u16,
         health_bar: Some(22u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1821,7 +1821,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 202u16,
-        image: &IMAGES[148usize],
+        image_id: 148u16,
         health_bar: Some(22u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1830,7 +1830,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 203u16,
-        image: &IMAGES[155usize],
+        image_id: 155u16,
         health_bar: Some(91u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1839,7 +1839,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 204u16,
-        image: &IMAGES[158usize],
+        image_id: 158u16,
         health_bar: Some(91u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1848,7 +1848,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 205u16,
-        image: &IMAGES[161usize],
+        image_id: 161u16,
         health_bar: Some(82u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1857,7 +1857,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 206u16,
-        image: &IMAGES[164usize],
+        image_id: 164u16,
         health_bar: Some(82u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1866,7 +1866,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 207u16,
-        image: &IMAGES[167usize],
+        image_id: 167u16,
         health_bar: Some(82u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1875,7 +1875,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 208u16,
-        image: &IMAGES[171usize],
+        image_id: 171u16,
         health_bar: Some(110u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1884,7 +1884,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 209u16,
-        image: &IMAGES[174usize],
+        image_id: 174u16,
         health_bar: Some(82u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1893,7 +1893,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 210u16,
-        image: &IMAGES[178usize],
+        image_id: 178u16,
         health_bar: Some(110u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1902,7 +1902,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 211u16,
-        image: &IMAGES[179usize],
+        image_id: 179u16,
         health_bar: Some(110u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1911,7 +1911,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 212u16,
-        image: &IMAGES[183usize],
+        image_id: 183u16,
         health_bar: Some(70u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1920,7 +1920,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 213u16,
-        image: &IMAGES[186usize],
+        image_id: 186u16,
         health_bar: Some(82u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1929,7 +1929,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 214u16,
-        image: &IMAGES[189usize],
+        image_id: 189u16,
         health_bar: Some(54u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1938,7 +1938,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 215u16,
-        image: &IMAGES[192usize],
+        image_id: 192u16,
         health_bar: Some(91u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1947,7 +1947,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 216u16,
-        image: &IMAGES[195usize],
+        image_id: 195u16,
         health_bar: Some(91u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1956,7 +1956,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 217u16,
-        image: &IMAGES[199usize],
+        image_id: 199u16,
         health_bar: Some(110u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1965,7 +1965,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 218u16,
-        image: &IMAGES[203usize],
+        image_id: 203u16,
         health_bar: Some(90u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1974,7 +1974,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 219u16,
-        image: &IMAGES[204usize],
+        image_id: 204u16,
         health_bar: Some(70u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1983,7 +1983,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 220u16,
-        image: &IMAGES[207usize],
+        image_id: 207u16,
         health_bar: Some(150u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1992,7 +1992,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 221u16,
-        image: &IMAGES[208usize],
+        image_id: 208u16,
         health_bar: Some(108u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2001,7 +2001,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 222u16,
-        image: &IMAGES[215usize],
+        image_id: 215u16,
         health_bar: Some(0u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2010,7 +2010,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 223u16,
-        image: &IMAGES[216usize],
+        image_id: 216u16,
         health_bar: Some(0u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2019,7 +2019,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 224u16,
-        image: &IMAGES[217usize],
+        image_id: 217u16,
         health_bar: Some(0u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2028,7 +2028,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 225u16,
-        image: &IMAGES[218usize],
+        image_id: 218u16,
         health_bar: Some(73u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2037,7 +2037,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 226u16,
-        image: &IMAGES[221usize],
+        image_id: 221u16,
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2046,7 +2046,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 227u16,
-        image: &IMAGES[223usize],
+        image_id: 223u16,
         health_bar: Some(52u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2055,7 +2055,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 228u16,
-        image: &IMAGES[226usize],
+        image_id: 226u16,
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2064,7 +2064,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 229u16,
-        image: &IMAGES[228usize],
+        image_id: 228u16,
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2073,7 +2073,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 230u16,
-        image: &IMAGES[230usize],
+        image_id: 230u16,
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2082,7 +2082,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 231u16,
-        image: &IMAGES[233usize],
+        image_id: 233u16,
         health_bar: Some(0u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2091,7 +2091,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 232u16,
-        image: &IMAGES[234usize],
+        image_id: 234u16,
         health_bar: Some(34u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2100,7 +2100,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 233u16,
-        image: &IMAGES[235usize],
+        image_id: 235u16,
         health_bar: Some(0u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2109,7 +2109,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 234u16,
-        image: &IMAGES[237usize],
+        image_id: 237u16,
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2118,7 +2118,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 235u16,
-        image: &IMAGES[239usize],
+        image_id: 239u16,
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2127,7 +2127,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 236u16,
-        image: &IMAGES[241usize],
+        image_id: 241u16,
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2136,7 +2136,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 237u16,
-        image: &IMAGES[246usize],
+        image_id: 246u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 0u8,
@@ -2145,7 +2145,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 238u16,
-        image: &IMAGES[243usize],
+        image_id: 243u16,
         health_bar: Some(34u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2154,7 +2154,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 239u16,
-        image: &IMAGES[247usize],
+        image_id: 247u16,
         health_bar: Some(22u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2163,7 +2163,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 240u16,
-        image: &IMAGES[250usize],
+        image_id: 250u16,
         health_bar: Some(52u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2172,7 +2172,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 241u16,
-        image: &IMAGES[251usize],
+        image_id: 251u16,
         health_bar: Some(0u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2181,7 +2181,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 242u16,
-        image: &IMAGES[253usize],
+        image_id: 253u16,
         health_bar: Some(52u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2190,7 +2190,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 243u16,
-        image: &IMAGES[254usize],
+        image_id: 254u16,
         health_bar: Some(0u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2199,7 +2199,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 244u16,
-        image: &IMAGES[256usize],
+        image_id: 256u16,
         health_bar: Some(31u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2208,7 +2208,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 245u16,
-        image: &IMAGES[258usize],
+        image_id: 258u16,
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2217,7 +2217,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 246u16,
-        image: &IMAGES[260usize],
+        image_id: 260u16,
         health_bar: Some(64u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2226,7 +2226,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 247u16,
-        image: &IMAGES[261usize],
+        image_id: 261u16,
         health_bar: Some(0u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2235,7 +2235,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 248u16,
-        image: &IMAGES[263usize],
+        image_id: 263u16,
         health_bar: Some(82u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2244,7 +2244,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 249u16,
-        image: &IMAGES[266usize],
+        image_id: 266u16,
         health_bar: Some(108u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2253,7 +2253,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 250u16,
-        image: &IMAGES[268usize],
+        image_id: 268u16,
         health_bar: Some(91u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2262,7 +2262,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 251u16,
-        image: &IMAGES[271usize],
+        image_id: 271u16,
         health_bar: Some(82u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2271,7 +2271,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 252u16,
-        image: &IMAGES[275usize],
+        image_id: 275u16,
         health_bar: Some(110u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2280,7 +2280,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 253u16,
-        image: &IMAGES[278usize],
+        image_id: 278u16,
         health_bar: Some(91u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2289,7 +2289,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 254u16,
-        image: &IMAGES[281usize],
+        image_id: 281u16,
         health_bar: Some(91u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2298,7 +2298,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 255u16,
-        image: &IMAGES[285usize],
+        image_id: 285u16,
         health_bar: Some(91u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2307,7 +2307,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 256u16,
-        image: &IMAGES[288usize],
+        image_id: 288u16,
         health_bar: Some(82u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2316,7 +2316,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 257u16,
-        image: &IMAGES[292usize],
+        image_id: 292u16,
         health_bar: Some(91u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2325,7 +2325,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 258u16,
-        image: &IMAGES[293usize],
+        image_id: 293u16,
         health_bar: Some(82u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2334,7 +2334,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 259u16,
-        image: &IMAGES[296usize],
+        image_id: 296u16,
         health_bar: Some(46u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2343,7 +2343,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 260u16,
-        image: &IMAGES[299usize],
+        image_id: 299u16,
         health_bar: Some(70u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2352,7 +2352,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 261u16,
-        image: &IMAGES[301usize],
+        image_id: 301u16,
         health_bar: Some(70u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2361,7 +2361,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 262u16,
-        image: &IMAGES[304usize],
+        image_id: 304u16,
         health_bar: Some(70u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2370,7 +2370,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 263u16,
-        image: &IMAGES[307usize],
+        image_id: 307u16,
         health_bar: Some(82u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2379,7 +2379,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 264u16,
-        image: &IMAGES[309usize],
+        image_id: 309u16,
         health_bar: Some(110u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2388,7 +2388,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 265u16,
-        image: &IMAGES[312usize],
+        image_id: 312u16,
         health_bar: Some(70u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2397,7 +2397,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 266u16,
-        image: &IMAGES[316usize],
+        image_id: 316u16,
         health_bar: Some(50u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2406,7 +2406,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 267u16,
-        image: &IMAGES[318usize],
+        image_id: 318u16,
         health_bar: Some(0u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2415,7 +2415,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 268u16,
-        image: &IMAGES[319usize],
+        image_id: 319u16,
         health_bar: Some(91u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2424,7 +2424,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 269u16,
-        image: &IMAGES[322usize],
+        image_id: 322u16,
         health_bar: Some(110u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2433,7 +2433,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 270u16,
-        image: &IMAGES[325usize],
+        image_id: 325u16,
         health_bar: Some(91u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2442,7 +2442,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 271u16,
-        image: &IMAGES[330usize],
+        image_id: 330u16,
         health_bar: Some(52u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2451,7 +2451,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 272u16,
-        image: &IMAGES[334usize],
+        image_id: 334u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2460,7 +2460,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 273u16,
-        image: &IMAGES[335usize],
+        image_id: 335u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2469,7 +2469,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 274u16,
-        image: &IMAGES[336usize],
+        image_id: 336u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2478,7 +2478,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 275u16,
-        image: &IMAGES[344usize],
+        image_id: 344u16,
         health_bar: Some(82u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2487,7 +2487,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 276u16,
-        image: &IMAGES[338usize],
+        image_id: 338u16,
         health_bar: Some(34u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2496,7 +2496,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 277u16,
-        image: &IMAGES[340usize],
+        image_id: 340u16,
         health_bar: Some(34u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2505,7 +2505,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 278u16,
-        image: &IMAGES[342usize],
+        image_id: 342u16,
         health_bar: Some(34u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2514,7 +2514,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 279u16,
-        image: &IMAGES[347usize],
+        image_id: 347u16,
         health_bar: Some(54u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2523,7 +2523,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 280u16,
-        image: &IMAGES[349usize],
+        image_id: 349u16,
         health_bar: Some(54u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2532,7 +2532,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 281u16,
-        image: &IMAGES[351usize],
+        image_id: 351u16,
         health_bar: Some(54u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2541,7 +2541,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 282u16,
-        image: &IMAGES[353usize],
+        image_id: 353u16,
         health_bar: Some(70u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2550,7 +2550,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 283u16,
-        image: &IMAGES[354usize],
+        image_id: 354u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2559,7 +2559,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 284u16,
-        image: &IMAGES[356usize],
+        image_id: 356u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2568,7 +2568,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 285u16,
-        image: &IMAGES[358usize],
+        image_id: 358u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2577,7 +2577,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 286u16,
-        image: &IMAGES[337usize],
+        image_id: 337u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2586,7 +2586,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 287u16,
-        image: &IMAGES[392usize],
+        image_id: 392u16,
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2595,7 +2595,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 288u16,
-        image: &IMAGES[393usize],
+        image_id: 393u16,
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2604,7 +2604,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 289u16,
-        image: &IMAGES[394usize],
+        image_id: 394u16,
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2613,7 +2613,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 290u16,
-        image: &IMAGES[395usize],
+        image_id: 395u16,
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2622,7 +2622,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 291u16,
-        image: &IMAGES[396usize],
+        image_id: 396u16,
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2631,7 +2631,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 292u16,
-        image: &IMAGES[397usize],
+        image_id: 397u16,
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2640,7 +2640,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 293u16,
-        image: &IMAGES[398usize],
+        image_id: 398u16,
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2649,7 +2649,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 294u16,
-        image: &IMAGES[399usize],
+        image_id: 399u16,
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2658,7 +2658,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 295u16,
-        image: &IMAGES[400usize],
+        image_id: 400u16,
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2667,7 +2667,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 296u16,
-        image: &IMAGES[401usize],
+        image_id: 401u16,
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2676,7 +2676,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 297u16,
-        image: &IMAGES[402usize],
+        image_id: 402u16,
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2685,7 +2685,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 298u16,
-        image: &IMAGES[403usize],
+        image_id: 403u16,
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2694,7 +2694,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 299u16,
-        image: &IMAGES[404usize],
+        image_id: 404u16,
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2703,7 +2703,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 300u16,
-        image: &IMAGES[503usize],
+        image_id: 503u16,
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2712,7 +2712,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 301u16,
-        image: &IMAGES[588usize],
+        image_id: 588u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2721,7 +2721,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 302u16,
-        image: &IMAGES[582usize],
+        image_id: 582u16,
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2730,7 +2730,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 303u16,
-        image: &IMAGES[735usize],
+        image_id: 735u16,
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2739,7 +2739,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 304u16,
-        image: &IMAGES[738usize],
+        image_id: 738u16,
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2748,7 +2748,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 305u16,
-        image: &IMAGES[739usize],
+        image_id: 739u16,
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2757,7 +2757,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 306u16,
-        image: &IMAGES[740usize],
+        image_id: 740u16,
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2766,7 +2766,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 307u16,
-        image: &IMAGES[741usize],
+        image_id: 741u16,
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2775,7 +2775,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 308u16,
-        image: &IMAGES[736usize],
+        image_id: 736u16,
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2784,7 +2784,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 309u16,
-        image: &IMAGES[422usize],
+        image_id: 422u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2793,7 +2793,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 310u16,
-        image: &IMAGES[441usize],
+        image_id: 441u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2802,7 +2802,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 311u16,
-        image: &IMAGES[430usize],
+        image_id: 430u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2811,7 +2811,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 312u16,
-        image: &IMAGES[431usize],
+        image_id: 431u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2820,7 +2820,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 313u16,
-        image: &IMAGES[432usize],
+        image_id: 432u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2829,7 +2829,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 314u16,
-        image: &IMAGES[433usize],
+        image_id: 433u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2838,7 +2838,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 315u16,
-        image: &IMAGES[434usize],
+        image_id: 434u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2847,7 +2847,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 316u16,
-        image: &IMAGES[425usize],
+        image_id: 425u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2856,7 +2856,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 317u16,
-        image: &IMAGES[426usize],
+        image_id: 426u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2865,7 +2865,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 318u16,
-        image: &IMAGES[445usize],
+        image_id: 445u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2874,7 +2874,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 319u16,
-        image: &IMAGES[23usize],
+        image_id: 23u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2883,7 +2883,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 320u16,
-        image: &IMAGES[449usize],
+        image_id: 449u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2892,7 +2892,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 321u16,
-        image: &IMAGES[584usize],
+        image_id: 584u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2901,7 +2901,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 322u16,
-        image: &IMAGES[423usize],
+        image_id: 423u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2910,7 +2910,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 323u16,
-        image: &IMAGES[494usize],
+        image_id: 494u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2919,7 +2919,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 324u16,
-        image: &IMAGES[495usize],
+        image_id: 495u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2928,7 +2928,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 325u16,
-        image: &IMAGES[496usize],
+        image_id: 496u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2937,7 +2937,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 326u16,
-        image: &IMAGES[497usize],
+        image_id: 497u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2946,7 +2946,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 327u16,
-        image: &IMAGES[498usize],
+        image_id: 498u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2955,7 +2955,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 328u16,
-        image: &IMAGES[499usize],
+        image_id: 499u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2964,7 +2964,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 329u16,
-        image: &IMAGES[500usize],
+        image_id: 500u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2973,7 +2973,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 330u16,
-        image: &IMAGES[501usize],
+        image_id: 501u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2982,7 +2982,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 331u16,
-        image: &IMAGES[502usize],
+        image_id: 502u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2991,7 +2991,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 332u16,
-        image: &IMAGES[35usize],
+        image_id: 35u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3000,7 +3000,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 333u16,
-        image: &IMAGES[519usize],
+        image_id: 519u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3009,7 +3009,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 334u16,
-        image: &IMAGES[520usize],
+        image_id: 520u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3018,7 +3018,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 335u16,
-        image: &IMAGES[521usize],
+        image_id: 521u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3027,7 +3027,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 336u16,
-        image: &IMAGES[522usize],
+        image_id: 522u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3036,7 +3036,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 337u16,
-        image: &IMAGES[523usize],
+        image_id: 523u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3045,7 +3045,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 338u16,
-        image: &IMAGES[524usize],
+        image_id: 524u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3054,7 +3054,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 339u16,
-        image: &IMAGES[525usize],
+        image_id: 525u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3063,7 +3063,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 340u16,
-        image: &IMAGES[526usize],
+        image_id: 526u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3072,7 +3072,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 341u16,
-        image: &IMAGES[527usize],
+        image_id: 527u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3081,7 +3081,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 342u16,
-        image: &IMAGES[528usize],
+        image_id: 528u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3090,7 +3090,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 343u16,
-        image: &IMAGES[532usize],
+        image_id: 532u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3099,7 +3099,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 344u16,
-        image: &IMAGES[360usize],
+        image_id: 360u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3108,7 +3108,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 345u16,
-        image: &IMAGES[529usize],
+        image_id: 529u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3117,7 +3117,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 346u16,
-        image: &IMAGES[531usize],
+        image_id: 531u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3126,7 +3126,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 347u16,
-        image: &IMAGES[534usize],
+        image_id: 534u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3135,7 +3135,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 348u16,
-        image: &IMAGES[535usize],
+        image_id: 535u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3144,7 +3144,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 349u16,
-        image: &IMAGES[533usize],
+        image_id: 533u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3153,7 +3153,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 350u16,
-        image: &IMAGES[541usize],
+        image_id: 541u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3162,7 +3162,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 351u16,
-        image: &IMAGES[542usize],
+        image_id: 542u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3171,7 +3171,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 352u16,
-        image: &IMAGES[554usize],
+        image_id: 554u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3180,7 +3180,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 353u16,
-        image: &IMAGES[504usize],
+        image_id: 504u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3189,7 +3189,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 354u16,
-        image: &IMAGES[505usize],
+        image_id: 505u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3198,7 +3198,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 355u16,
-        image: &IMAGES[506usize],
+        image_id: 506u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3207,7 +3207,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 356u16,
-        image: &IMAGES[507usize],
+        image_id: 507u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3216,7 +3216,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 357u16,
-        image: &IMAGES[509usize],
+        image_id: 509u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3225,7 +3225,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 358u16,
-        image: &IMAGES[511usize],
+        image_id: 511u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3234,7 +3234,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 359u16,
-        image: &IMAGES[515usize],
+        image_id: 515u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3243,7 +3243,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 360u16,
-        image: &IMAGES[516usize],
+        image_id: 516u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3252,7 +3252,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 361u16,
-        image: &IMAGES[364usize],
+        image_id: 364u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3261,7 +3261,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 362u16,
-        image: &IMAGES[387usize],
+        image_id: 387u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3270,7 +3270,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 363u16,
-        image: &IMAGES[517usize],
+        image_id: 517u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3279,7 +3279,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 364u16,
-        image: &IMAGES[383usize],
+        image_id: 383u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3288,7 +3288,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 365u16,
-        image: &IMAGES[512usize],
+        image_id: 512u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3297,7 +3297,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 366u16,
-        image: &IMAGES[548usize],
+        image_id: 548u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3306,7 +3306,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 367u16,
-        image: &IMAGES[513usize],
+        image_id: 513u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3315,7 +3315,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 368u16,
-        image: &IMAGES[514usize],
+        image_id: 514u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3324,7 +3324,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 369u16,
-        image: &IMAGES[523usize],
+        image_id: 523u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3333,7 +3333,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 370u16,
-        image: &IMAGES[503usize],
+        image_id: 503u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 0u8,
@@ -3342,7 +3342,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 371u16,
-        image: &IMAGES[419usize],
+        image_id: 419u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3351,7 +3351,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 372u16,
-        image: &IMAGES[420usize],
+        image_id: 420u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3360,7 +3360,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 373u16,
-        image: &IMAGES[443usize],
+        image_id: 443u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3369,7 +3369,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 374u16,
-        image: &IMAGES[557usize],
+        image_id: 557u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3378,7 +3378,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 375u16,
-        image: &IMAGES[558usize],
+        image_id: 558u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3387,7 +3387,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 376u16,
-        image: &IMAGES[559usize],
+        image_id: 559u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3396,7 +3396,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 377u16,
-        image: &IMAGES[306usize],
+        image_id: 306u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3405,7 +3405,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 378u16,
-        image: &IMAGES[421usize],
+        image_id: 421u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3414,7 +3414,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 379u16,
-        image: &IMAGES[391usize],
+        image_id: 391u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3423,7 +3423,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 380u16,
-        image: &IMAGES[546usize],
+        image_id: 546u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3432,7 +3432,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 381u16,
-        image: &IMAGES[742usize],
+        image_id: 742u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3441,7 +3441,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 382u16,
-        image: &IMAGES[743usize],
+        image_id: 743u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3450,7 +3450,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 383u16,
-        image: &IMAGES[750usize],
+        image_id: 750u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3459,7 +3459,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 384u16,
-        image: &IMAGES[751usize],
+        image_id: 751u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3468,7 +3468,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 385u16,
-        image: &IMAGES[754usize],
+        image_id: 754u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3477,7 +3477,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 386u16,
-        image: &IMAGES[757usize],
+        image_id: 757u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3486,7 +3486,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 387u16,
-        image: &IMAGES[758usize],
+        image_id: 758u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3495,7 +3495,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 388u16,
-        image: &IMAGES[759usize],
+        image_id: 759u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3504,7 +3504,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 389u16,
-        image: &IMAGES[760usize],
+        image_id: 760u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3513,7 +3513,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 390u16,
-        image: &IMAGES[761usize],
+        image_id: 761u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3522,7 +3522,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 391u16,
-        image: &IMAGES[762usize],
+        image_id: 762u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3531,7 +3531,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 392u16,
-        image: &IMAGES[755usize],
+        image_id: 755u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3540,7 +3540,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 393u16,
-        image: &IMAGES[756usize],
+        image_id: 756u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3549,7 +3549,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 394u16,
-        image: &IMAGES[763usize],
+        image_id: 763u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3558,7 +3558,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 395u16,
-        image: &IMAGES[764usize],
+        image_id: 764u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3567,7 +3567,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 396u16,
-        image: &IMAGES[765usize],
+        image_id: 765u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3576,7 +3576,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 397u16,
-        image: &IMAGES[766usize],
+        image_id: 766u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3585,7 +3585,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 398u16,
-        image: &IMAGES[767usize],
+        image_id: 767u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3594,7 +3594,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 399u16,
-        image: &IMAGES[768usize],
+        image_id: 768u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3603,7 +3603,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 400u16,
-        image: &IMAGES[769usize],
+        image_id: 769u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3612,7 +3612,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 401u16,
-        image: &IMAGES[770usize],
+        image_id: 770u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3621,7 +3621,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 402u16,
-        image: &IMAGES[771usize],
+        image_id: 771u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3630,7 +3630,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 403u16,
-        image: &IMAGES[773usize],
+        image_id: 773u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3639,7 +3639,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 404u16,
-        image: &IMAGES[775usize],
+        image_id: 775u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3648,7 +3648,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 405u16,
-        image: &IMAGES[777usize],
+        image_id: 777u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3657,7 +3657,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 406u16,
-        image: &IMAGES[779usize],
+        image_id: 779u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3666,7 +3666,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 407u16,
-        image: &IMAGES[781usize],
+        image_id: 781u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3675,7 +3675,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 408u16,
-        image: &IMAGES[783usize],
+        image_id: 783u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3684,7 +3684,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 409u16,
-        image: &IMAGES[785usize],
+        image_id: 785u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3693,7 +3693,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 410u16,
-        image: &IMAGES[787usize],
+        image_id: 787u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3702,7 +3702,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 411u16,
-        image: &IMAGES[788usize],
+        image_id: 788u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3711,7 +3711,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 412u16,
-        image: &IMAGES[789usize],
+        image_id: 789u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3720,7 +3720,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 413u16,
-        image: &IMAGES[790usize],
+        image_id: 790u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3729,7 +3729,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 414u16,
-        image: &IMAGES[791usize],
+        image_id: 791u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3738,7 +3738,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 415u16,
-        image: &IMAGES[793usize],
+        image_id: 793u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3747,7 +3747,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 416u16,
-        image: &IMAGES[795usize],
+        image_id: 795u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3756,7 +3756,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 417u16,
-        image: &IMAGES[797usize],
+        image_id: 797u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3765,7 +3765,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 418u16,
-        image: &IMAGES[799usize],
+        image_id: 799u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3774,7 +3774,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 419u16,
-        image: &IMAGES[801usize],
+        image_id: 801u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3783,7 +3783,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 420u16,
-        image: &IMAGES[803usize],
+        image_id: 803u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3792,7 +3792,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 421u16,
-        image: &IMAGES[805usize],
+        image_id: 805u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3801,7 +3801,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 422u16,
-        image: &IMAGES[807usize],
+        image_id: 807u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3810,7 +3810,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 423u16,
-        image: &IMAGES[809usize],
+        image_id: 809u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3819,7 +3819,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 424u16,
-        image: &IMAGES[811usize],
+        image_id: 811u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3828,7 +3828,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 425u16,
-        image: &IMAGES[813usize],
+        image_id: 813u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3837,7 +3837,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 426u16,
-        image: &IMAGES[815usize],
+        image_id: 815u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3846,7 +3846,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 427u16,
-        image: &IMAGES[817usize],
+        image_id: 817u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3855,7 +3855,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 428u16,
-        image: &IMAGES[819usize],
+        image_id: 819u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3864,7 +3864,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 429u16,
-        image: &IMAGES[821usize],
+        image_id: 821u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3873,7 +3873,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 430u16,
-        image: &IMAGES[823usize],
+        image_id: 823u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3882,7 +3882,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 431u16,
-        image: &IMAGES[825usize],
+        image_id: 825u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3891,7 +3891,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 432u16,
-        image: &IMAGES[834usize],
+        image_id: 834u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3900,7 +3900,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 433u16,
-        image: &IMAGES[829usize],
+        image_id: 829u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3909,7 +3909,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 434u16,
-        image: &IMAGES[831usize],
+        image_id: 831u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3918,7 +3918,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 435u16,
-        image: &IMAGES[836usize],
+        image_id: 836u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3927,7 +3927,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 436u16,
-        image: &IMAGES[838usize],
+        image_id: 838u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3936,7 +3936,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 437u16,
-        image: &IMAGES[832usize],
+        image_id: 832u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3945,7 +3945,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 438u16,
-        image: &IMAGES[827usize],
+        image_id: 827u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3954,7 +3954,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 439u16,
-        image: &IMAGES[840usize],
+        image_id: 840u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3963,7 +3963,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 440u16,
-        image: &IMAGES[841usize],
+        image_id: 841u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3972,7 +3972,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 441u16,
-        image: &IMAGES[842usize],
+        image_id: 842u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3981,7 +3981,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 442u16,
-        image: &IMAGES[843usize],
+        image_id: 843u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3990,7 +3990,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 443u16,
-        image: &IMAGES[845usize],
+        image_id: 845u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3999,7 +3999,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 444u16,
-        image: &IMAGES[847usize],
+        image_id: 847u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4008,7 +4008,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 445u16,
-        image: &IMAGES[849usize],
+        image_id: 849u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4017,7 +4017,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 446u16,
-        image: &IMAGES[851usize],
+        image_id: 851u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4026,7 +4026,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 447u16,
-        image: &IMAGES[852usize],
+        image_id: 852u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4035,7 +4035,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 448u16,
-        image: &IMAGES[854usize],
+        image_id: 854u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4044,7 +4044,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 449u16,
-        image: &IMAGES[856usize],
+        image_id: 856u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4053,7 +4053,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 450u16,
-        image: &IMAGES[858usize],
+        image_id: 858u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4062,7 +4062,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 451u16,
-        image: &IMAGES[860usize],
+        image_id: 860u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4071,7 +4071,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 452u16,
-        image: &IMAGES[862usize],
+        image_id: 862u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4080,7 +4080,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 453u16,
-        image: &IMAGES[864usize],
+        image_id: 864u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4089,7 +4089,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 454u16,
-        image: &IMAGES[866usize],
+        image_id: 866u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4098,7 +4098,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 455u16,
-        image: &IMAGES[868usize],
+        image_id: 868u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4107,7 +4107,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 456u16,
-        image: &IMAGES[870usize],
+        image_id: 870u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4116,7 +4116,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 457u16,
-        image: &IMAGES[872usize],
+        image_id: 872u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4125,7 +4125,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 458u16,
-        image: &IMAGES[874usize],
+        image_id: 874u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4134,7 +4134,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 459u16,
-        image: &IMAGES[876usize],
+        image_id: 876u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4143,7 +4143,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 460u16,
-        image: &IMAGES[878usize],
+        image_id: 878u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4152,7 +4152,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 461u16,
-        image: &IMAGES[880usize],
+        image_id: 880u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4161,7 +4161,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 462u16,
-        image: &IMAGES[881usize],
+        image_id: 881u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4170,7 +4170,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 463u16,
-        image: &IMAGES[883usize],
+        image_id: 883u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4179,7 +4179,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 464u16,
-        image: &IMAGES[885usize],
+        image_id: 885u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4188,7 +4188,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 465u16,
-        image: &IMAGES[887usize],
+        image_id: 887u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4197,7 +4197,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 466u16,
-        image: &IMAGES[889usize],
+        image_id: 889u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4206,7 +4206,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 467u16,
-        image: &IMAGES[890usize],
+        image_id: 890u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4215,7 +4215,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 468u16,
-        image: &IMAGES[892usize],
+        image_id: 892u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4224,7 +4224,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 469u16,
-        image: &IMAGES[894usize],
+        image_id: 894u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4233,7 +4233,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 470u16,
-        image: &IMAGES[895usize],
+        image_id: 895u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4242,7 +4242,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 471u16,
-        image: &IMAGES[904usize],
+        image_id: 904u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4251,7 +4251,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 472u16,
-        image: &IMAGES[897usize],
+        image_id: 897u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4260,7 +4260,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 473u16,
-        image: &IMAGES[906usize],
+        image_id: 906u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4269,7 +4269,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 474u16,
-        image: &IMAGES[898usize],
+        image_id: 898u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4278,7 +4278,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 475u16,
-        image: &IMAGES[907usize],
+        image_id: 907u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4287,7 +4287,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 476u16,
-        image: &IMAGES[900usize],
+        image_id: 900u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4296,7 +4296,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 477u16,
-        image: &IMAGES[909usize],
+        image_id: 909u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4305,7 +4305,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 478u16,
-        image: &IMAGES[902usize],
+        image_id: 902u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4314,7 +4314,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 479u16,
-        image: &IMAGES[911usize],
+        image_id: 911u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4323,7 +4323,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 480u16,
-        image: &IMAGES[912usize],
+        image_id: 912u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4332,7 +4332,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 481u16,
-        image: &IMAGES[914usize],
+        image_id: 914u16,
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -4341,7 +4341,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 482u16,
-        image: &IMAGES[915usize],
+        image_id: 915u16,
         health_bar: Some(40u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -4350,7 +4350,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 483u16,
-        image: &IMAGES[918usize],
+        image_id: 918u16,
         health_bar: Some(40u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -4359,7 +4359,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 484u16,
-        image: &IMAGES[920usize],
+        image_id: 920u16,
         health_bar: Some(25u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -4368,7 +4368,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 485u16,
-        image: &IMAGES[921usize],
+        image_id: 921u16,
         health_bar: Some(52u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -4377,7 +4377,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 486u16,
-        image: &IMAGES[925usize],
+        image_id: 925u16,
         health_bar: Some(34u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -4386,7 +4386,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 487u16,
-        image: &IMAGES[929usize],
+        image_id: 929u16,
         health_bar: Some(34u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -4395,7 +4395,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 488u16,
-        image: &IMAGES[933usize],
+        image_id: 933u16,
         health_bar: Some(22u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -4404,7 +4404,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 489u16,
-        image: &IMAGES[944usize],
+        image_id: 944u16,
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -4413,7 +4413,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 490u16,
-        image: &IMAGES[946usize],
+        image_id: 946u16,
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -4422,7 +4422,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 491u16,
-        image: &IMAGES[939usize],
+        image_id: 939u16,
         health_bar: Some(34u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -4431,7 +4431,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 492u16,
-        image: &IMAGES[952usize],
+        image_id: 952u16,
         health_bar: Some(34u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -4440,7 +4440,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 493u16,
-        image: &IMAGES[954usize],
+        image_id: 954u16,
         health_bar: Some(34u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -4449,7 +4449,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 494u16,
-        image: &IMAGES[956usize],
+        image_id: 956u16,
         health_bar: Some(34u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -4458,7 +4458,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 495u16,
-        image: &IMAGES[923usize],
+        image_id: 923u16,
         health_bar: Some(91u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -4467,7 +4467,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 496u16,
-        image: &IMAGES[949usize],
+        image_id: 949u16,
         health_bar: Some(91u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -4476,7 +4476,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 497u16,
-        image: &IMAGES[937usize],
+        image_id: 937u16,
         health_bar: Some(150u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -4485,7 +4485,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 498u16,
-        image: &IMAGES[947usize],
+        image_id: 947u16,
         health_bar: Some(110u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -4494,7 +4494,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 499u16,
-        image: &IMAGES[934usize],
+        image_id: 934u16,
         health_bar: Some(110u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -4503,7 +4503,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 500u16,
-        image: &IMAGES[979usize],
+        image_id: 979u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4512,7 +4512,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 501u16,
-        image: &IMAGES[980usize],
+        image_id: 980u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4521,7 +4521,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 502u16,
-        image: &IMAGES[981usize],
+        image_id: 981u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4530,7 +4530,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 503u16,
-        image: &IMAGES[951usize],
+        image_id: 951u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4539,7 +4539,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 504u16,
-        image: &IMAGES[503usize],
+        image_id: 503u16,
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4548,7 +4548,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 505u16,
-        image: &IMAGES[960usize],
+        image_id: 960u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4557,7 +4557,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 506u16,
-        image: &IMAGES[964usize],
+        image_id: 964u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4566,7 +4566,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 507u16,
-        image: &IMAGES[932usize],
+        image_id: 932u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4575,7 +4575,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 508u16,
-        image: &IMAGES[966usize],
+        image_id: 966u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4584,7 +4584,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 509u16,
-        image: &IMAGES[965usize],
+        image_id: 965u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4593,7 +4593,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 510u16,
-        image: &IMAGES[985usize],
+        image_id: 985u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 0u8,
@@ -4602,7 +4602,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 511u16,
-        image: &IMAGES[961usize],
+        image_id: 961u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4611,7 +4611,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 512u16,
-        image: &IMAGES[962usize],
+        image_id: 962u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4620,7 +4620,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 513u16,
-        image: &IMAGES[963usize],
+        image_id: 963u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4629,7 +4629,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 514u16,
-        image: &IMAGES[998usize],
+        image_id: 998u16,
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4638,7 +4638,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 515u16,
-        image: &IMAGES[958usize],
+        image_id: 958u16,
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4647,7 +4647,7 @@ pub const SPRITES: [BwSprite; 517usize] = [
     },
     BwSprite {
         id: 516u16,
-        image: &IMAGES[959usize],
+        image_id: 959u16,
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,

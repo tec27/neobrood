@@ -7,13 +7,12 @@ use crate::{
 
 use self::{
     anim::{AnimAsset, AnimAssetLoader},
-    dat::{DatAsset, DatAssetLoader, UnitData},
     rel::{RelAsset, RelAssetLoader},
     tbl::{TblAsset, TblAssetLoader},
 };
 
 pub mod anim;
-pub mod dat;
+mod construct;
 mod flingy;
 mod generated;
 mod image;
@@ -21,12 +20,14 @@ pub mod rel;
 mod sprite;
 pub mod tbl;
 
+pub use construct::*;
 pub use flingy::Flingy;
 pub use generated::flingy::FLINGIES;
 pub use generated::image::IMAGES;
 pub use generated::sprite::SPRITES;
-pub use image::BwImage;
-pub use sprite::BwSprite;
+pub use generated::unit::CONSTRUCTS;
+pub use image::*;
+pub use sprite::*;
 
 pub struct GameDataPlugin;
 
@@ -34,8 +35,6 @@ impl Plugin for GameDataPlugin {
     fn build(&self, app: &mut App) {
         app.init_asset::<TblAsset>()
             .init_asset_loader::<TblAssetLoader>()
-            .init_asset::<DatAsset>()
-            .init_asset_loader::<DatAssetLoader>()
             .init_asset::<RelAsset>()
             .init_asset_loader::<RelAssetLoader>()
             .init_asset::<AnimAsset>()
@@ -67,8 +66,6 @@ pub struct LoadingBwGameDataHandles {
     pub image_paths: Handle<TblAsset>,
     pub strings: Handle<TblAsset>,
 
-    pub units: Handle<DatAsset>,
-
     pub relations: Handle<RelAsset>,
 }
 
@@ -76,9 +73,6 @@ pub struct LoadingBwGameDataHandles {
 pub struct BwGameData {
     pub image_paths: TblAsset,
     pub strings: TblAsset,
-
-    pub units: UnitData,
-
     pub relations: RelAsset,
 }
 
@@ -118,16 +112,11 @@ fn load_game_data(
     let image_paths = asset_server.load("casc-extracted/arr/images.tbl");
     let strings = asset_server.load("casc-extracted/rez/stat_txt.tbl");
 
-    let units = asset_server.load("casc-extracted/arr/units.dat");
-
     let relations = asset_server.load("casc-extracted/images.rel");
 
     commands.insert_resource(LoadingBwGameDataHandles {
         image_paths,
         strings,
-
-        units,
-
         relations,
     });
 }
@@ -137,7 +126,6 @@ fn check_game_data_load(
     asset_server: Res<AssetServer>,
     handles: Option<Res<LoadingBwGameDataHandles>>,
     tbl_assets: Res<Assets<TblAsset>>,
-    dat_assets: Res<Assets<DatAsset>>,
     rel_assets: Res<Assets<RelAsset>>,
 ) {
     let Some(handles) = handles else {
@@ -148,7 +136,6 @@ fn check_game_data_load(
     // TODO(tec27): Handle load failures
     if asset_server.is_loaded_with_dependencies(&handles.image_paths)
         && asset_server.is_loaded_with_dependencies(&handles.strings)
-        && asset_server.is_loaded_with_dependencies(&handles.units)
         && asset_server.is_loaded_with_dependencies(&handles.relations)
     {
         commands.remove_resource::<LoadingBwGameDataHandles>();
@@ -156,12 +143,6 @@ fn check_game_data_load(
         commands.insert_resource(BwGameData {
             image_paths: tbl_assets.get(&handles.image_paths).unwrap().clone(),
             strings: tbl_assets.get(&handles.strings).unwrap().clone(),
-
-            units: dat_assets
-                .get(&handles.units)
-                .unwrap()
-                .try_into()
-                .expect("Failed to convert units DatAsset to underlying data"),
             relations: rel_assets.get(&handles.relations).unwrap().clone(),
         });
 

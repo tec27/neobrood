@@ -1,9 +1,9 @@
-use super::sprite::SPRITES;
 use crate::gamedata::Flingy;
+/// Contains data for all flingy types in the game.
 pub const FLINGIES: [Flingy; 209usize] = [
     Flingy {
         id: 0u8,
-        sprite: &SPRITES[130usize],
+        sprite_id: 130u16,
         speed: 1707u32,
         acceleration: 107u16,
         halt_distance: 13616u32,
@@ -12,7 +12,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 1u8,
-        sprite: &SPRITES[133usize],
+        sprite_id: 133u16,
         speed: 1u32,
         acceleration: 1u16,
         halt_distance: 1u32,
@@ -21,7 +21,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 2u8,
-        sprite: &SPRITES[135usize],
+        sprite_id: 135u16,
         speed: 1u32,
         acceleration: 1u16,
         halt_distance: 1u32,
@@ -30,7 +30,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 3u8,
-        sprite: &SPRITES[137usize],
+        sprite_id: 137u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -39,7 +39,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 4u8,
-        sprite: &SPRITES[138usize],
+        sprite_id: 138u16,
         speed: 1u32,
         acceleration: 1u16,
         halt_distance: 1u32,
@@ -48,7 +48,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 5u8,
-        sprite: &SPRITES[140usize],
+        sprite_id: 140u16,
         speed: 1280u32,
         acceleration: 67u16,
         halt_distance: 12227u32,
@@ -57,7 +57,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 6u8,
-        sprite: &SPRITES[142usize],
+        sprite_id: 142u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -66,7 +66,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 7u8,
-        sprite: &SPRITES[144usize],
+        sprite_id: 144u16,
         speed: 640u32,
         acceleration: 27u16,
         halt_distance: 7585u32,
@@ -75,7 +75,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 8u8,
-        sprite: &SPRITES[146usize],
+        sprite_id: 146u16,
         speed: 1u32,
         acceleration: 1u16,
         halt_distance: 1u32,
@@ -84,7 +84,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 9u8,
-        sprite: &SPRITES[148usize],
+        sprite_id: 148u16,
         speed: 1u32,
         acceleration: 1u16,
         halt_distance: 1u32,
@@ -93,7 +93,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 10u8,
-        sprite: &SPRITES[149usize],
+        sprite_id: 149u16,
         speed: 1u32,
         acceleration: 1u16,
         halt_distance: 1u32,
@@ -102,7 +102,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 11u8,
-        sprite: &SPRITES[151usize],
+        sprite_id: 151u16,
         speed: 1707u32,
         acceleration: 67u16,
         halt_distance: 21745u32,
@@ -111,7 +111,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 12u8,
-        sprite: &SPRITES[153usize],
+        sprite_id: 153u16,
         speed: 213u32,
         acceleration: 27u16,
         halt_distance: 840u32,
@@ -120,7 +120,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 13u8,
-        sprite: &SPRITES[155usize],
+        sprite_id: 155u16,
         speed: 1707u32,
         acceleration: 67u16,
         halt_distance: 21745u32,
@@ -129,7 +129,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 14u8,
-        sprite: &SPRITES[157usize],
+        sprite_id: 157u16,
         speed: 1u32,
         acceleration: 1u16,
         halt_distance: 1u32,
@@ -138,7 +138,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 15u8,
-        sprite: &SPRITES[159usize],
+        sprite_id: 159u16,
         speed: 1u32,
         acceleration: 1u16,
         halt_distance: 1u32,
@@ -147,7 +147,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 16u8,
-        sprite: &SPRITES[161usize],
+        sprite_id: 161u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -156,7 +156,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 17u8,
-        sprite: &SPRITES[162usize],
+        sprite_id: 162u16,
         speed: 427u32,
         acceleration: 33u16,
         halt_distance: 2763u32,
@@ -165,7 +165,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 18u8,
-        sprite: &SPRITES[163usize],
+        sprite_id: 163u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -174,7 +174,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 19u8,
-        sprite: &SPRITES[164usize],
+        sprite_id: 164u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -183,7 +183,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 20u8,
-        sprite: &SPRITES[165usize],
+        sprite_id: 165u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -192,7 +192,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 21u8,
-        sprite: &SPRITES[166usize],
+        sprite_id: 166u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -201,7 +201,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 22u8,
-        sprite: &SPRITES[167usize],
+        sprite_id: 167u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -210,7 +210,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 23u8,
-        sprite: &SPRITES[168usize],
+        sprite_id: 168u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -219,7 +219,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 24u8,
-        sprite: &SPRITES[169usize],
+        sprite_id: 169u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -228,7 +228,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 25u8,
-        sprite: &SPRITES[170usize],
+        sprite_id: 170u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -237,7 +237,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 26u8,
-        sprite: &SPRITES[171usize],
+        sprite_id: 171u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -246,7 +246,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 27u8,
-        sprite: &SPRITES[172usize],
+        sprite_id: 172u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -255,7 +255,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 28u8,
-        sprite: &SPRITES[173usize],
+        sprite_id: 173u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -264,7 +264,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 29u8,
-        sprite: &SPRITES[174usize],
+        sprite_id: 174u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -273,7 +273,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 30u8,
-        sprite: &SPRITES[175usize],
+        sprite_id: 175u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -282,7 +282,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 31u8,
-        sprite: &SPRITES[176usize],
+        sprite_id: 176u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -291,7 +291,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 32u8,
-        sprite: &SPRITES[177usize],
+        sprite_id: 177u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -300,7 +300,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 33u8,
-        sprite: &SPRITES[178usize],
+        sprite_id: 178u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -309,7 +309,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 34u8,
-        sprite: &SPRITES[179usize],
+        sprite_id: 179u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -318,7 +318,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 35u8,
-        sprite: &SPRITES[180usize],
+        sprite_id: 180u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -327,7 +327,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 36u8,
-        sprite: &SPRITES[181usize],
+        sprite_id: 181u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -336,7 +336,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 37u8,
-        sprite: &SPRITES[188usize],
+        sprite_id: 188u16,
         speed: 1280u32,
         acceleration: 33u16,
         halt_distance: 24824u32,
@@ -345,7 +345,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 38u8,
-        sprite: &SPRITES[189usize],
+        sprite_id: 189u16,
         speed: 1280u32,
         acceleration: 160u16,
         halt_distance: 5120u32,
@@ -354,7 +354,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 39u8,
-        sprite: &SPRITES[190usize],
+        sprite_id: 190u16,
         speed: 853u32,
         acceleration: 27u16,
         halt_distance: 13474u32,
@@ -363,7 +363,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 40u8,
-        sprite: &SPRITES[191usize],
+        sprite_id: 191u16,
         speed: 1u32,
         acceleration: 1u16,
         halt_distance: 1u32,
@@ -372,7 +372,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 41u8,
-        sprite: &SPRITES[193usize],
+        sprite_id: 193u16,
         speed: 3413u32,
         acceleration: 427u16,
         halt_distance: 13640u32,
@@ -381,7 +381,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 42u8,
-        sprite: &SPRITES[194usize],
+        sprite_id: 194u16,
         speed: 1280u32,
         acceleration: 67u16,
         halt_distance: 12227u32,
@@ -390,7 +390,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 43u8,
-        sprite: &SPRITES[195usize],
+        sprite_id: 195u16,
         speed: 1280u32,
         acceleration: 48u16,
         halt_distance: 17067u32,
@@ -399,7 +399,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 44u8,
-        sprite: &SPRITES[196usize],
+        sprite_id: 196u16,
         speed: 1133u32,
         acceleration: 17u16,
         halt_distance: 37756u32,
@@ -408,7 +408,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 45u8,
-        sprite: &SPRITES[197usize],
+        sprite_id: 197u16,
         speed: 853u32,
         acceleration: 27u16,
         halt_distance: 13474u32,
@@ -417,7 +417,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 46u8,
-        sprite: &SPRITES[198usize],
+        sprite_id: 198u16,
         speed: 853u32,
         acceleration: 27u16,
         halt_distance: 13474u32,
@@ -426,7 +426,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 47u8,
-        sprite: &SPRITES[199usize],
+        sprite_id: 199u16,
         speed: 1u32,
         acceleration: 1u16,
         halt_distance: 1u32,
@@ -435,7 +435,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 48u8,
-        sprite: &SPRITES[200usize],
+        sprite_id: 200u16,
         speed: 1u32,
         acceleration: 1u16,
         halt_distance: 1u32,
@@ -444,7 +444,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 49u8,
-        sprite: &SPRITES[201usize],
+        sprite_id: 201u16,
         speed: 1u32,
         acceleration: 1u16,
         halt_distance: 1u32,
@@ -453,7 +453,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 50u8,
-        sprite: &SPRITES[202usize],
+        sprite_id: 202u16,
         speed: 853u32,
         acceleration: 27u16,
         halt_distance: 13474u32,
@@ -462,7 +462,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 51u8,
-        sprite: &SPRITES[203usize],
+        sprite_id: 203u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -471,7 +471,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 52u8,
-        sprite: &SPRITES[204usize],
+        sprite_id: 204u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -480,7 +480,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 53u8,
-        sprite: &SPRITES[205usize],
+        sprite_id: 205u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -489,7 +489,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 54u8,
-        sprite: &SPRITES[206usize],
+        sprite_id: 206u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -498,7 +498,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 55u8,
-        sprite: &SPRITES[207usize],
+        sprite_id: 207u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -507,7 +507,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 56u8,
-        sprite: &SPRITES[208usize],
+        sprite_id: 208u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -516,7 +516,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 57u8,
-        sprite: &SPRITES[209usize],
+        sprite_id: 209u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -525,7 +525,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 58u8,
-        sprite: &SPRITES[210usize],
+        sprite_id: 210u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -534,7 +534,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 59u8,
-        sprite: &SPRITES[211usize],
+        sprite_id: 211u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -543,7 +543,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 60u8,
-        sprite: &SPRITES[212usize],
+        sprite_id: 212u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -552,7 +552,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 61u8,
-        sprite: &SPRITES[213usize],
+        sprite_id: 213u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -561,7 +561,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 62u8,
-        sprite: &SPRITES[214usize],
+        sprite_id: 214u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -570,7 +570,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 63u8,
-        sprite: &SPRITES[215usize],
+        sprite_id: 215u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -579,7 +579,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 64u8,
-        sprite: &SPRITES[216usize],
+        sprite_id: 216u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -588,7 +588,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 65u8,
-        sprite: &SPRITES[217usize],
+        sprite_id: 217u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -597,7 +597,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 66u8,
-        sprite: &SPRITES[218usize],
+        sprite_id: 218u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -606,7 +606,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 67u8,
-        sprite: &SPRITES[219usize],
+        sprite_id: 219u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -615,7 +615,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 68u8,
-        sprite: &SPRITES[220usize],
+        sprite_id: 220u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -624,7 +624,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 69u8,
-        sprite: &SPRITES[221usize],
+        sprite_id: 221u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -633,7 +633,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 70u8,
-        sprite: &SPRITES[225usize],
+        sprite_id: 225u16,
         speed: 640u32,
         acceleration: 27u16,
         halt_distance: 7585u32,
@@ -642,7 +642,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 71u8,
-        sprite: &SPRITES[226usize],
+        sprite_id: 226u16,
         speed: 1u32,
         acceleration: 1u16,
         halt_distance: 1u32,
@@ -651,7 +651,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 72u8,
-        sprite: &SPRITES[227usize],
+        sprite_id: 227u16,
         speed: 1400u32,
         acceleration: 17u16,
         halt_distance: 37756u32,
@@ -660,7 +660,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 73u8,
-        sprite: &SPRITES[228usize],
+        sprite_id: 228u16,
         speed: 1u32,
         acceleration: 1u16,
         halt_distance: 1u32,
@@ -669,7 +669,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 74u8,
-        sprite: &SPRITES[229usize],
+        sprite_id: 229u16,
         speed: 1u32,
         acceleration: 1u16,
         halt_distance: 1u32,
@@ -678,7 +678,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 75u8,
-        sprite: &SPRITES[232usize],
+        sprite_id: 232u16,
         speed: 1u32,
         acceleration: 1u16,
         halt_distance: 1u32,
@@ -687,7 +687,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 76u8,
-        sprite: &SPRITES[233usize],
+        sprite_id: 233u16,
         speed: 1u32,
         acceleration: 1u16,
         halt_distance: 1u32,
@@ -696,7 +696,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 77u8,
-        sprite: &SPRITES[234usize],
+        sprite_id: 234u16,
         speed: 1u32,
         acceleration: 1u16,
         halt_distance: 1u32,
@@ -705,7 +705,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 78u8,
-        sprite: &SPRITES[235usize],
+        sprite_id: 235u16,
         speed: 1u32,
         acceleration: 1u16,
         halt_distance: 1u32,
@@ -714,7 +714,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 79u8,
-        sprite: &SPRITES[237usize],
+        sprite_id: 237u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -723,7 +723,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 80u8,
-        sprite: &SPRITES[238usize],
+        sprite_id: 238u16,
         speed: 1707u32,
         acceleration: 67u16,
         halt_distance: 21745u32,
@@ -732,7 +732,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 81u8,
-        sprite: &SPRITES[239usize],
+        sprite_id: 239u16,
         speed: 1280u32,
         acceleration: 67u16,
         halt_distance: 12227u32,
@@ -741,7 +741,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 82u8,
-        sprite: &SPRITES[240usize],
+        sprite_id: 240u16,
         speed: 1u32,
         acceleration: 1u16,
         halt_distance: 1u32,
@@ -750,7 +750,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 83u8,
-        sprite: &SPRITES[241usize],
+        sprite_id: 241u16,
         speed: 1u32,
         acceleration: 1u16,
         halt_distance: 1u32,
@@ -759,7 +759,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 84u8,
-        sprite: &SPRITES[242usize],
+        sprite_id: 242u16,
         speed: 1u32,
         acceleration: 1u16,
         halt_distance: 1u32,
@@ -768,7 +768,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 85u8,
-        sprite: &SPRITES[243usize],
+        sprite_id: 243u16,
         speed: 1u32,
         acceleration: 1u16,
         halt_distance: 1u32,
@@ -777,7 +777,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 86u8,
-        sprite: &SPRITES[246usize],
+        sprite_id: 246u16,
         speed: 1280u32,
         acceleration: 50u16,
         halt_distance: 5120u32,
@@ -786,7 +786,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 87u8,
-        sprite: &SPRITES[247usize],
+        sprite_id: 247u16,
         speed: 1u32,
         acceleration: 1u16,
         halt_distance: 1u32,
@@ -795,7 +795,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 88u8,
-        sprite: &SPRITES[244usize],
+        sprite_id: 244u16,
         speed: 1707u32,
         acceleration: 100u16,
         halt_distance: 14569u32,
@@ -804,7 +804,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 89u8,
-        sprite: &SPRITES[245usize],
+        sprite_id: 245u16,
         speed: 1u32,
         acceleration: 1u16,
         halt_distance: 1u32,
@@ -813,7 +813,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 90u8,
-        sprite: &SPRITES[248usize],
+        sprite_id: 248u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -822,7 +822,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 91u8,
-        sprite: &SPRITES[249usize],
+        sprite_id: 249u16,
         speed: 427u32,
         acceleration: 33u16,
         halt_distance: 2763u32,
@@ -831,7 +831,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 92u8,
-        sprite: &SPRITES[250usize],
+        sprite_id: 250u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -840,7 +840,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 93u8,
-        sprite: &SPRITES[251usize],
+        sprite_id: 251u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -849,7 +849,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 94u8,
-        sprite: &SPRITES[252usize],
+        sprite_id: 252u16,
         speed: 427u32,
         acceleration: 33u16,
         halt_distance: 2763u32,
@@ -858,7 +858,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 95u8,
-        sprite: &SPRITES[253usize],
+        sprite_id: 253u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -867,7 +867,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 96u8,
-        sprite: &SPRITES[254usize],
+        sprite_id: 254u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -876,7 +876,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 97u8,
-        sprite: &SPRITES[255usize],
+        sprite_id: 255u16,
         speed: 427u32,
         acceleration: 33u16,
         halt_distance: 2763u32,
@@ -885,7 +885,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 98u8,
-        sprite: &SPRITES[256usize],
+        sprite_id: 256u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -894,7 +894,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 99u8,
-        sprite: &SPRITES[257usize],
+        sprite_id: 257u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -903,7 +903,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 100u8,
-        sprite: &SPRITES[258usize],
+        sprite_id: 258u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -912,7 +912,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 101u8,
-        sprite: &SPRITES[259usize],
+        sprite_id: 259u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -921,7 +921,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 102u8,
-        sprite: &SPRITES[260usize],
+        sprite_id: 260u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -930,7 +930,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 103u8,
-        sprite: &SPRITES[261usize],
+        sprite_id: 261u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -939,7 +939,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 104u8,
-        sprite: &SPRITES[262usize],
+        sprite_id: 262u16,
         speed: 427u32,
         acceleration: 33u16,
         halt_distance: 2763u32,
@@ -948,7 +948,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 105u8,
-        sprite: &SPRITES[263usize],
+        sprite_id: 263u16,
         speed: 427u32,
         acceleration: 33u16,
         halt_distance: 2763u32,
@@ -957,7 +957,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 106u8,
-        sprite: &SPRITES[249usize],
+        sprite_id: 249u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -966,7 +966,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 107u8,
-        sprite: &SPRITES[264usize],
+        sprite_id: 264u16,
         speed: 427u32,
         acceleration: 33u16,
         halt_distance: 2763u32,
@@ -975,7 +975,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 108u8,
-        sprite: &SPRITES[265usize],
+        sprite_id: 265u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -984,7 +984,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 109u8,
-        sprite: &SPRITES[266usize],
+        sprite_id: 266u16,
         speed: 8533u32,
         acceleration: 33u16,
         halt_distance: 1103213u32,
@@ -993,7 +993,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 110u8,
-        sprite: &SPRITES[268usize],
+        sprite_id: 268u16,
         speed: 427u32,
         acceleration: 33u16,
         halt_distance: 2763u32,
@@ -1002,7 +1002,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 111u8,
-        sprite: &SPRITES[269usize],
+        sprite_id: 269u16,
         speed: 427u32,
         acceleration: 33u16,
         halt_distance: 2763u32,
@@ -1011,7 +1011,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 112u8,
-        sprite: &SPRITES[270usize],
+        sprite_id: 270u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1020,7 +1020,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 113u8,
-        sprite: &SPRITES[271usize],
+        sprite_id: 271u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1029,7 +1029,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 114u8,
-        sprite: &SPRITES[276usize],
+        sprite_id: 276u16,
         speed: 1u32,
         acceleration: 1u16,
         halt_distance: 1u32,
@@ -1038,7 +1038,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 115u8,
-        sprite: &SPRITES[277usize],
+        sprite_id: 277u16,
         speed: 1u32,
         acceleration: 1u16,
         halt_distance: 1u32,
@@ -1047,7 +1047,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 116u8,
-        sprite: &SPRITES[278usize],
+        sprite_id: 278u16,
         speed: 1u32,
         acceleration: 1u16,
         halt_distance: 1u32,
@@ -1056,7 +1056,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 117u8,
-        sprite: &SPRITES[275usize],
+        sprite_id: 275u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1065,7 +1065,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 118u8,
-        sprite: &SPRITES[279usize],
+        sprite_id: 279u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1074,7 +1074,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 119u8,
-        sprite: &SPRITES[280usize],
+        sprite_id: 280u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1083,7 +1083,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 120u8,
-        sprite: &SPRITES[281usize],
+        sprite_id: 281u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1092,7 +1092,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 121u8,
-        sprite: &SPRITES[282usize],
+        sprite_id: 282u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1101,7 +1101,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 122u8,
-        sprite: &SPRITES[283usize],
+        sprite_id: 283u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1110,7 +1110,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 123u8,
-        sprite: &SPRITES[284usize],
+        sprite_id: 284u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1119,7 +1119,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 124u8,
-        sprite: &SPRITES[285usize],
+        sprite_id: 285u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1128,7 +1128,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 125u8,
-        sprite: &SPRITES[286usize],
+        sprite_id: 286u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1137,7 +1137,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 126u8,
-        sprite: &SPRITES[287usize],
+        sprite_id: 287u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1146,7 +1146,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 127u8,
-        sprite: &SPRITES[288usize],
+        sprite_id: 288u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1155,7 +1155,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 128u8,
-        sprite: &SPRITES[289usize],
+        sprite_id: 289u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1164,7 +1164,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 129u8,
-        sprite: &SPRITES[290usize],
+        sprite_id: 290u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1173,7 +1173,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 130u8,
-        sprite: &SPRITES[291usize],
+        sprite_id: 291u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1182,7 +1182,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 131u8,
-        sprite: &SPRITES[292usize],
+        sprite_id: 292u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1191,7 +1191,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 132u8,
-        sprite: &SPRITES[293usize],
+        sprite_id: 293u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1200,7 +1200,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 133u8,
-        sprite: &SPRITES[294usize],
+        sprite_id: 294u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1209,7 +1209,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 134u8,
-        sprite: &SPRITES[295usize],
+        sprite_id: 295u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1218,7 +1218,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 135u8,
-        sprite: &SPRITES[296usize],
+        sprite_id: 296u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1227,7 +1227,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 136u8,
-        sprite: &SPRITES[297usize],
+        sprite_id: 297u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1236,7 +1236,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 137u8,
-        sprite: &SPRITES[298usize],
+        sprite_id: 298u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1245,7 +1245,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 138u8,
-        sprite: &SPRITES[299usize],
+        sprite_id: 299u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1254,7 +1254,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 139u8,
-        sprite: &SPRITES[302usize],
+        sprite_id: 302u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1263,7 +1263,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 140u8,
-        sprite: &SPRITES[301usize],
+        sprite_id: 301u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1272,7 +1272,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 141u8,
-        sprite: &SPRITES[340usize],
+        sprite_id: 340u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1281,7 +1281,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 142u8,
-        sprite: &SPRITES[341usize],
+        sprite_id: 341u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1290,7 +1290,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 143u8,
-        sprite: &SPRITES[346usize],
+        sprite_id: 346u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1299,7 +1299,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 144u8,
-        sprite: &SPRITES[342usize],
+        sprite_id: 342u16,
         speed: 8533u32,
         acceleration: 667u16,
         halt_distance: 54582u32,
@@ -1308,7 +1308,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 145u8,
-        sprite: &SPRITES[343usize],
+        sprite_id: 343u16,
         speed: 8533u32,
         acceleration: 667u16,
         halt_distance: 54582u32,
@@ -1317,7 +1317,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 146u8,
-        sprite: &SPRITES[345usize],
+        sprite_id: 345u16,
         speed: 8533u32,
         acceleration: 267u16,
         halt_distance: 136352u32,
@@ -1326,7 +1326,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 147u8,
-        sprite: &SPRITES[344usize],
+        sprite_id: 344u16,
         speed: 8533u32,
         acceleration: 8533u16,
         halt_distance: 4267u32,
@@ -1335,7 +1335,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 148u8,
-        sprite: &SPRITES[347usize],
+        sprite_id: 347u16,
         speed: 25600u32,
         acceleration: 8533u16,
         halt_distance: 38402u32,
@@ -1344,7 +1344,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 149u8,
-        sprite: &SPRITES[348usize],
+        sprite_id: 348u16,
         speed: 17067u32,
         acceleration: 8533u16,
         halt_distance: 17068u32,
@@ -1353,7 +1353,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 150u8,
-        sprite: &SPRITES[349usize],
+        sprite_id: 349u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1362,7 +1362,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 151u8,
-        sprite: &SPRITES[352usize],
+        sprite_id: 352u16,
         speed: 8533u32,
         acceleration: 267u16,
         halt_distance: 136352u32,
@@ -1371,7 +1371,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 152u8,
-        sprite: &SPRITES[333usize],
+        sprite_id: 333u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1380,7 +1380,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 153u8,
-        sprite: &SPRITES[334usize],
+        sprite_id: 334u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1389,7 +1389,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 154u8,
-        sprite: &SPRITES[335usize],
+        sprite_id: 335u16,
         speed: 8533u32,
         acceleration: 267u16,
         halt_distance: 136352u32,
@@ -1398,7 +1398,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 155u8,
-        sprite: &SPRITES[336usize],
+        sprite_id: 336u16,
         speed: 21333u32,
         acceleration: 850u16,
         halt_distance: 267704u32,
@@ -1407,7 +1407,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 156u8,
-        sprite: &SPRITES[366usize],
+        sprite_id: 366u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1416,7 +1416,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 157u8,
-        sprite: &SPRITES[339usize],
+        sprite_id: 339u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1425,7 +1425,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 158u8,
-        sprite: &SPRITES[350usize],
+        sprite_id: 350u16,
         speed: 8533u32,
         acceleration: 8533u16,
         halt_distance: 4267u32,
@@ -1434,7 +1434,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 159u8,
-        sprite: &SPRITES[337usize],
+        sprite_id: 337u16,
         speed: 17067u32,
         acceleration: 850u16,
         halt_distance: 171343u32,
@@ -1443,7 +1443,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 160u8,
-        sprite: &SPRITES[338usize],
+        sprite_id: 338u16,
         speed: 17067u32,
         acceleration: 850u16,
         halt_distance: 171343u32,
@@ -1452,7 +1452,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 161u8,
-        sprite: &SPRITES[355usize],
+        sprite_id: 355u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1461,7 +1461,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 162u8,
-        sprite: &SPRITES[356usize],
+        sprite_id: 356u16,
         speed: 8533u32,
         acceleration: 667u16,
         halt_distance: 54582u32,
@@ -1470,7 +1470,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 163u8,
-        sprite: &SPRITES[357usize],
+        sprite_id: 357u16,
         speed: 8533u32,
         acceleration: 667u16,
         halt_distance: 54582u32,
@@ -1479,7 +1479,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 164u8,
-        sprite: &SPRITES[354usize],
+        sprite_id: 354u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1488,7 +1488,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 165u8,
-        sprite: &SPRITES[358usize],
+        sprite_id: 358u16,
         speed: 8533u32,
         acceleration: 667u16,
         halt_distance: 54582u32,
@@ -1497,7 +1497,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 166u8,
-        sprite: &SPRITES[359usize],
+        sprite_id: 359u16,
         speed: 8533u32,
         acceleration: 667u16,
         halt_distance: 54582u32,
@@ -1506,7 +1506,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 167u8,
-        sprite: &SPRITES[360usize],
+        sprite_id: 360u16,
         speed: 8533u32,
         acceleration: 667u16,
         halt_distance: 54582u32,
@@ -1515,7 +1515,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 168u8,
-        sprite: &SPRITES[362usize],
+        sprite_id: 362u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1524,7 +1524,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 169u8,
-        sprite: &SPRITES[363usize],
+        sprite_id: 363u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1533,7 +1533,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 170u8,
-        sprite: &SPRITES[364usize],
+        sprite_id: 364u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1542,7 +1542,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 171u8,
-        sprite: &SPRITES[353usize],
+        sprite_id: 353u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1551,7 +1551,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 172u8,
-        sprite: &SPRITES[370usize],
+        sprite_id: 370u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1560,7 +1560,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 173u8,
-        sprite: &SPRITES[381usize],
+        sprite_id: 381u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1569,7 +1569,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 174u8,
-        sprite: &SPRITES[382usize],
+        sprite_id: 382u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1578,7 +1578,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 175u8,
-        sprite: &SPRITES[383usize],
+        sprite_id: 383u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1587,7 +1587,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 176u8,
-        sprite: &SPRITES[384usize],
+        sprite_id: 384u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1596,7 +1596,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 177u8,
-        sprite: &SPRITES[385usize],
+        sprite_id: 385u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1605,7 +1605,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 178u8,
-        sprite: &SPRITES[303usize],
+        sprite_id: 303u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1614,7 +1614,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 179u8,
-        sprite: &SPRITES[308usize],
+        sprite_id: 308u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1623,7 +1623,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 180u8,
-        sprite: &SPRITES[304usize],
+        sprite_id: 304u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1632,7 +1632,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 181u8,
-        sprite: &SPRITES[305usize],
+        sprite_id: 305u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1641,7 +1641,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 182u8,
-        sprite: &SPRITES[306usize],
+        sprite_id: 306u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1650,7 +1650,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 183u8,
-        sprite: &SPRITES[307usize],
+        sprite_id: 307u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1659,7 +1659,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 184u8,
-        sprite: &SPRITES[481usize],
+        sprite_id: 481u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1668,7 +1668,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 185u8,
-        sprite: &SPRITES[482usize],
+        sprite_id: 482u16,
         speed: 1280u32,
         acceleration: 48u16,
         halt_distance: 17067u32,
@@ -1677,7 +1677,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 186u8,
-        sprite: &SPRITES[485usize],
+        sprite_id: 485u16,
         speed: 1u32,
         acceleration: 1u16,
         halt_distance: 1u32,
@@ -1686,7 +1686,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 187u8,
-        sprite: &SPRITES[486usize],
+        sprite_id: 486u16,
         speed: 1280u32,
         acceleration: 160u16,
         halt_distance: 5120u32,
@@ -1695,7 +1695,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 188u8,
-        sprite: &SPRITES[488usize],
+        sprite_id: 488u16,
         speed: 750u32,
         acceleration: 27u16,
         halt_distance: 13474u32,
@@ -1704,7 +1704,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 189u8,
-        sprite: &SPRITES[489usize],
+        sprite_id: 489u16,
         speed: 1u32,
         acceleration: 1u16,
         halt_distance: 1u32,
@@ -1713,7 +1713,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 190u8,
-        sprite: &SPRITES[491usize],
+        sprite_id: 491u16,
         speed: 1690u32,
         acceleration: 65u16,
         halt_distance: 21901u32,
@@ -1722,7 +1722,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 191u8,
-        sprite: &SPRITES[487usize],
+        sprite_id: 487u16,
         speed: 1707u32,
         acceleration: 67u16,
         halt_distance: 17067u32,
@@ -1731,7 +1731,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 192u8,
-        sprite: &SPRITES[503usize],
+        sprite_id: 503u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1740,7 +1740,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 193u8,
-        sprite: &SPRITES[495usize],
+        sprite_id: 495u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1749,7 +1749,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 194u8,
-        sprite: &SPRITES[498usize],
+        sprite_id: 498u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1758,7 +1758,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 195u8,
-        sprite: &SPRITES[499usize],
+        sprite_id: 499u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1767,7 +1767,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 196u8,
-        sprite: &SPRITES[496usize],
+        sprite_id: 496u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1776,7 +1776,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 197u8,
-        sprite: &SPRITES[497usize],
+        sprite_id: 497u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1785,7 +1785,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 198u8,
-        sprite: &SPRITES[492usize],
+        sprite_id: 492u16,
         speed: 1u32,
         acceleration: 1u16,
         halt_distance: 1u32,
@@ -1794,7 +1794,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 199u8,
-        sprite: &SPRITES[493usize],
+        sprite_id: 493u16,
         speed: 1280u32,
         acceleration: 16u16,
         halt_distance: 51200u32,
@@ -1803,7 +1803,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 200u8,
-        sprite: &SPRITES[494usize],
+        sprite_id: 494u16,
         speed: 1u32,
         acceleration: 1u16,
         halt_distance: 1u32,
@@ -1812,7 +1812,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 201u8,
-        sprite: &SPRITES[508usize],
+        sprite_id: 508u16,
         speed: 8533u32,
         acceleration: 667u16,
         halt_distance: 54582u32,
@@ -1821,7 +1821,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 202u8,
-        sprite: &SPRITES[509usize],
+        sprite_id: 509u16,
         speed: 8533u32,
         acceleration: 267u16,
         halt_distance: 136352u32,
@@ -1830,7 +1830,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 203u8,
-        sprite: &SPRITES[510usize],
+        sprite_id: 510u16,
         speed: 4800u32,
         acceleration: 4800u16,
         halt_distance: 750u32,
@@ -1839,7 +1839,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 204u8,
-        sprite: &SPRITES[512usize],
+        sprite_id: 512u16,
         speed: 8533u32,
         acceleration: 667u16,
         halt_distance: 54582u32,
@@ -1848,7 +1848,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 205u8,
-        sprite: &SPRITES[513usize],
+        sprite_id: 513u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1857,7 +1857,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 206u8,
-        sprite: &SPRITES[506usize],
+        sprite_id: 506u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1866,7 +1866,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 207u8,
-        sprite: &SPRITES[515usize],
+        sprite_id: 515u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,
@@ -1875,7 +1875,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
     },
     Flingy {
         id: 208u8,
-        sprite: &SPRITES[516usize],
+        sprite_id: 516u16,
         speed: 0u32,
         acceleration: 0u16,
         halt_distance: 0u32,

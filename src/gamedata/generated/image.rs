@@ -1,4 +1,5 @@
 use crate::gamedata::BwImage;
+/// Contains data for all images in the game.
 pub const IMAGES: [BwImage; 999usize] = [
     BwImage {
         id: 0u16,

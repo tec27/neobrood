@@ -2,13 +2,13 @@ use bevy::prelude::*;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 use crate::{
+    constructs::{hq_building, ConstructTypeId, OwnedConstruct},
     ecs::despawn_all,
-    gamedata::{BwGameData, LoadingAnim, FLINGIES},
+    gamedata::LoadingAnim,
     players::{ControlledPlayer, Player},
     races::Race,
     random::LcgRand,
     states::AppState,
-    units::{hq_building, OwnedUnit, UnitType},
 };
 
 #[allow(dead_code)]
@@ -123,34 +123,28 @@ fn init_players(mut commands: Commands, mut player_entities: ResMut<PlayerEntiti
 
 fn init_game(
     mut commands: Commands,
-    mut units: Query<(Entity, &mut UnitType, &OwnedUnit)>,
+    mut units: Query<(Entity, &mut ConstructTypeId, &OwnedConstruct)>,
     player_entities: Res<PlayerEntities>,
     player_query: Query<&Player>,
     game_mode: Res<GameMode>,
-    game_data: Res<BwGameData>,
 ) {
     match *game_mode {
-        GameMode::Melee => init_melee_game(
-            &mut commands,
-            &mut units,
-            &player_entities,
-            &player_query,
-            &game_data,
-        ),
+        GameMode::Melee => {
+            init_melee_game(&mut commands, &mut units, &player_entities, &player_query)
+        }
         GameMode::MapView => {}
     }
 }
 
 fn init_melee_game(
     commands: &mut Commands,
-    units: &mut Query<(Entity, &mut UnitType, &OwnedUnit)>,
+    units: &mut Query<(Entity, &mut ConstructTypeId, &OwnedConstruct)>,
     player_entities: &Res<PlayerEntities>,
     player_query: &Query<&Player>,
-    game_data: &BwGameData,
 ) {
-    for (entity, mut unit_type, owner) in units
+    for (entity, mut construct_type, owner) in units
         .iter_mut()
-        .filter(|(_, u, _)| **u == UnitType::StartLocation)
+        .filter(|(_, u, _)| **u == ConstructTypeId::StartLocation)
     {
         let Some(player_entity) = player_entities.get(owner.0) else {
             commands.entity(entity).despawn_recursive();
@@ -166,37 +160,16 @@ fn init_melee_game(
         };
 
         let building = hq_building(player.race);
-        *unit_type = building;
+        *construct_type = building.id.into();
 
-        let flingy_id = game_data
-            .units
-            .flingy
-            .get(u16::from(building) as usize)
-            .copied()
-            .unwrap_or_else(|| {
-                warn!(
-                    "Encountered Unit {:?} which isn't a valid ID, using placeholder flingy",
-                    building
-                );
-                0
-            });
-        let sprite = FLINGIES
-            .get(flingy_id as usize)
-            .map(|f| f.sprite)
-            .unwrap_or_else(|| {
-                warn!(
-                    "Encountered Flingy {} which isn't a valid ID, using placeholder sprite",
-                    flingy_id
-                );
-                FLINGIES[0].sprite
-            });
+        let image_id = building.flingy().sprite().image_id;
         // TODO(tec27): Maybe we should have a change handler for UnitType that does this instead?
         // Could also use that for initializing the placed unit's in the first place
         commands
             .entity(entity)
             .despawn_descendants()
             .with_children(|builder| {
-                builder.spawn(LoadingAnim::new(sprite.image.id));
+                builder.spawn(LoadingAnim::new(image_id));
             });
     }
 }
