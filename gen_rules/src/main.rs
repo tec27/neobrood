@@ -156,7 +156,6 @@ fn write_images(data: ImageData) -> anyhow::Result<()> {
     let tokens = quote! {
         use crate::gamedata::BwImage;
 
-        // GENERATED CODE, DO NOT MODIFY BY HAND
         /// Contains data for all images in the game.
         pub const IMAGES: [BwImage; #NUM_IMAGE_DATA] = [#(#entries,)*];
     };
@@ -234,7 +233,6 @@ fn write_sprites(data: SpriteData) -> anyhow::Result<()> {
     let tokens = quote! {
         use crate::gamedata::BwSprite;
 
-        // GENERATED CODE, DO NOT MODIFY BY HAND
         /// Contains data for all sprites in the game.
         pub const SPRITES: [BwSprite; #NUM_SPRITE_DATA] = [#(#entries,)*];
     };
@@ -307,7 +305,6 @@ fn write_flingy(flingy_data: FlingyData) -> anyhow::Result<()> {
     let tokens = quote! {
         use crate::gamedata::Flingy;
 
-        // GENERATED CODE, DO NOT MODIFY BY HAND
         /// Contains data for all flingy types in the game.
         pub const FLINGIES: [Flingy; #NUM_FLINGY_DATA] = [#(#entries,)*];
     };
@@ -656,10 +653,8 @@ fn write_units(data: UnitData) -> anyhow::Result<()> {
     let num_entries = entries.len();
 
     let tokens = quote! {
-        use bevy::math::{I16Vec2, IRect, IVec2};
         use crate::gamedata::{Construct, ConstructKind, BuildingData, UnitData};
-
-        // GENERATED CODE, DO NOT MODIFY BY HAND
+        use bevy::math::{I16Vec2, IRect, IVec2};
 
         /// Contains data for all units, buildings, and other constructs in the game.
         pub const CONSTRUCTS: [Construct; #num_entries] = [#(#entries,)*];
