@@ -1,4 +1,4 @@
 /target
 .idea
 .vscode
-assets/casc-extracted
+/assets/casc-extracted
