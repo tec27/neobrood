@@ -220,7 +220,7 @@ fn create_map_sprites(commands: &mut Commands, map: &MapAsset, map_entity: Entit
     for (i, sprite) in map.sprites.iter().enumerate() {
         let image_id = SPRITES
             .get(sprite.id as usize)
-            .map(|s| s.image)
+            .map(|s| s.image.id)
             .unwrap_or_else(|| {
                 warn!(
                     "Encountered Sprite {} which isn't a valid ID, using placeholder sprite",
@@ -278,17 +278,16 @@ fn create_placed_units(
                 );
                 0
             });
-        let sprite = FLINGIES
+        let image_id = FLINGIES
             .get(flingy_id as usize)
-            .map(|f| f.sprite)
+            .map(|f| f.sprite.image.id)
             .unwrap_or_else(|| {
                 warn!(
                     "Encountered Flingy {} which isn't a valid ID, using placeholder sprite",
                     flingy_id
                 );
-                FLINGIES[0].sprite
+                0
             });
-        let image_id = sprite.image;
 
         let entity = commands
             .spawn((

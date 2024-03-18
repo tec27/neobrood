@@ -52,21 +52,7 @@ pub struct DatAssetLoader {}
 // but then we have to do our own mapping to a proper loader/output type.
 #[derive(Asset, Debug, TypePath)]
 pub enum DatAsset {
-    Images(Box<ImageData>),
     Units(Box<UnitData>),
-}
-
-impl TryFrom<&DatAsset> for ImageData {
-    type Error = anyhow::Error;
-
-    fn try_from(value: &DatAsset) -> Result<Self, Self::Error> {
-        match value {
-            DatAsset::Images(data) => Ok((**data).clone()),
-            _ => Err(anyhow!(
-                "Tried to convert a non-images DatAsset to ImageData"
-            )),
-        }
-    }
 }
 
 impl TryFrom<&DatAsset> for UnitData {
@@ -75,33 +61,8 @@ impl TryFrom<&DatAsset> for UnitData {
     fn try_from(value: &DatAsset) -> Result<Self, Self::Error> {
         match value {
             DatAsset::Units(data) => Ok((**data).clone()),
-            _ => Err(anyhow!("Tried to convert a non-units DatAsset to UnitData")),
         }
     }
-}
-
-/// How many images are specified in the images.dat file.
-const NUM_IMAGE_DATA: usize = 999;
-/// How much data each image instance takes up in the images.dat file (in bytes).
-const IMAGE_DATA_SIZE: usize = 38;
-
-#[allow(dead_code)]
-#[derive(Clone, Debug, Reflect)]
-pub struct ImageData {
-    pub grp: [u32; NUM_IMAGE_DATA],
-    pub graphics_turns: [u8; NUM_IMAGE_DATA],
-    pub clickable: [u8; NUM_IMAGE_DATA],
-    pub use_full_iscript: [u8; NUM_IMAGE_DATA],
-    pub draw_if_cloaked: [u8; NUM_IMAGE_DATA],
-    pub draw_function: [u8; NUM_IMAGE_DATA],
-    pub remapping: [u8; NUM_IMAGE_DATA],
-    pub iscript: [u32; NUM_IMAGE_DATA],
-    pub shield_overlay: [u32; NUM_IMAGE_DATA],
-    pub attack_overlay: [u32; NUM_IMAGE_DATA],
-    pub damage_overlay: [u32; NUM_IMAGE_DATA],
-    pub special_overlay: [u32; NUM_IMAGE_DATA],
-    pub landing_dust_overlay: [u32; NUM_IMAGE_DATA],
-    pub lift_off_dust_overlay: [u32; NUM_IMAGE_DATA],
 }
 
 /// How many things (units + buildings + other) are specified in the units.dat file.
@@ -189,11 +150,6 @@ impl AssetLoader for DatAssetLoader {
                 .map(|name| name.to_ascii_lowercase().to_string_lossy().to_string())
                 .as_deref()
             {
-                Some("images") => {
-                    let mut bytes = Vec::new();
-                    reader.read_to_end(&mut bytes).await?;
-                    DatAsset::Images(Box::new(load_images_dat(&bytes)?))
-                }
                 Some("units") => {
                     let mut bytes = Vec::new();
                     reader.read_to_end(&mut bytes).await?;
@@ -272,28 +228,5 @@ fn load_units_dat(mut bytes: &[u8]) -> anyhow::Result<UnitData> {
         unit_map_string: bytes.read_u16_array::<NUM_UNIT_DATA>()?,
         brood_war_unit_flag: bytes.read_u8_array::<NUM_UNIT_DATA>()?,
         star_edit_availability_flag: bytes.read_u16_array::<NUM_UNIT_DATA>()?,
-    })
-}
-
-fn load_images_dat(mut bytes: &[u8]) -> anyhow::Result<ImageData> {
-    if bytes.len() < NUM_IMAGE_DATA * IMAGE_DATA_SIZE {
-        return Err(anyhow!("images.dat file is too small: {}", bytes.len()));
-    }
-
-    Ok(ImageData {
-        grp: bytes.read_u32_array::<NUM_IMAGE_DATA>()?,
-        graphics_turns: bytes.read_u8_array::<NUM_IMAGE_DATA>()?,
-        clickable: bytes.read_u8_array::<NUM_IMAGE_DATA>()?,
-        use_full_iscript: bytes.read_u8_array::<NUM_IMAGE_DATA>()?,
-        draw_if_cloaked: bytes.read_u8_array::<NUM_IMAGE_DATA>()?,
-        draw_function: bytes.read_u8_array::<NUM_IMAGE_DATA>()?,
-        remapping: bytes.read_u8_array::<NUM_IMAGE_DATA>()?,
-        iscript: bytes.read_u32_array::<NUM_IMAGE_DATA>()?,
-        shield_overlay: bytes.read_u32_array::<NUM_IMAGE_DATA>()?,
-        attack_overlay: bytes.read_u32_array::<NUM_IMAGE_DATA>()?,
-        damage_overlay: bytes.read_u32_array::<NUM_IMAGE_DATA>()?,
-        special_overlay: bytes.read_u32_array::<NUM_IMAGE_DATA>()?,
-        landing_dust_overlay: bytes.read_u32_array::<NUM_IMAGE_DATA>()?,
-        lift_off_dust_overlay: bytes.read_u32_array::<NUM_IMAGE_DATA>()?,
     })
 }

@@ -4,6 +4,7 @@ use super::BwSprite;
 // float or fixed point, some of these could point to newtypes, etc.)
 #[derive(Debug, Clone)]
 pub struct Flingy {
+    pub id: u8,
     pub sprite: &'static BwSprite,
     pub speed: u32,
     pub acceleration: u16,

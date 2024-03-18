@@ -1,9 +1,10 @@
-use bevy::reflect::Reflect;
+use super::BwImage;
 
 #[allow(dead_code)]
-#[derive(Clone, Debug, Reflect)]
+#[derive(Clone, Debug)]
 pub struct BwSprite {
-    pub image: u16,
+    pub id: u16,
+    pub image: &'static BwImage,
     pub health_bar: Option<u8>,
     pub unknown_0: u8,
     pub visible: u8,

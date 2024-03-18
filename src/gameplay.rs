@@ -196,7 +196,7 @@ fn init_melee_game(
             .entity(entity)
             .despawn_descendants()
             .with_children(|builder| {
-                builder.spawn(LoadingAnim::new(sprite.image));
+                builder.spawn(LoadingAnim::new(sprite.image.id));
             });
     }
 }

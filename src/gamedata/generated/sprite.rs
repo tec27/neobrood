@@ -1,7 +1,9 @@
+use super::image::IMAGES;
 use crate::gamedata::BwSprite;
 pub const SPRITES: [BwSprite; 517usize] = [
     BwSprite {
-        image: 589u16,
+        id: 0u16,
+        image: &IMAGES[589usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -9,7 +11,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 591u16,
+        id: 1u16,
+        image: &IMAGES[591usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -17,7 +20,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 593u16,
+        id: 2u16,
+        image: &IMAGES[593usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -25,7 +29,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 595u16,
+        id: 3u16,
+        image: &IMAGES[595usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -33,7 +38,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 597u16,
+        id: 4u16,
+        image: &IMAGES[597usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -41,7 +47,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 599u16,
+        id: 5u16,
+        image: &IMAGES[599usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -49,7 +56,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 600u16,
+        id: 6u16,
+        image: &IMAGES[600usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -57,7 +65,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 601u16,
+        id: 7u16,
+        image: &IMAGES[601usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -65,7 +74,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 602u16,
+        id: 8u16,
+        image: &IMAGES[602usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -73,7 +83,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 603u16,
+        id: 9u16,
+        image: &IMAGES[603usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -81,7 +92,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 604u16,
+        id: 10u16,
+        image: &IMAGES[604usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -89,7 +101,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 605u16,
+        id: 11u16,
+        image: &IMAGES[605usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -97,7 +110,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 606u16,
+        id: 12u16,
+        image: &IMAGES[606usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -105,7 +119,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 607u16,
+        id: 13u16,
+        image: &IMAGES[607usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -113,7 +128,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 608u16,
+        id: 14u16,
+        image: &IMAGES[608usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -121,7 +137,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 609u16,
+        id: 15u16,
+        image: &IMAGES[609usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -129,7 +146,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 610u16,
+        id: 16u16,
+        image: &IMAGES[610usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -137,7 +155,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 612u16,
+        id: 17u16,
+        image: &IMAGES[612usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -145,7 +164,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 614u16,
+        id: 18u16,
+        image: &IMAGES[614usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -153,7 +173,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 616u16,
+        id: 19u16,
+        image: &IMAGES[616usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -161,7 +182,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 618u16,
+        id: 20u16,
+        image: &IMAGES[618usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -169,7 +191,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 620u16,
+        id: 21u16,
+        image: &IMAGES[620usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -177,7 +200,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 622u16,
+        id: 22u16,
+        image: &IMAGES[622usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -185,7 +209,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 624u16,
+        id: 23u16,
+        image: &IMAGES[624usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -193,7 +218,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 626u16,
+        id: 24u16,
+        image: &IMAGES[626usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -201,7 +227,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 628u16,
+        id: 25u16,
+        image: &IMAGES[628usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -209,7 +236,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 630u16,
+        id: 26u16,
+        image: &IMAGES[630usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -217,7 +245,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 632u16,
+        id: 27u16,
+        image: &IMAGES[632usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -225,7 +254,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 634u16,
+        id: 28u16,
+        image: &IMAGES[634usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -233,7 +263,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 636u16,
+        id: 29u16,
+        image: &IMAGES[636usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -241,7 +272,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 638u16,
+        id: 30u16,
+        image: &IMAGES[638usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -249,7 +281,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 640u16,
+        id: 31u16,
+        image: &IMAGES[640usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -257,7 +290,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 641u16,
+        id: 32u16,
+        image: &IMAGES[641usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -265,7 +299,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 642u16,
+        id: 33u16,
+        image: &IMAGES[642usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -273,7 +308,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 643u16,
+        id: 34u16,
+        image: &IMAGES[643usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -281,7 +317,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 644u16,
+        id: 35u16,
+        image: &IMAGES[644usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -289,7 +326,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 645u16,
+        id: 36u16,
+        image: &IMAGES[645usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -297,7 +335,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 646u16,
+        id: 37u16,
+        image: &IMAGES[646usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -305,7 +344,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 647u16,
+        id: 38u16,
+        image: &IMAGES[647usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -313,7 +353,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 648u16,
+        id: 39u16,
+        image: &IMAGES[648usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -321,7 +362,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 649u16,
+        id: 40u16,
+        image: &IMAGES[649usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -329,7 +371,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 650u16,
+        id: 41u16,
+        image: &IMAGES[650usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -337,7 +380,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 651u16,
+        id: 42u16,
+        image: &IMAGES[651usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -345,7 +389,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 652u16,
+        id: 43u16,
+        image: &IMAGES[652usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -353,7 +398,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 653u16,
+        id: 44u16,
+        image: &IMAGES[653usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -361,7 +407,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 654u16,
+        id: 45u16,
+        image: &IMAGES[654usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -369,7 +416,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 655u16,
+        id: 46u16,
+        image: &IMAGES[655usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -377,7 +425,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 656u16,
+        id: 47u16,
+        image: &IMAGES[656usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -385,7 +434,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 657u16,
+        id: 48u16,
+        image: &IMAGES[657usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -393,7 +443,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 658u16,
+        id: 49u16,
+        image: &IMAGES[658usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -401,7 +452,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 659u16,
+        id: 50u16,
+        image: &IMAGES[659usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -409,7 +461,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 660u16,
+        id: 51u16,
+        image: &IMAGES[660usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -417,7 +470,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 661u16,
+        id: 52u16,
+        image: &IMAGES[661usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -425,7 +479,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 662u16,
+        id: 53u16,
+        image: &IMAGES[662usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -433,7 +488,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 663u16,
+        id: 54u16,
+        image: &IMAGES[663usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -441,7 +497,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 664u16,
+        id: 55u16,
+        image: &IMAGES[664usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -449,7 +506,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 665u16,
+        id: 56u16,
+        image: &IMAGES[665usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -457,7 +515,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 667u16,
+        id: 57u16,
+        image: &IMAGES[667usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -465,7 +524,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 669u16,
+        id: 58u16,
+        image: &IMAGES[669usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -473,7 +533,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 671u16,
+        id: 59u16,
+        image: &IMAGES[671usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -481,7 +542,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 673u16,
+        id: 60u16,
+        image: &IMAGES[673usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -489,7 +551,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 675u16,
+        id: 61u16,
+        image: &IMAGES[675usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -497,7 +560,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 677u16,
+        id: 62u16,
+        image: &IMAGES[677usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -505,7 +569,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 678u16,
+        id: 63u16,
+        image: &IMAGES[678usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -513,7 +578,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 679u16,
+        id: 64u16,
+        image: &IMAGES[679usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -521,7 +587,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 680u16,
+        id: 65u16,
+        image: &IMAGES[680usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -529,7 +596,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 681u16,
+        id: 66u16,
+        image: &IMAGES[681usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -537,7 +605,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 682u16,
+        id: 67u16,
+        image: &IMAGES[682usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -545,7 +614,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 683u16,
+        id: 68u16,
+        image: &IMAGES[683usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -553,7 +623,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 684u16,
+        id: 69u16,
+        image: &IMAGES[684usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -561,7 +632,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 685u16,
+        id: 70u16,
+        image: &IMAGES[685usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -569,7 +641,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 686u16,
+        id: 71u16,
+        image: &IMAGES[686usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -577,7 +650,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 687u16,
+        id: 72u16,
+        image: &IMAGES[687usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -585,7 +659,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 688u16,
+        id: 73u16,
+        image: &IMAGES[688usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -593,7 +668,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 689u16,
+        id: 74u16,
+        image: &IMAGES[689usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -601,7 +677,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 690u16,
+        id: 75u16,
+        image: &IMAGES[690usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -609,7 +686,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 691u16,
+        id: 76u16,
+        image: &IMAGES[691usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -617,7 +695,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 693u16,
+        id: 77u16,
+        image: &IMAGES[693usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -625,7 +704,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 695u16,
+        id: 78u16,
+        image: &IMAGES[695usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -633,7 +713,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 697u16,
+        id: 79u16,
+        image: &IMAGES[697usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -641,7 +722,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 699u16,
+        id: 80u16,
+        image: &IMAGES[699usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -649,7 +731,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 700u16,
+        id: 81u16,
+        image: &IMAGES[700usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -657,7 +740,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 701u16,
+        id: 82u16,
+        image: &IMAGES[701usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -665,7 +749,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 702u16,
+        id: 83u16,
+        image: &IMAGES[702usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -673,7 +758,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 703u16,
+        id: 84u16,
+        image: &IMAGES[703usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -681,7 +767,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 704u16,
+        id: 85u16,
+        image: &IMAGES[704usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -689,7 +776,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 706u16,
+        id: 86u16,
+        image: &IMAGES[706usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -697,7 +785,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 708u16,
+        id: 87u16,
+        image: &IMAGES[708usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -705,7 +794,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 710u16,
+        id: 88u16,
+        image: &IMAGES[710usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -713,7 +803,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 712u16,
+        id: 89u16,
+        image: &IMAGES[712usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -721,7 +812,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 713u16,
+        id: 90u16,
+        image: &IMAGES[713usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -729,7 +821,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 714u16,
+        id: 91u16,
+        image: &IMAGES[714usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -737,7 +830,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 715u16,
+        id: 92u16,
+        image: &IMAGES[715usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -745,7 +839,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 716u16,
+        id: 93u16,
+        image: &IMAGES[716usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -753,7 +848,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 717u16,
+        id: 94u16,
+        image: &IMAGES[717usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -761,7 +857,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 718u16,
+        id: 95u16,
+        image: &IMAGES[718usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -769,7 +866,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 719u16,
+        id: 96u16,
+        image: &IMAGES[719usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -777,7 +875,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 720u16,
+        id: 97u16,
+        image: &IMAGES[720usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -785,7 +884,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 721u16,
+        id: 98u16,
+        image: &IMAGES[721usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -793,7 +893,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 722u16,
+        id: 99u16,
+        image: &IMAGES[722usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -801,7 +902,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 723u16,
+        id: 100u16,
+        image: &IMAGES[723usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -809,7 +911,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 724u16,
+        id: 101u16,
+        image: &IMAGES[724usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -817,7 +920,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 725u16,
+        id: 102u16,
+        image: &IMAGES[725usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -825,7 +929,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 726u16,
+        id: 103u16,
+        image: &IMAGES[726usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -833,7 +938,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 727u16,
+        id: 104u16,
+        image: &IMAGES[727usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -841,7 +947,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 728u16,
+        id: 105u16,
+        image: &IMAGES[728usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -849,7 +956,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 729u16,
+        id: 106u16,
+        image: &IMAGES[729usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -857,7 +965,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 730u16,
+        id: 107u16,
+        image: &IMAGES[730usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -865,7 +974,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 731u16,
+        id: 108u16,
+        image: &IMAGES[731usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -873,7 +983,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 732u16,
+        id: 109u16,
+        image: &IMAGES[732usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -881,7 +992,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 733u16,
+        id: 110u16,
+        image: &IMAGES[733usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -889,7 +1001,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 734u16,
+        id: 111u16,
+        image: &IMAGES[734usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -897,7 +1010,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 734u16,
+        id: 112u16,
+        image: &IMAGES[734usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -905,7 +1019,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 734u16,
+        id: 113u16,
+        image: &IMAGES[734usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -913,7 +1028,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 734u16,
+        id: 114u16,
+        image: &IMAGES[734usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -921,7 +1037,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 734u16,
+        id: 115u16,
+        image: &IMAGES[734usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -929,7 +1046,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 734u16,
+        id: 116u16,
+        image: &IMAGES[734usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -937,7 +1055,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 734u16,
+        id: 117u16,
+        image: &IMAGES[734usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -945,7 +1064,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 734u16,
+        id: 118u16,
+        image: &IMAGES[734usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -953,7 +1073,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 744u16,
+        id: 119u16,
+        image: &IMAGES[744usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -961,7 +1082,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 745u16,
+        id: 120u16,
+        image: &IMAGES[745usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -969,7 +1091,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 746u16,
+        id: 121u16,
+        image: &IMAGES[746usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -977,7 +1100,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 747u16,
+        id: 122u16,
+        image: &IMAGES[747usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -985,7 +1109,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 748u16,
+        id: 123u16,
+        image: &IMAGES[748usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -993,7 +1118,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 749u16,
+        id: 124u16,
+        image: &IMAGES[749usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -1001,7 +1127,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 734u16,
+        id: 125u16,
+        image: &IMAGES[734usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -1009,7 +1136,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 734u16,
+        id: 126u16,
+        image: &IMAGES[734usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -1017,7 +1145,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 752u16,
+        id: 127u16,
+        image: &IMAGES[752usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -1025,7 +1154,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 753u16,
+        id: 128u16,
+        image: &IMAGES[753usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -1033,7 +1163,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 734u16,
+        id: 129u16,
+        image: &IMAGES[734usize],
         health_bar: None,
         unknown_0: 0u8,
         visible: 1u8,
@@ -1041,7 +1172,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: None,
     },
     BwSprite {
-        image: 0u16,
+        id: 130u16,
+        image: &IMAGES[0usize],
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1049,7 +1181,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(6u8),
     },
     BwSprite {
-        image: 3u16,
+        id: 131u16,
+        image: &IMAGES[3usize],
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1057,7 +1190,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 4u16,
+        id: 132u16,
+        image: &IMAGES[4usize],
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1065,7 +1199,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 5u16,
+        id: 133u16,
+        image: &IMAGES[5usize],
         health_bar: Some(34u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1073,7 +1208,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 7u16,
+        id: 134u16,
+        image: &IMAGES[7usize],
         health_bar: Some(34u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1081,7 +1217,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 8u16,
+        id: 135u16,
+        image: &IMAGES[8usize],
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1089,7 +1226,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(9u8),
     },
     BwSprite {
-        image: 10u16,
+        id: 136u16,
+        image: &IMAGES[10usize],
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1097,7 +1235,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(9u8),
     },
     BwSprite {
-        image: 11u16,
+        id: 137u16,
+        image: &IMAGES[11usize],
         health_bar: Some(40u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1105,7 +1244,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(11u8),
     },
     BwSprite {
-        image: 13u16,
+        id: 138u16,
+        image: &IMAGES[13usize],
         health_bar: Some(34u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1113,7 +1253,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(2u8),
     },
     BwSprite {
-        image: 16u16,
+        id: 139u16,
+        image: &IMAGES[16usize],
         health_bar: Some(34u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1121,7 +1262,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 17u16,
+        id: 140u16,
+        image: &IMAGES[17usize],
         health_bar: Some(31u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1129,7 +1271,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(6u8),
     },
     BwSprite {
-        image: 20u16,
+        id: 141u16,
+        image: &IMAGES[20usize],
         health_bar: Some(31u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1137,7 +1280,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 21u16,
+        id: 142u16,
+        image: &IMAGES[21usize],
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1145,7 +1289,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(8u8),
     },
     BwSprite {
-        image: 24u16,
+        id: 143u16,
+        image: &IMAGES[24usize],
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1153,7 +1298,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 25u16,
+        id: 144u16,
+        image: &IMAGES[25usize],
         health_bar: Some(40u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1161,7 +1307,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(4u8),
     },
     BwSprite {
-        image: 28u16,
+        id: 145u16,
+        image: &IMAGES[28usize],
         health_bar: Some(40u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1169,7 +1316,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 29u16,
+        id: 146u16,
+        image: &IMAGES[29usize],
         health_bar: Some(25u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1177,7 +1325,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(11u8),
     },
     BwSprite {
-        image: 32u16,
+        id: 147u16,
+        image: &IMAGES[32usize],
         health_bar: Some(25u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1185,7 +1334,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 33u16,
+        id: 148u16,
+        image: &IMAGES[33usize],
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1193,7 +1343,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(11u8),
     },
     BwSprite {
-        image: 36u16,
+        id: 149u16,
+        image: &IMAGES[36usize],
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1201,7 +1352,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(1u8),
     },
     BwSprite {
-        image: 37u16,
+        id: 150u16,
+        image: &IMAGES[37usize],
         health_bar: Some(25u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1209,7 +1361,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 38u16,
+        id: 151u16,
+        image: &IMAGES[38usize],
         health_bar: Some(40u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1217,7 +1370,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(5u8),
     },
     BwSprite {
-        image: 41u16,
+        id: 152u16,
+        image: &IMAGES[41usize],
         health_bar: Some(40u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1225,7 +1379,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 42u16,
+        id: 153u16,
+        image: &IMAGES[42usize],
         health_bar: Some(40u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1233,7 +1388,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(24u8),
     },
     BwSprite {
-        image: 45u16,
+        id: 154u16,
+        image: &IMAGES[45usize],
         health_bar: Some(40u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1241,7 +1397,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 46u16,
+        id: 155u16,
+        image: &IMAGES[46usize],
         health_bar: Some(40u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1249,7 +1406,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(14u8),
     },
     BwSprite {
-        image: 48u16,
+        id: 156u16,
+        image: &IMAGES[48usize],
         health_bar: Some(40u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1257,7 +1415,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 50u16,
+        id: 157u16,
+        image: &IMAGES[50usize],
         health_bar: Some(52u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1265,7 +1424,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(6u8),
     },
     BwSprite {
-        image: 53u16,
+        id: 158u16,
+        image: &IMAGES[53usize],
         health_bar: Some(52u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1273,7 +1433,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 54u16,
+        id: 159u16,
+        image: &IMAGES[54usize],
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1281,7 +1442,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(12u8),
     },
     BwSprite {
-        image: 57u16,
+        id: 160u16,
+        image: &IMAGES[57usize],
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1289,7 +1451,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 61u16,
+        id: 161u16,
+        image: &IMAGES[61usize],
         health_bar: Some(82u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1297,7 +1460,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(2u8),
     },
     BwSprite {
-        image: 63u16,
+        id: 162u16,
+        image: &IMAGES[63usize],
         health_bar: Some(110u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1305,7 +1469,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(6u8),
     },
     BwSprite {
-        image: 64u16,
+        id: 163u16,
+        image: &IMAGES[64usize],
         health_bar: Some(82u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1313,7 +1478,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(1u8),
     },
     BwSprite {
-        image: 78u16,
+        id: 164u16,
+        image: &IMAGES[78usize],
         health_bar: Some(54u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1321,7 +1487,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(11u8),
     },
     BwSprite {
-        image: 66u16,
+        id: 165u16,
+        image: &IMAGES[66usize],
         health_bar: Some(82u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1329,7 +1496,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(5u8),
     },
     BwSprite {
-        image: 68u16,
+        id: 166u16,
+        image: &IMAGES[68usize],
         health_bar: Some(54u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1337,7 +1505,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(11u8),
     },
     BwSprite {
-        image: 70u16,
+        id: 167u16,
+        image: &IMAGES[70usize],
         health_bar: Some(109u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1345,7 +1514,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(7u8),
     },
     BwSprite {
-        image: 72u16,
+        id: 168u16,
+        image: &IMAGES[72usize],
         health_bar: Some(109u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1353,7 +1523,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(7u8),
     },
     BwSprite {
-        image: 74u16,
+        id: 169u16,
+        image: &IMAGES[74usize],
         health_bar: Some(109u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1361,7 +1532,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(7u8),
     },
     BwSprite {
-        image: 76u16,
+        id: 170u16,
+        image: &IMAGES[76usize],
         health_bar: Some(70u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1369,7 +1541,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(3u8),
     },
     BwSprite {
-        image: 80u16,
+        id: 171u16,
+        image: &IMAGES[80usize],
         health_bar: Some(70u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1377,7 +1550,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(10u8),
     },
     BwSprite {
-        image: 82u16,
+        id: 172u16,
+        image: &IMAGES[82usize],
         health_bar: Some(91u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1385,7 +1559,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 84u16,
+        id: 173u16,
+        image: &IMAGES[84usize],
         health_bar: Some(70u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1393,7 +1568,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(11u8),
     },
     BwSprite {
-        image: 86u16,
+        id: 174u16,
+        image: &IMAGES[86usize],
         health_bar: Some(82u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1401,7 +1577,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(5u8),
     },
     BwSprite {
-        image: 88u16,
+        id: 175u16,
+        image: &IMAGES[88usize],
         health_bar: Some(82u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1409,7 +1586,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(3u8),
     },
     BwSprite {
-        image: 90u16,
+        id: 176u16,
+        image: &IMAGES[90usize],
         health_bar: Some(82u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1417,7 +1595,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(3u8),
     },
     BwSprite {
-        image: 91u16,
+        id: 177u16,
+        image: &IMAGES[91usize],
         health_bar: Some(82u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1425,7 +1604,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(6u8),
     },
     BwSprite {
-        image: 93u16,
+        id: 178u16,
+        image: &IMAGES[93usize],
         health_bar: Some(82u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1433,7 +1613,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 95u16,
+        id: 179u16,
+        image: &IMAGES[95usize],
         health_bar: Some(82u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1441,7 +1622,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(9u8),
     },
     BwSprite {
-        image: 97u16,
+        id: 180u16,
+        image: &IMAGES[97usize],
         health_bar: Some(70u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1449,7 +1631,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(10u8),
     },
     BwSprite {
-        image: 99u16,
+        id: 181u16,
+        image: &IMAGES[99usize],
         health_bar: Some(54u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1457,7 +1640,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(11u8),
     },
     BwSprite {
-        image: 107u16,
+        id: 182u16,
+        image: &IMAGES[107usize],
         health_bar: Some(0u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1465,7 +1649,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 108u16,
+        id: 183u16,
+        image: &IMAGES[108usize],
         health_bar: Some(0u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1473,7 +1658,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 109u16,
+        id: 184u16,
+        image: &IMAGES[109usize],
         health_bar: Some(0u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1481,7 +1667,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 60u16,
+        id: 185u16,
+        image: &IMAGES[60usize],
         health_bar: Some(0u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1489,7 +1676,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 110u16,
+        id: 186u16,
+        image: &IMAGES[110usize],
         health_bar: Some(0u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1497,7 +1685,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 111u16,
+        id: 187u16,
+        image: &IMAGES[111usize],
         health_bar: Some(0u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1505,7 +1694,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 130u16,
+        id: 188u16,
+        image: &IMAGES[130usize],
         health_bar: Some(48u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1513,7 +1703,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(8u8),
     },
     BwSprite {
-        image: 134u16,
+        id: 189u16,
+        image: &IMAGES[134usize],
         health_bar: Some(34u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1521,7 +1712,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(19u8),
     },
     BwSprite {
-        image: 112u16,
+        id: 190u16,
+        image: &IMAGES[112usize],
         health_bar: Some(79u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1529,7 +1721,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(28u8),
     },
     BwSprite {
-        image: 122u16,
+        id: 191u16,
+        image: &IMAGES[122usize],
         health_bar: Some(31u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1537,7 +1730,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(9u8),
     },
     BwSprite {
-        image: 124u16,
+        id: 192u16,
+        image: &IMAGES[124usize],
         health_bar: Some(31u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1545,7 +1739,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(9u8),
     },
     BwSprite {
-        image: 116u16,
+        id: 193u16,
+        image: &IMAGES[116usize],
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1553,7 +1748,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(7u8),
     },
     BwSprite {
-        image: 137u16,
+        id: 194u16,
+        image: &IMAGES[137usize],
         health_bar: Some(31u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1561,7 +1757,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(6u8),
     },
     BwSprite {
-        image: 140u16,
+        id: 195u16,
+        image: &IMAGES[140usize],
         health_bar: Some(34u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1569,7 +1766,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(7u8),
     },
     BwSprite {
-        image: 118u16,
+        id: 196u16,
+        image: &IMAGES[118usize],
         health_bar: Some(40u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1577,7 +1775,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(7u8),
     },
     BwSprite {
-        image: 126u16,
+        id: 197u16,
+        image: &IMAGES[126usize],
         health_bar: Some(22u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1585,7 +1784,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(9u8),
     },
     BwSprite {
-        image: 129u16,
+        id: 198u16,
+        image: &IMAGES[129usize],
         health_bar: Some(22u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1593,7 +1793,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(15u8),
     },
     BwSprite {
-        image: 144u16,
+        id: 199u16,
+        image: &IMAGES[144usize],
         health_bar: Some(40u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1601,7 +1802,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(7u8),
     },
     BwSprite {
-        image: 147u16,
+        id: 200u16,
+        image: &IMAGES[147usize],
         health_bar: Some(34u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1609,7 +1811,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(12u8),
     },
     BwSprite {
-        image: 151u16,
+        id: 201u16,
+        image: &IMAGES[151usize],
         health_bar: Some(22u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1617,7 +1820,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(12u8),
     },
     BwSprite {
-        image: 148u16,
+        id: 202u16,
+        image: &IMAGES[148usize],
         health_bar: Some(22u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1625,7 +1829,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(6u8),
     },
     BwSprite {
-        image: 155u16,
+        id: 203u16,
+        image: &IMAGES[155usize],
         health_bar: Some(91u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1633,7 +1838,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(5u8),
     },
     BwSprite {
-        image: 158u16,
+        id: 204u16,
+        image: &IMAGES[158usize],
         health_bar: Some(91u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1641,7 +1847,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 161u16,
+        id: 205u16,
+        image: &IMAGES[161usize],
         health_bar: Some(82u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1649,7 +1856,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(8u8),
     },
     BwSprite {
-        image: 164u16,
+        id: 206u16,
+        image: &IMAGES[164usize],
         health_bar: Some(82u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1657,7 +1865,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(13u8),
     },
     BwSprite {
-        image: 167u16,
+        id: 207u16,
+        image: &IMAGES[167usize],
         health_bar: Some(82u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1665,7 +1874,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(1u8),
     },
     BwSprite {
-        image: 171u16,
+        id: 208u16,
+        image: &IMAGES[171usize],
         health_bar: Some(110u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1673,7 +1883,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(11u8),
     },
     BwSprite {
-        image: 174u16,
+        id: 209u16,
+        image: &IMAGES[174usize],
         health_bar: Some(82u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1681,7 +1892,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(1u8),
     },
     BwSprite {
-        image: 178u16,
+        id: 210u16,
+        image: &IMAGES[178usize],
         health_bar: Some(110u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1689,7 +1901,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(16u8),
     },
     BwSprite {
-        image: 179u16,
+        id: 211u16,
+        image: &IMAGES[179usize],
         health_bar: Some(110u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1697,7 +1910,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(4u8),
     },
     BwSprite {
-        image: 183u16,
+        id: 212u16,
+        image: &IMAGES[183usize],
         health_bar: Some(70u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1705,7 +1919,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(2u8),
     },
     BwSprite {
-        image: 186u16,
+        id: 213u16,
+        image: &IMAGES[186usize],
         health_bar: Some(82u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1713,7 +1928,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(4u8),
     },
     BwSprite {
-        image: 189u16,
+        id: 214u16,
+        image: &IMAGES[189usize],
         health_bar: Some(54u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1721,7 +1937,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(11u8),
     },
     BwSprite {
-        image: 192u16,
+        id: 215u16,
+        image: &IMAGES[192usize],
         health_bar: Some(91u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1729,7 +1946,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(8u8),
     },
     BwSprite {
-        image: 195u16,
+        id: 216u16,
+        image: &IMAGES[195usize],
         health_bar: Some(91u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1737,7 +1955,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(3u8),
     },
     BwSprite {
-        image: 199u16,
+        id: 217u16,
+        image: &IMAGES[199usize],
         health_bar: Some(110u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1745,7 +1964,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(16u8),
     },
     BwSprite {
-        image: 203u16,
+        id: 218u16,
+        image: &IMAGES[203usize],
         health_bar: Some(90u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1753,7 +1973,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(10u8),
     },
     BwSprite {
-        image: 204u16,
+        id: 219u16,
+        image: &IMAGES[204usize],
         health_bar: Some(70u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1761,7 +1982,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(6u8),
     },
     BwSprite {
-        image: 207u16,
+        id: 220u16,
+        image: &IMAGES[207usize],
         health_bar: Some(150u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1769,7 +1991,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(7u8),
     },
     BwSprite {
-        image: 208u16,
+        id: 221u16,
+        image: &IMAGES[208usize],
         health_bar: Some(108u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1777,7 +2000,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(7u8),
     },
     BwSprite {
-        image: 215u16,
+        id: 222u16,
+        image: &IMAGES[215usize],
         health_bar: Some(0u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1785,7 +2009,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 216u16,
+        id: 223u16,
+        image: &IMAGES[216usize],
         health_bar: Some(0u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1793,7 +2018,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 217u16,
+        id: 224u16,
+        image: &IMAGES[217usize],
         health_bar: Some(0u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1801,7 +2027,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 218u16,
+        id: 225u16,
+        image: &IMAGES[218usize],
         health_bar: Some(73u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1809,7 +2036,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(13u8),
     },
     BwSprite {
-        image: 221u16,
+        id: 226u16,
+        image: &IMAGES[221usize],
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1817,7 +2045,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(9u8),
     },
     BwSprite {
-        image: 223u16,
+        id: 227u16,
+        image: &IMAGES[223usize],
         health_bar: Some(52u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1825,7 +2054,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(13u8),
     },
     BwSprite {
-        image: 226u16,
+        id: 228u16,
+        image: &IMAGES[226usize],
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1833,7 +2063,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(11u8),
     },
     BwSprite {
-        image: 228u16,
+        id: 229u16,
+        image: &IMAGES[228usize],
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1841,7 +2072,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(11u8),
     },
     BwSprite {
-        image: 230u16,
+        id: 230u16,
+        image: &IMAGES[230usize],
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1849,7 +2081,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(11u8),
     },
     BwSprite {
-        image: 233u16,
+        id: 231u16,
+        image: &IMAGES[233usize],
         health_bar: Some(0u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1857,7 +2090,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 234u16,
+        id: 232u16,
+        image: &IMAGES[234usize],
         health_bar: Some(34u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1865,7 +2099,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(9u8),
     },
     BwSprite {
-        image: 235u16,
+        id: 233u16,
+        image: &IMAGES[235usize],
         health_bar: Some(0u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1873,7 +2108,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 237u16,
+        id: 234u16,
+        image: &IMAGES[237usize],
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1881,7 +2117,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(11u8),
     },
     BwSprite {
-        image: 239u16,
+        id: 235u16,
+        image: &IMAGES[239usize],
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1889,7 +2126,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(9u8),
     },
     BwSprite {
-        image: 241u16,
+        id: 236u16,
+        image: &IMAGES[241usize],
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1897,7 +2135,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(9u8),
     },
     BwSprite {
-        image: 246u16,
+        id: 237u16,
+        image: &IMAGES[246usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 0u8,
@@ -1905,7 +2144,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 243u16,
+        id: 238u16,
+        image: &IMAGES[243usize],
         health_bar: Some(34u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1913,7 +2153,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(12u8),
     },
     BwSprite {
-        image: 247u16,
+        id: 239u16,
+        image: &IMAGES[247usize],
         health_bar: Some(22u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1921,7 +2162,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(11u8),
     },
     BwSprite {
-        image: 250u16,
+        id: 240u16,
+        image: &IMAGES[250usize],
         health_bar: Some(52u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1929,7 +2171,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(5u8),
     },
     BwSprite {
-        image: 251u16,
+        id: 241u16,
+        image: &IMAGES[251usize],
         health_bar: Some(0u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1937,7 +2180,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 253u16,
+        id: 242u16,
+        image: &IMAGES[253usize],
         health_bar: Some(52u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1945,7 +2189,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(5u8),
     },
     BwSprite {
-        image: 254u16,
+        id: 243u16,
+        image: &IMAGES[254usize],
         health_bar: Some(0u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1953,7 +2198,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 256u16,
+        id: 244u16,
+        image: &IMAGES[256usize],
         health_bar: Some(31u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1961,7 +2207,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(9u8),
     },
     BwSprite {
-        image: 258u16,
+        id: 245u16,
+        image: &IMAGES[258usize],
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1969,7 +2216,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(6u8),
     },
     BwSprite {
-        image: 260u16,
+        id: 246u16,
+        image: &IMAGES[260usize],
         health_bar: Some(64u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1977,7 +2225,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(4u8),
     },
     BwSprite {
-        image: 261u16,
+        id: 247u16,
+        image: &IMAGES[261usize],
         health_bar: Some(0u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1985,7 +2234,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 263u16,
+        id: 248u16,
+        image: &IMAGES[263usize],
         health_bar: Some(82u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -1993,7 +2243,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(7u8),
     },
     BwSprite {
-        image: 266u16,
+        id: 249u16,
+        image: &IMAGES[266usize],
         health_bar: Some(108u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2001,7 +2252,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(12u8),
     },
     BwSprite {
-        image: 268u16,
+        id: 250u16,
+        image: &IMAGES[268usize],
         health_bar: Some(91u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2009,7 +2261,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(8u8),
     },
     BwSprite {
-        image: 271u16,
+        id: 251u16,
+        image: &IMAGES[271usize],
         health_bar: Some(82u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2017,7 +2270,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(10u8),
     },
     BwSprite {
-        image: 275u16,
+        id: 252u16,
+        image: &IMAGES[275usize],
         health_bar: Some(110u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2025,7 +2279,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(6u8),
     },
     BwSprite {
-        image: 278u16,
+        id: 253u16,
+        image: &IMAGES[278usize],
         health_bar: Some(91u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2033,7 +2288,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 281u16,
+        id: 254u16,
+        image: &IMAGES[281usize],
         health_bar: Some(91u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2041,7 +2297,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(18u8),
     },
     BwSprite {
-        image: 285u16,
+        id: 255u16,
+        image: &IMAGES[285usize],
         health_bar: Some(91u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2049,7 +2306,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(12u8),
     },
     BwSprite {
-        image: 288u16,
+        id: 256u16,
+        image: &IMAGES[288usize],
         health_bar: Some(82u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2057,7 +2315,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(9u8),
     },
     BwSprite {
-        image: 292u16,
+        id: 257u16,
+        image: &IMAGES[292usize],
         health_bar: Some(91u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2065,7 +2324,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 293u16,
+        id: 258u16,
+        image: &IMAGES[293usize],
         health_bar: Some(82u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2073,7 +2333,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(8u8),
     },
     BwSprite {
-        image: 296u16,
+        id: 259u16,
+        image: &IMAGES[296usize],
         health_bar: Some(46u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2081,7 +2342,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(6u8),
     },
     BwSprite {
-        image: 299u16,
+        id: 260u16,
+        image: &IMAGES[299usize],
         health_bar: Some(70u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2089,7 +2351,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(7u8),
     },
     BwSprite {
-        image: 301u16,
+        id: 261u16,
+        image: &IMAGES[301usize],
         health_bar: Some(70u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2097,7 +2360,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(7u8),
     },
     BwSprite {
-        image: 304u16,
+        id: 262u16,
+        image: &IMAGES[304usize],
         health_bar: Some(70u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2105,7 +2369,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 307u16,
+        id: 263u16,
+        image: &IMAGES[307usize],
         health_bar: Some(82u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2113,7 +2378,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 309u16,
+        id: 264u16,
+        image: &IMAGES[309usize],
         health_bar: Some(110u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2121,7 +2387,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(5u8),
     },
     BwSprite {
-        image: 312u16,
+        id: 265u16,
+        image: &IMAGES[312usize],
         health_bar: Some(70u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2129,7 +2396,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(9u8),
     },
     BwSprite {
-        image: 316u16,
+        id: 266u16,
+        image: &IMAGES[316usize],
         health_bar: Some(50u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2137,7 +2405,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(8u8),
     },
     BwSprite {
-        image: 318u16,
+        id: 267u16,
+        image: &IMAGES[318usize],
         health_bar: Some(0u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2145,7 +2414,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 319u16,
+        id: 268u16,
+        image: &IMAGES[319usize],
         health_bar: Some(91u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2153,7 +2423,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(14u8),
     },
     BwSprite {
-        image: 322u16,
+        id: 269u16,
+        image: &IMAGES[322usize],
         health_bar: Some(110u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2161,7 +2432,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(7u8),
     },
     BwSprite {
-        image: 325u16,
+        id: 270u16,
+        image: &IMAGES[325usize],
         health_bar: Some(91u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2169,7 +2441,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(10u8),
     },
     BwSprite {
-        image: 330u16,
+        id: 271u16,
+        image: &IMAGES[330usize],
         health_bar: Some(52u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2177,7 +2450,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(2u8),
     },
     BwSprite {
-        image: 334u16,
+        id: 272u16,
+        image: &IMAGES[334usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2185,7 +2459,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 335u16,
+        id: 273u16,
+        image: &IMAGES[335usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2193,7 +2468,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 336u16,
+        id: 274u16,
+        image: &IMAGES[336usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2201,7 +2477,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 344u16,
+        id: 275u16,
+        image: &IMAGES[344usize],
         health_bar: Some(82u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2209,7 +2486,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 338u16,
+        id: 276u16,
+        image: &IMAGES[338usize],
         health_bar: Some(34u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2217,7 +2495,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(3u8),
     },
     BwSprite {
-        image: 340u16,
+        id: 277u16,
+        image: &IMAGES[340usize],
         health_bar: Some(34u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2225,7 +2504,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(5u8),
     },
     BwSprite {
-        image: 342u16,
+        id: 278u16,
+        image: &IMAGES[342usize],
         health_bar: Some(34u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2233,7 +2513,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(10u8),
     },
     BwSprite {
-        image: 347u16,
+        id: 279u16,
+        image: &IMAGES[347usize],
         health_bar: Some(54u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2241,7 +2522,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 349u16,
+        id: 280u16,
+        image: &IMAGES[349usize],
         health_bar: Some(54u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2249,7 +2531,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 351u16,
+        id: 281u16,
+        image: &IMAGES[351usize],
         health_bar: Some(54u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2257,7 +2540,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 353u16,
+        id: 282u16,
+        image: &IMAGES[353usize],
         health_bar: Some(70u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2265,7 +2549,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(25u8),
     },
     BwSprite {
-        image: 354u16,
+        id: 283u16,
+        image: &IMAGES[354usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2273,7 +2558,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(3u8),
     },
     BwSprite {
-        image: 356u16,
+        id: 284u16,
+        image: &IMAGES[356usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2281,7 +2567,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 358u16,
+        id: 285u16,
+        image: &IMAGES[358usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2289,7 +2576,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(3u8),
     },
     BwSprite {
-        image: 337u16,
+        id: 286u16,
+        image: &IMAGES[337usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2297,7 +2585,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 392u16,
+        id: 287u16,
+        image: &IMAGES[392usize],
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2305,7 +2594,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(8u8),
     },
     BwSprite {
-        image: 393u16,
+        id: 288u16,
+        image: &IMAGES[393usize],
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2313,7 +2603,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(4u8),
     },
     BwSprite {
-        image: 394u16,
+        id: 289u16,
+        image: &IMAGES[394usize],
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2321,7 +2612,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(6u8),
     },
     BwSprite {
-        image: 395u16,
+        id: 290u16,
+        image: &IMAGES[395usize],
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2329,7 +2621,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(2u8),
     },
     BwSprite {
-        image: 396u16,
+        id: 291u16,
+        image: &IMAGES[396usize],
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2337,7 +2630,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(6u8),
     },
     BwSprite {
-        image: 397u16,
+        id: 292u16,
+        image: &IMAGES[397usize],
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2345,7 +2639,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(2u8),
     },
     BwSprite {
-        image: 398u16,
+        id: 293u16,
+        image: &IMAGES[398usize],
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2353,7 +2648,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(2u8),
     },
     BwSprite {
-        image: 399u16,
+        id: 294u16,
+        image: &IMAGES[399usize],
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2361,7 +2657,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(2u8),
     },
     BwSprite {
-        image: 400u16,
+        id: 295u16,
+        image: &IMAGES[400usize],
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2369,7 +2666,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(2u8),
     },
     BwSprite {
-        image: 401u16,
+        id: 296u16,
+        image: &IMAGES[401usize],
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2377,7 +2675,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(2u8),
     },
     BwSprite {
-        image: 402u16,
+        id: 297u16,
+        image: &IMAGES[402usize],
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2385,7 +2684,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(2u8),
     },
     BwSprite {
-        image: 403u16,
+        id: 298u16,
+        image: &IMAGES[403usize],
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2393,7 +2693,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(2u8),
     },
     BwSprite {
-        image: 404u16,
+        id: 299u16,
+        image: &IMAGES[404usize],
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2401,7 +2702,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(2u8),
     },
     BwSprite {
-        image: 503u16,
+        id: 300u16,
+        image: &IMAGES[503usize],
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2409,7 +2711,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(8u8),
     },
     BwSprite {
-        image: 588u16,
+        id: 301u16,
+        image: &IMAGES[588usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2417,7 +2720,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 582u16,
+        id: 302u16,
+        image: &IMAGES[582usize],
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -2425,7 +2729,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(9u8),
     },
     BwSprite {
-        image: 735u16,
+        id: 303u16,
+        image: &IMAGES[735usize],
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2433,7 +2738,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 738u16,
+        id: 304u16,
+        image: &IMAGES[738usize],
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2441,7 +2747,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 739u16,
+        id: 305u16,
+        image: &IMAGES[739usize],
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2449,7 +2756,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 740u16,
+        id: 306u16,
+        image: &IMAGES[740usize],
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2457,7 +2765,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 741u16,
+        id: 307u16,
+        image: &IMAGES[741usize],
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2465,7 +2774,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 736u16,
+        id: 308u16,
+        image: &IMAGES[736usize],
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2473,7 +2783,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 422u16,
+        id: 309u16,
+        image: &IMAGES[422usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2481,7 +2792,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 441u16,
+        id: 310u16,
+        image: &IMAGES[441usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2489,7 +2801,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 430u16,
+        id: 311u16,
+        image: &IMAGES[430usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2497,7 +2810,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 431u16,
+        id: 312u16,
+        image: &IMAGES[431usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2505,7 +2819,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 432u16,
+        id: 313u16,
+        image: &IMAGES[432usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2513,7 +2828,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 433u16,
+        id: 314u16,
+        image: &IMAGES[433usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2521,7 +2837,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 434u16,
+        id: 315u16,
+        image: &IMAGES[434usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2529,7 +2846,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 425u16,
+        id: 316u16,
+        image: &IMAGES[425usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2537,7 +2855,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 426u16,
+        id: 317u16,
+        image: &IMAGES[426usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2545,7 +2864,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 445u16,
+        id: 318u16,
+        image: &IMAGES[445usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2553,7 +2873,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 23u16,
+        id: 319u16,
+        image: &IMAGES[23usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2561,7 +2882,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 449u16,
+        id: 320u16,
+        image: &IMAGES[449usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2569,7 +2891,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 584u16,
+        id: 321u16,
+        image: &IMAGES[584usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2577,7 +2900,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 423u16,
+        id: 322u16,
+        image: &IMAGES[423usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2585,7 +2909,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 494u16,
+        id: 323u16,
+        image: &IMAGES[494usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2593,7 +2918,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 495u16,
+        id: 324u16,
+        image: &IMAGES[495usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2601,7 +2927,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 496u16,
+        id: 325u16,
+        image: &IMAGES[496usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2609,7 +2936,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 497u16,
+        id: 326u16,
+        image: &IMAGES[497usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2617,7 +2945,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 498u16,
+        id: 327u16,
+        image: &IMAGES[498usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2625,7 +2954,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 499u16,
+        id: 328u16,
+        image: &IMAGES[499usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2633,7 +2963,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 500u16,
+        id: 329u16,
+        image: &IMAGES[500usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2641,7 +2972,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 501u16,
+        id: 330u16,
+        image: &IMAGES[501usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2649,7 +2981,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 502u16,
+        id: 331u16,
+        image: &IMAGES[502usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2657,7 +2990,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 35u16,
+        id: 332u16,
+        image: &IMAGES[35usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2665,7 +2999,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 519u16,
+        id: 333u16,
+        image: &IMAGES[519usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2673,7 +3008,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 520u16,
+        id: 334u16,
+        image: &IMAGES[520usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2681,7 +3017,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 521u16,
+        id: 335u16,
+        image: &IMAGES[521usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2689,7 +3026,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 522u16,
+        id: 336u16,
+        image: &IMAGES[522usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2697,7 +3035,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 523u16,
+        id: 337u16,
+        image: &IMAGES[523usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2705,7 +3044,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 524u16,
+        id: 338u16,
+        image: &IMAGES[524usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2713,7 +3053,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 525u16,
+        id: 339u16,
+        image: &IMAGES[525usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2721,7 +3062,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 526u16,
+        id: 340u16,
+        image: &IMAGES[526usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2729,7 +3071,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 527u16,
+        id: 341u16,
+        image: &IMAGES[527usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2737,7 +3080,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 528u16,
+        id: 342u16,
+        image: &IMAGES[528usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2745,7 +3089,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 532u16,
+        id: 343u16,
+        image: &IMAGES[532usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2753,7 +3098,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 360u16,
+        id: 344u16,
+        image: &IMAGES[360usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2761,7 +3107,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 529u16,
+        id: 345u16,
+        image: &IMAGES[529usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2769,7 +3116,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 531u16,
+        id: 346u16,
+        image: &IMAGES[531usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2777,7 +3125,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 534u16,
+        id: 347u16,
+        image: &IMAGES[534usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2785,7 +3134,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 535u16,
+        id: 348u16,
+        image: &IMAGES[535usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2793,7 +3143,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 533u16,
+        id: 349u16,
+        image: &IMAGES[533usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2801,7 +3152,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 541u16,
+        id: 350u16,
+        image: &IMAGES[541usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2809,7 +3161,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 542u16,
+        id: 351u16,
+        image: &IMAGES[542usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2817,7 +3170,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 554u16,
+        id: 352u16,
+        image: &IMAGES[554usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2825,7 +3179,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 504u16,
+        id: 353u16,
+        image: &IMAGES[504usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2833,7 +3188,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 505u16,
+        id: 354u16,
+        image: &IMAGES[505usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2841,7 +3197,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 506u16,
+        id: 355u16,
+        image: &IMAGES[506usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2849,7 +3206,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 507u16,
+        id: 356u16,
+        image: &IMAGES[507usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2857,7 +3215,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 509u16,
+        id: 357u16,
+        image: &IMAGES[509usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2865,7 +3224,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 511u16,
+        id: 358u16,
+        image: &IMAGES[511usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2873,7 +3233,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 515u16,
+        id: 359u16,
+        image: &IMAGES[515usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2881,7 +3242,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 516u16,
+        id: 360u16,
+        image: &IMAGES[516usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2889,7 +3251,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 364u16,
+        id: 361u16,
+        image: &IMAGES[364usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2897,7 +3260,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 387u16,
+        id: 362u16,
+        image: &IMAGES[387usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2905,7 +3269,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 517u16,
+        id: 363u16,
+        image: &IMAGES[517usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2913,7 +3278,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 383u16,
+        id: 364u16,
+        image: &IMAGES[383usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2921,7 +3287,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 512u16,
+        id: 365u16,
+        image: &IMAGES[512usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2929,7 +3296,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 548u16,
+        id: 366u16,
+        image: &IMAGES[548usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2937,7 +3305,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 513u16,
+        id: 367u16,
+        image: &IMAGES[513usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2945,7 +3314,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 514u16,
+        id: 368u16,
+        image: &IMAGES[514usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2953,7 +3323,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 523u16,
+        id: 369u16,
+        image: &IMAGES[523usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2961,7 +3332,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 503u16,
+        id: 370u16,
+        image: &IMAGES[503usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 0u8,
@@ -2969,7 +3341,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 419u16,
+        id: 371u16,
+        image: &IMAGES[419usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2977,7 +3350,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 420u16,
+        id: 372u16,
+        image: &IMAGES[420usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2985,7 +3359,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 443u16,
+        id: 373u16,
+        image: &IMAGES[443usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -2993,7 +3368,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 557u16,
+        id: 374u16,
+        image: &IMAGES[557usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3001,7 +3377,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 558u16,
+        id: 375u16,
+        image: &IMAGES[558usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3009,7 +3386,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 559u16,
+        id: 376u16,
+        image: &IMAGES[559usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3017,7 +3395,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 306u16,
+        id: 377u16,
+        image: &IMAGES[306usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3025,7 +3404,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 421u16,
+        id: 378u16,
+        image: &IMAGES[421usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3033,7 +3413,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 391u16,
+        id: 379u16,
+        image: &IMAGES[391usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3041,7 +3422,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 546u16,
+        id: 380u16,
+        image: &IMAGES[546usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3049,7 +3431,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 742u16,
+        id: 381u16,
+        image: &IMAGES[742usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3057,7 +3440,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 743u16,
+        id: 382u16,
+        image: &IMAGES[743usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3065,7 +3449,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 750u16,
+        id: 383u16,
+        image: &IMAGES[750usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3073,7 +3458,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 751u16,
+        id: 384u16,
+        image: &IMAGES[751usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3081,7 +3467,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 754u16,
+        id: 385u16,
+        image: &IMAGES[754usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3089,7 +3476,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 757u16,
+        id: 386u16,
+        image: &IMAGES[757usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3097,7 +3485,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 758u16,
+        id: 387u16,
+        image: &IMAGES[758usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3105,7 +3494,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 759u16,
+        id: 388u16,
+        image: &IMAGES[759usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3113,7 +3503,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 760u16,
+        id: 389u16,
+        image: &IMAGES[760usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3121,7 +3512,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 761u16,
+        id: 390u16,
+        image: &IMAGES[761usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3129,7 +3521,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 762u16,
+        id: 391u16,
+        image: &IMAGES[762usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3137,7 +3530,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 755u16,
+        id: 392u16,
+        image: &IMAGES[755usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3145,7 +3539,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 756u16,
+        id: 393u16,
+        image: &IMAGES[756usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3153,7 +3548,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 763u16,
+        id: 394u16,
+        image: &IMAGES[763usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3161,7 +3557,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 764u16,
+        id: 395u16,
+        image: &IMAGES[764usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3169,7 +3566,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 765u16,
+        id: 396u16,
+        image: &IMAGES[765usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3177,7 +3575,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 766u16,
+        id: 397u16,
+        image: &IMAGES[766usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3185,7 +3584,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 767u16,
+        id: 398u16,
+        image: &IMAGES[767usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3193,7 +3593,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 768u16,
+        id: 399u16,
+        image: &IMAGES[768usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3201,7 +3602,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 769u16,
+        id: 400u16,
+        image: &IMAGES[769usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3209,7 +3611,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 770u16,
+        id: 401u16,
+        image: &IMAGES[770usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3217,7 +3620,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 771u16,
+        id: 402u16,
+        image: &IMAGES[771usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3225,7 +3629,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 773u16,
+        id: 403u16,
+        image: &IMAGES[773usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3233,7 +3638,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 775u16,
+        id: 404u16,
+        image: &IMAGES[775usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3241,7 +3647,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 777u16,
+        id: 405u16,
+        image: &IMAGES[777usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3249,7 +3656,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 779u16,
+        id: 406u16,
+        image: &IMAGES[779usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3257,7 +3665,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 781u16,
+        id: 407u16,
+        image: &IMAGES[781usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3265,7 +3674,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 783u16,
+        id: 408u16,
+        image: &IMAGES[783usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3273,7 +3683,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 785u16,
+        id: 409u16,
+        image: &IMAGES[785usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3281,7 +3692,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 787u16,
+        id: 410u16,
+        image: &IMAGES[787usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3289,7 +3701,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 788u16,
+        id: 411u16,
+        image: &IMAGES[788usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3297,7 +3710,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 789u16,
+        id: 412u16,
+        image: &IMAGES[789usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3305,7 +3719,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 790u16,
+        id: 413u16,
+        image: &IMAGES[790usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3313,7 +3728,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 791u16,
+        id: 414u16,
+        image: &IMAGES[791usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3321,7 +3737,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 793u16,
+        id: 415u16,
+        image: &IMAGES[793usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3329,7 +3746,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 795u16,
+        id: 416u16,
+        image: &IMAGES[795usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3337,7 +3755,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 797u16,
+        id: 417u16,
+        image: &IMAGES[797usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3345,7 +3764,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 799u16,
+        id: 418u16,
+        image: &IMAGES[799usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3353,7 +3773,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 801u16,
+        id: 419u16,
+        image: &IMAGES[801usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3361,7 +3782,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 803u16,
+        id: 420u16,
+        image: &IMAGES[803usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3369,7 +3791,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 805u16,
+        id: 421u16,
+        image: &IMAGES[805usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3377,7 +3800,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 807u16,
+        id: 422u16,
+        image: &IMAGES[807usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3385,7 +3809,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 809u16,
+        id: 423u16,
+        image: &IMAGES[809usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3393,7 +3818,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 811u16,
+        id: 424u16,
+        image: &IMAGES[811usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3401,7 +3827,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 813u16,
+        id: 425u16,
+        image: &IMAGES[813usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3409,7 +3836,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 815u16,
+        id: 426u16,
+        image: &IMAGES[815usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3417,7 +3845,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 817u16,
+        id: 427u16,
+        image: &IMAGES[817usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3425,7 +3854,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 819u16,
+        id: 428u16,
+        image: &IMAGES[819usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3433,7 +3863,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 821u16,
+        id: 429u16,
+        image: &IMAGES[821usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3441,7 +3872,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 823u16,
+        id: 430u16,
+        image: &IMAGES[823usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3449,7 +3881,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 825u16,
+        id: 431u16,
+        image: &IMAGES[825usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3457,7 +3890,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 834u16,
+        id: 432u16,
+        image: &IMAGES[834usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3465,7 +3899,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 829u16,
+        id: 433u16,
+        image: &IMAGES[829usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3473,7 +3908,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 831u16,
+        id: 434u16,
+        image: &IMAGES[831usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3481,7 +3917,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 836u16,
+        id: 435u16,
+        image: &IMAGES[836usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3489,7 +3926,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 838u16,
+        id: 436u16,
+        image: &IMAGES[838usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3497,7 +3935,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 832u16,
+        id: 437u16,
+        image: &IMAGES[832usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3505,7 +3944,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 827u16,
+        id: 438u16,
+        image: &IMAGES[827usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3513,7 +3953,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 840u16,
+        id: 439u16,
+        image: &IMAGES[840usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3521,7 +3962,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 841u16,
+        id: 440u16,
+        image: &IMAGES[841usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3529,7 +3971,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 842u16,
+        id: 441u16,
+        image: &IMAGES[842usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3537,7 +3980,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 843u16,
+        id: 442u16,
+        image: &IMAGES[843usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3545,7 +3989,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 845u16,
+        id: 443u16,
+        image: &IMAGES[845usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3553,7 +3998,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 847u16,
+        id: 444u16,
+        image: &IMAGES[847usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3561,7 +4007,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 849u16,
+        id: 445u16,
+        image: &IMAGES[849usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3569,7 +4016,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 851u16,
+        id: 446u16,
+        image: &IMAGES[851usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3577,7 +4025,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 852u16,
+        id: 447u16,
+        image: &IMAGES[852usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3585,7 +4034,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 854u16,
+        id: 448u16,
+        image: &IMAGES[854usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3593,7 +4043,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 856u16,
+        id: 449u16,
+        image: &IMAGES[856usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3601,7 +4052,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 858u16,
+        id: 450u16,
+        image: &IMAGES[858usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3609,7 +4061,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 860u16,
+        id: 451u16,
+        image: &IMAGES[860usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3617,7 +4070,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 862u16,
+        id: 452u16,
+        image: &IMAGES[862usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3625,7 +4079,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 864u16,
+        id: 453u16,
+        image: &IMAGES[864usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3633,7 +4088,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 866u16,
+        id: 454u16,
+        image: &IMAGES[866usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3641,7 +4097,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 868u16,
+        id: 455u16,
+        image: &IMAGES[868usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3649,7 +4106,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 870u16,
+        id: 456u16,
+        image: &IMAGES[870usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3657,7 +4115,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 872u16,
+        id: 457u16,
+        image: &IMAGES[872usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3665,7 +4124,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 874u16,
+        id: 458u16,
+        image: &IMAGES[874usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3673,7 +4133,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 876u16,
+        id: 459u16,
+        image: &IMAGES[876usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3681,7 +4142,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 878u16,
+        id: 460u16,
+        image: &IMAGES[878usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3689,7 +4151,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 880u16,
+        id: 461u16,
+        image: &IMAGES[880usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3697,7 +4160,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 881u16,
+        id: 462u16,
+        image: &IMAGES[881usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3705,7 +4169,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 883u16,
+        id: 463u16,
+        image: &IMAGES[883usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3713,7 +4178,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 885u16,
+        id: 464u16,
+        image: &IMAGES[885usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3721,7 +4187,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 887u16,
+        id: 465u16,
+        image: &IMAGES[887usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3729,7 +4196,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 889u16,
+        id: 466u16,
+        image: &IMAGES[889usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3737,7 +4205,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 890u16,
+        id: 467u16,
+        image: &IMAGES[890usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3745,7 +4214,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 892u16,
+        id: 468u16,
+        image: &IMAGES[892usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3753,7 +4223,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 894u16,
+        id: 469u16,
+        image: &IMAGES[894usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3761,7 +4232,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 895u16,
+        id: 470u16,
+        image: &IMAGES[895usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3769,7 +4241,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 904u16,
+        id: 471u16,
+        image: &IMAGES[904usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3777,7 +4250,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 897u16,
+        id: 472u16,
+        image: &IMAGES[897usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3785,7 +4259,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 906u16,
+        id: 473u16,
+        image: &IMAGES[906usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3793,7 +4268,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 898u16,
+        id: 474u16,
+        image: &IMAGES[898usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3801,7 +4277,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 907u16,
+        id: 475u16,
+        image: &IMAGES[907usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3809,7 +4286,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 900u16,
+        id: 476u16,
+        image: &IMAGES[900usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3817,7 +4295,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 909u16,
+        id: 477u16,
+        image: &IMAGES[909usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3825,7 +4304,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 902u16,
+        id: 478u16,
+        image: &IMAGES[902usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3833,7 +4313,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 911u16,
+        id: 479u16,
+        image: &IMAGES[911usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3841,7 +4322,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 912u16,
+        id: 480u16,
+        image: &IMAGES[912usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -3849,7 +4331,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 914u16,
+        id: 481u16,
+        image: &IMAGES[914usize],
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -3857,7 +4340,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(8u8),
     },
     BwSprite {
-        image: 915u16,
+        id: 482u16,
+        image: &IMAGES[915usize],
         health_bar: Some(40u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -3865,7 +4349,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(4u8),
     },
     BwSprite {
-        image: 918u16,
+        id: 483u16,
+        image: &IMAGES[918usize],
         health_bar: Some(40u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -3873,7 +4358,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(4u8),
     },
     BwSprite {
-        image: 920u16,
+        id: 484u16,
+        image: &IMAGES[920usize],
         health_bar: Some(25u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -3881,7 +4367,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 921u16,
+        id: 485u16,
+        image: &IMAGES[921usize],
         health_bar: Some(52u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -3889,7 +4376,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 925u16,
+        id: 486u16,
+        image: &IMAGES[925usize],
         health_bar: Some(34u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -3897,7 +4385,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(19u8),
     },
     BwSprite {
-        image: 929u16,
+        id: 487u16,
+        image: &IMAGES[929usize],
         health_bar: Some(34u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -3905,7 +4394,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(7u8),
     },
     BwSprite {
-        image: 933u16,
+        id: 488u16,
+        image: &IMAGES[933usize],
         health_bar: Some(22u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -3913,7 +4403,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(15u8),
     },
     BwSprite {
-        image: 944u16,
+        id: 489u16,
+        image: &IMAGES[944usize],
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -3921,7 +4412,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(9u8),
     },
     BwSprite {
-        image: 946u16,
+        id: 490u16,
+        image: &IMAGES[946usize],
         health_bar: Some(19u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -3929,7 +4421,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(9u8),
     },
     BwSprite {
-        image: 939u16,
+        id: 491u16,
+        image: &IMAGES[939usize],
         health_bar: Some(34u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -3937,7 +4430,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(13u8),
     },
     BwSprite {
-        image: 952u16,
+        id: 492u16,
+        image: &IMAGES[952usize],
         health_bar: Some(34u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -3945,7 +4439,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(3u8),
     },
     BwSprite {
-        image: 954u16,
+        id: 493u16,
+        image: &IMAGES[954usize],
         health_bar: Some(34u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -3953,7 +4448,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(5u8),
     },
     BwSprite {
-        image: 956u16,
+        id: 494u16,
+        image: &IMAGES[956usize],
         health_bar: Some(34u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -3961,7 +4457,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(10u8),
     },
     BwSprite {
-        image: 923u16,
+        id: 495u16,
+        image: &IMAGES[923usize],
         health_bar: Some(91u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -3969,7 +4466,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(7u8),
     },
     BwSprite {
-        image: 949u16,
+        id: 496u16,
+        image: &IMAGES[949usize],
         health_bar: Some(91u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -3977,7 +4475,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(8u8),
     },
     BwSprite {
-        image: 937u16,
+        id: 497u16,
+        image: &IMAGES[937usize],
         health_bar: Some(150u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -3985,7 +4484,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(16u8),
     },
     BwSprite {
-        image: 947u16,
+        id: 498u16,
+        image: &IMAGES[947usize],
         health_bar: Some(110u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -3993,7 +4493,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(8u8),
     },
     BwSprite {
-        image: 934u16,
+        id: 499u16,
+        image: &IMAGES[934usize],
         health_bar: Some(110u8),
         unknown_0: 1u8,
         visible: 1u8,
@@ -4001,7 +4502,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 979u16,
+        id: 500u16,
+        image: &IMAGES[979usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4009,7 +4511,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 980u16,
+        id: 501u16,
+        image: &IMAGES[980usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4017,7 +4520,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 981u16,
+        id: 502u16,
+        image: &IMAGES[981usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4025,7 +4529,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 951u16,
+        id: 503u16,
+        image: &IMAGES[951usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4033,7 +4538,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 503u16,
+        id: 504u16,
+        image: &IMAGES[503usize],
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4041,7 +4547,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 960u16,
+        id: 505u16,
+        image: &IMAGES[960usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4049,7 +4556,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 964u16,
+        id: 506u16,
+        image: &IMAGES[964usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4057,7 +4565,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 932u16,
+        id: 507u16,
+        image: &IMAGES[932usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4065,7 +4574,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 966u16,
+        id: 508u16,
+        image: &IMAGES[966usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4073,7 +4583,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 965u16,
+        id: 509u16,
+        image: &IMAGES[965usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4081,7 +4592,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 985u16,
+        id: 510u16,
+        image: &IMAGES[985usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 0u8,
@@ -4089,7 +4601,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 961u16,
+        id: 511u16,
+        image: &IMAGES[961usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4097,7 +4610,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 962u16,
+        id: 512u16,
+        image: &IMAGES[962usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4105,7 +4619,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 963u16,
+        id: 513u16,
+        image: &IMAGES[963usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4113,7 +4628,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 998u16,
+        id: 514u16,
+        image: &IMAGES[998usize],
         health_bar: Some(0u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4121,7 +4637,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(0u8),
     },
     BwSprite {
-        image: 958u16,
+        id: 515u16,
+        image: &IMAGES[958usize],
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,
@@ -4129,7 +4646,8 @@ pub const SPRITES: [BwSprite; 517usize] = [
         selection_circle_offset: Some(6u8),
     },
     BwSprite {
-        image: 959u16,
+        id: 516u16,
+        image: &IMAGES[959usize],
         health_bar: Some(20u8),
         unknown_0: 0u8,
         visible: 1u8,

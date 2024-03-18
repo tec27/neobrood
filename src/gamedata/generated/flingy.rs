@@ -1,7 +1,8 @@
-use crate::gamedata::generated::sprite::SPRITES;
+use super::sprite::SPRITES;
 use crate::gamedata::Flingy;
 pub const FLINGIES: [Flingy; 209usize] = [
     Flingy {
+        id: 0u8,
         sprite: &SPRITES[130usize],
         speed: 1707u32,
         acceleration: 107u16,
@@ -10,6 +11,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 0u8,
     },
     Flingy {
+        id: 1u8,
         sprite: &SPRITES[133usize],
         speed: 1u32,
         acceleration: 1u16,
@@ -18,6 +20,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 2u8,
         sprite: &SPRITES[135usize],
         speed: 1u32,
         acceleration: 1u16,
@@ -26,6 +29,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 3u8,
         sprite: &SPRITES[137usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -34,6 +38,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 4u8,
         sprite: &SPRITES[138usize],
         speed: 1u32,
         acceleration: 1u16,
@@ -42,6 +47,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 5u8,
         sprite: &SPRITES[140usize],
         speed: 1280u32,
         acceleration: 67u16,
@@ -50,6 +56,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 0u8,
     },
     Flingy {
+        id: 6u8,
         sprite: &SPRITES[142usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -58,6 +65,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 7u8,
         sprite: &SPRITES[144usize],
         speed: 640u32,
         acceleration: 27u16,
@@ -66,6 +74,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 0u8,
     },
     Flingy {
+        id: 8u8,
         sprite: &SPRITES[146usize],
         speed: 1u32,
         acceleration: 1u16,
@@ -74,6 +83,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 9u8,
         sprite: &SPRITES[148usize],
         speed: 1u32,
         acceleration: 1u16,
@@ -82,6 +92,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 10u8,
         sprite: &SPRITES[149usize],
         speed: 1u32,
         acceleration: 1u16,
@@ -90,6 +101,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 11u8,
         sprite: &SPRITES[151usize],
         speed: 1707u32,
         acceleration: 67u16,
@@ -98,6 +110,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 0u8,
     },
     Flingy {
+        id: 12u8,
         sprite: &SPRITES[153usize],
         speed: 213u32,
         acceleration: 27u16,
@@ -106,6 +119,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 0u8,
     },
     Flingy {
+        id: 13u8,
         sprite: &SPRITES[155usize],
         speed: 1707u32,
         acceleration: 67u16,
@@ -114,6 +128,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 0u8,
     },
     Flingy {
+        id: 14u8,
         sprite: &SPRITES[157usize],
         speed: 1u32,
         acceleration: 1u16,
@@ -122,6 +137,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 15u8,
         sprite: &SPRITES[159usize],
         speed: 1u32,
         acceleration: 1u16,
@@ -130,6 +146,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 16u8,
         sprite: &SPRITES[161usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -138,6 +155,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 17u8,
         sprite: &SPRITES[162usize],
         speed: 427u32,
         acceleration: 33u16,
@@ -146,6 +164,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 1u8,
     },
     Flingy {
+        id: 18u8,
         sprite: &SPRITES[163usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -154,6 +173,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 19u8,
         sprite: &SPRITES[164usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -162,6 +182,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 20u8,
         sprite: &SPRITES[165usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -170,6 +191,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 21u8,
         sprite: &SPRITES[166usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -178,6 +200,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 22u8,
         sprite: &SPRITES[167usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -186,6 +209,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 23u8,
         sprite: &SPRITES[168usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -194,6 +218,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 24u8,
         sprite: &SPRITES[169usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -202,6 +227,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 25u8,
         sprite: &SPRITES[170usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -210,6 +236,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 26u8,
         sprite: &SPRITES[171usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -218,6 +245,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 27u8,
         sprite: &SPRITES[172usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -226,6 +254,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 28u8,
         sprite: &SPRITES[173usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -234,6 +263,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 29u8,
         sprite: &SPRITES[174usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -242,6 +272,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 30u8,
         sprite: &SPRITES[175usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -250,6 +281,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 31u8,
         sprite: &SPRITES[176usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -258,6 +290,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 32u8,
         sprite: &SPRITES[177usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -266,6 +299,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 33u8,
         sprite: &SPRITES[178usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -274,6 +308,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 34u8,
         sprite: &SPRITES[179usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -282,6 +317,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 35u8,
         sprite: &SPRITES[180usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -290,6 +326,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 36u8,
         sprite: &SPRITES[181usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -298,6 +335,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 37u8,
         sprite: &SPRITES[188usize],
         speed: 1280u32,
         acceleration: 33u16,
@@ -306,6 +344,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 0u8,
     },
     Flingy {
+        id: 38u8,
         sprite: &SPRITES[189usize],
         speed: 1280u32,
         acceleration: 160u16,
@@ -314,6 +353,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 0u8,
     },
     Flingy {
+        id: 39u8,
         sprite: &SPRITES[190usize],
         speed: 853u32,
         acceleration: 27u16,
@@ -322,6 +362,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 0u8,
     },
     Flingy {
+        id: 40u8,
         sprite: &SPRITES[191usize],
         speed: 1u32,
         acceleration: 1u16,
@@ -330,6 +371,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 41u8,
         sprite: &SPRITES[193usize],
         speed: 3413u32,
         acceleration: 427u16,
@@ -338,6 +380,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 0u8,
     },
     Flingy {
+        id: 42u8,
         sprite: &SPRITES[194usize],
         speed: 1280u32,
         acceleration: 67u16,
@@ -346,6 +389,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 0u8,
     },
     Flingy {
+        id: 43u8,
         sprite: &SPRITES[195usize],
         speed: 1280u32,
         acceleration: 48u16,
@@ -354,6 +398,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 0u8,
     },
     Flingy {
+        id: 44u8,
         sprite: &SPRITES[196usize],
         speed: 1133u32,
         acceleration: 17u16,
@@ -362,6 +407,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 0u8,
     },
     Flingy {
+        id: 45u8,
         sprite: &SPRITES[197usize],
         speed: 853u32,
         acceleration: 27u16,
@@ -370,6 +416,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 1u8,
     },
     Flingy {
+        id: 46u8,
         sprite: &SPRITES[198usize],
         speed: 853u32,
         acceleration: 27u16,
@@ -378,6 +425,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 47u8,
         sprite: &SPRITES[199usize],
         speed: 1u32,
         acceleration: 1u16,
@@ -386,6 +434,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 48u8,
         sprite: &SPRITES[200usize],
         speed: 1u32,
         acceleration: 1u16,
@@ -394,6 +443,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 49u8,
         sprite: &SPRITES[201usize],
         speed: 1u32,
         acceleration: 1u16,
@@ -402,6 +452,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 50u8,
         sprite: &SPRITES[202usize],
         speed: 853u32,
         acceleration: 27u16,
@@ -410,6 +461,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 0u8,
     },
     Flingy {
+        id: 51u8,
         sprite: &SPRITES[203usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -418,6 +470,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 52u8,
         sprite: &SPRITES[204usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -426,6 +479,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 53u8,
         sprite: &SPRITES[205usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -434,6 +488,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 54u8,
         sprite: &SPRITES[206usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -442,6 +497,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 55u8,
         sprite: &SPRITES[207usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -450,6 +506,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 56u8,
         sprite: &SPRITES[208usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -458,6 +515,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 57u8,
         sprite: &SPRITES[209usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -466,6 +524,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 58u8,
         sprite: &SPRITES[210usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -474,6 +533,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 59u8,
         sprite: &SPRITES[211usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -482,6 +542,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 60u8,
         sprite: &SPRITES[212usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -490,6 +551,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 61u8,
         sprite: &SPRITES[213usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -498,6 +560,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 62u8,
         sprite: &SPRITES[214usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -506,6 +569,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 63u8,
         sprite: &SPRITES[215usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -514,6 +578,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 64u8,
         sprite: &SPRITES[216usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -522,6 +587,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 65u8,
         sprite: &SPRITES[217usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -530,6 +596,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 66u8,
         sprite: &SPRITES[218usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -538,6 +605,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 67u8,
         sprite: &SPRITES[219usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -546,6 +614,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 68u8,
         sprite: &SPRITES[220usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -554,6 +623,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 69u8,
         sprite: &SPRITES[221usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -562,6 +632,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 70u8,
         sprite: &SPRITES[225usize],
         speed: 640u32,
         acceleration: 27u16,
@@ -570,6 +641,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 0u8,
     },
     Flingy {
+        id: 71u8,
         sprite: &SPRITES[226usize],
         speed: 1u32,
         acceleration: 1u16,
@@ -578,6 +650,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 72u8,
         sprite: &SPRITES[227usize],
         speed: 1400u32,
         acceleration: 17u16,
@@ -586,6 +659,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 0u8,
     },
     Flingy {
+        id: 73u8,
         sprite: &SPRITES[228usize],
         speed: 1u32,
         acceleration: 1u16,
@@ -594,6 +668,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 74u8,
         sprite: &SPRITES[229usize],
         speed: 1u32,
         acceleration: 1u16,
@@ -602,6 +677,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 75u8,
         sprite: &SPRITES[232usize],
         speed: 1u32,
         acceleration: 1u16,
@@ -610,6 +686,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 76u8,
         sprite: &SPRITES[233usize],
         speed: 1u32,
         acceleration: 1u16,
@@ -618,6 +695,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 0u8,
     },
     Flingy {
+        id: 77u8,
         sprite: &SPRITES[234usize],
         speed: 1u32,
         acceleration: 1u16,
@@ -626,6 +704,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 78u8,
         sprite: &SPRITES[235usize],
         speed: 1u32,
         acceleration: 1u16,
@@ -634,6 +713,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 79u8,
         sprite: &SPRITES[237usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -642,6 +722,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 0u8,
     },
     Flingy {
+        id: 80u8,
         sprite: &SPRITES[238usize],
         speed: 1707u32,
         acceleration: 67u16,
@@ -650,6 +731,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 0u8,
     },
     Flingy {
+        id: 81u8,
         sprite: &SPRITES[239usize],
         speed: 1280u32,
         acceleration: 67u16,
@@ -658,6 +740,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 0u8,
     },
     Flingy {
+        id: 82u8,
         sprite: &SPRITES[240usize],
         speed: 1u32,
         acceleration: 1u16,
@@ -666,6 +749,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 83u8,
         sprite: &SPRITES[241usize],
         speed: 1u32,
         acceleration: 1u16,
@@ -674,6 +758,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 84u8,
         sprite: &SPRITES[242usize],
         speed: 1u32,
         acceleration: 1u16,
@@ -682,6 +767,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 85u8,
         sprite: &SPRITES[243usize],
         speed: 1u32,
         acceleration: 1u16,
@@ -690,6 +776,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 86u8,
         sprite: &SPRITES[246usize],
         speed: 1280u32,
         acceleration: 50u16,
@@ -698,6 +785,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 0u8,
     },
     Flingy {
+        id: 87u8,
         sprite: &SPRITES[247usize],
         speed: 1u32,
         acceleration: 1u16,
@@ -706,6 +794,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 0u8,
     },
     Flingy {
+        id: 88u8,
         sprite: &SPRITES[244usize],
         speed: 1707u32,
         acceleration: 100u16,
@@ -714,6 +803,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 0u8,
     },
     Flingy {
+        id: 89u8,
         sprite: &SPRITES[245usize],
         speed: 1u32,
         acceleration: 1u16,
@@ -722,6 +812,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 90u8,
         sprite: &SPRITES[248usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -730,6 +821,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 91u8,
         sprite: &SPRITES[249usize],
         speed: 427u32,
         acceleration: 33u16,
@@ -738,6 +830,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 1u8,
     },
     Flingy {
+        id: 92u8,
         sprite: &SPRITES[250usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -746,6 +839,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 93u8,
         sprite: &SPRITES[251usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -754,6 +848,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 94u8,
         sprite: &SPRITES[252usize],
         speed: 427u32,
         acceleration: 33u16,
@@ -762,6 +857,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 1u8,
     },
     Flingy {
+        id: 95u8,
         sprite: &SPRITES[253usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -770,6 +866,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 96u8,
         sprite: &SPRITES[254usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -778,6 +875,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 97u8,
         sprite: &SPRITES[255usize],
         speed: 427u32,
         acceleration: 33u16,
@@ -786,6 +884,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 1u8,
     },
     Flingy {
+        id: 98u8,
         sprite: &SPRITES[256usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -794,6 +893,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 99u8,
         sprite: &SPRITES[257usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -802,6 +902,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 100u8,
         sprite: &SPRITES[258usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -810,6 +911,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 0u8,
     },
     Flingy {
+        id: 101u8,
         sprite: &SPRITES[259usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -818,6 +920,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 102u8,
         sprite: &SPRITES[260usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -826,6 +929,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 103u8,
         sprite: &SPRITES[261usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -834,6 +938,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 104u8,
         sprite: &SPRITES[262usize],
         speed: 427u32,
         acceleration: 33u16,
@@ -842,6 +947,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 0u8,
     },
     Flingy {
+        id: 105u8,
         sprite: &SPRITES[263usize],
         speed: 427u32,
         acceleration: 33u16,
@@ -850,6 +956,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 0u8,
     },
     Flingy {
+        id: 106u8,
         sprite: &SPRITES[249usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -858,6 +965,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 107u8,
         sprite: &SPRITES[264usize],
         speed: 427u32,
         acceleration: 33u16,
@@ -866,6 +974,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 1u8,
     },
     Flingy {
+        id: 108u8,
         sprite: &SPRITES[265usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -874,6 +983,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 109u8,
         sprite: &SPRITES[266usize],
         speed: 8533u32,
         acceleration: 33u16,
@@ -882,6 +992,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 1u8,
     },
     Flingy {
+        id: 110u8,
         sprite: &SPRITES[268usize],
         speed: 427u32,
         acceleration: 33u16,
@@ -890,6 +1001,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 1u8,
     },
     Flingy {
+        id: 111u8,
         sprite: &SPRITES[269usize],
         speed: 427u32,
         acceleration: 33u16,
@@ -898,6 +1010,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 1u8,
     },
     Flingy {
+        id: 112u8,
         sprite: &SPRITES[270usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -906,6 +1019,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 113u8,
         sprite: &SPRITES[271usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -914,6 +1028,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 114u8,
         sprite: &SPRITES[276usize],
         speed: 1u32,
         acceleration: 1u16,
@@ -922,6 +1037,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 115u8,
         sprite: &SPRITES[277usize],
         speed: 1u32,
         acceleration: 1u16,
@@ -930,6 +1046,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 116u8,
         sprite: &SPRITES[278usize],
         speed: 1u32,
         acceleration: 1u16,
@@ -938,6 +1055,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 117u8,
         sprite: &SPRITES[275usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -946,6 +1064,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 118u8,
         sprite: &SPRITES[279usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -954,6 +1073,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 119u8,
         sprite: &SPRITES[280usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -962,6 +1082,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 120u8,
         sprite: &SPRITES[281usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -970,6 +1091,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 121u8,
         sprite: &SPRITES[282usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -978,6 +1100,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 122u8,
         sprite: &SPRITES[283usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -986,6 +1109,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 123u8,
         sprite: &SPRITES[284usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -994,6 +1118,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 124u8,
         sprite: &SPRITES[285usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1002,6 +1127,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 125u8,
         sprite: &SPRITES[286usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1010,6 +1136,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 126u8,
         sprite: &SPRITES[287usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1018,6 +1145,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 127u8,
         sprite: &SPRITES[288usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1026,6 +1154,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 128u8,
         sprite: &SPRITES[289usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1034,6 +1163,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 129u8,
         sprite: &SPRITES[290usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1042,6 +1172,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 130u8,
         sprite: &SPRITES[291usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1050,6 +1181,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 131u8,
         sprite: &SPRITES[292usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1058,6 +1190,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 132u8,
         sprite: &SPRITES[293usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1066,6 +1199,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 133u8,
         sprite: &SPRITES[294usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1074,6 +1208,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 134u8,
         sprite: &SPRITES[295usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1082,6 +1217,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 135u8,
         sprite: &SPRITES[296usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1090,6 +1226,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 136u8,
         sprite: &SPRITES[297usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1098,6 +1235,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 137u8,
         sprite: &SPRITES[298usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1106,6 +1244,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 138u8,
         sprite: &SPRITES[299usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1114,6 +1253,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 139u8,
         sprite: &SPRITES[302usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1122,6 +1262,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 140u8,
         sprite: &SPRITES[301usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1130,6 +1271,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 141u8,
         sprite: &SPRITES[340usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1138,6 +1280,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 142u8,
         sprite: &SPRITES[341usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1146,6 +1289,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 143u8,
         sprite: &SPRITES[346usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1154,6 +1298,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 144u8,
         sprite: &SPRITES[342usize],
         speed: 8533u32,
         acceleration: 667u16,
@@ -1162,6 +1307,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 1u8,
     },
     Flingy {
+        id: 145u8,
         sprite: &SPRITES[343usize],
         speed: 8533u32,
         acceleration: 667u16,
@@ -1170,6 +1316,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 1u8,
     },
     Flingy {
+        id: 146u8,
         sprite: &SPRITES[345usize],
         speed: 8533u32,
         acceleration: 267u16,
@@ -1178,6 +1325,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 1u8,
     },
     Flingy {
+        id: 147u8,
         sprite: &SPRITES[344usize],
         speed: 8533u32,
         acceleration: 8533u16,
@@ -1186,6 +1334,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 1u8,
     },
     Flingy {
+        id: 148u8,
         sprite: &SPRITES[347usize],
         speed: 25600u32,
         acceleration: 8533u16,
@@ -1194,6 +1343,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 1u8,
     },
     Flingy {
+        id: 149u8,
         sprite: &SPRITES[348usize],
         speed: 17067u32,
         acceleration: 8533u16,
@@ -1202,6 +1352,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 1u8,
     },
     Flingy {
+        id: 150u8,
         sprite: &SPRITES[349usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1210,6 +1361,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 151u8,
         sprite: &SPRITES[352usize],
         speed: 8533u32,
         acceleration: 267u16,
@@ -1218,6 +1370,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 1u8,
     },
     Flingy {
+        id: 152u8,
         sprite: &SPRITES[333usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1226,6 +1379,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 153u8,
         sprite: &SPRITES[334usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1234,6 +1388,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 154u8,
         sprite: &SPRITES[335usize],
         speed: 8533u32,
         acceleration: 267u16,
@@ -1242,6 +1397,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 1u8,
     },
     Flingy {
+        id: 155u8,
         sprite: &SPRITES[336usize],
         speed: 21333u32,
         acceleration: 850u16,
@@ -1250,6 +1406,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 1u8,
     },
     Flingy {
+        id: 156u8,
         sprite: &SPRITES[366usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1258,6 +1415,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 157u8,
         sprite: &SPRITES[339usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1266,6 +1424,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 158u8,
         sprite: &SPRITES[350usize],
         speed: 8533u32,
         acceleration: 8533u16,
@@ -1274,6 +1433,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 1u8,
     },
     Flingy {
+        id: 159u8,
         sprite: &SPRITES[337usize],
         speed: 17067u32,
         acceleration: 850u16,
@@ -1282,6 +1442,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 1u8,
     },
     Flingy {
+        id: 160u8,
         sprite: &SPRITES[338usize],
         speed: 17067u32,
         acceleration: 850u16,
@@ -1290,6 +1451,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 1u8,
     },
     Flingy {
+        id: 161u8,
         sprite: &SPRITES[355usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1298,6 +1460,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 162u8,
         sprite: &SPRITES[356usize],
         speed: 8533u32,
         acceleration: 667u16,
@@ -1306,6 +1469,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 1u8,
     },
     Flingy {
+        id: 163u8,
         sprite: &SPRITES[357usize],
         speed: 8533u32,
         acceleration: 667u16,
@@ -1314,6 +1478,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 1u8,
     },
     Flingy {
+        id: 164u8,
         sprite: &SPRITES[354usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1322,6 +1487,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 165u8,
         sprite: &SPRITES[358usize],
         speed: 8533u32,
         acceleration: 667u16,
@@ -1330,6 +1496,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 1u8,
     },
     Flingy {
+        id: 166u8,
         sprite: &SPRITES[359usize],
         speed: 8533u32,
         acceleration: 667u16,
@@ -1338,6 +1505,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 1u8,
     },
     Flingy {
+        id: 167u8,
         sprite: &SPRITES[360usize],
         speed: 8533u32,
         acceleration: 667u16,
@@ -1346,6 +1514,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 1u8,
     },
     Flingy {
+        id: 168u8,
         sprite: &SPRITES[362usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1354,6 +1523,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 169u8,
         sprite: &SPRITES[363usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1362,6 +1532,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 170u8,
         sprite: &SPRITES[364usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1370,6 +1541,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 171u8,
         sprite: &SPRITES[353usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1378,6 +1550,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 172u8,
         sprite: &SPRITES[370usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1386,6 +1559,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 173u8,
         sprite: &SPRITES[381usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1394,6 +1568,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 174u8,
         sprite: &SPRITES[382usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1402,6 +1577,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 175u8,
         sprite: &SPRITES[383usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1410,6 +1586,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 176u8,
         sprite: &SPRITES[384usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1418,6 +1595,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 177u8,
         sprite: &SPRITES[385usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1426,6 +1604,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 178u8,
         sprite: &SPRITES[303usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1434,6 +1613,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 179u8,
         sprite: &SPRITES[308usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1442,6 +1622,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 180u8,
         sprite: &SPRITES[304usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1450,6 +1631,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 181u8,
         sprite: &SPRITES[305usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1458,6 +1640,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 182u8,
         sprite: &SPRITES[306usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1466,6 +1649,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 183u8,
         sprite: &SPRITES[307usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1474,6 +1658,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 184u8,
         sprite: &SPRITES[481usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1482,6 +1667,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 185u8,
         sprite: &SPRITES[482usize],
         speed: 1280u32,
         acceleration: 48u16,
@@ -1490,6 +1676,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 0u8,
     },
     Flingy {
+        id: 186u8,
         sprite: &SPRITES[485usize],
         speed: 1u32,
         acceleration: 1u16,
@@ -1498,6 +1685,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 187u8,
         sprite: &SPRITES[486usize],
         speed: 1280u32,
         acceleration: 160u16,
@@ -1506,6 +1694,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 0u8,
     },
     Flingy {
+        id: 188u8,
         sprite: &SPRITES[488usize],
         speed: 750u32,
         acceleration: 27u16,
@@ -1514,6 +1703,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 189u8,
         sprite: &SPRITES[489usize],
         speed: 1u32,
         acceleration: 1u16,
@@ -1522,6 +1712,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 190u8,
         sprite: &SPRITES[491usize],
         speed: 1690u32,
         acceleration: 65u16,
@@ -1530,6 +1721,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 0u8,
     },
     Flingy {
+        id: 191u8,
         sprite: &SPRITES[487usize],
         speed: 1707u32,
         acceleration: 67u16,
@@ -1538,6 +1730,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 0u8,
     },
     Flingy {
+        id: 192u8,
         sprite: &SPRITES[503usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1546,6 +1739,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 193u8,
         sprite: &SPRITES[495usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1554,6 +1748,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 194u8,
         sprite: &SPRITES[498usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1562,6 +1757,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 195u8,
         sprite: &SPRITES[499usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1570,6 +1766,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 196u8,
         sprite: &SPRITES[496usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1578,6 +1775,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 197u8,
         sprite: &SPRITES[497usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1586,6 +1784,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 198u8,
         sprite: &SPRITES[492usize],
         speed: 1u32,
         acceleration: 1u16,
@@ -1594,6 +1793,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 199u8,
         sprite: &SPRITES[493usize],
         speed: 1280u32,
         acceleration: 16u16,
@@ -1602,6 +1802,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 0u8,
     },
     Flingy {
+        id: 200u8,
         sprite: &SPRITES[494usize],
         speed: 1u32,
         acceleration: 1u16,
@@ -1610,6 +1811,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 201u8,
         sprite: &SPRITES[508usize],
         speed: 8533u32,
         acceleration: 667u16,
@@ -1618,6 +1820,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 1u8,
     },
     Flingy {
+        id: 202u8,
         sprite: &SPRITES[509usize],
         speed: 8533u32,
         acceleration: 267u16,
@@ -1626,6 +1829,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 1u8,
     },
     Flingy {
+        id: 203u8,
         sprite: &SPRITES[510usize],
         speed: 4800u32,
         acceleration: 4800u16,
@@ -1634,6 +1838,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 1u8,
     },
     Flingy {
+        id: 204u8,
         sprite: &SPRITES[512usize],
         speed: 8533u32,
         acceleration: 667u16,
@@ -1642,6 +1847,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 1u8,
     },
     Flingy {
+        id: 205u8,
         sprite: &SPRITES[513usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1650,6 +1856,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 206u8,
         sprite: &SPRITES[506usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1658,6 +1865,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 207u8,
         sprite: &SPRITES[515usize],
         speed: 0u32,
         acceleration: 0u16,
@@ -1666,6 +1874,7 @@ pub const FLINGIES: [Flingy; 209usize] = [
         movement_control: 2u8,
     },
     Flingy {
+        id: 208u8,
         sprite: &SPRITES[516usize],
         speed: 0u32,
         acceleration: 0u16,

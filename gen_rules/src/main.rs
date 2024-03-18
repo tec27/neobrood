@@ -2,7 +2,10 @@ use anyhow::{anyhow, bail};
 use byteorder::{LittleEndian, ReadBytesExt};
 use proc_macro2::{Delimiter, Group, Span, TokenStream};
 use quote::{quote, ToTokens, TokenStreamExt};
-use std::{env, path::Path};
+use std::{
+    arch::is_aarch64_feature_detected, collections::binary_heap::Drain, env, io::IoSlice,
+    path::Path,
+};
 use syn::Ident;
 
 use crate::bytes::{ByteReadable, ReadByteArraysExt};
@@ -19,17 +22,24 @@ fn main() -> Result<(), anyhow::Error> {
     let game_data_path = Path::new(&path_arg);
 
     {
-        let sprites_path = game_data_path.join("arr/sprites.dat");
-        let bytes = std::fs::read(&sprites_path).expect("Couldn't read sprites.dat");
-        let sprites_data = load_sprites_dat(&bytes)?;
-        write_sprites(sprites_data)?;
+        let path = game_data_path.join("arr/images.dat");
+        let bytes = std::fs::read(&path).expect("Couldn't read images.dat");
+        let data = load_images_dat(&bytes)?;
+        write_images(data)?;
     }
 
     {
-        let flingy_path = game_data_path.join("arr/flingy.dat");
-        let bytes = std::fs::read(&flingy_path).expect("Couldn't read flingy.dat");
-        let flingy_data = load_flingy_dat(&bytes)?;
-        write_flingy(flingy_data)?;
+        let path = game_data_path.join("arr/sprites.dat");
+        let bytes = std::fs::read(&path).expect("Couldn't read sprites.dat");
+        let data = load_sprites_dat(&bytes)?;
+        write_sprites(data)?;
+    }
+
+    {
+        let path = game_data_path.join("arr/flingy.dat");
+        let bytes = std::fs::read(&path).expect("Couldn't read flingy.dat");
+        let data = load_flingy_dat(&bytes)?;
+        write_flingy(data)?;
     }
 
     Ok(())
@@ -51,6 +61,107 @@ impl<T: ToTokens> ToTokens for PreservedOption<T> {
             }
         }
     }
+}
+
+/// How many images are specified in the images.dat file.
+const NUM_IMAGE_DATA: usize = 999;
+/// How much data each image instance takes up in the images.dat file (in bytes).
+const IMAGE_DATA_SIZE: usize = 38;
+
+#[derive(Clone, Debug)]
+pub struct ImageData {
+    pub grp: [u32; NUM_IMAGE_DATA],
+    pub graphics_turns: [u8; NUM_IMAGE_DATA],
+    pub clickable: [u8; NUM_IMAGE_DATA],
+    pub use_full_iscript: [u8; NUM_IMAGE_DATA],
+    pub draw_if_cloaked: [u8; NUM_IMAGE_DATA],
+    pub draw_function: [u8; NUM_IMAGE_DATA],
+    pub remapping: [u8; NUM_IMAGE_DATA],
+    pub iscript: [u32; NUM_IMAGE_DATA],
+    pub shield_overlay: [u32; NUM_IMAGE_DATA],
+    pub attack_overlay: [u32; NUM_IMAGE_DATA],
+    pub damage_overlay: [u32; NUM_IMAGE_DATA],
+    pub special_overlay: [u32; NUM_IMAGE_DATA],
+    pub landing_dust_overlay: [u32; NUM_IMAGE_DATA],
+    pub lift_off_dust_overlay: [u32; NUM_IMAGE_DATA],
+}
+
+fn load_images_dat(mut bytes: &[u8]) -> anyhow::Result<ImageData> {
+    if bytes.len() < NUM_IMAGE_DATA * IMAGE_DATA_SIZE {
+        return Err(anyhow!("images.dat file is too small: {}", bytes.len()));
+    }
+
+    Ok(ImageData {
+        grp: bytes.read_u32_array::<NUM_IMAGE_DATA>()?,
+        graphics_turns: bytes.read_u8_array::<NUM_IMAGE_DATA>()?,
+        clickable: bytes.read_u8_array::<NUM_IMAGE_DATA>()?,
+        use_full_iscript: bytes.read_u8_array::<NUM_IMAGE_DATA>()?,
+        draw_if_cloaked: bytes.read_u8_array::<NUM_IMAGE_DATA>()?,
+        draw_function: bytes.read_u8_array::<NUM_IMAGE_DATA>()?,
+        remapping: bytes.read_u8_array::<NUM_IMAGE_DATA>()?,
+        iscript: bytes.read_u32_array::<NUM_IMAGE_DATA>()?,
+        shield_overlay: bytes.read_u32_array::<NUM_IMAGE_DATA>()?,
+        attack_overlay: bytes.read_u32_array::<NUM_IMAGE_DATA>()?,
+        damage_overlay: bytes.read_u32_array::<NUM_IMAGE_DATA>()?,
+        special_overlay: bytes.read_u32_array::<NUM_IMAGE_DATA>()?,
+        landing_dust_overlay: bytes.read_u32_array::<NUM_IMAGE_DATA>()?,
+        lift_off_dust_overlay: bytes.read_u32_array::<NUM_IMAGE_DATA>()?,
+    })
+}
+
+fn write_images(data: ImageData) -> anyhow::Result<()> {
+    let mut entries = Vec::new();
+    for i in 0..NUM_IMAGE_DATA {
+        let id = i as u16;
+        let grp = data.grp[i];
+        let graphics_turns = data.graphics_turns[i];
+        let clickable = data.clickable[i];
+        let use_full_iscript = data.use_full_iscript[i];
+        let draw_if_cloaked = data.draw_if_cloaked[i];
+        let draw_function = data.draw_function[i];
+        let remapping = data.remapping[i];
+        let iscript = data.iscript[i];
+        let shield_overlay = data.shield_overlay[i];
+        let attack_overlay = data.attack_overlay[i];
+        let damage_overlay = data.damage_overlay[i];
+        let special_overlay = data.special_overlay[i];
+        let landing_dust_overlay = data.landing_dust_overlay[i];
+        let lift_off_dust_overlay = data.lift_off_dust_overlay[i];
+
+        entries.push(quote! {
+            BwImage {
+                id: #id,
+                grp: #grp,
+                graphics_turns: #graphics_turns,
+                clickable: #clickable,
+                use_full_iscript: #use_full_iscript,
+                draw_if_cloaked: #draw_if_cloaked,
+                draw_function: #draw_function,
+                remapping: #remapping,
+                iscript: #iscript,
+                shield_overlay: #shield_overlay,
+                attack_overlay: #attack_overlay,
+                damage_overlay: #damage_overlay,
+                special_overlay: #special_overlay,
+                landing_dust_overlay: #landing_dust_overlay,
+                lift_off_dust_overlay: #lift_off_dust_overlay,
+            }
+        });
+    }
+
+    let tokens = quote! {
+        // GENERATED CODE, DO NOT MODIFY BY HAND
+        use crate::gamedata::BwImage;
+
+        pub const IMAGES: [BwImage; #NUM_IMAGE_DATA] = [#(#entries,)*];
+    };
+
+    let src = syn::parse2(tokens).expect("Couldn't parse generated image.rs");
+    let src = prettyplease::unparse(&src);
+    std::fs::write("src/gamedata/generated/image.rs", src)
+        .expect("Couldn't write generated/image.rs");
+
+    Ok(())
 }
 
 const NUM_SPRITE_DATA: usize = 517;
@@ -93,7 +204,8 @@ fn write_sprites(data: SpriteData) -> anyhow::Result<()> {
             None
         };
 
-        let image = data.image[i];
+        let id = i as u16;
+        let image = data.image[i] as usize;
         let health_bar = PreservedOption(selectable_index.map(|i| data.health_bar[i]));
         let unknown_0 = data.unknown_0[i];
         let visible = data.visible[i];
@@ -103,7 +215,8 @@ fn write_sprites(data: SpriteData) -> anyhow::Result<()> {
 
         entries.push(quote! {
             BwSprite {
-                image: #image,
+                id: #id,
+                image: &IMAGES[#image],
                 health_bar: #health_bar,
                 unknown_0: #unknown_0,
                 visible: #visible,
@@ -114,7 +227,9 @@ fn write_sprites(data: SpriteData) -> anyhow::Result<()> {
     }
 
     let tokens = quote! {
+        // GENERATED CODE, DO NOT MODIFY BY HAND
         use crate::gamedata::BwSprite;
+        use super::image::IMAGES;
 
         pub const SPRITES: [BwSprite; #NUM_SPRITE_DATA] = [#(#entries,)*];
     };
@@ -163,6 +278,7 @@ fn load_flingy_dat(mut bytes: &[u8]) -> anyhow::Result<FlingyData> {
 fn write_flingy(flingy_data: FlingyData) -> anyhow::Result<()> {
     let mut entries = Vec::new();
     for i in 0..NUM_FLINGY_DATA {
+        let id = i as u8;
         let sprite = flingy_data.sprite[i] as usize;
         let speed = flingy_data.speed[i];
         let acceleration = flingy_data.acceleration[i];
@@ -172,6 +288,7 @@ fn write_flingy(flingy_data: FlingyData) -> anyhow::Result<()> {
 
         entries.push(quote! {
             Flingy {
+                id: #id,
                 sprite: &SPRITES[#sprite],
                 speed: #speed,
                 acceleration: #acceleration,
@@ -183,8 +300,9 @@ fn write_flingy(flingy_data: FlingyData) -> anyhow::Result<()> {
     }
 
     let tokens = quote! {
-        use crate::gamedata::generated::sprite::SPRITES;
+        // GENERATED CODE, DO NOT MODIFY BY HAND
         use crate::gamedata::Flingy;
+        use super::sprite::SPRITES;
 
         pub const FLINGIES: [Flingy; #NUM_FLINGY_DATA] = [#(#entries,)*];
     };
