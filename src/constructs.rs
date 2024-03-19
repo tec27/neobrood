@@ -20,12 +20,14 @@ pub enum ConstructTypeId {
     Unknown(u16),
 }
 
-/// Returns the [Construct] for the specified race's starting building.
-pub fn hq_building(race: Race) -> &'static Construct {
-    match race {
-        Race::Protoss => &CONSTRUCTS[ConstructTypeId::ProtossNexus],
-        Race::Terran => &CONSTRUCTS[ConstructTypeId::TerranCommandCenter],
-        Race::Zerg => &CONSTRUCTS[ConstructTypeId::ZergHatchery],
+impl Race {
+    /// Returns the [Construct] for this race's starting building.
+    pub fn hq_building(&self) -> &'static Construct {
+        match self {
+            Race::Protoss => &CONSTRUCTS[ConstructTypeId::ProtossNexus],
+            Race::Terran => &CONSTRUCTS[ConstructTypeId::TerranCommandCenter],
+            Race::Zerg => &CONSTRUCTS[ConstructTypeId::ZergHatchery],
+        }
     }
 }
 

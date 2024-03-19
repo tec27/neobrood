@@ -1,4 +1,4 @@
-use bevy::{asset::LoadState, prelude::*, sprite::Anchor};
+use bevy::{asset::LoadState, prelude::*, sprite::Anchor, transform::TransformSystem};
 
 use crate::{
     asset_packs::{AssetPack, AssetQuality},
@@ -51,8 +51,10 @@ impl Plugin for GameDataPlugin {
             // docs so it feels a bit iffy that it will exist forever? Unsure
             .add_systems(SpawnScene, init_loaded_anims)
             .add_systems(
-                PostUpdate, // TODO(tec27): Probably this should have its own schedule?
-                update_anim_offsets.run_if(in_state(AppState::InGame)),
+                PostUpdate,
+                update_anim_offsets
+                    .before(TransformSystem::TransformPropagate)
+                    .run_if(in_state(AppState::InGame)),
             );
     }
 }

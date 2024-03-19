@@ -2,7 +2,7 @@ use bevy::prelude::*;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 use crate::{
-    constructs::{hq_building, ConstructTypeId, OwnedConstruct},
+    constructs::{ConstructTypeId, OwnedConstruct},
     ecs::despawn_all,
     gamedata::LoadingAnim,
     players::{ControlledPlayer, Player},
@@ -159,7 +159,7 @@ fn init_melee_game(
             continue;
         };
 
-        let building = hq_building(player.race);
+        let building = player.race.hq_building();
         *construct_type = building.id.into();
 
         let image_id = building.flingy().sprite().image_id;
