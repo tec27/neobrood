@@ -63,7 +63,6 @@ pub struct Construct {
 }
 
 /// Describes the kind of a [Construct] and any data specific to that kind.
-#[allow(dead_code)]
 #[derive(Copy, Clone, Debug)]
 pub enum ConstructKind {
     Building(BuildingData),

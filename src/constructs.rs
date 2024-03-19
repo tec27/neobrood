@@ -38,6 +38,6 @@ impl Index<ConstructTypeId> for [Construct; 228] {
     }
 }
 
-/// Component that specifies a unit's owner (via a player number).
+/// Component that specifies a [Construct]'s owner (via a player number).
 #[derive(Component, Debug, Clone, Copy, PartialEq, Eq, Default)]
 pub struct OwnedConstruct(pub u8);
