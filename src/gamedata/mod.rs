@@ -2,6 +2,7 @@ use bevy::{asset::LoadState, prelude::*, sprite::Anchor, transform::TransformSys
 
 use crate::{
     asset_packs::{AssetPack, AssetQuality},
+    maps::game_map::GameMap,
     states::AppState,
 };
 
@@ -99,12 +100,15 @@ fn load_game_data(
     asset_server: Res<AssetServer>,
     game_data: Option<Res<BwGameData>>,
     loading_game_data: Option<Res<LoadingBwGameDataHandles>>,
+    game_map: Query<Entity, With<GameMap>>,
 ) {
     if game_data.is_some() {
-        // We already have game data loaded, so we can proceed to the next state
-        info!("Game data is already loaded, proceeding to InGame state...");
-        next_state.set(AppState::InGame);
-        return;
+        if !game_map.is_empty() {
+            // We already have game data loaded, so we can proceed to the next state
+            info!("Game data is already loaded, proceeding to InGame state...");
+            next_state.set(AppState::InGame);
+            return;
+        }
     }
     if loading_game_data.is_some() {
         // We're already in the process of loading game data, so we can let that play out
@@ -157,6 +161,9 @@ pub struct AnimOffsets {
     pub offsets: Vec<Anchor>,
 }
 
+/// Image ID of the Start Location graphic, which only exists in the standard asset pack.
+const START_LOCATION_ID: u16 = 588;
+
 fn init_loaded_anims(
     mut commands: Commands,
     mut query: Query<(Entity, &mut LoadingAnim)>,
@@ -183,6 +190,12 @@ fn init_loaded_anims(
                 relation.ref_image.unwrap() as u16
             } else {
                 loading_anim.anim_id
+            };
+
+            let asset_pack = if id == START_LOCATION_ID {
+                AssetPack::Standard
+            } else {
+                *asset_pack
             };
 
             loading_anim.handle = Some(asset_server.load(format!(

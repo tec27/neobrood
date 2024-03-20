@@ -13,7 +13,7 @@ use directories::UserDirs;
 use neobrood::asset_packs::{AssetPack, AssetQuality};
 use neobrood::gameplay::GameMode;
 use neobrood::gameplay::GameSpeed;
-use neobrood::maps::{CurrentMap, MapAssetSettings};
+use neobrood::maps::{load_map, CurrentMap};
 use neobrood::random::LcgRand;
 use neobrood::states::AppState;
 use serde::{Deserialize, Serialize};
@@ -183,15 +183,25 @@ fn setup(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
     mut current_map: ResMut<CurrentMap>,
+    mut next_state: ResMut<NextState<AppState>>,
     settings: Res<GameSettings>,
     loadable_maps: Res<LoadableMaps>,
+    asset_quality: Res<AssetQuality>,
+    asset_pack: Res<AssetPack>,
 ) {
     info!("Using settings: {:?}", *settings);
 
     if !loadable_maps.maps.is_empty() {
         commands.insert_resource(GameMode::MapView);
         let map_path = loadable_maps.maps.first().cloned().unwrap();
-        current_map.handle = asset_server.load(map_path);
+        load_map(
+            &map_path,
+            &mut current_map,
+            &mut next_state,
+            &asset_server,
+            *asset_quality,
+            *asset_pack,
+        );
     } else {
         commands.insert_resource(GameMode::Melee);
     }
@@ -240,18 +250,15 @@ fn map_navigator(
     asset_pack: Res<AssetPack>,
 ) {
     if keys.just_pressed(KeyCode::Space) && loadable_maps.maps.len() > 1 {
-        next_state.set(AppState::PreGame);
-
         loadable_maps.cur_index = (loadable_maps.cur_index + 1) % loadable_maps.maps.len();
         let map_path = loadable_maps.maps[loadable_maps.cur_index].clone();
-        // TODO(tec27): Pull out a utility to do this loading logic/update current_map
-        info!("Loading map: {}", map_path.to_string_lossy());
-        let asset_quality = *asset_quality;
-        let asset_pack = *asset_pack;
-        current_map.handle =
-            asset_server.load_with_settings(map_path, move |settings: &mut MapAssetSettings| {
-                settings.quality = asset_quality;
-                settings.pack = asset_pack;
-            });
+        load_map(
+            &map_path,
+            &mut current_map,
+            &mut next_state,
+            &asset_server,
+            *asset_quality,
+            *asset_pack,
+        );
     }
 }

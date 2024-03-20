@@ -5,7 +5,7 @@ use bevy::{app::AppExit, prelude::*};
 use crate::{
     asset_packs::{AssetPack, AssetQuality},
     ecs::despawn_all,
-    maps::{CurrentMap, MapAssetSettings},
+    maps::{load_map, CurrentMap},
     states::AppState,
 };
 
@@ -214,21 +214,4 @@ fn map_drag_and_drop(
             )
         }
     }
-}
-
-fn load_map<'a>(
-    path: &PathBuf,
-    current_map: &mut ResMut<CurrentMap>,
-    next_state: &mut ResMut<NextState<AppState>>,
-    asset_server: &Res<AssetServer>,
-    asset_quality: AssetQuality,
-    asset_pack: AssetPack,
-) {
-    info!("Loading map: {}", path.to_string_lossy());
-    next_state.set(AppState::PreGame);
-    current_map.handle =
-        asset_server.load_with_settings(path.clone(), move |settings: &mut MapAssetSettings| {
-            settings.quality = asset_quality;
-            settings.pack = asset_pack;
-        });
 }

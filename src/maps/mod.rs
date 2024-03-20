@@ -1,9 +1,11 @@
+use std::path::PathBuf;
+
 use bevy::render::render_resource::TextureFormat;
 use bevy::utils::HashMap;
 use bevy::{prelude::*, transform::TransformSystem};
 use bevy_ecs_tilemap::prelude::*;
 
-use crate::asset_packs::AssetQuality;
+use crate::asset_packs::{AssetPack, AssetQuality};
 use crate::maps::game_map::GameMapSize;
 use crate::{
     constructs::{ConstructTypeId, OwnedConstruct},
@@ -45,6 +47,23 @@ impl Plugin for MapsPlugin {
                 position_to_transform.before(TransformSystem::TransformPropagate),
             );
     }
+}
+
+pub fn load_map<'a>(
+    path: &PathBuf,
+    current_map: &mut ResMut<CurrentMap>,
+    next_state: &mut ResMut<NextState<AppState>>,
+    asset_server: &Res<AssetServer>,
+    asset_quality: AssetQuality,
+    asset_pack: AssetPack,
+) {
+    info!("Loading map: {}", path.to_string_lossy());
+    next_state.set(AppState::PreGame);
+    current_map.handle =
+        asset_server.load_with_settings(path.clone(), move |settings: &mut MapAssetSettings| {
+            settings.quality = asset_quality;
+            settings.pack = asset_pack;
+        });
 }
 
 #[derive(Resource, Default)]
@@ -99,6 +118,7 @@ fn map_init(
 }
 
 fn map_cleanup(mut commands: Commands, maps: Query<Entity, With<GameMap>>) {
+    warn!("map cleanup");
     for entity in maps.iter() {
         commands.entity(entity).despawn_recursive();
     }
