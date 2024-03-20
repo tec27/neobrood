@@ -1,5 +1,4 @@
 use bevy::{math::U16Vec2, prelude::*};
-use bevy_ecs_tilemap::map::{TilemapSize, TilemapTileSize};
 
 use crate::asset_packs::AssetQuality;
 

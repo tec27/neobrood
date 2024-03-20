@@ -3,6 +3,7 @@ use bevy::utils::HashMap;
 use bevy::{prelude::*, transform::TransformSystem};
 use bevy_ecs_tilemap::prelude::*;
 
+use crate::asset_packs::AssetQuality;
 use crate::maps::game_map::GameMapSize;
 use crate::{
     constructs::{ConstructTypeId, OwnedConstruct},
@@ -57,6 +58,7 @@ fn map_init(
     current_map: Res<CurrentMap>,
     map_assets: Res<Assets<MapAsset>>,
     array_texture_loader: Res<ArrayTextureLoader>,
+    asset_quality: Res<AssetQuality>,
     game_map_query: Query<Entity, With<GameMap>>,
     mut next_state: ResMut<NextState<AppState>>,
 ) {
@@ -81,7 +83,13 @@ fn map_init(
             ..default()
         })
         .id();
-    create_tilemap(&mut commands, map, &array_texture_loader, map_entity);
+    create_tilemap(
+        &mut commands,
+        map,
+        &array_texture_loader,
+        &asset_quality,
+        map_entity,
+    );
     create_map_sprites(&mut commands, map, map_entity);
     create_placed_units(&mut commands, map, map_entity);
 
@@ -135,6 +143,7 @@ fn create_tilemap(
     commands: &mut Commands,
     map: &MapAsset,
     array_texture_loader: &Res<ArrayTextureLoader>,
+    asset_pack: &Res<AssetQuality>,
     map_entity: Entity,
 ) {
     let tilemap_size = TilemapSize {
@@ -190,9 +199,7 @@ fn create_tilemap(
         }
     }
 
-    // TODO(tec27): Handle different tile sizes depending on resolution:
-    // 4k => 128, 2k => 64, SD => 32
-    let tile_size = TilemapTileSize { x: 64.0, y: 64.0 };
+    let tile_size: TilemapTileSize = asset_pack.tile_size().into();
     let map_type = TilemapType::Square;
     // Center the map at (0,0)
     let transform = Transform::from_translation(Vec3::new(

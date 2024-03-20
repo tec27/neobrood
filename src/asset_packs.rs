@@ -31,7 +31,7 @@ impl AssetQuality {
 }
 
 #[allow(unused)]
-#[derive(Debug, Clone, Copy, Eq, PartialEq, Hash, Ord, PartialOrd, Default)]
+#[derive(Resource, Debug, Clone, Copy, Eq, PartialEq, Hash, Ord, PartialOrd, Default)]
 pub enum AssetPack {
     #[default]
     Standard,

@@ -163,6 +163,8 @@ fn init_loaded_anims(
     anim_assets: Res<Assets<AnimAsset>>,
     game_data: Option<Res<BwGameData>>,
     asset_server: Res<AssetServer>,
+    asset_quality: Res<AssetQuality>,
+    asset_pack: Res<AssetPack>,
 ) {
     let Some(game_data) = game_data else {
         // We don't have game data yet, so we can't do anything
@@ -184,10 +186,9 @@ fn init_loaded_anims(
             };
 
             loading_anim.handle = Some(asset_server.load(format!(
-                "casc-extracted/{}{}anim/main_{:03}.anim",
-                // TODO(tec27): Make configurable in settings
-                AssetQuality::High.asset_path(),
-                AssetPack::Standard.asset_path(),
+                "casc-extracted/{}anim/{}main_{:03}.anim",
+                asset_quality.asset_path(),
+                asset_pack.asset_path(),
                 id
             )));
             continue;
