@@ -1,8 +1,9 @@
-use bevy::prelude::*;
 use bevy::render::render_resource::TextureFormat;
 use bevy::utils::HashMap;
+use bevy::{prelude::*, transform::TransformSystem};
 use bevy_ecs_tilemap::prelude::*;
 
+use crate::maps::game_map::GameMapSize;
 use crate::{
     constructs::{ConstructTypeId, OwnedConstruct},
     gamedata::{BwGameData, LoadingAnim, CONSTRUCTS, SPRITES},
@@ -11,13 +12,16 @@ use crate::{
     states::AppState,
 };
 
+use self::position::position_to_transform;
 use self::{
     asset::{MapAsset, MapAssetLoader},
     game_map::GameMap,
+    position::Position,
 };
 
 mod asset;
 pub mod game_map;
+pub mod position;
 mod tileset;
 
 pub struct MapsPlugin;
@@ -28,10 +32,17 @@ impl Plugin for MapsPlugin {
             .init_asset::<MapAsset>()
             .init_asset_loader::<MapAssetLoader>()
             .init_resource::<CurrentMap>()
+            .register_type::<GameMap>()
+            .register_type::<GameMapSize>()
+            .register_type::<Position>()
             // TODO(tec27): Maybe this should be handled as a requirement of PreGame and we
             // guarantee that exactly one map is loaded for InGame?
             .add_systems(Update, map_init.run_if(in_state(AppState::PreGame)))
-            .add_systems(OnExit(AppState::InGame), map_cleanup);
+            .add_systems(OnExit(AppState::InGame), map_cleanup)
+            .add_systems(
+                PostUpdate,
+                position_to_transform.before(TransformSystem::TransformPropagate),
+            );
     }
 }
 
@@ -61,7 +72,15 @@ fn map_init(
     };
 
     info!("Map loaded!");
-    let map_entity = commands.spawn(GameMapBundle::default()).id();
+    let map_entity = commands
+        .spawn(GameMapBundle {
+            size: GameMapSize {
+                width: map.width,
+                height: map.height,
+            },
+            ..default()
+        })
+        .id();
     create_tilemap(&mut commands, map, &array_texture_loader, map_entity);
     create_map_sprites(&mut commands, map, map_entity);
     create_placed_units(&mut commands, map, map_entity);
@@ -213,9 +232,6 @@ fn create_map_sprites(commands: &mut Commands, map: &MapAsset, map_entity: Entit
         map.sprites.len()
     );
 
-    // Used for inverting y-coords
-    let max_height = (map.height - 1) as f32;
-
     for (i, sprite) in map.sprites.iter().enumerate() {
         let Some(s) = SPRITES.get(sprite.id as usize) else {
             warn!(
@@ -226,20 +242,12 @@ fn create_map_sprites(commands: &mut Commands, map: &MapAsset, map_entity: Entit
         };
 
         commands
-            .spawn(SpatialBundle {
-                transform: Transform::from_translation(Vec3::new(
-                    // TODO(tec27): Need to base this on the map's tile size, would probably be
-                    // better to write something that keeps track of this sprite in map coords and
-                    // manages this transform value
-                    ((sprite.x as f32) / 32.0 - map.width as f32 / 2.0) * 64.0 - 32.0,
-                    ((max_height - (sprite.y as f32) / 32.0) - map.height as f32 / 2.0) * 64.0
-                        + 32.0,
-                    1.0,
-                )),
-                ..default()
-            })
-            .insert(YSort(2.0))
-            .insert(Name::new(format!("Sprite #{i}")))
+            .spawn((
+                SpatialBundle::default(),
+                Position::new(sprite.x, sprite.y),
+                YSort(2.0),
+                Name::new(format!("Sprite #{i}")),
+            ))
             .with_children(|builder| {
                 builder.spawn(LoadingAnim::new(s.image_id));
             })
@@ -252,9 +260,6 @@ fn create_placed_units(commands: &mut Commands, map: &MapAsset, map_entity: Enti
         "Creating placed units, map has {} placed units",
         map.placed_units.len()
     );
-
-    // Used for inverting y-coords
-    let max_height = (map.height - 1) as f32;
 
     for unit in map.placed_units.iter() {
         let Some(construct) = CONSTRUCTS.get(unit.unit_id as usize) else {
@@ -269,18 +274,8 @@ fn create_placed_units(commands: &mut Commands, map: &MapAsset, map_entity: Enti
 
         let entity = commands
             .spawn((
-                SpatialBundle {
-                    transform: Transform::from_translation(Vec3::new(
-                        // TODO(tec27): Need to base this on the map's tile size, would probably be
-                        // better to write something that keeps track of this sprite in map coords and
-                        // manages this transform value
-                        ((unit.x as f32) / 32.0 - map.width as f32 / 2.0) * 64.0 - 32.0,
-                        ((max_height - (unit.y as f32) / 32.0) - map.height as f32 / 2.0) * 64.0
-                            + 32.0,
-                        1.0,
-                    )),
-                    ..default()
-                },
+                SpatialBundle::default(),
+                Position::new(unit.x, unit.y),
                 ConstructTypeId::from(unit.unit_id),
                 YSort(2.0),
                 Name::new(format!("Unit #{}", unit.unit_id)),

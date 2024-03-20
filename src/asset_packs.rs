@@ -1,5 +1,7 @@
+use bevy::{ecs::system::Resource, math::Vec2};
+
 #[allow(unused)]
-#[derive(Debug, Clone, Copy, Eq, PartialEq, Hash, Ord, PartialOrd, Default)]
+#[derive(Resource, Debug, Clone, Copy, Eq, PartialEq, Hash, Ord, PartialOrd, Default)]
 pub enum AssetQuality {
     /// Classic assets.
     Standard,
@@ -11,11 +13,19 @@ pub enum AssetQuality {
 }
 
 impl AssetQuality {
-    pub fn asset_path(&self) -> &'static str {
+    pub const fn asset_path(&self) -> &'static str {
         match self {
             Self::Standard => "sd/",
             Self::High => "hd2/",
             Self::ExtraHigh => "",
+        }
+    }
+
+    pub const fn tile_size(&self) -> Vec2 {
+        match self {
+            Self::Standard => Vec2::splat(32.0),
+            Self::High => Vec2::splat(64.0),
+            Self::ExtraHigh => Vec2::splat(128.0),
         }
     }
 }
@@ -29,7 +39,7 @@ pub enum AssetPack {
 }
 
 impl AssetPack {
-    pub fn asset_path(&self) -> &'static str {
+    pub const fn asset_path(&self) -> &'static str {
         match self {
             Self::Standard => "",
             Self::Carbot => "carbot/",

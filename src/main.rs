@@ -10,6 +10,7 @@ use bevy::diagnostic::{DiagnosticsStore, FrameTimeDiagnosticsPlugin};
 use bevy::prelude::*;
 use bevy::window::{PresentMode, WindowMode, WindowResolution};
 use directories::UserDirs;
+use neobrood::asset_packs::AssetQuality;
 use neobrood::gameplay::GameMode;
 use neobrood::gameplay::GameSpeed;
 use neobrood::maps::CurrentMap;
@@ -133,6 +134,8 @@ fn main() {
         ..default()
     }))
     .insert_resource(settings)
+    // TODO(tec27): Pull from settings
+    .insert_resource(AssetQuality::High)
     .insert_resource(ClearColor(Color::rgb(0.0, 0.0, 0.0)))
     .insert_resource(LoadableMaps { maps, cur_index: 0 })
     .insert_resource(Time::<Fixed>::from_duration(
