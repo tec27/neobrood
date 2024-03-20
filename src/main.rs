@@ -13,7 +13,7 @@ use directories::UserDirs;
 use neobrood::asset_packs::{AssetPack, AssetQuality};
 use neobrood::gameplay::GameMode;
 use neobrood::gameplay::GameSpeed;
-use neobrood::maps::CurrentMap;
+use neobrood::maps::{CurrentMap, MapAssetSettings};
 use neobrood::random::LcgRand;
 use neobrood::states::AppState;
 use serde::{Deserialize, Serialize};
@@ -236,13 +236,22 @@ fn map_navigator(
     keys: Res<ButtonInput<KeyCode>>,
     mut current_map: ResMut<CurrentMap>,
     mut loadable_maps: ResMut<LoadableMaps>,
+    asset_quality: Res<AssetQuality>,
+    asset_pack: Res<AssetPack>,
 ) {
     if keys.just_pressed(KeyCode::Space) && loadable_maps.maps.len() > 1 {
         next_state.set(AppState::PreGame);
 
         loadable_maps.cur_index = (loadable_maps.cur_index + 1) % loadable_maps.maps.len();
         let map_path = loadable_maps.maps[loadable_maps.cur_index].clone();
+        // TODO(tec27): Pull out a utility to do this loading logic/update current_map
         info!("Loading map: {}", map_path.to_string_lossy());
-        current_map.handle = asset_server.load(map_path);
+        let asset_quality = *asset_quality;
+        let asset_pack = *asset_pack;
+        current_map.handle =
+            asset_server.load_with_settings(map_path, move |settings: &mut MapAssetSettings| {
+                settings.quality = asset_quality;
+                settings.pack = asset_pack;
+            });
     }
 }

@@ -9,7 +9,9 @@ use bevy::utils::HashMap;
 use broodmap::chk::placed_units::PlacedUnit;
 use broodmap::chk::terrain::TerrainTileIds;
 use broodmap::chk::tileset::Tileset;
+use serde::{Deserialize, Serialize};
 
+use crate::asset_packs::{AssetPack, AssetQuality};
 use crate::maps::tileset::{load_mega_tile_lookup, load_tile_textures, MegaTileInfo};
 
 /// A bevy [AssetLoader] for SCM and SCX files.
@@ -29,6 +31,12 @@ impl FromWorld for MapAssetLoader {
             supported_compressed_formats,
         }
     }
+}
+
+#[derive(Debug, Default, Copy, Clone, Serialize, Deserialize)]
+pub struct MapAssetSettings {
+    pub quality: AssetQuality,
+    pub pack: AssetPack,
 }
 
 #[derive(Asset, Debug, TypePath)]
@@ -56,13 +64,13 @@ pub struct MapAsset {
 
 impl AssetLoader for MapAssetLoader {
     type Asset = MapAsset;
-    type Settings = ();
+    type Settings = MapAssetSettings;
     type Error = anyhow::Error;
 
     fn load<'a>(
         &'a self,
         reader: &'a mut Reader,
-        _settings: &'a Self::Settings,
+        settings: &'a Self::Settings,
         load_context: &'a mut LoadContext,
     ) -> BoxedFuture<'a, Result<Self::Asset, Self::Error>> {
         Box::pin(async move {
@@ -94,6 +102,8 @@ impl AssetLoader for MapAssetLoader {
             let (tile_textures, tile_texture_indices) = load_tile_textures(
                 tileset,
                 &mega_tile_lookup,
+                settings.quality,
+                settings.pack,
                 load_context,
                 self.supported_compressed_formats,
             )

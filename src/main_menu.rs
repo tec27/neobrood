@@ -1,6 +1,13 @@
+use std::path::PathBuf;
+
 use bevy::{app::AppExit, prelude::*};
 
-use crate::{ecs::despawn_all, maps::CurrentMap, states::AppState};
+use crate::{
+    asset_packs::{AssetPack, AssetQuality},
+    ecs::despawn_all,
+    maps::{CurrentMap, MapAssetSettings},
+    states::AppState,
+};
 
 pub struct MainMenuPlugin;
 
@@ -155,17 +162,23 @@ fn update_button_colors(
 fn actions(
     query: Query<(&Interaction, &MenuAction), (Changed<Interaction>, With<Button>)>,
     mut app_exit_events: EventWriter<AppExit>,
-    mut app_state: ResMut<NextState<AppState>>,
+    mut next_state: ResMut<NextState<AppState>>,
     mut current_map: ResMut<CurrentMap>,
     asset_server: Res<AssetServer>,
+    asset_quality: Res<AssetQuality>,
+    asset_pack: Res<AssetPack>,
 ) {
     for (interaction, action) in &query {
         if *interaction == Interaction::Pressed {
             match action {
-                MenuAction::LoadLostTemple => {
-                    current_map.handle = asset_server.load("lt.scm");
-                    app_state.set(AppState::PreGame);
-                }
+                MenuAction::LoadLostTemple => load_map(
+                    &PathBuf::from("lt.scm"),
+                    &mut current_map,
+                    &mut next_state,
+                    &asset_server,
+                    *asset_quality,
+                    *asset_pack,
+                ),
                 MenuAction::Quit => {
                     app_exit_events.send(AppExit);
                 }
@@ -179,6 +192,8 @@ fn map_drag_and_drop(
     asset_server: Res<AssetServer>,
     mut current_map: ResMut<CurrentMap>,
     mut next_state: ResMut<NextState<AppState>>,
+    asset_quality: Res<AssetQuality>,
+    asset_pack: Res<AssetPack>,
 ) {
     for event in drop_events.read() {
         let FileDragAndDrop::DroppedFile { path_buf, .. } = event else {
@@ -189,9 +204,31 @@ fn map_drag_and_drop(
             s.to_ascii_lowercase().to_string_lossy().to_string()
         });
         if extension == "scm" || extension == "scx" {
-            next_state.set(AppState::PreGame);
-            info!("Loading map: {}", path_buf.to_string_lossy());
-            current_map.handle = asset_server.load(path_buf.clone());
+            load_map(
+                &path_buf,
+                &mut current_map,
+                &mut next_state,
+                &asset_server,
+                *asset_quality,
+                *asset_pack,
+            )
         }
     }
+}
+
+fn load_map<'a>(
+    path: &PathBuf,
+    current_map: &mut ResMut<CurrentMap>,
+    next_state: &mut ResMut<NextState<AppState>>,
+    asset_server: &Res<AssetServer>,
+    asset_quality: AssetQuality,
+    asset_pack: AssetPack,
+) {
+    info!("Loading map: {}", path.to_string_lossy());
+    next_state.set(AppState::PreGame);
+    current_map.handle =
+        asset_server.load_with_settings(path.clone(), move |settings: &mut MapAssetSettings| {
+            settings.quality = asset_quality;
+            settings.pack = asset_pack;
+        });
 }

@@ -316,14 +316,15 @@ pub async fn load_mega_tile_lookup(
 pub async fn load_tile_textures(
     tileset: Tileset,
     mega_tile_lookup: &HashMap<u16, MegaTileInfo>,
+    asset_quality: AssetQuality,
+    asset_pack: AssetPack,
     load_context: &mut LoadContext<'_>,
     supported_compressed_formats: CompressedImageFormats,
 ) -> Result<(Vec<Handle<Image>>, HashMap<u16, usize>)> {
     let filename: TilesetFilename = tileset.into();
     let path = format!(
         "casc-extracted/{}",
-        // TODO(tec27): Pass in asset quality + pack
-        filename.vr4_path(AssetQuality::High, AssetPack::Standard)
+        filename.vr4_path(asset_quality, asset_pack)
     );
     let data = load_context
         .read_asset_bytes(path)

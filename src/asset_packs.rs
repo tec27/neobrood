@@ -1,7 +1,21 @@
 use bevy::{ecs::system::Resource, math::Vec2};
+use serde::{Deserialize, Serialize};
 
 #[allow(unused)]
-#[derive(Resource, Debug, Clone, Copy, Eq, PartialEq, Hash, Ord, PartialOrd, Default)]
+#[derive(
+    Resource,
+    Debug,
+    Clone,
+    Copy,
+    Eq,
+    PartialEq,
+    Hash,
+    Ord,
+    PartialOrd,
+    Default,
+    Serialize,
+    Deserialize,
+)]
 pub enum AssetQuality {
     /// Classic assets.
     Standard,
@@ -31,7 +45,20 @@ impl AssetQuality {
 }
 
 #[allow(unused)]
-#[derive(Resource, Debug, Clone, Copy, Eq, PartialEq, Hash, Ord, PartialOrd, Default)]
+#[derive(
+    Resource,
+    Debug,
+    Clone,
+    Copy,
+    Eq,
+    PartialEq,
+    Hash,
+    Ord,
+    PartialOrd,
+    Default,
+    Serialize,
+    Deserialize,
+)]
 pub enum AssetPack {
     #[default]
     Standard,

@@ -13,17 +13,17 @@ use crate::{
     states::AppState,
 };
 
-use self::position::position_to_transform;
-use self::{
-    asset::{MapAsset, MapAssetLoader},
-    game_map::GameMap,
-    position::Position,
-};
+use asset::{MapAsset, MapAssetLoader};
+use game_map::GameMap;
+use position::position_to_transform;
+use position::Position;
 
 mod asset;
 pub mod game_map;
 pub mod position;
 mod tileset;
+
+pub use asset::MapAssetSettings;
 
 pub struct MapsPlugin;
 
