@@ -5,16 +5,14 @@ use bevy::utils::HashMap;
 use bevy::{prelude::*, transform::TransformSystem};
 use bevy_ecs_tilemap::prelude::*;
 
-use crate::asset_packs::{AssetPack, AssetQuality};
-use crate::maps::game_map::GameMapSize;
+use crate::settings::{AssetPack, AssetQuality, GameSettings};
 use crate::{
     constructs::{ConstructTypeId, OwnedConstruct},
     gamedata::{BwGameData, LoadingAnim, CONSTRUCTS, SPRITES},
-    maps::game_map::GameMapBundle,
+    maps::game_map::{GameMapBundle, GameMapSize},
     render::ysort::YSort,
     states::AppState,
 };
-
 use asset::{MapAsset, MapAssetLoader};
 use game_map::GameMap;
 use position::position_to_transform;
@@ -54,15 +52,16 @@ pub fn load_map<'a>(
     current_map: &mut ResMut<CurrentMap>,
     next_state: &mut ResMut<NextState<AppState>>,
     asset_server: &Res<AssetServer>,
-    asset_quality: AssetQuality,
-    asset_pack: AssetPack,
+    settings: &Res<GameSettings>,
 ) {
     info!("Loading map: {}", path.to_string_lossy());
     next_state.set(AppState::PreGame);
+    let quality = settings.asset_quality;
+    let pack = settings.asset_pack;
     current_map.handle =
-        asset_server.load_with_settings(path.clone(), move |settings: &mut MapAssetSettings| {
-            settings.quality = asset_quality;
-            settings.pack = asset_pack;
+        asset_server.load_with_settings(path.clone(), move |s: &mut MapAssetSettings| {
+            s.quality = quality;
+            s.pack = pack;
         });
 }
 
@@ -77,7 +76,7 @@ fn map_init(
     current_map: Res<CurrentMap>,
     map_assets: Res<Assets<MapAsset>>,
     array_texture_loader: Res<ArrayTextureLoader>,
-    asset_quality: Res<AssetQuality>,
+    settings: Res<GameSettings>,
     game_map_query: Query<Entity, With<GameMap>>,
     mut next_state: ResMut<NextState<AppState>>,
 ) {
@@ -106,7 +105,7 @@ fn map_init(
         &mut commands,
         map,
         &array_texture_loader,
-        &asset_quality,
+        &settings,
         map_entity,
     );
     create_map_sprites(&mut commands, map, map_entity);
@@ -163,7 +162,7 @@ fn create_tilemap(
     commands: &mut Commands,
     map: &MapAsset,
     array_texture_loader: &Res<ArrayTextureLoader>,
-    asset_pack: &Res<AssetQuality>,
+    settings: &Res<GameSettings>,
     map_entity: Entity,
 ) {
     let tilemap_size = TilemapSize {
@@ -219,7 +218,7 @@ fn create_tilemap(
         }
     }
 
-    let tile_size: TilemapTileSize = asset_pack.tile_size().into();
+    let tile_size: TilemapTileSize = settings.asset_quality.tile_size().into();
     let map_type = TilemapType::Square;
     // Center the map at (0,0)
     let transform = Transform::from_translation(Vec3::new(

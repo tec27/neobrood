@@ -11,8 +11,8 @@ use broodmap::chk::terrain::TerrainTileIds;
 use broodmap::chk::tileset::Tileset;
 use serde::{Deserialize, Serialize};
 
-use crate::asset_packs::{AssetPack, AssetQuality};
 use crate::maps::tileset::{load_mega_tile_lookup, load_tile_textures, MegaTileInfo};
+use crate::settings::{AssetPack, AssetQuality};
 
 /// A bevy [AssetLoader] for SCM and SCX files.
 #[derive(Debug)]

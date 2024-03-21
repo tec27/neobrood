@@ -3,9 +3,9 @@ use std::path::PathBuf;
 use bevy::{app::AppExit, prelude::*};
 
 use crate::{
-    asset_packs::{AssetPack, AssetQuality},
     ecs::despawn_all,
     maps::{load_map, CurrentMap},
+    settings::GameSettings,
     states::AppState,
 };
 
@@ -165,8 +165,7 @@ fn actions(
     mut next_state: ResMut<NextState<AppState>>,
     mut current_map: ResMut<CurrentMap>,
     asset_server: Res<AssetServer>,
-    asset_quality: Res<AssetQuality>,
-    asset_pack: Res<AssetPack>,
+    settings: Res<GameSettings>,
 ) {
     for (interaction, action) in &query {
         if *interaction == Interaction::Pressed {
@@ -176,8 +175,7 @@ fn actions(
                     &mut current_map,
                     &mut next_state,
                     &asset_server,
-                    *asset_quality,
-                    *asset_pack,
+                    &settings,
                 ),
                 MenuAction::Quit => {
                     app_exit_events.send(AppExit);
@@ -192,8 +190,7 @@ fn map_drag_and_drop(
     asset_server: Res<AssetServer>,
     mut current_map: ResMut<CurrentMap>,
     mut next_state: ResMut<NextState<AppState>>,
-    asset_quality: Res<AssetQuality>,
-    asset_pack: Res<AssetPack>,
+    settings: Res<GameSettings>,
 ) {
     for event in drop_events.read() {
         let FileDragAndDrop::DroppedFile { path_buf, .. } = event else {
@@ -209,8 +206,7 @@ fn map_drag_and_drop(
                 &mut current_map,
                 &mut next_state,
                 &asset_server,
-                *asset_quality,
-                *asset_pack,
+                &settings,
             )
         }
     }

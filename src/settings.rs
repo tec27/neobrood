@@ -1,5 +1,23 @@
-use bevy::{ecs::system::Resource, math::Vec2};
+use bevy::{prelude::*, window::WindowMode};
 use serde::{Deserialize, Serialize};
+
+#[derive(Copy, Clone, Debug, Default, Serialize, Deserialize)]
+pub enum NeobroodWindowMode {
+    Windowed,
+    #[default]
+    BorderlessFullscreen,
+    ExclusiveFullscreen,
+}
+
+impl From<NeobroodWindowMode> for WindowMode {
+    fn from(value: NeobroodWindowMode) -> Self {
+        match value {
+            NeobroodWindowMode::Windowed => WindowMode::Windowed,
+            NeobroodWindowMode::BorderlessFullscreen => WindowMode::BorderlessFullscreen,
+            NeobroodWindowMode::ExclusiveFullscreen => WindowMode::Fullscreen,
+        }
+    }
+}
 
 #[allow(unused)]
 #[derive(
@@ -72,4 +90,17 @@ impl AssetPack {
             Self::Carbot => "carbot/",
         }
     }
+}
+
+// TODO(tec27): Write a way to configure these ingame and save them to the file
+#[derive(Resource, Clone, Copy, Debug, Default, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct GameSettings {
+    #[serde(default)]
+    pub window_mode: NeobroodWindowMode,
+    pub window_size: Option<(u32, u32)>,
+    #[serde(default)]
+    pub asset_quality: AssetQuality,
+    #[serde(default)]
+    pub asset_pack: AssetPack,
 }

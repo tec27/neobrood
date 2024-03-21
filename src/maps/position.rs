@@ -1,6 +1,6 @@
 use bevy::{math::U16Vec2, prelude::*};
 
-use crate::asset_packs::AssetQuality;
+use crate::settings::GameSettings;
 
 use super::game_map::{GameMap, GameMapSize};
 
@@ -48,7 +48,7 @@ const LOGIC_TILE_SIZE: f32 = 32.0;
 pub fn position_to_transform(
     mut positioned: Query<(&Position, &mut Transform), Changed<Position>>,
     map: Query<&GameMapSize, With<GameMap>>,
-    quality: Res<AssetQuality>,
+    settings: Res<GameSettings>,
 ) {
     let Ok(map_size) = map.get_single() else {
         // No map so there's no positions to convert
@@ -64,12 +64,12 @@ pub fn position_to_transform(
     // needs to be reworked a bit.
 
     let half_map_size = Vec2::from(map_size) / 2.0;
-    let tile_size = quality.tile_size();
-    let half_tile_adjustment = Vec2::new(tile_size.x / 2.0, -tile_size.y / 2.0);
+    let tile_size = settings.asset_quality.tile_size();
+    let half_tile_adjustment = Vec2::new(tile_size.x / 2.0, tile_size.y / 2.0);
 
     for (pos, mut transform) in positioned.iter_mut() {
         let mut pos = Vec2::from(pos) / LOGIC_TILE_SIZE;
-        pos.y = (map_size.height - 1) as f32 - pos.y;
+        pos.y = map_size.height as f32 - pos.y;
         transform.translation =
             ((pos - half_map_size) * tile_size - half_tile_adjustment).extend(0.0);
     }

@@ -9,7 +9,7 @@ use broodmap::chk::terrain::TerrainTileIds;
 use broodmap::chk::tileset::Tileset;
 use byteorder::{LittleEndian, ReadBytesExt};
 
-use crate::asset_packs::{AssetPack, AssetQuality};
+use crate::settings::{AssetPack, AssetQuality};
 
 #[derive(Debug, Clone, Copy, Eq, PartialEq, Hash, Ord, PartialOrd)]
 struct TilesetFilename(&'static str);

@@ -2,7 +2,6 @@
 // to catch in reviews anyway
 #![allow(clippy::type_complexity)]
 
-pub mod asset_packs;
 pub mod camera;
 pub mod constructs;
 pub mod ecs;
@@ -15,4 +14,5 @@ pub mod races;
 pub mod random;
 pub mod render;
 pub mod selection;
+pub mod settings;
 pub mod states;

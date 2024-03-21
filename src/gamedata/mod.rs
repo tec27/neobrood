@@ -1,8 +1,8 @@
 use bevy::{asset::LoadState, prelude::*, sprite::Anchor, transform::TransformSystem};
 
 use crate::{
-    asset_packs::{AssetPack, AssetQuality},
     maps::game_map::GameMap,
+    settings::{AssetPack, GameSettings},
     states::AppState,
 };
 
@@ -170,8 +170,7 @@ fn init_loaded_anims(
     anim_assets: Res<Assets<AnimAsset>>,
     game_data: Option<Res<BwGameData>>,
     asset_server: Res<AssetServer>,
-    asset_quality: Res<AssetQuality>,
-    asset_pack: Res<AssetPack>,
+    settings: Res<GameSettings>,
 ) {
     let Some(game_data) = game_data else {
         // We don't have game data yet, so we can't do anything
@@ -195,12 +194,12 @@ fn init_loaded_anims(
             let asset_pack = if id == START_LOCATION_ID {
                 AssetPack::Standard
             } else {
-                *asset_pack
+                settings.asset_pack
             };
 
             loading_anim.handle = Some(asset_server.load(format!(
                 "casc-extracted/{}anim/{}main_{:03}.anim",
-                asset_quality.asset_path(),
+                settings.asset_quality.asset_path(),
                 asset_pack.asset_path(),
                 id
             )));

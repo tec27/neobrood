@@ -10,44 +10,17 @@ use bevy::diagnostic::{DiagnosticsStore, FrameTimeDiagnosticsPlugin};
 use bevy::prelude::*;
 use bevy::window::{PresentMode, WindowMode, WindowResolution};
 use directories::UserDirs;
-use neobrood::asset_packs::{AssetPack, AssetQuality};
 use neobrood::gameplay::GameMode;
 use neobrood::gameplay::GameSpeed;
 use neobrood::maps::{load_map, CurrentMap};
 use neobrood::random::LcgRand;
+use neobrood::settings::GameSettings;
 use neobrood::states::AppState;
 use serde::{Deserialize, Serialize};
 
 #[cfg(feature = "mimalloc")]
 #[global_allocator]
 static GLOBAL: mimalloc::MiMalloc = mimalloc::MiMalloc;
-
-#[derive(Copy, Clone, Debug, Default, Serialize, Deserialize)]
-enum NeobroodWindowMode {
-    Windowed,
-    #[default]
-    BorderlessFullscreen,
-    ExclusiveFullscreen,
-}
-
-impl From<NeobroodWindowMode> for WindowMode {
-    fn from(value: NeobroodWindowMode) -> Self {
-        match value {
-            NeobroodWindowMode::Windowed => WindowMode::Windowed,
-            NeobroodWindowMode::BorderlessFullscreen => WindowMode::BorderlessFullscreen,
-            NeobroodWindowMode::ExclusiveFullscreen => WindowMode::Fullscreen,
-        }
-    }
-}
-
-// TODO(tec27): Write a way to configure these ingame and save them to the file
-#[derive(Resource, Clone, Copy, Debug, Default, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-struct GameSettings {
-    #[serde(default)]
-    window_mode: NeobroodWindowMode,
-    window_size: Option<(u32, u32)>,
-}
 
 #[derive(Resource, Clone, Debug, Default)]
 struct LoadableMaps {
@@ -134,10 +107,6 @@ fn main() {
         ..default()
     }))
     .insert_resource(settings)
-    // TODO(tec27): Pull from settings
-    .insert_resource(AssetQuality::High)
-    // TODO(tec27): Pull from settings
-    .insert_resource(AssetPack::Standard)
     .insert_resource(ClearColor(Color::rgb(0.0, 0.0, 0.0)))
     .insert_resource(LoadableMaps { maps, cur_index: 0 })
     .insert_resource(Time::<Fixed>::from_duration(
@@ -186,8 +155,6 @@ fn setup(
     mut next_state: ResMut<NextState<AppState>>,
     settings: Res<GameSettings>,
     loadable_maps: Res<LoadableMaps>,
-    asset_quality: Res<AssetQuality>,
-    asset_pack: Res<AssetPack>,
 ) {
     info!("Using settings: {:?}", *settings);
 
@@ -199,8 +166,7 @@ fn setup(
             &mut current_map,
             &mut next_state,
             &asset_server,
-            *asset_quality,
-            *asset_pack,
+            &settings,
         );
     } else {
         commands.insert_resource(GameMode::Melee);
@@ -246,8 +212,7 @@ fn map_navigator(
     keys: Res<ButtonInput<KeyCode>>,
     mut current_map: ResMut<CurrentMap>,
     mut loadable_maps: ResMut<LoadableMaps>,
-    asset_quality: Res<AssetQuality>,
-    asset_pack: Res<AssetPack>,
+    settings: Res<GameSettings>,
 ) {
     if keys.just_pressed(KeyCode::Space) && loadable_maps.maps.len() > 1 {
         loadable_maps.cur_index = (loadable_maps.cur_index + 1) % loadable_maps.maps.len();
@@ -257,8 +222,7 @@ fn map_navigator(
             &mut current_map,
             &mut next_state,
             &asset_server,
-            *asset_quality,
-            *asset_pack,
+            &settings,
         );
     }
 }
