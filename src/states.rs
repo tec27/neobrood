@@ -1,11 +1,6 @@
-use bevy::{
-    app::{App, Plugin, Update},
-    ecs::{
-        event::EventReader,
-        schedule::{StateTransitionEvent, States},
-    },
-    log::info,
-};
+use bevy::prelude::*;
+
+use crate::ecs::despawn_all;
 
 #[derive(Debug, Clone, Copy, Default, Eq, PartialEq, Hash, States)]
 pub enum AppState {
@@ -19,11 +14,18 @@ pub enum AppState {
     InGame,
 }
 
+/// Marker component for entities that should be despawned when exiting the `AppState::InGame`
+/// state.
+#[derive(Component, Copy, Clone, Reflect)]
+pub struct InGameOnly;
+
 pub struct StatesPlugin;
 
 impl Plugin for StatesPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Update, log_transitions);
+        app.register_type::<InGameOnly>()
+            .add_systems(Update, log_transitions)
+            .add_systems(OnExit(AppState::InGame), despawn_all::<InGameOnly>);
     }
 }
 

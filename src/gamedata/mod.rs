@@ -81,15 +81,12 @@ pub struct BwGameData {
 #[derive(Component, Debug, Default, Reflect)]
 pub struct LoadingAnim {
     pub anim_id: u16,
-    handle: Option<Handle<AnimAsset>>,
 }
 
 impl LoadingAnim {
-    pub fn new(anim_id: u16) -> Self {
-        Self {
-            anim_id,
-            handle: None,
-        }
+    #[inline]
+    pub const fn new(anim_id: u16) -> Self {
+        Self { anim_id }
     }
 }
 
@@ -160,7 +157,7 @@ const START_LOCATION_ID: u16 = 588;
 
 fn init_loaded_anims(
     mut commands: Commands,
-    mut query: Query<(Entity, &mut LoadingAnim)>,
+    mut query: Query<(Entity, &LoadingAnim, Option<&Handle<AnimAsset>>)>,
     anim_assets: Res<Assets<AnimAsset>>,
     game_data: Option<Res<BwGameData>>,
     asset_server: Res<AssetServer>,
@@ -171,8 +168,8 @@ fn init_loaded_anims(
         return;
     };
 
-    for (entity, mut loading_anim) in &mut query {
-        let Some(ref handle) = loading_anim.handle else {
+    for (entity, loading_anim, handle) in &mut query {
+        let Some(handle) = handle else {
             let relation = game_data
                 .relations
                 .entries
@@ -191,12 +188,13 @@ fn init_loaded_anims(
                 settings.asset_pack
             };
 
-            loading_anim.handle = Some(asset_server.load(format!(
+            let handle: Handle<AnimAsset> = asset_server.load(format!(
                 "casc-extracted/{}anim/{}main_{:03}.anim",
                 settings.asset_quality.asset_path(),
                 asset_pack.asset_path(),
                 id
-            )));
+            ));
+            commands.entity(entity).insert(handle);
             continue;
         };
 

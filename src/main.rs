@@ -105,6 +105,7 @@ fn main() {
         }),
         ..default()
     }))
+    .register_type::<GameSettings>()
     .insert_resource(settings)
     .insert_resource(ClearColor(Color::rgb(0.0, 0.0, 0.0)))
     .insert_resource(LoadableMaps { maps, cur_index: 0 })

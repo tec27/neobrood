@@ -3,13 +3,12 @@ use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 use crate::{
     constructs::{ConstructTypeId, OwnedConstruct},
-    ecs::despawn_all,
     gamedata::{BwGameData, LoadingAnim},
     maps::game_map::GameMap,
     players::{ControlledPlayer, Player},
     races::Race,
     random::LcgRand,
-    states::AppState,
+    states::{AppState, InGameOnly},
 };
 
 #[allow(dead_code)]
@@ -56,10 +55,12 @@ pub struct PlayerEntities {
 }
 
 impl PlayerEntities {
+    /// Retrieve the player entity that corresponds to a given player number (if any).
     pub fn get(&self, player: u8) -> Option<Entity> {
         self.entities.get(player as usize).copied().flatten()
     }
 
+    /// Sets the player entity that corresponds to a given player number.
     pub fn set(&mut self, player: u8, entity: Entity) {
         if player as usize >= self.entities.len() {
             self.entities.resize(player as usize + 1, None);
@@ -67,15 +68,11 @@ impl PlayerEntities {
         self.entities[player as usize] = Some(entity);
     }
 
+    /// Clears all registered player entities.
     pub fn clear(&mut self) {
         self.entities.clear();
     }
 }
-
-/// Marker component for entities that should be despawned when exiting the `AppState::InGame`
-/// state.
-#[derive(Component)]
-pub struct InGameOnly;
 
 pub struct GameplayPlugin;
 
@@ -85,8 +82,7 @@ impl Plugin for GameplayPlugin {
             .init_resource::<PlayerEntities>()
             .add_systems(OnEnter(AppState::PreGame), init_random)
             .add_systems(Update, proceed_to_game.run_if(in_state(AppState::PreGame)))
-            .add_systems(OnEnter(AppState::InGame), (init_players, init_game).chain())
-            .add_systems(OnExit(AppState::InGame), despawn_all::<InGameOnly>);
+            .add_systems(OnEnter(AppState::InGame), (init_players, init_game).chain());
     }
 }
 

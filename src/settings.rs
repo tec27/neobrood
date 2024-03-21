@@ -1,7 +1,8 @@
 use bevy::{prelude::*, window::WindowMode};
 use serde::{Deserialize, Serialize};
 
-#[derive(Copy, Clone, Debug, Default, Serialize, Deserialize)]
+#[derive(Copy, Clone, Debug, Default, Serialize, Deserialize, Reflect)]
+#[serde(rename_all = "camelCase")]
 pub enum NeobroodWindowMode {
     Windowed,
     #[default]
@@ -21,7 +22,6 @@ impl From<NeobroodWindowMode> for WindowMode {
 
 #[allow(unused)]
 #[derive(
-    Resource,
     Debug,
     Clone,
     Copy,
@@ -33,7 +33,9 @@ impl From<NeobroodWindowMode> for WindowMode {
     Default,
     Serialize,
     Deserialize,
+    Reflect,
 )]
+#[serde(rename_all = "camelCase")]
 pub enum AssetQuality {
     /// Classic assets.
     Standard,
@@ -64,7 +66,6 @@ impl AssetQuality {
 
 #[allow(unused)]
 #[derive(
-    Resource,
     Debug,
     Clone,
     Copy,
@@ -76,7 +77,9 @@ impl AssetQuality {
     Default,
     Serialize,
     Deserialize,
+    Reflect,
 )]
+#[serde(rename_all = "camelCase")]
 pub enum AssetPack {
     #[default]
     Standard,
@@ -93,7 +96,7 @@ impl AssetPack {
 }
 
 // TODO(tec27): Write a way to configure these ingame and save them to the file
-#[derive(Resource, Clone, Copy, Debug, Default, Serialize, Deserialize)]
+#[derive(Resource, Clone, Copy, Debug, Default, Serialize, Deserialize, Reflect)]
 #[serde(rename_all = "camelCase")]
 pub struct GameSettings {
     #[serde(default)]
