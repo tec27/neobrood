@@ -8,7 +8,7 @@ use std::path::PathBuf;
 
 use bevy::diagnostic::{DiagnosticsStore, FrameTimeDiagnosticsPlugin};
 use bevy::prelude::*;
-use bevy::window::{PresentMode, WindowMode, WindowResolution};
+use bevy::window::{PresentMode, WindowResolution};
 use directories::UserDirs;
 use neobrood::gameplay::GameMode;
 use neobrood::gameplay::GameSpeed;
@@ -16,7 +16,7 @@ use neobrood::maps::{load_map, CurrentMap};
 use neobrood::random::LcgRand;
 use neobrood::settings::GameSettings;
 use neobrood::states::AppState;
-use serde::{Deserialize, Serialize};
+
 
 #[cfg(feature = "mimalloc")]
 #[global_allocator]

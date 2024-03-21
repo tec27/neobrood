@@ -20,28 +20,28 @@ fn main() -> Result<(), anyhow::Error> {
 
     {
         let path = game_data_path.join("arr/images.dat");
-        let bytes = std::fs::read(&path).expect("Couldn't read images.dat");
+        let bytes = std::fs::read(path).expect("Couldn't read images.dat");
         let data = load_images_dat(&bytes)?;
         write_images(data)?;
     }
 
     {
         let path = game_data_path.join("arr/sprites.dat");
-        let bytes = std::fs::read(&path).expect("Couldn't read sprites.dat");
+        let bytes = std::fs::read(path).expect("Couldn't read sprites.dat");
         let data = load_sprites_dat(&bytes)?;
         write_sprites(data)?;
     }
 
     {
         let path = game_data_path.join("arr/flingy.dat");
-        let bytes = std::fs::read(&path).expect("Couldn't read flingy.dat");
+        let bytes = std::fs::read(path).expect("Couldn't read flingy.dat");
         let data = load_flingy_dat(&bytes)?;
         write_flingy(data)?;
     }
 
     {
         let path = game_data_path.join("arr/units.dat");
-        let bytes = std::fs::read(&path).expect("Couldn't read units.dat");
+        let bytes = std::fs::read(path).expect("Couldn't read units.dat");
         let data = load_units_dat(&bytes)?;
         write_units(data)?;
     }

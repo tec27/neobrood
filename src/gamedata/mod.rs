@@ -107,8 +107,10 @@ fn load_game_data(
             // We already have game data loaded, so we can proceed to the next state
             info!("Game data is already loaded, proceeding to InGame state...");
             next_state.set(AppState::InGame);
-            return;
         }
+        // Whether we have a map yet or not, the game data is ready, so the rest of this system
+        // doesn't need to run
+        return;
     }
     if loading_game_data.is_some() {
         // We're already in the process of loading game data, so we can let that play out

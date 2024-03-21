@@ -202,7 +202,7 @@ fn map_drag_and_drop(
         });
         if extension == "scm" || extension == "scx" {
             load_map(
-                &path_buf,
+                path_buf,
                 &mut current_map,
                 &mut next_state,
                 &asset_server,

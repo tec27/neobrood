@@ -5,7 +5,7 @@ use bevy::utils::HashMap;
 use bevy::{prelude::*, transform::TransformSystem};
 use bevy_ecs_tilemap::prelude::*;
 
-use crate::settings::{AssetPack, AssetQuality, GameSettings};
+use crate::settings::{GameSettings};
 use crate::{
     constructs::{ConstructTypeId, OwnedConstruct},
     gamedata::{BwGameData, LoadingAnim, CONSTRUCTS, SPRITES},
