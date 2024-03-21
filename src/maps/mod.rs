@@ -292,14 +292,15 @@ fn create_placed_units(commands: &mut Commands, map: &MapAsset, map_entity: Enti
         };
 
         let image_id = construct.flingy().sprite().image_id;
+        let construct_id = ConstructTypeId::from(unit.unit_id);
 
         let entity = commands
             .spawn((
                 SpatialBundle::default(),
                 Position::new(unit.x, unit.y),
-                ConstructTypeId::from(unit.unit_id),
+                construct_id,
                 YSort(2.0),
-                Name::new(format!("Unit #{}", unit.unit_id)),
+                Name::new(format!("Unit #{} - {:?}", unit.unit_id, construct_id)),
             ))
             .with_children(|builder| {
                 builder.spawn(LoadingAnim::new(image_id));

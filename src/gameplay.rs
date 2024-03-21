@@ -83,8 +83,6 @@ impl Plugin for GameplayPlugin {
     fn build(&self, app: &mut App) {
         app.init_resource::<GameMode>()
             .init_resource::<PlayerEntities>()
-            // TODO(tec27): Depending on what we do in PreGame this might have ordering dependencies
-            // with a bunch of things
             .add_systems(OnEnter(AppState::PreGame), init_random)
             .add_systems(Update, proceed_to_game.run_if(in_state(AppState::PreGame)))
             .add_systems(OnEnter(AppState::InGame), (init_players, init_game).chain())
