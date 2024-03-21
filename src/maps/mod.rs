@@ -1,11 +1,11 @@
-use std::path::PathBuf;
+use std::path::Path;
 
 use bevy::render::render_resource::TextureFormat;
 use bevy::utils::HashMap;
 use bevy::{prelude::*, transform::TransformSystem};
 use bevy_ecs_tilemap::prelude::*;
 
-use crate::settings::{GameSettings};
+use crate::settings::GameSettings;
 use crate::{
     constructs::{ConstructTypeId, OwnedConstruct},
     gamedata::{BwGameData, LoadingAnim, CONSTRUCTS, SPRITES},
@@ -47,8 +47,8 @@ impl Plugin for MapsPlugin {
     }
 }
 
-pub fn load_map<'a>(
-    path: &PathBuf,
+pub fn load_map(
+    path: &Path,
     current_map: &mut ResMut<CurrentMap>,
     next_state: &mut ResMut<NextState<AppState>>,
     asset_server: &Res<AssetServer>,
@@ -59,7 +59,7 @@ pub fn load_map<'a>(
     let quality = settings.asset_quality;
     let pack = settings.asset_pack;
     current_map.handle =
-        asset_server.load_with_settings(path.clone(), move |s: &mut MapAssetSettings| {
+        asset_server.load_with_settings(path.to_owned(), move |s: &mut MapAssetSettings| {
             s.quality = quality;
             s.pack = pack;
         });
@@ -78,7 +78,6 @@ fn map_init(
     array_texture_loader: Res<ArrayTextureLoader>,
     settings: Res<GameSettings>,
     game_map_query: Query<Entity, With<GameMap>>,
-    mut next_state: ResMut<NextState<AppState>>,
 ) {
     if !game_map_query.is_empty() {
         // Map already initialized
@@ -110,10 +109,6 @@ fn map_init(
     );
     create_map_sprites(&mut commands, map, map_entity);
     create_placed_units(&mut commands, map, map_entity);
-
-    // TODO(tec27): This should probably be done in response to this stuff we just created being
-    // ready? (i.e. it should wait for all the LoadingAnims that get added to be loaded)
-    next_state.set(AppState::InGame);
 }
 
 fn map_cleanup(mut commands: Commands, maps: Query<Entity, With<GameMap>>) {

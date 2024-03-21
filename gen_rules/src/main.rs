@@ -10,12 +10,12 @@ use crate::bytes::{ByteReadable, ReadByteArraysExt};
 mod bytes;
 
 fn main() -> Result<(), anyhow::Error> {
-    let args = env::args();
+    let mut args = env::args();
     if args.len() < 2 {
         bail!("Usage: gen_rules /path/to/game/data/files");
     }
 
-    let path_arg = args.skip(1).next().unwrap();
+    let path_arg = args.nth(1).unwrap();
     let game_data_path = Path::new(&path_arg);
 
     {

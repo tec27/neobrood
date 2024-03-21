@@ -4,7 +4,8 @@ use std::time::{Duration, SystemTime, UNIX_EPOCH};
 use crate::{
     constructs::{ConstructTypeId, OwnedConstruct},
     ecs::despawn_all,
-    gamedata::LoadingAnim,
+    gamedata::{BwGameData, LoadingAnim},
+    maps::game_map::GameMap,
     players::{ControlledPlayer, Player},
     races::Race,
     random::LcgRand,
@@ -85,6 +86,7 @@ impl Plugin for GameplayPlugin {
             // TODO(tec27): Depending on what we do in PreGame this might have ordering dependencies
             // with a bunch of things
             .add_systems(OnEnter(AppState::PreGame), init_random)
+            .add_systems(Update, proceed_to_game.run_if(in_state(AppState::PreGame)))
             .add_systems(OnEnter(AppState::InGame), (init_players, init_game).chain())
             .add_systems(OnExit(AppState::InGame), despawn_all::<InGameOnly>);
     }
@@ -97,6 +99,16 @@ fn init_random(mut lcg: ResMut<LcgRand>) {
         .as_millis() as u32;
     lcg.reseed(seed);
     info!("Seeded RNG with {seed}");
+}
+
+fn proceed_to_game(
+    mut next_state: ResMut<NextState<AppState>>,
+    game_data: Option<Res<BwGameData>>,
+    game_map: Query<Entity, With<GameMap>>,
+) {
+    if game_data.is_some() && !game_map.is_empty() {
+        next_state.set(AppState::InGame);
+    }
 }
 
 fn init_players(mut commands: Commands, mut player_entities: ResMut<PlayerEntities>) {

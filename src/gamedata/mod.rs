@@ -1,7 +1,6 @@
 use bevy::{asset::LoadState, prelude::*, sprite::Anchor, transform::TransformSystem};
 
 use crate::{
-    maps::game_map::GameMap,
     settings::{AssetPack, GameSettings},
     states::AppState,
 };
@@ -96,20 +95,13 @@ impl LoadingAnim {
 
 fn load_game_data(
     mut commands: Commands,
-    mut next_state: ResMut<NextState<AppState>>,
     asset_server: Res<AssetServer>,
     game_data: Option<Res<BwGameData>>,
     loading_game_data: Option<Res<LoadingBwGameDataHandles>>,
-    game_map: Query<Entity, With<GameMap>>,
 ) {
     if game_data.is_some() {
-        if !game_map.is_empty() {
-            // We already have game data loaded, so we can proceed to the next state
-            info!("Game data is already loaded, proceeding to InGame state...");
-            next_state.set(AppState::InGame);
-        }
-        // Whether we have a map yet or not, the game data is ready, so the rest of this system
-        // doesn't need to run
+        // We already have game data loaded, nothing to do here
+        info!("Game data is already loaded");
         return;
     }
     if loading_game_data.is_some() {

@@ -17,7 +17,6 @@ use neobrood::random::LcgRand;
 use neobrood::settings::GameSettings;
 use neobrood::states::AppState;
 
-
 #[cfg(feature = "mimalloc")]
 #[global_allocator]
 static GLOBAL: mimalloc::MiMalloc = mimalloc::MiMalloc;
