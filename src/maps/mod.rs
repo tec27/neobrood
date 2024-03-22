@@ -112,7 +112,6 @@ fn map_init(
 }
 
 fn map_cleanup(mut commands: Commands, maps: Query<Entity, With<GameMap>>) {
-    warn!("map cleanup");
     for entity in maps.iter() {
         commands.entity(entity).despawn_recursive();
     }
