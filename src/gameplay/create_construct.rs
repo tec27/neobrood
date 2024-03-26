@@ -177,7 +177,16 @@ fn search_for_empty_position(
             warn!("finding unit blocking: {cur_bounds:?}");
             if let Some(blocking) = find_blocking_construct(constructs, cur_bounds) {
                 warn!("found blocking unit in search path: {blocking:?}");
-                // FIXME: skip area of search path that blocking unit occupies
+                // Shove the left edge of the search boudns to the center of the blocking construct,
+                // then add the right size of place construct plus 1 to clear its bounds
+                let mut inc =
+                    (blocking.1.x as i32 - cur_bounds.min.x) + placed.unit_rect.max.x as i32 + 1;
+                // Push inc to the next quantized boundary
+                inc += (8 - ((x + inc) & 7)) & 7;
+                cur_bounds.min.x += inc;
+                cur_bounds.max.x += inc;
+                x += inc;
+                continue;
             } else {
                 // TODO(tec27): Check that terrain can fit the unit
                 let pos = IVec2::new(x, placement_rect.max.y);
@@ -202,7 +211,6 @@ fn search_for_empty_position(
             warn!("finding unit blocking: {cur_bounds:?}");
             if let Some(blocking) = find_blocking_construct(constructs, cur_bounds) {
                 warn!("found blocking unit in search path: {blocking:?}");
-                // FIXME: skip area of search path that blocking unit occupies
             } else {
                 // TODO(tec27): Check that terrain can fit the unit
                 let pos = IVec2::new(placement_rect.max.x, y);
