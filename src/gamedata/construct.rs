@@ -1,6 +1,6 @@
 use bevy::{
     ecs::component::Component,
-    math::{I16Vec2, IRect, IVec2},
+    math::{I16Vec2},
 };
 use num_enum::{FromPrimitive, IntoPrimitive};
 

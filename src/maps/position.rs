@@ -19,48 +19,56 @@ impl Position {
 }
 
 impl From<U16Vec2> for Position {
+    #[inline]
     fn from(value: U16Vec2) -> Self {
         Self::new(value.x as i32, value.y as i32)
     }
 }
 
 impl From<&U16Vec2> for Position {
+    #[inline]
     fn from(value: &U16Vec2) -> Self {
         Self::new(value.x as i32, value.y as i32)
     }
 }
 
 impl From<IVec2> for Position {
+    #[inline]
     fn from(value: IVec2) -> Self {
         Self::new(value.x, value.y)
     }
 }
 
 impl From<&IVec2> for Position {
+    #[inline]
     fn from(value: &IVec2) -> Self {
         Self::new(value.x, value.y)
     }
 }
 
 impl From<Position> for IVec2 {
+    #[inline]
     fn from(value: Position) -> Self {
         Self::new(value.x, value.y)
     }
 }
 
 impl From<&Position> for IVec2 {
+    #[inline]
     fn from(value: &Position) -> Self {
-        Self::new(value.x as i32, value.y as i32)
+        Self::new(value.x, value.y)
     }
 }
 
 impl PartialEq<IVec2> for Position {
+    #[inline]
     fn eq(&self, other: &IVec2) -> bool {
         self.x == other.x && self.y == other.y
     }
 }
 
 impl PartialEq<Position> for IVec2 {
+    #[inline]
     fn eq(&self, other: &Position) -> bool {
         self.x == other.x && self.y == other.y
     }

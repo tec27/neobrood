@@ -116,8 +116,7 @@ impl AssetLoader for MapAssetLoader {
                 name: chk
                     .scenario_props()
                     .ok()
-                    .map(|p| p.name.clone())
-                    .flatten()
+                    .and_then(|p| p.name.clone())
                     .unwrap_or_default(),
                 width: chk.width() as u32,
                 height: chk.height() as u32,
