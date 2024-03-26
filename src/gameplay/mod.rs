@@ -1,15 +1,19 @@
-use bevy::prelude::*;
+use bevy::{math::U16Vec2, prelude::*};
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 use crate::{
-    constructs::{ConstructTypeId, OwnedConstruct},
-    gamedata::{BwGameData, LoadingAnim},
-    maps::game_map::GameMap,
+    constructs::OwnedConstruct,
+    gamedata::{BwGameData, ConstructTypeId, LoadingAnim},
+    maps::{game_map::GameMap, position::Position},
     players::{ControlledPlayer, Player},
     races::Race,
     random::LcgRand,
     states::{AppState, InGameOnly},
 };
+
+use self::create_construct::CreateConstructExt;
+
+pub mod create_construct;
 
 #[allow(dead_code)]
 pub enum GameSpeed {
@@ -129,7 +133,7 @@ fn init_players(mut commands: Commands, mut player_entities: ResMut<PlayerEntiti
 
 fn init_game(
     mut commands: Commands,
-    mut units: Query<(Entity, &mut ConstructTypeId, &OwnedConstruct)>,
+    mut units: Query<(Entity, &mut ConstructTypeId, &OwnedConstruct, &Position)>,
     player_entities: Res<PlayerEntities>,
     player_query: Query<&Player>,
     game_mode: Res<GameMode>,
@@ -144,13 +148,13 @@ fn init_game(
 
 fn init_melee_game(
     commands: &mut Commands,
-    units: &mut Query<(Entity, &mut ConstructTypeId, &OwnedConstruct)>,
+    units: &mut Query<(Entity, &mut ConstructTypeId, &OwnedConstruct, &Position)>,
     player_entities: &Res<PlayerEntities>,
     player_query: &Query<&Player>,
 ) {
-    for (entity, mut construct_type, owner) in units
+    for (entity, mut construct_type, owner, position) in units
         .iter_mut()
-        .filter(|(_, u, _)| **u == ConstructTypeId::StartLocation)
+        .filter(|(_, u, _, _)| **u == ConstructTypeId::StartLocation)
     {
         let Some(player_entity) = player_entities.get(owner.0) else {
             commands.entity(entity).despawn_recursive();
@@ -166,9 +170,13 @@ fn init_melee_game(
         };
 
         let building = player.race.hq_building();
-        *construct_type = building.id.into();
+        *construct_type = building.type_id();
 
         let image_id = building.flingy().sprite().image_id;
+
+        // TODO(tec27): Need to also destroy any constructs that are within the bounds of the HQ
+        // building
+
         // TODO(tec27): Maybe we should have a change handler for UnitType that does this instead?
         // Could also use that for initializing the placed unit's in the first place
         commands
@@ -177,5 +185,10 @@ fn init_melee_game(
             .with_children(|builder| {
                 builder.spawn(LoadingAnim::new(image_id));
             });
+
+        let worker_type = player.race.worker();
+        for _ in 0..4 {
+            commands.create_and_place_construct(worker_type.type_id(), *position, Some(owner.0))
+        }
     }
 }

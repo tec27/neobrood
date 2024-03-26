@@ -2,9 +2,9 @@ use bevy::{math::U16Vec2, prelude::*};
 
 use crate::settings::GameSettings;
 
-use super::game_map::{GameMap, GameMapSize};
+use super::game_map::{GameMap, GameMapSize, LOGIC_TILE_SIZE};
 
-#[derive(Component, Debug, Clone, Copy, PartialEq, Eq, Hash, Reflect)]
+#[derive(Component, Debug, Clone, Copy, PartialEq, Eq, Hash, Reflect, Default)]
 pub struct Position {
     pub x: u16,
     pub y: u16,
@@ -28,6 +28,18 @@ impl From<&Position> for U16Vec2 {
     }
 }
 
+impl From<U16Vec2> for Position {
+    fn from(value: U16Vec2) -> Self {
+        Self::new(value.x, value.y)
+    }
+}
+
+impl From<&U16Vec2> for Position {
+    fn from(value: &U16Vec2) -> Self {
+        Self::new(value.x, value.y)
+    }
+}
+
 impl From<Position> for Vec2 {
     fn from(value: Position) -> Self {
         Self::new(value.x as f32, value.y as f32)
@@ -40,8 +52,29 @@ impl From<&Position> for Vec2 {
     }
 }
 
-/// The size that all BW game logic assumes tiles are (in pixels).
-const LOGIC_TILE_SIZE: f32 = 32.0;
+impl From<Position> for IVec2 {
+    fn from(value: Position) -> Self {
+        Self::new(value.x as i32, value.y as i32)
+    }
+}
+
+impl From<&Position> for IVec2 {
+    fn from(value: &Position) -> Self {
+        Self::new(value.x as i32, value.y as i32)
+    }
+}
+
+impl PartialEq<U16Vec2> for Position {
+    fn eq(&self, other: &U16Vec2) -> bool {
+        self.x == other.x && self.y == other.y
+    }
+}
+
+impl PartialEq<Position> for U16Vec2 {
+    fn eq(&self, other: &Position) -> bool {
+        self.x == other.x && self.y == other.y
+    }
+}
 
 /// Updates entities' transforms based on their [Position] component and the current map
 /// size/tile size.

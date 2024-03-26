@@ -1,5 +1,5 @@
 use crate::gamedata::{BuildingData, Construct, ConstructKind, UnitData};
-use bevy::math::{I16Vec2, IRect, IVec2};
+use bevy::math::{I16Vec2, URect, UVec2};
 /// Contains data for all units, buildings, and other constructs in the game.
 pub const CONSTRUCTS: [Construct; 228usize] = [
     Construct {
@@ -35,9 +35,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 287u16,
         what_sound_end: 290u16,
         placebox_size: I16Vec2 { x: 17i16, y: 20i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 8i32, y: 9i32 },
-            max: IVec2 { x: 8i32, y: 10i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 8u32, y: 9u32 },
+            max: UVec2 { x: 8u32, y: 10u32 },
         },
         portrait: 0u16,
         mineral_cost: 50u16,
@@ -95,9 +95,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 230u16,
         what_sound_end: 233u16,
         placebox_size: I16Vec2 { x: 15i16, y: 22i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 7i32, y: 10i32 },
-            max: IVec2 { x: 7i32, y: 11i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 7u32, y: 10u32 },
+            max: UVec2 { x: 7u32, y: 11u32 },
         },
         portrait: 1u16,
         mineral_cost: 25u16,
@@ -155,9 +155,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 360u16,
         what_sound_end: 363u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 3u16,
         mineral_cost: 75u16,
@@ -215,9 +215,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 248u16,
         what_sound_end: 251u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 5u16,
         mineral_cost: 100u16,
@@ -275,9 +275,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 0u16,
         what_sound_end: 0u16,
         placebox_size: I16Vec2 { x: 3i16, y: 3i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 1i32, y: 1i32 },
-            max: IVec2 { x: 1i32, y: 1i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 1u32, y: 1u32 },
+            max: UVec2 { x: 1u32, y: 1u32 },
         },
         portrait: 5u16,
         mineral_cost: 1u16,
@@ -335,9 +335,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 324u16,
         what_sound_end: 327u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 6u16,
         mineral_cost: 150u16,
@@ -395,9 +395,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 324u16,
         what_sound_end: 327u16,
         placebox_size: I16Vec2 { x: 3i16, y: 3i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 1i32, y: 1i32 },
-            max: IVec2 { x: 1i32, y: 1i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 1u32, y: 1u32 },
+            max: UVec2 { x: 1u32, y: 1u32 },
         },
         portrait: 6u16,
         mineral_cost: 1u16,
@@ -455,9 +455,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 377u16,
         what_sound_end: 380u16,
         placebox_size: I16Vec2 { x: 23i16, y: 23i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 11i32, y: 11i32 },
-            max: IVec2 { x: 11i32, y: 11i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 11u32, y: 11u32 },
+            max: UVec2 { x: 11u32, y: 11u32 },
         },
         portrait: 7u16,
         mineral_cost: 50u16,
@@ -515,9 +515,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 265u16,
         what_sound_end: 268u16,
         placebox_size: I16Vec2 { x: 38i16, y: 30i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 19i32, y: 15i32 },
-            max: IVec2 { x: 18i32, y: 14i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 19u32, y: 15u32 },
+            max: UVec2 { x: 18u32, y: 14u32 },
         },
         portrait: 8u16,
         mineral_cost: 150u16,
@@ -575,9 +575,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 340u16,
         what_sound_end: 343u16,
         placebox_size: I16Vec2 { x: 65i16, y: 50i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 32i32, y: 33i32 },
-            max: IVec2 { x: 32i32, y: 16i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 32u32, y: 33u32 },
+            max: UVec2 { x: 32u32, y: 16u32 },
         },
         portrait: 9u16,
         mineral_cost: 100u16,
@@ -635,9 +635,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 299u16,
         what_sound_end: 302u16,
         placebox_size: I16Vec2 { x: 23i16, y: 28i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 11i32, y: 13i32 },
-            max: IVec2 { x: 11i32, y: 14i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 11u32, y: 13u32 },
+            max: UVec2 { x: 11u32, y: 14u32 },
         },
         portrait: 2u16,
         mineral_cost: 100u16,
@@ -695,9 +695,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 215u16,
         what_sound_end: 218u16,
         placebox_size: I16Vec2 { x: 49i16, y: 37i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 24i32, y: 16i32 },
-            max: IVec2 { x: 24i32, y: 20i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 24u32, y: 16u32 },
+            max: UVec2 { x: 24u32, y: 20u32 },
         },
         portrait: 10u16,
         mineral_cost: 100u16,
@@ -755,9 +755,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 185u16,
         what_sound_end: 188u16,
         placebox_size: I16Vec2 { x: 80i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 37i32, y: 29i32 },
-            max: IVec2 { x: 37i32, y: 29i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 37u32, y: 29u32 },
+            max: UVec2 { x: 37u32, y: 29u32 },
         },
         portrait: 11u16,
         mineral_cost: 400u16,
@@ -815,9 +815,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 16i16, y: 16i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 7i32, y: 7i32 },
-            max: IVec2 { x: 7i32, y: 7i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 7u32, y: 7u32 },
+            max: UVec2 { x: 7u32, y: 7u32 },
         },
         portrait: 4u16,
         mineral_cost: 1u16,
@@ -875,9 +875,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 7i32, y: 14i32 },
-            max: IVec2 { x: 7i32, y: 14i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 7u32, y: 14u32 },
+            max: UVec2 { x: 7u32, y: 14u32 },
         },
         portrait: 17u16,
         mineral_cost: 200u16,
@@ -935,9 +935,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 198u16,
         what_sound_end: 201u16,
         placebox_size: I16Vec2 { x: 17i16, y: 20i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 8i32, y: 9i32 },
-            max: IVec2 { x: 8i32, y: 10i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 8u32, y: 9u32 },
+            max: UVec2 { x: 8u32, y: 10u32 },
         },
         portrait: 15u16,
         mineral_cost: 0u16,
@@ -995,9 +995,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 462u16,
         what_sound_end: 465u16,
         placebox_size: I16Vec2 { x: 15i16, y: 22i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 7i32, y: 10i32 },
-            max: IVec2 { x: 7i32, y: 11i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 7u32, y: 10u32 },
+            max: UVec2 { x: 7u32, y: 11u32 },
         },
         portrait: 12u16,
         mineral_cost: 50u16,
@@ -1055,9 +1055,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 248u16,
         what_sound_end: 251u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 5u16,
         mineral_cost: 200u16,
@@ -1115,9 +1115,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 0u16,
         what_sound_end: 0u16,
         placebox_size: I16Vec2 { x: 3i16, y: 3i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 1i32, y: 1i32 },
-            max: IVec2 { x: 1i32, y: 1i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 1u32, y: 1u32 },
+            max: UVec2 { x: 1u32, y: 1u32 },
         },
         portrait: 5u16,
         mineral_cost: 1u16,
@@ -1175,9 +1175,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 423u16,
         what_sound_end: 426u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 13u16,
         mineral_cost: 150u16,
@@ -1235,9 +1235,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 411u16,
         what_sound_end: 414u16,
         placebox_size: I16Vec2 { x: 18i16, y: 22i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 8i32, y: 9i32 },
-            max: IVec2 { x: 8i32, y: 10i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 8u32, y: 9u32 },
+            max: UVec2 { x: 8u32, y: 10u32 },
         },
         portrait: 13u16,
         mineral_cost: 50u16,
@@ -1295,9 +1295,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 265u16,
         what_sound_end: 268u16,
         placebox_size: I16Vec2 { x: 38i16, y: 30i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 19i32, y: 15i32 },
-            max: IVec2 { x: 18i32, y: 14i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 19u32, y: 15u32 },
+            max: UVec2 { x: 18u32, y: 14u32 },
         },
         portrait: 8u16,
         mineral_cost: 400u16,
@@ -1355,9 +1355,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 340u16,
         what_sound_end: 343u16,
         placebox_size: I16Vec2 { x: 65i16, y: 50i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 32i32, y: 33i32 },
-            max: IVec2 { x: 32i32, y: 16i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 32u32, y: 33u32 },
+            max: UVec2 { x: 32u32, y: 16u32 },
         },
         portrait: 9u16,
         mineral_cost: 50u16,
@@ -1415,9 +1415,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 436u16,
         what_sound_end: 439u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 14u16,
         mineral_cost: 300u16,
@@ -1475,9 +1475,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 436u16,
         what_sound_end: 439u16,
         placebox_size: I16Vec2 { x: 3i16, y: 3i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 1i32, y: 1i32 },
-            max: IVec2 { x: 1i32, y: 1i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 1u32, y: 1u32 },
+            max: UVec2 { x: 1u32, y: 1u32 },
         },
         portrait: 14u16,
         mineral_cost: 1u16,
@@ -1535,9 +1535,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 436u16,
         what_sound_end: 439u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 14u16,
         mineral_cost: 300u16,
@@ -1595,9 +1595,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 436u16,
         what_sound_end: 439u16,
         placebox_size: I16Vec2 { x: 3i16, y: 3i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 1i32, y: 1i32 },
-            max: IVec2 { x: 1i32, y: 1i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 1u32, y: 1u32 },
+            max: UVec2 { x: 1u32, y: 1u32 },
         },
         portrait: 14u16,
         mineral_cost: 1u16,
@@ -1655,9 +1655,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 449u16,
         what_sound_end: 452u16,
         placebox_size: I16Vec2 { x: 75i16, y: 59i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 37i32, y: 29i32 },
-            max: IVec2 { x: 37i32, y: 29i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 37u32, y: 29u32 },
+            max: UVec2 { x: 37u32, y: 29u32 },
         },
         portrait: 16u16,
         mineral_cost: 800u16,
@@ -1715,9 +1715,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 411u16,
         what_sound_end: 414u16,
         placebox_size: I16Vec2 { x: 75i16, y: 59i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 37i32, y: 29i32 },
-            max: IVec2 { x: 37i32, y: 29i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 37u32, y: 29u32 },
+            max: UVec2 { x: 37u32, y: 29u32 },
         },
         portrait: 13u16,
         mineral_cost: 800u16,
@@ -1775,9 +1775,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 449u16,
         what_sound_end: 452u16,
         placebox_size: I16Vec2 { x: 75i16, y: 59i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 37i32, y: 29i32 },
-            max: IVec2 { x: 37i32, y: 29i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 37u32, y: 29u32 },
+            max: UVec2 { x: 37u32, y: 29u32 },
         },
         portrait: 14u16,
         mineral_cost: 800u16,
@@ -1835,9 +1835,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 324u16,
         what_sound_end: 327u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 6u16,
         mineral_cost: 150u16,
@@ -1895,9 +1895,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 324u16,
         what_sound_end: 327u16,
         placebox_size: I16Vec2 { x: 3i16, y: 3i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 1i32, y: 1i32 },
-            max: IVec2 { x: 1i32, y: 1i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 1u32, y: 1u32 },
+            max: UVec2 { x: 1u32, y: 1u32 },
         },
         portrait: 6u16,
         mineral_cost: 1u16,
@@ -1955,9 +1955,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 299u16,
         what_sound_end: 302u16,
         placebox_size: I16Vec2 { x: 23i16, y: 28i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 11i32, y: 7i32 },
-            max: IVec2 { x: 11i32, y: 14i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 11u32, y: 7u32 },
+            max: UVec2 { x: 11u32, y: 14u32 },
         },
         portrait: 2u16,
         mineral_cost: 50u16,
@@ -2015,9 +2015,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 0u16,
         what_sound_end: 0u16,
         placebox_size: I16Vec2 { x: 27i16, y: 31i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 13i32, y: 13i32 },
-            max: IVec2 { x: 13i32, y: 17i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 13u32, y: 13u32 },
+            max: UVec2 { x: 13u32, y: 17u32 },
         },
         portrait: 0u16,
         mineral_cost: 0u16,
@@ -2075,9 +2075,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 1001u16,
         what_sound_end: 1004u16,
         placebox_size: I16Vec2 { x: 17i16, y: 20i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 8i32, y: 9i32 },
-            max: IVec2 { x: 8i32, y: 10i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 8u32, y: 9u32 },
+            max: UVec2 { x: 8u32, y: 10u32 },
         },
         portrait: 90u16,
         mineral_cost: 50u16,
@@ -2135,9 +2135,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 851u16,
         what_sound_end: 851u16,
         placebox_size: I16Vec2 { x: 16i16, y: 16i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 8i32, y: 8i32 },
-            max: IVec2 { x: 7i32, y: 7i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 8u32, y: 8u32 },
+            max: UVec2 { x: 7u32, y: 7u32 },
         },
         portrait: 18u16,
         mineral_cost: 1u16,
@@ -2195,9 +2195,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 828u16,
         what_sound_end: 829u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 19u16,
         mineral_cost: 1u16,
@@ -2255,9 +2255,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 901u16,
         what_sound_end: 904u16,
         placebox_size: I16Vec2 { x: 16i16, y: 16i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 8i32, y: 4i32 },
-            max: IVec2 { x: 7i32, y: 11i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 8u32, y: 4u32 },
+            max: UVec2 { x: 7u32, y: 11u32 },
         },
         portrait: 20u16,
         mineral_cost: 50u16,
@@ -2315,9 +2315,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 870u16,
         what_sound_end: 872u16,
         placebox_size: I16Vec2 { x: 21i16, y: 23i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 10i32, y: 10i32 },
-            max: IVec2 { x: 10i32, y: 12i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 10u32, y: 10u32 },
+            max: UVec2 { x: 10u32, y: 12u32 },
         },
         portrait: 21u16,
         mineral_cost: 75u16,
@@ -2375,9 +2375,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 886u16,
         what_sound_end: 883u16,
         placebox_size: I16Vec2 { x: 38i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 19i32, y: 16i32 },
-            max: IVec2 { x: 18i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 19u32, y: 16u32 },
+            max: UVec2 { x: 18u32, y: 15u32 },
         },
         portrait: 22u16,
         mineral_cost: 200u16,
@@ -2435,9 +2435,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 792u16,
         what_sound_end: 795u16,
         placebox_size: I16Vec2 { x: 19i16, y: 19i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 9i32, y: 9i32 },
-            max: IVec2 { x: 9i32, y: 9i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 9u32, y: 9u32 },
+            max: UVec2 { x: 9u32, y: 9u32 },
         },
         portrait: 23u16,
         mineral_cost: 1u16,
@@ -2495,9 +2495,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 837u16,
         what_sound_end: 841u16,
         placebox_size: I16Vec2 { x: 23i16, y: 23i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 11i32, y: 11i32 },
-            max: IVec2 { x: 11i32, y: 11i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 11u32, y: 11u32 },
+            max: UVec2 { x: 11u32, y: 11u32 },
         },
         portrait: 24u16,
         mineral_cost: 50u16,
@@ -2555,9 +2555,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 912u16,
         what_sound_end: 915u16,
         placebox_size: I16Vec2 { x: 50i16, y: 50i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 25i32, y: 25i32 },
-            max: IVec2 { x: 24i32, y: 24i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 25u32, y: 25u32 },
+            max: UVec2 { x: 24u32, y: 24u32 },
         },
         portrait: 25u16,
         mineral_cost: 100u16,
@@ -2615,9 +2615,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 947u16,
         what_sound_end: 950u16,
         placebox_size: I16Vec2 { x: 44i16, y: 44i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 22i32, y: 22i32 },
-            max: IVec2 { x: 21i32, y: 21i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 22u32, y: 22u32 },
+            max: UVec2 { x: 21u32, y: 21u32 },
         },
         portrait: 26u16,
         mineral_cost: 100u16,
@@ -2675,9 +2675,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 858u16,
         what_sound_end: 861u16,
         placebox_size: I16Vec2 { x: 44i16, y: 44i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 22i32, y: 22i32 },
-            max: IVec2 { x: 21i32, y: 21i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 22u32, y: 22u32 },
+            max: UVec2 { x: 21u32, y: 21u32 },
         },
         portrait: 27u16,
         mineral_cost: 50u16,
@@ -2735,9 +2735,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 933u16,
         what_sound_end: 936u16,
         placebox_size: I16Vec2 { x: 48i16, y: 48i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 24i32, y: 24i32 },
-            max: IVec2 { x: 23i32, y: 23i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 24u32, y: 24u32 },
+            max: UVec2 { x: 23u32, y: 23u32 },
         },
         portrait: 28u16,
         mineral_cost: 100u16,
@@ -2795,9 +2795,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 821u16,
         what_sound_end: 823u16,
         placebox_size: I16Vec2 { x: 27i16, y: 25i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 13i32, y: 12i32 },
-            max: IVec2 { x: 13i32, y: 12i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 13u32, y: 12u32 },
+            max: UVec2 { x: 13u32, y: 12u32 },
         },
         portrait: 29u16,
         mineral_cost: 50u16,
@@ -2855,9 +2855,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 781u16,
         what_sound_end: 782u16,
         placebox_size: I16Vec2 { x: 24i16, y: 24i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 12i32, y: 12i32 },
-            max: IVec2 { x: 11i32, y: 11i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 12u32, y: 12u32 },
+            max: UVec2 { x: 11u32, y: 11u32 },
         },
         portrait: 30u16,
         mineral_cost: 25u16,
@@ -2915,9 +2915,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 886u16,
         what_sound_end: 883u16,
         placebox_size: I16Vec2 { x: 38i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 19i32, y: 16i32 },
-            max: IVec2 { x: 18i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 19u32, y: 16u32 },
+            max: UVec2 { x: 18u32, y: 15u32 },
         },
         portrait: 22u16,
         mineral_cost: 400u16,
@@ -2975,9 +2975,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 933u16,
         what_sound_end: 936u16,
         placebox_size: I16Vec2 { x: 48i16, y: 48i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 24i32, y: 24i32 },
-            max: IVec2 { x: 23i32, y: 23i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 24u32, y: 24u32 },
+            max: UVec2 { x: 23u32, y: 23u32 },
         },
         portrait: 28u16,
         mineral_cost: 200u16,
@@ -3035,9 +3035,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 805u16,
         what_sound_end: 808u16,
         placebox_size: I16Vec2 { x: 17i16, y: 20i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 8i32, y: 9i32 },
-            max: IVec2 { x: 8i32, y: 10i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 8u32, y: 9u32 },
+            max: UVec2 { x: 8u32, y: 10u32 },
         },
         portrait: 33u16,
         mineral_cost: 100u16,
@@ -3095,9 +3095,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 959u16,
         what_sound_end: 962u16,
         placebox_size: I16Vec2 { x: 15i16, y: 22i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 7i32, y: 10i32 },
-            max: IVec2 { x: 7i32, y: 11i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 7u32, y: 10u32 },
+            max: UVec2 { x: 7u32, y: 11u32 },
         },
         portrait: 36u16,
         mineral_cost: 200u16,
@@ -3155,9 +3155,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 821u16,
         what_sound_end: 823u16,
         placebox_size: I16Vec2 { x: 29i16, y: 29i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 14i32, y: 14i32 },
-            max: IVec2 { x: 14i32, y: 14i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 14u32, y: 14u32 },
+            max: UVec2 { x: 14u32, y: 14u32 },
         },
         portrait: 29u16,
         mineral_cost: 50u16,
@@ -3215,9 +3215,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 870u16,
         what_sound_end: 872u16,
         placebox_size: I16Vec2 { x: 21i16, y: 23i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 10i32, y: 10i32 },
-            max: IVec2 { x: 10i32, y: 12i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 10u32, y: 10u32 },
+            max: UVec2 { x: 10u32, y: 12u32 },
         },
         portrait: 37u16,
         mineral_cost: 150u16,
@@ -3275,9 +3275,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 901u16,
         what_sound_end: 904u16,
         placebox_size: I16Vec2 { x: 16i16, y: 16i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 8i32, y: 4i32 },
-            max: IVec2 { x: 7i32, y: 11i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 8u32, y: 4u32 },
+            max: UVec2 { x: 7u32, y: 11u32 },
         },
         portrait: 20u16,
         mineral_cost: 100u16,
@@ -3335,9 +3335,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 947u16,
         what_sound_end: 950u16,
         placebox_size: I16Vec2 { x: 44i16, y: 44i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 22i32, y: 22i32 },
-            max: IVec2 { x: 21i32, y: 21i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 22u32, y: 22u32 },
+            max: UVec2 { x: 21u32, y: 21u32 },
         },
         portrait: 26u16,
         mineral_cost: 200u16,
@@ -3395,9 +3395,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 858u16,
         what_sound_end: 861u16,
         placebox_size: I16Vec2 { x: 44i16, y: 44i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 22i32, y: 22i32 },
-            max: IVec2 { x: 21i32, y: 21i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 22u32, y: 22u32 },
+            max: UVec2 { x: 21u32, y: 21u32 },
         },
         portrait: 27u16,
         mineral_cost: 100u16,
@@ -3455,9 +3455,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 912u16,
         what_sound_end: 915u16,
         placebox_size: I16Vec2 { x: 50i16, y: 50i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 25i32, y: 25i32 },
-            max: IVec2 { x: 24i32, y: 24i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 25u32, y: 25u32 },
+            max: UVec2 { x: 24u32, y: 24u32 },
         },
         portrait: 25u16,
         mineral_cost: 200u16,
@@ -3515,9 +3515,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 1031u16,
         what_sound_end: 1034u16,
         placebox_size: I16Vec2 { x: 50i16, y: 50i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 24i32, y: 16i32 },
-            max: IVec2 { x: 24i32, y: 20i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 24u32, y: 16u32 },
+            max: UVec2 { x: 24u32, y: 20u32 },
         },
         portrait: 91u16,
         mineral_cost: 250u16,
@@ -3575,9 +3575,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 828u16,
         what_sound_end: 829u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 31u16,
         mineral_cost: 1u16,
@@ -3635,9 +3635,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 1044u16,
         what_sound_end: 1047u16,
         placebox_size: I16Vec2 { x: 36i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 18i32, y: 16i32 },
-            max: IVec2 { x: 17i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 18u32, y: 16u32 },
+            max: UVec2 { x: 17u32, y: 15u32 },
         },
         portrait: 100u16,
         mineral_cost: 150u16,
@@ -3695,9 +3695,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 733u16,
         what_sound_end: 736u16,
         placebox_size: I16Vec2 { x: 24i16, y: 30i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 12i32, y: 6i32 },
-            max: IVec2 { x: 11i32, y: 19i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 12u32, y: 6u32 },
+            max: UVec2 { x: 11u32, y: 19u32 },
         },
         portrait: 49u16,
         mineral_cost: 125u16,
@@ -3755,9 +3755,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 1101u16,
         what_sound_end: 1103u16,
         placebox_size: I16Vec2 { x: 44i16, y: 44i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 22i32, y: 22i32 },
-            max: IVec2 { x: 21i32, y: 21i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 22u32, y: 22u32 },
+            max: UVec2 { x: 21u32, y: 21u32 },
         },
         portrait: 97u16,
         mineral_cost: 150u16,
@@ -3815,9 +3815,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 1071u16,
         what_sound_end: 1074u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 99u16,
         mineral_cost: 0u16,
@@ -3875,9 +3875,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 606u16,
         what_sound_end: 609u16,
         placebox_size: I16Vec2 { x: 23i16, y: 23i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 11i32, y: 11i32 },
-            max: IVec2 { x: 11i32, y: 11i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 11u32, y: 11u32 },
+            max: UVec2 { x: 11u32, y: 11u32 },
         },
         portrait: 39u16,
         mineral_cost: 50u16,
@@ -3935,9 +3935,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 670u16,
         what_sound_end: 673u16,
         placebox_size: I16Vec2 { x: 23i16, y: 27i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 11i32, y: 5i32 },
-            max: IVec2 { x: 11i32, y: 13i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 11u32, y: 5u32 },
+            max: UVec2 { x: 11u32, y: 13u32 },
         },
         portrait: 40u16,
         mineral_cost: 100u16,
@@ -3995,9 +3995,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 498u16,
         what_sound_end: 505u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 15i32, y: 15i32 },
-            max: IVec2 { x: 16i32, y: 16i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 15u32, y: 15u32 },
+            max: UVec2 { x: 16u32, y: 16u32 },
         },
         portrait: 41u16,
         mineral_cost: 125u16,
@@ -4055,9 +4055,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 627u16,
         what_sound_end: 630u16,
         placebox_size: I16Vec2 { x: 24i16, y: 28i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 12i32, y: 10i32 },
-            max: IVec2 { x: 11i32, y: 13i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 12u32, y: 10u32 },
+            max: UVec2 { x: 11u32, y: 13u32 },
         },
         portrait: 42u16,
         mineral_cost: 50u16,
@@ -4115,9 +4115,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 573u16,
         what_sound_end: 576u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 43u16,
         mineral_cost: 0u16,
@@ -4175,9 +4175,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 520u16,
         what_sound_end: 523u16,
         placebox_size: I16Vec2 { x: 40i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 20i32, y: 16i32 },
-            max: IVec2 { x: 19i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 20u32, y: 16u32 },
+            max: UVec2 { x: 19u32, y: 15u32 },
         },
         portrait: 44u16,
         mineral_cost: 200u16,
@@ -4235,9 +4235,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 540u16,
         what_sound_end: 543u16,
         placebox_size: I16Vec2 { x: 36i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 18i32, y: 16i32 },
-            max: IVec2 { x: 17i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 18u32, y: 16u32 },
+            max: UVec2 { x: 17u32, y: 15u32 },
         },
         portrait: 45u16,
         mineral_cost: 275u16,
@@ -4295,9 +4295,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 559u16,
         what_sound_end: 562u16,
         placebox_size: I16Vec2 { x: 44i16, y: 44i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 22i32, y: 22i32 },
-            max: IVec2 { x: 21i32, y: 21i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 22u32, y: 22u32 },
+            max: UVec2 { x: 21u32, y: 21u32 },
         },
         portrait: 46u16,
         mineral_cost: 100u16,
@@ -4355,9 +4355,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 587u16,
         what_sound_end: 590u16,
         placebox_size: I16Vec2 { x: 64i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 32i32, y: 32i32 },
-            max: IVec2 { x: 31i32, y: 31i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 32u32, y: 32u32 },
+            max: UVec2 { x: 31u32, y: 31u32 },
         },
         portrait: 47u16,
         mineral_cost: 350u16,
@@ -4415,9 +4415,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 0u16,
         what_sound_end: 0u16,
         placebox_size: I16Vec2 { x: 16i16, y: 16i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 8i32, y: 8i32 },
-            max: IVec2 { x: 7i32, y: 7i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 8u32, y: 8u32 },
+            max: UVec2 { x: 7u32, y: 7u32 },
         },
         portrait: 48u16,
         mineral_cost: 25u16,
@@ -4475,9 +4475,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 733u16,
         what_sound_end: 736u16,
         placebox_size: I16Vec2 { x: 24i16, y: 30i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 12i32, y: 6i32 },
-            max: IVec2 { x: 11i32, y: 19i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 12u32, y: 6u32 },
+            max: UVec2 { x: 11u32, y: 19u32 },
         },
         portrait: 49u16,
         mineral_cost: 150u16,
@@ -4535,9 +4535,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 746u16,
         what_sound_end: 749u16,
         placebox_size: I16Vec2 { x: 24i16, y: 30i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 12i32, y: 6i32 },
-            max: IVec2 { x: 11i32, y: 19i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 12u32, y: 6u32 },
+            max: UVec2 { x: 11u32, y: 19u32 },
         },
         portrait: 52u16,
         mineral_cost: 100u16,
@@ -4595,9 +4595,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 573u16,
         what_sound_end: 576u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 43u16,
         mineral_cost: 0u16,
@@ -4655,9 +4655,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 695u16,
         what_sound_end: 698u16,
         placebox_size: I16Vec2 { x: 24i16, y: 30i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 11i32, y: 5i32 },
-            max: IVec2 { x: 11i32, y: 13i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 11u32, y: 5u32 },
+            max: UVec2 { x: 11u32, y: 13u32 },
         },
         portrait: 50u16,
         mineral_cost: 200u16,
@@ -4715,9 +4715,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 683u16,
         what_sound_end: 686u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 15i32, y: 15i32 },
-            max: IVec2 { x: 16i32, y: 16i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 15u32, y: 15u32 },
+            max: UVec2 { x: 16u32, y: 16u32 },
         },
         portrait: 51u16,
         mineral_cost: 300u16,
@@ -4775,9 +4775,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 719u16,
         what_sound_end: 722u16,
         placebox_size: I16Vec2 { x: 24i16, y: 28i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 12i32, y: 10i32 },
-            max: IVec2 { x: 11i32, y: 13i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 12u32, y: 10u32 },
+            max: UVec2 { x: 11u32, y: 13u32 },
         },
         portrait: 53u16,
         mineral_cost: 100u16,
@@ -4835,9 +4835,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 540u16,
         what_sound_end: 543u16,
         placebox_size: I16Vec2 { x: 36i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 18i32, y: 16i32 },
-            max: IVec2 { x: 17i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 18u32, y: 16u32 },
+            max: UVec2 { x: 17u32, y: 15u32 },
         },
         portrait: 45u16,
         mineral_cost: 600u16,
@@ -4895,9 +4895,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 642u16,
         what_sound_end: 645u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 56u16,
         mineral_cost: 400u16,
@@ -4955,9 +4955,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 707u16,
         what_sound_end: 710u16,
         placebox_size: I16Vec2 { x: 64i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 32i32, y: 32i32 },
-            max: IVec2 { x: 31i32, y: 31i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 32u32, y: 32u32 },
+            max: UVec2 { x: 31u32, y: 31u32 },
         },
         portrait: 54u16,
         mineral_cost: 700u16,
@@ -5015,9 +5015,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 642u16,
         what_sound_end: 645u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 56u16,
         mineral_cost: 200u16,
@@ -5075,9 +5075,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 658u16,
         what_sound_end: 659u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 55u16,
         mineral_cost: 25u16,
@@ -5135,9 +5135,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 540u16,
         what_sound_end: 543u16,
         placebox_size: I16Vec2 { x: 5i16, y: 5i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 2i32, y: 2i32 },
-            max: IVec2 { x: 2i32, y: 2i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 2u32, y: 2u32 },
+            max: UVec2 { x: 2u32, y: 2u32 },
         },
         portrait: 57u16,
         mineral_cost: 15u16,
@@ -5195,9 +5195,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 559u16,
         what_sound_end: 562u16,
         placebox_size: I16Vec2 { x: 44i16, y: 44i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 22i32, y: 22i32 },
-            max: IVec2 { x: 21i32, y: 21i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 22u32, y: 22u32 },
+            max: UVec2 { x: 21u32, y: 21u32 },
         },
         portrait: 46u16,
         mineral_cost: 50u16,
@@ -5255,9 +5255,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 0u16,
         what_sound_end: 0u16,
         placebox_size: I16Vec2 { x: 24i16, y: 28i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 12i32, y: 14i32 },
-            max: IVec2 { x: 11i32, y: 13i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 12u32, y: 14u32 },
+            max: UVec2 { x: 11u32, y: 13u32 },
         },
         portrait: 59u16,
         mineral_cost: 100u16,
@@ -5315,9 +5315,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 1136u16,
         what_sound_end: 1139u16,
         placebox_size: I16Vec2 { x: 36i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 18i32, y: 16i32 },
-            max: IVec2 { x: 17i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 18u32, y: 16u32 },
+            max: UVec2 { x: 17u32, y: 15u32 },
         },
         portrait: 95u16,
         mineral_cost: 600u16,
@@ -5375,9 +5375,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 54u16,
         what_sound_end: 56u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 62u16,
         mineral_cost: 1u16,
@@ -5435,9 +5435,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 46u16,
         what_sound_end: 48u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 63u16,
         mineral_cost: 1u16,
@@ -5495,9 +5495,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 0u16,
         what_sound_end: 0u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 15i32, y: 15i32 },
-            max: IVec2 { x: 16i32, y: 16i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 15u32, y: 15u32 },
+            max: UVec2 { x: 16u32, y: 16u32 },
         },
         portrait: 65535u16,
         mineral_cost: 100u16,
@@ -5555,9 +5555,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 0u16,
         what_sound_end: 0u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 15i32, y: 15i32 },
-            max: IVec2 { x: 16i32, y: 16i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 15u32, y: 15u32 },
+            max: UVec2 { x: 16u32, y: 16u32 },
         },
         portrait: 65535u16,
         mineral_cost: 100u16,
@@ -5615,9 +5615,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 972u16,
         what_sound_end: 974u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 101u16,
         mineral_cost: 1u16,
@@ -5675,9 +5675,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 976u16,
         what_sound_end: 978u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 102u16,
         mineral_cost: 1u16,
@@ -5735,9 +5735,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 50u16,
         what_sound_end: 52u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 64u16,
         mineral_cost: 1u16,
@@ -5795,9 +5795,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 968u16,
         what_sound_end: 970u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 103u16,
         mineral_cost: 1u16,
@@ -5855,9 +5855,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 828u16,
         what_sound_end: 829u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 19u16,
         mineral_cost: 1u16,
@@ -5915,9 +5915,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 1044u16,
         what_sound_end: 1047u16,
         placebox_size: I16Vec2 { x: 49i16, y: 37i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 24i32, y: 16i32 },
-            max: IVec2 { x: 24i32, y: 20i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 24u32, y: 16u32 },
+            max: UVec2 { x: 24u32, y: 20u32 },
         },
         portrait: 96u16,
         mineral_cost: 150u16,
@@ -5975,9 +5975,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 989u16,
         what_sound_end: 992u16,
         placebox_size: I16Vec2 { x: 15i16, y: 22i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 7i32, y: 10i32 },
-            max: IVec2 { x: 7i32, y: 11i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 7u32, y: 10u32 },
+            max: UVec2 { x: 7u32, y: 11u32 },
         },
         portrait: 94u16,
         mineral_cost: 200u16,
@@ -6035,9 +6035,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 230u16,
         what_sound_end: 233u16,
         placebox_size: I16Vec2 { x: 15i16, y: 22i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 7i32, y: 10i32 },
-            max: IVec2 { x: 7i32, y: 11i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 7u32, y: 10u32 },
+            max: UVec2 { x: 7u32, y: 11u32 },
         },
         portrait: 93u16,
         mineral_cost: 200u16,
@@ -6095,9 +6095,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 0u16,
         what_sound_end: 0u16,
         placebox_size: I16Vec2 { x: 27i16, y: 31i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 13i32, y: 13i32 },
-            max: IVec2 { x: 13i32, y: 17i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 13u32, y: 13u32 },
+            max: UVec2 { x: 13u32, y: 17u32 },
         },
         portrait: 0u16,
         mineral_cost: 0u16,
@@ -6155,9 +6155,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 449u16,
         what_sound_end: 452u16,
         placebox_size: I16Vec2 { x: 75i16, y: 59i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 37i32, y: 29i32 },
-            max: IVec2 { x: 37i32, y: 29i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 37u32, y: 29u32 },
+            max: UVec2 { x: 37u32, y: 29u32 },
         },
         portrait: 92u16,
         mineral_cost: 800u16,
@@ -6215,9 +6215,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 1085u16,
         what_sound_end: 1088u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 15i32, y: 15i32 },
-            max: IVec2 { x: 16i32, y: 16i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 15u32, y: 15u32 },
+            max: UVec2 { x: 16u32, y: 16u32 },
         },
         portrait: 98u16,
         mineral_cost: 50u16,
@@ -6275,9 +6275,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 1121u16,
         what_sound_end: 1124u16,
         placebox_size: I16Vec2 { x: 15i16, y: 22i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 7i32, y: 10i32 },
-            max: IVec2 { x: 7i32, y: 11i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 7u32, y: 10u32 },
+            max: UVec2 { x: 7u32, y: 11u32 },
         },
         portrait: 94u16,
         mineral_cost: 200u16,
@@ -6338,9 +6338,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
             x: 140i16,
             y: 100i16,
         },
-        unit_rect: IRect {
-            min: IVec2 { x: 60i32, y: 40i32 },
-            max: IVec2 { x: 59i32, y: 39i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 60u32, y: 40u32 },
+            max: UVec2 { x: 59u32, y: 39u32 },
         },
         portrait: 65535u16,
         mineral_cost: 250u16,
@@ -6401,9 +6401,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
             x: 128i16,
             y: 96i16,
         },
-        unit_rect: IRect {
-            min: IVec2 { x: 58i32, y: 41i32 },
-            max: IVec2 { x: 58i32, y: 41i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 58u32, y: 41u32 },
+            max: UVec2 { x: 58u32, y: 41u32 },
         },
         portrait: 17u16,
         mineral_cost: 400u16,
@@ -6458,9 +6458,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 387u16,
         what_sound_end: 387u16,
         placebox_size: I16Vec2 { x: 64i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 37i32, y: 16i32 },
-            max: IVec2 { x: 31i32, y: 25i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 37u32, y: 16u32 },
+            max: UVec2 { x: 31u32, y: 25u32 },
         },
         portrait: 17u16,
         mineral_cost: 50u16,
@@ -6518,9 +6518,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 396u16,
         what_sound_end: 396u16,
         placebox_size: I16Vec2 { x: 64i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 37i32, y: 16i32 },
-            max: IVec2 { x: 31i32, y: 25i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 37u32, y: 16u32 },
+            max: UVec2 { x: 31u32, y: 25u32 },
         },
         portrait: 17u16,
         mineral_cost: 100u16,
@@ -6578,9 +6578,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 397u16,
         what_sound_end: 397u16,
         placebox_size: I16Vec2 { x: 96i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 38i32, y: 22i32 },
-            max: IVec2 { x: 38i32, y: 26i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 38u32, y: 22u32 },
+            max: UVec2 { x: 38u32, y: 26u32 },
         },
         portrait: 17u16,
         mineral_cost: 100u16,
@@ -6638,9 +6638,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
             x: 128i16,
             y: 64i16,
         },
-        unit_rect: IRect {
-            min: IVec2 { x: 56i32, y: 32i32 },
-            max: IVec2 { x: 56i32, y: 31i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 56u32, y: 32u32 },
+            max: UVec2 { x: 56u32, y: 31u32 },
         },
         portrait: 17u16,
         mineral_cost: 100u16,
@@ -6698,9 +6698,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
             x: 128i16,
             y: 96i16,
         },
-        unit_rect: IRect {
-            min: IVec2 { x: 48i32, y: 40i32 },
-            max: IVec2 { x: 56i32, y: 32i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 48u32, y: 40u32 },
+            max: UVec2 { x: 56u32, y: 32u32 },
         },
         portrait: 17u16,
         mineral_cost: 150u16,
@@ -6755,9 +6755,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 385u16,
         what_sound_end: 385u16,
         placebox_size: I16Vec2 { x: 96i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 40i32, y: 32i32 },
-            max: IVec2 { x: 44i32, y: 24i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 40u32, y: 32u32 },
+            max: UVec2 { x: 44u32, y: 24u32 },
         },
         portrait: 17u16,
         mineral_cost: 150u16,
@@ -6815,9 +6815,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
             x: 128i16,
             y: 96i16,
         },
-        unit_rect: IRect {
-            min: IVec2 { x: 56i32, y: 40i32 },
-            max: IVec2 { x: 56i32, y: 40i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 56u32, y: 40u32 },
+            max: UVec2 { x: 56u32, y: 40u32 },
         },
         portrait: 17u16,
         mineral_cost: 200u16,
@@ -6875,9 +6875,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
             x: 128i16,
             y: 96i16,
         },
-        unit_rect: IRect {
-            min: IVec2 { x: 48i32, y: 40i32 },
-            max: IVec2 { x: 48i32, y: 38i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 48u32, y: 40u32 },
+            max: UVec2 { x: 48u32, y: 38u32 },
         },
         portrait: 17u16,
         mineral_cost: 150u16,
@@ -6932,9 +6932,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 389u16,
         what_sound_end: 389u16,
         placebox_size: I16Vec2 { x: 64i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 47i32, y: 24i32 },
-            max: IVec2 { x: 28i32, y: 22i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 47u32, y: 24u32 },
+            max: UVec2 { x: 28u32, y: 22u32 },
         },
         portrait: 17u16,
         mineral_cost: 50u16,
@@ -6995,9 +6995,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
             x: 128i16,
             y: 96i16,
         },
-        unit_rect: IRect {
-            min: IVec2 { x: 48i32, y: 38i32 },
-            max: IVec2 { x: 48i32, y: 38i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 48u32, y: 38u32 },
+            max: UVec2 { x: 48u32, y: 38u32 },
         },
         portrait: 17u16,
         mineral_cost: 100u16,
@@ -7052,9 +7052,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 390u16,
         what_sound_end: 390u16,
         placebox_size: I16Vec2 { x: 64i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 47i32, y: 24i32 },
-            max: IVec2 { x: 28i32, y: 22i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 47u32, y: 24u32 },
+            max: UVec2 { x: 28u32, y: 22u32 },
         },
         portrait: 17u16,
         mineral_cost: 50u16,
@@ -7112,9 +7112,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 398u16,
         what_sound_end: 398u16,
         placebox_size: I16Vec2 { x: 64i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 47i32, y: 24i32 },
-            max: IVec2 { x: 28i32, y: 22i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 47u32, y: 24u32 },
+            max: UVec2 { x: 28u32, y: 22u32 },
         },
         portrait: 17u16,
         mineral_cost: 50u16,
@@ -7172,9 +7172,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 96i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 48i32, y: 32i32 },
-            max: IVec2 { x: 47i32, y: 31i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 48u32, y: 32u32 },
+            max: UVec2 { x: 47u32, y: 31u32 },
         },
         portrait: 17u16,
         mineral_cost: 1u16,
@@ -7229,9 +7229,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 392u16,
         what_sound_end: 392u16,
         placebox_size: I16Vec2 { x: 64i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 39i32, y: 24i32 },
-            max: IVec2 { x: 31i32, y: 24i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 39u32, y: 24u32 },
+            max: UVec2 { x: 31u32, y: 24u32 },
         },
         portrait: 17u16,
         mineral_cost: 50u16,
@@ -7289,9 +7289,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 401u16,
         what_sound_end: 401u16,
         placebox_size: I16Vec2 { x: 96i16, y: 96i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 48i32, y: 48i32 },
-            max: IVec2 { x: 47i32, y: 47i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 48u32, y: 48u32 },
+            max: UVec2 { x: 47u32, y: 47u32 },
         },
         portrait: 17u16,
         mineral_cost: 1u16,
@@ -7349,9 +7349,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
             x: 128i16,
             y: 96i16,
         },
-        unit_rect: IRect {
-            min: IVec2 { x: 48i32, y: 32i32 },
-            max: IVec2 { x: 48i32, y: 28i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 48u32, y: 32u32 },
+            max: UVec2 { x: 48u32, y: 28u32 },
         },
         portrait: 17u16,
         mineral_cost: 125u16,
@@ -7406,9 +7406,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 386u16,
         what_sound_end: 386u16,
         placebox_size: I16Vec2 { x: 96i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 48i32, y: 32i32 },
-            max: IVec2 { x: 47i32, y: 22i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 48u32, y: 32u32 },
+            max: UVec2 { x: 47u32, y: 22u32 },
         },
         portrait: 17u16,
         mineral_cost: 100u16,
@@ -7463,9 +7463,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 393u16,
         what_sound_end: 393u16,
         placebox_size: I16Vec2 { x: 64i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 32i32 },
-            max: IVec2 { x: 16i32, y: 16i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 32u32 },
+            max: UVec2 { x: 16u32, y: 16u32 },
         },
         portrait: 17u16,
         mineral_cost: 75u16,
@@ -7520,9 +7520,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 96i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 32i32, y: 24i32 },
-            max: IVec2 { x: 32i32, y: 16i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 32u32, y: 24u32 },
+            max: UVec2 { x: 32u32, y: 16u32 },
         },
         portrait: 17u16,
         mineral_cost: 100u16,
@@ -7577,9 +7577,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 394u16,
         what_sound_end: 394u16,
         placebox_size: I16Vec2 { x: 96i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 48i32, y: 32i32 },
-            max: IVec2 { x: 47i32, y: 31i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 48u32, y: 32u32 },
+            max: UVec2 { x: 47u32, y: 31u32 },
         },
         portrait: 14u16,
         mineral_cost: 800u16,
@@ -7634,9 +7634,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 391u16,
         what_sound_end: 391u16,
         placebox_size: I16Vec2 { x: 96i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 48i32, y: 32i32 },
-            max: IVec2 { x: 47i32, y: 31i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 48u32, y: 32u32 },
+            max: UVec2 { x: 47u32, y: 31u32 },
         },
         portrait: 17u16,
         mineral_cost: 200u16,
@@ -7691,9 +7691,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 104u16,
         mineral_cost: 1u16,
@@ -7748,9 +7748,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 105u16,
         mineral_cost: 1u16,
@@ -7808,9 +7808,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
             x: 128i16,
             y: 96i16,
         },
-        unit_rect: IRect {
-            min: IVec2 { x: 58i32, y: 41i32 },
-            max: IVec2 { x: 58i32, y: 41i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 58u32, y: 41u32 },
+            max: UVec2 { x: 58u32, y: 41u32 },
         },
         portrait: 33u16,
         mineral_cost: 1u16,
@@ -7868,9 +7868,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
             x: 128i16,
             y: 96i16,
         },
-        unit_rect: IRect {
-            min: IVec2 { x: 49i32, y: 32i32 },
-            max: IVec2 { x: 49i32, y: 32i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 49u32, y: 32u32 },
+            max: UVec2 { x: 49u32, y: 32u32 },
         },
         portrait: 38u16,
         mineral_cost: 300u16,
@@ -7928,9 +7928,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
             x: 128i16,
             y: 96i16,
         },
-        unit_rect: IRect {
-            min: IVec2 { x: 49i32, y: 32i32 },
-            max: IVec2 { x: 49i32, y: 32i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 49u32, y: 32u32 },
+            max: UVec2 { x: 49u32, y: 32u32 },
         },
         portrait: 38u16,
         mineral_cost: 150u16,
@@ -7988,9 +7988,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
             x: 128i16,
             y: 96i16,
         },
-        unit_rect: IRect {
-            min: IVec2 { x: 49i32, y: 32i32 },
-            max: IVec2 { x: 49i32, y: 32i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 49u32, y: 32u32 },
+            max: UVec2 { x: 49u32, y: 32u32 },
         },
         portrait: 38u16,
         mineral_cost: 200u16,
@@ -8045,9 +8045,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 768u16,
         what_sound_end: 768u16,
         placebox_size: I16Vec2 { x: 64i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 32i32, y: 32i32 },
-            max: IVec2 { x: 31i32, y: 31i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 32u32, y: 32u32 },
+            max: UVec2 { x: 31u32, y: 31u32 },
         },
         portrait: 38u16,
         mineral_cost: 150u16,
@@ -8102,9 +8102,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 771u16,
         what_sound_end: 771u16,
         placebox_size: I16Vec2 { x: 96i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 40i32, y: 32i32 },
-            max: IVec2 { x: 40i32, y: 24i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 40u32, y: 32u32 },
+            max: UVec2 { x: 40u32, y: 24u32 },
         },
         portrait: 38u16,
         mineral_cost: 100u16,
@@ -8162,9 +8162,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
             x: 128i16,
             y: 64i16,
         },
-        unit_rect: IRect {
-            min: IVec2 { x: 48i32, y: 32i32 },
-            max: IVec2 { x: 48i32, y: 4i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 48u32, y: 32u32 },
+            max: UVec2 { x: 48u32, y: 4u32 },
         },
         portrait: 38u16,
         mineral_cost: 100u16,
@@ -8219,9 +8219,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 765u16,
         what_sound_end: 765u16,
         placebox_size: I16Vec2 { x: 64i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 28i32, y: 32i32 },
-            max: IVec2 { x: 28i32, y: 24i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 28u32, y: 32u32 },
+            max: UVec2 { x: 28u32, y: 24u32 },
         },
         portrait: 38u16,
         mineral_cost: 100u16,
@@ -8276,9 +8276,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 767u16,
         what_sound_end: 767u16,
         placebox_size: I16Vec2 { x: 96i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 38i32, y: 28i32 },
-            max: IVec2 { x: 32i32, y: 28i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 38u32, y: 28u32 },
+            max: UVec2 { x: 32u32, y: 28u32 },
         },
         portrait: 38u16,
         mineral_cost: 150u16,
@@ -8333,9 +8333,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 757u16,
         what_sound_end: 757u16,
         placebox_size: I16Vec2 { x: 96i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 44i32, y: 32i32 },
-            max: IVec2 { x: 32i32, y: 20i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 44u32, y: 32u32 },
+            max: UVec2 { x: 32u32, y: 20u32 },
         },
         portrait: 38u16,
         mineral_cost: 75u16,
@@ -8390,9 +8390,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 770u16,
         what_sound_end: 770u16,
         placebox_size: I16Vec2 { x: 96i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 40i32, y: 32i32 },
-            max: IVec2 { x: 32i32, y: 31i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 40u32, y: 32u32 },
+            max: UVec2 { x: 32u32, y: 31u32 },
         },
         portrait: 38u16,
         mineral_cost: 150u16,
@@ -8447,9 +8447,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 773u16,
         what_sound_end: 773u16,
         placebox_size: I16Vec2 { x: 64i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 28i32, y: 32i32 },
-            max: IVec2 { x: 28i32, y: 24i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 28u32, y: 32u32 },
+            max: UVec2 { x: 28u32, y: 24u32 },
         },
         portrait: 38u16,
         mineral_cost: 200u16,
@@ -8504,9 +8504,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 755u16,
         what_sound_end: 755u16,
         placebox_size: I16Vec2 { x: 96i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 36i32, y: 28i32 },
-            max: IVec2 { x: 40i32, y: 18i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 36u32, y: 28u32 },
+            max: UVec2 { x: 40u32, y: 18u32 },
         },
         portrait: 38u16,
         mineral_cost: 200u16,
@@ -8561,9 +8561,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 758u16,
         what_sound_end: 758u16,
         placebox_size: I16Vec2 { x: 64i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 24i32, y: 24i32 },
-            max: IVec2 { x: 23i32, y: 23i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 24u32, y: 24u32 },
+            max: UVec2 { x: 23u32, y: 23u32 },
         },
         portrait: 38u16,
         mineral_cost: 75u16,
@@ -8618,9 +8618,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 772u16,
         what_sound_end: 772u16,
         placebox_size: I16Vec2 { x: 64i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 24i32, y: 24i32 },
-            max: IVec2 { x: 23i32, y: 23i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 24u32, y: 24u32 },
+            max: UVec2 { x: 23u32, y: 23u32 },
         },
         portrait: 38u16,
         mineral_cost: 50u16,
@@ -8675,9 +8675,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 96i16, y: 96i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 48i32, y: 48i32 },
-            max: IVec2 { x: 47i32, y: 47i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 48u32, y: 48u32 },
+            max: UVec2 { x: 47u32, y: 47u32 },
         },
         portrait: 38u16,
         mineral_cost: 1u16,
@@ -8732,9 +8732,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 763u16,
         what_sound_end: 763u16,
         placebox_size: I16Vec2 { x: 64i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 24i32, y: 24i32 },
-            max: IVec2 { x: 23i32, y: 23i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 24u32, y: 24u32 },
+            max: UVec2 { x: 23u32, y: 23u32 },
         },
         portrait: 38u16,
         mineral_cost: 50u16,
@@ -8792,9 +8792,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
             x: 160i16,
             y: 96i16,
         },
-        unit_rect: IRect {
-            min: IVec2 { x: 80i32, y: 32i32 },
-            max: IVec2 { x: 79i32, y: 40i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 80u32, y: 32u32 },
+            max: UVec2 { x: 79u32, y: 40u32 },
         },
         portrait: 38u16,
         mineral_cost: 1u16,
@@ -8852,9 +8852,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
             x: 160i16,
             y: 96i16,
         },
-        unit_rect: IRect {
-            min: IVec2 { x: 80i32, y: 32i32 },
-            max: IVec2 { x: 79i32, y: 40i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 80u32, y: 32u32 },
+            max: UVec2 { x: 79u32, y: 40u32 },
         },
         portrait: 38u16,
         mineral_cost: 1u16,
@@ -8912,9 +8912,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
             x: 128i16,
             y: 64i16,
         },
-        unit_rect: IRect {
-            min: IVec2 { x: 64i32, y: 32i32 },
-            max: IVec2 { x: 63i32, y: 31i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 64u32, y: 32u32 },
+            max: UVec2 { x: 63u32, y: 31u32 },
         },
         portrait: 38u16,
         mineral_cost: 50u16,
@@ -8969,9 +8969,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 764u16,
         what_sound_end: 764u16,
         placebox_size: I16Vec2 { x: 64i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 32i32, y: 32i32 },
-            max: IVec2 { x: 31i32, y: 31i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 32u32, y: 32u32 },
+            max: UVec2 { x: 31u32, y: 31u32 },
         },
         portrait: 32u16,
         mineral_cost: 0u16,
@@ -9026,9 +9026,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 756u16,
         what_sound_end: 756u16,
         placebox_size: I16Vec2 { x: 96i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 40i32, y: 32i32 },
-            max: IVec2 { x: 32i32, y: 31i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 40u32, y: 32u32 },
+            max: UVec2 { x: 32u32, y: 31u32 },
         },
         portrait: 34u16,
         mineral_cost: 0u16,
@@ -9083,9 +9083,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 756u16,
         what_sound_end: 756u16,
         placebox_size: I16Vec2 { x: 96i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 40i32, y: 32i32 },
-            max: IVec2 { x: 32i32, y: 31i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 40u32, y: 32u32 },
+            max: UVec2 { x: 32u32, y: 31u32 },
         },
         portrait: 35u16,
         mineral_cost: 0u16,
@@ -9140,9 +9140,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 0u16,
         mineral_cost: 1u16,
@@ -9200,9 +9200,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
             x: 128i16,
             y: 96i16,
         },
-        unit_rect: IRect {
-            min: IVec2 { x: 56i32, y: 39i32 },
-            max: IVec2 { x: 56i32, y: 39i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 56u32, y: 39u32 },
+            max: UVec2 { x: 56u32, y: 39u32 },
         },
         portrait: 60u16,
         mineral_cost: 400u16,
@@ -9257,9 +9257,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 488u16,
         what_sound_end: 488u16,
         placebox_size: I16Vec2 { x: 96i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 36i32, y: 16i32 },
-            max: IVec2 { x: 40i32, y: 20i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 36u32, y: 16u32 },
+            max: UVec2 { x: 40u32, y: 20u32 },
         },
         portrait: 60u16,
         mineral_cost: 200u16,
@@ -9314,9 +9314,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 487u16,
         what_sound_end: 487u16,
         placebox_size: I16Vec2 { x: 64i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 12i32 },
-            max: IVec2 { x: 16i32, y: 20i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 12u32 },
+            max: UVec2 { x: 16u32, y: 20u32 },
         },
         portrait: 60u16,
         mineral_cost: 100u16,
@@ -9374,9 +9374,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
             x: 128i16,
             y: 64i16,
         },
-        unit_rect: IRect {
-            min: IVec2 { x: 48i32, y: 32i32 },
-            max: IVec2 { x: 48i32, y: 24i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 48u32, y: 32u32 },
+            max: UVec2 { x: 48u32, y: 24u32 },
         },
         portrait: 60u16,
         mineral_cost: 100u16,
@@ -9434,9 +9434,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
             x: 128i16,
             y: 96i16,
         },
-        unit_rect: IRect {
-            min: IVec2 { x: 64i32, y: 48i32 },
-            max: IVec2 { x: 63i32, y: 47i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 64u32, y: 48u32 },
+            max: UVec2 { x: 63u32, y: 47u32 },
         },
         portrait: 60u16,
         mineral_cost: 1u16,
@@ -9491,9 +9491,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 476u16,
         what_sound_end: 476u16,
         placebox_size: I16Vec2 { x: 96i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 44i32, y: 16i32 },
-            max: IVec2 { x: 44i32, y: 28i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 44u32, y: 16u32 },
+            max: UVec2 { x: 44u32, y: 28u32 },
         },
         portrait: 60u16,
         mineral_cost: 50u16,
@@ -9551,9 +9551,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
             x: 128i16,
             y: 96i16,
         },
-        unit_rect: IRect {
-            min: IVec2 { x: 48i32, y: 32i32 },
-            max: IVec2 { x: 48i32, y: 40i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 48u32, y: 32u32 },
+            max: UVec2 { x: 48u32, y: 40u32 },
         },
         portrait: 60u16,
         mineral_cost: 150u16,
@@ -9608,9 +9608,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 483u16,
         what_sound_end: 483u16,
         placebox_size: I16Vec2 { x: 96i16, y: 96i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 48i32, y: 48i32 },
-            max: IVec2 { x: 47i32, y: 47i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 48u32, y: 48u32 },
+            max: UVec2 { x: 47u32, y: 47u32 },
         },
         portrait: 60u16,
         mineral_cost: 1u16,
@@ -9665,9 +9665,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 485u16,
         what_sound_end: 485u16,
         placebox_size: I16Vec2 { x: 64i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 20i32, y: 16i32 },
-            max: IVec2 { x: 20i32, y: 16i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 20u32, y: 16u32 },
+            max: UVec2 { x: 20u32, y: 16u32 },
         },
         portrait: 60u16,
         mineral_cost: 150u16,
@@ -9722,9 +9722,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 477u16,
         what_sound_end: 477u16,
         placebox_size: I16Vec2 { x: 96i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 24i32, y: 24i32 },
-            max: IVec2 { x: 40i32, y: 24i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 24u32, y: 24u32 },
+            max: UVec2 { x: 40u32, y: 24u32 },
         },
         portrait: 60u16,
         mineral_cost: 150u16,
@@ -9779,9 +9779,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 480u16,
         what_sound_end: 480u16,
         placebox_size: I16Vec2 { x: 96i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 40i32, y: 24i32 },
-            max: IVec2 { x: 40i32, y: 24i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 40u32, y: 24u32 },
+            max: UVec2 { x: 40u32, y: 24u32 },
         },
         portrait: 60u16,
         mineral_cost: 200u16,
@@ -9836,9 +9836,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 473u16,
         what_sound_end: 473u16,
         placebox_size: I16Vec2 { x: 96i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 32i32, y: 24i32 },
-            max: IVec2 { x: 32i32, y: 24i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 32u32, y: 24u32 },
+            max: UVec2 { x: 32u32, y: 24u32 },
         },
         portrait: 60u16,
         mineral_cost: 150u16,
@@ -9893,9 +9893,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 478u16,
         what_sound_end: 478u16,
         placebox_size: I16Vec2 { x: 96i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 36i32, y: 24i32 },
-            max: IVec2 { x: 36i32, y: 20i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 36u32, y: 24u32 },
+            max: UVec2 { x: 36u32, y: 20u32 },
         },
         portrait: 60u16,
         mineral_cost: 150u16,
@@ -9953,9 +9953,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
             x: 128i16,
             y: 96i16,
         },
-        unit_rect: IRect {
-            min: IVec2 { x: 48i32, y: 40i32 },
-            max: IVec2 { x: 48i32, y: 32i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 48u32, y: 40u32 },
+            max: UVec2 { x: 48u32, y: 32u32 },
         },
         portrait: 60u16,
         mineral_cost: 150u16,
@@ -10013,9 +10013,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
             x: 128i16,
             y: 96i16,
         },
-        unit_rect: IRect {
-            min: IVec2 { x: 64i32, y: 48i32 },
-            max: IVec2 { x: 63i32, y: 47i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 64u32, y: 48u32 },
+            max: UVec2 { x: 63u32, y: 47u32 },
         },
         portrait: 41u16,
         mineral_cost: 150u16,
@@ -10070,9 +10070,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 491u16,
         what_sound_end: 491u16,
         placebox_size: I16Vec2 { x: 96i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 40i32, y: 32i32 },
-            max: IVec2 { x: 47i32, y: 24i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 40u32, y: 32u32 },
+            max: UVec2 { x: 47u32, y: 24u32 },
         },
         portrait: 60u16,
         mineral_cost: 300u16,
@@ -10127,9 +10127,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 490u16,
         what_sound_end: 490u16,
         placebox_size: I16Vec2 { x: 96i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 44i32, y: 28i32 },
-            max: IVec2 { x: 44i32, y: 28i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 44u32, y: 28u32 },
+            max: UVec2 { x: 44u32, y: 28u32 },
         },
         portrait: 60u16,
         mineral_cost: 200u16,
@@ -10184,9 +10184,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 489u16,
         what_sound_end: 489u16,
         placebox_size: I16Vec2 { x: 96i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 32i32, y: 32i32 },
-            max: IVec2 { x: 32i32, y: 20i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 32u32, y: 32u32 },
+            max: UVec2 { x: 32u32, y: 20u32 },
         },
         portrait: 60u16,
         mineral_cost: 150u16,
@@ -10241,9 +10241,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 475u16,
         what_sound_end: 475u16,
         placebox_size: I16Vec2 { x: 96i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 32i32, y: 16i32 },
-            max: IVec2 { x: 32i32, y: 16i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 32u32, y: 16u32 },
+            max: UVec2 { x: 32u32, y: 16u32 },
         },
         portrait: 60u16,
         mineral_cost: 100u16,
@@ -10301,9 +10301,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
             x: 128i16,
             y: 96i16,
         },
-        unit_rect: IRect {
-            min: IVec2 { x: 64i32, y: 48i32 },
-            max: IVec2 { x: 63i32, y: 47i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 64u32, y: 48u32 },
+            max: UVec2 { x: 63u32, y: 47u32 },
         },
         portrait: 58u16,
         mineral_cost: 250u16,
@@ -10361,14 +10361,14 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
             x: 224i16,
             y: 96i16,
         },
-        unit_rect: IRect {
-            min: IVec2 {
-                x: 112i32,
-                y: 48i32,
+        unit_rect: URect {
+            min: UVec2 {
+                x: 112u32,
+                y: 48u32,
             },
-            max: IVec2 {
-                x: 111i32,
-                y: 47i32,
+            max: UVec2 {
+                x: 111u32,
+                y: 47u32,
             },
         },
         portrait: 60u16,
@@ -10427,9 +10427,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
             x: 160i16,
             y: 128i16,
         },
-        unit_rect: IRect {
-            min: IVec2 { x: 80i32, y: 34i32 },
-            max: IVec2 { x: 79i32, y: 63i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 80u32, y: 34u32 },
+            max: UVec2 { x: 79u32, y: 63u32 },
         },
         portrait: 60u16,
         mineral_cost: 1500u16,
@@ -10484,9 +10484,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 64i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 32i32, y: 16i32 },
-            max: IVec2 { x: 31i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 32u32, y: 16u32 },
+            max: UVec2 { x: 31u32, y: 15u32 },
         },
         portrait: 65535u16,
         mineral_cost: 1u16,
@@ -10541,9 +10541,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 64i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 32i32, y: 16i32 },
-            max: IVec2 { x: 31i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 32u32, y: 16u32 },
+            max: UVec2 { x: 31u32, y: 15u32 },
         },
         portrait: 65535u16,
         mineral_cost: 1u16,
@@ -10598,9 +10598,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 64i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 32i32, y: 16i32 },
-            max: IVec2 { x: 31i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 32u32, y: 16u32 },
+            max: UVec2 { x: 31u32, y: 15u32 },
         },
         portrait: 65535u16,
         mineral_cost: 1u16,
@@ -10655,9 +10655,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 64i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 32i32, y: 32i32 },
-            max: IVec2 { x: 31i32, y: 31i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 32u32, y: 32u32 },
+            max: UVec2 { x: 31u32, y: 31u32 },
         },
         portrait: 65535u16,
         mineral_cost: 1u16,
@@ -10712,9 +10712,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 64i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 32i32, y: 32i32 },
-            max: IVec2 { x: 31i32, y: 31i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 32u32, y: 32u32 },
+            max: UVec2 { x: 31u32, y: 31u32 },
         },
         portrait: 65535u16,
         mineral_cost: 1u16,
@@ -10769,9 +10769,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 64i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 32i32, y: 32i32 },
-            max: IVec2 { x: 31i32, y: 31i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 32u32, y: 32u32 },
+            max: UVec2 { x: 31u32, y: 31u32 },
         },
         portrait: 74u16,
         mineral_cost: 1u16,
@@ -10826,9 +10826,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 74u16,
         mineral_cost: 1u16,
@@ -10883,9 +10883,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 74u16,
         mineral_cost: 1u16,
@@ -10940,9 +10940,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 64i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 32i32, y: 32i32 },
-            max: IVec2 { x: 31i32, y: 31i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 32u32, y: 32u32 },
+            max: UVec2 { x: 31u32, y: 31u32 },
         },
         portrait: 74u16,
         mineral_cost: 1u16,
@@ -10997,9 +10997,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 74u16,
         mineral_cost: 1u16,
@@ -11054,9 +11054,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 74u16,
         mineral_cost: 1u16,
@@ -11111,9 +11111,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 74u16,
         mineral_cost: 1u16,
@@ -11171,9 +11171,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
             x: 128i16,
             y: 64i16,
         },
-        unit_rect: IRect {
-            min: IVec2 { x: 64i32, y: 32i32 },
-            max: IVec2 { x: 63i32, y: 31i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 64u32, y: 32u32 },
+            max: UVec2 { x: 63u32, y: 31u32 },
         },
         portrait: 65535u16,
         mineral_cost: 1u16,
@@ -11228,9 +11228,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 491u16,
         what_sound_end: 491u16,
         placebox_size: I16Vec2 { x: 96i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 48i32, y: 32i32 },
-            max: IVec2 { x: 47i32, y: 31i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 48u32, y: 32u32 },
+            max: UVec2 { x: 47u32, y: 31u32 },
         },
         portrait: 60u16,
         mineral_cost: 600u16,
@@ -11288,9 +11288,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
             x: 160i16,
             y: 96i16,
         },
-        unit_rect: IRect {
-            min: IVec2 { x: 80i32, y: 38i32 },
-            max: IVec2 { x: 69i32, y: 47i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 80u32, y: 38u32 },
+            max: UVec2 { x: 69u32, y: 47u32 },
         },
         portrait: 17u16,
         mineral_cost: 1000u16,
@@ -11345,9 +11345,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 96i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 48i32, y: 32i32 },
-            max: IVec2 { x: 47i32, y: 31i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 48u32, y: 32u32 },
+            max: UVec2 { x: 47u32, y: 31u32 },
         },
         portrait: 38u16,
         mineral_cost: 250u16,
@@ -11402,9 +11402,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 96i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 48i32, y: 32i32 },
-            max: IVec2 { x: 47i32, y: 31i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 48u32, y: 32u32 },
+            max: UVec2 { x: 47u32, y: 31u32 },
         },
         portrait: 17u16,
         mineral_cost: 50u16,
@@ -11459,9 +11459,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 96i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 48i32, y: 32i32 },
-            max: IVec2 { x: 47i32, y: 31i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 48u32, y: 32u32 },
+            max: UVec2 { x: 47u32, y: 31u32 },
         },
         portrait: 60u16,
         mineral_cost: 100u16,
@@ -11516,9 +11516,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 96i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 48i32, y: 32i32 },
-            max: IVec2 { x: 47i32, y: 31i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 48u32, y: 32u32 },
+            max: UVec2 { x: 47u32, y: 31u32 },
         },
         portrait: 38u16,
         mineral_cost: 250u16,
@@ -11573,9 +11573,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 96i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 48i32, y: 32i32 },
-            max: IVec2 { x: 47i32, y: 31i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 48u32, y: 32u32 },
+            max: UVec2 { x: 47u32, y: 31u32 },
         },
         portrait: 17u16,
         mineral_cost: 50u16,
@@ -11630,9 +11630,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 96i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 48i32, y: 32i32 },
-            max: IVec2 { x: 47i32, y: 31i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 48u32, y: 32u32 },
+            max: UVec2 { x: 47u32, y: 31u32 },
         },
         portrait: 60u16,
         mineral_cost: 100u16,
@@ -11687,9 +11687,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 96i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 48i32, y: 32i32 },
-            max: IVec2 { x: 47i32, y: 31i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 48u32, y: 32u32 },
+            max: UVec2 { x: 47u32, y: 31u32 },
         },
         portrait: 38u16,
         mineral_cost: 250u16,
@@ -11744,9 +11744,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 96i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 48i32, y: 32i32 },
-            max: IVec2 { x: 47i32, y: 31i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 48u32, y: 32u32 },
+            max: UVec2 { x: 47u32, y: 31u32 },
         },
         portrait: 17u16,
         mineral_cost: 50u16,
@@ -11801,9 +11801,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 96i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 48i32, y: 32i32 },
-            max: IVec2 { x: 47i32, y: 31i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 48u32, y: 32u32 },
+            max: UVec2 { x: 47u32, y: 31u32 },
         },
         portrait: 60u16,
         mineral_cost: 100u16,
@@ -11861,9 +11861,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
             x: 128i16,
             y: 96i16,
         },
-        unit_rect: IRect {
-            min: IVec2 { x: 56i32, y: 28i32 },
-            max: IVec2 { x: 63i32, y: 43i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 56u32, y: 28u32 },
+            max: UVec2 { x: 63u32, y: 43u32 },
         },
         portrait: 17u16,
         mineral_cost: 200u16,
@@ -11918,9 +11918,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 769u16,
         what_sound_end: 769u16,
         placebox_size: I16Vec2 { x: 96i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 48i32, y: 32i32 },
-            max: IVec2 { x: 47i32, y: 31i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 48u32, y: 32u32 },
+            max: UVec2 { x: 47u32, y: 31u32 },
         },
         portrait: 38u16,
         mineral_cost: 1000u16,
@@ -11978,9 +11978,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
             x: 160i16,
             y: 160i16,
         },
-        unit_rect: IRect {
-            min: IVec2 { x: 80i32, y: 80i32 },
-            max: IVec2 { x: 79i32, y: 79i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 80u32, y: 80u32 },
+            max: UVec2 { x: 79u32, y: 79u32 },
         },
         portrait: 65535u16,
         mineral_cost: 250u16,
@@ -12032,9 +12032,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 64i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 32i32, y: 32i32 },
-            max: IVec2 { x: 31i32, y: 31i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 32u32, y: 32u32 },
+            max: UVec2 { x: 31u32, y: 31u32 },
         },
         portrait: 65535u16,
         mineral_cost: 1u16,
@@ -12089,14 +12089,14 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
             x: 256i16,
             y: 128i16,
         },
-        unit_rect: IRect {
-            min: IVec2 {
-                x: 128i32,
-                y: 64i32,
+        unit_rect: URect {
+            min: UVec2 {
+                x: 128u32,
+                y: 64u32,
             },
-            max: IVec2 {
-                x: 127i32,
-                y: 63i32,
+            max: UVec2 {
+                x: 127u32,
+                y: 63u32,
             },
         },
         portrait: 65535u16,
@@ -12152,9 +12152,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
             x: 136i16,
             y: 136i16,
         },
-        unit_rect: IRect {
-            min: IVec2 { x: 25i32, y: 17i32 },
-            max: IVec2 { x: 44i32, y: 20i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 25u32, y: 17u32 },
+            max: UVec2 { x: 44u32, y: 20u32 },
         },
         portrait: 65535u16,
         mineral_cost: 1u16,
@@ -12209,9 +12209,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
             x: 136i16,
             y: 136i16,
         },
-        unit_rect: IRect {
-            min: IVec2 { x: 44i32, y: 17i32 },
-            max: IVec2 { x: 25i32, y: 20i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 44u32, y: 17u32 },
+            max: UVec2 { x: 25u32, y: 20u32 },
         },
         portrait: 65535u16,
         mineral_cost: 1u16,
@@ -12266,9 +12266,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
             x: 148i16,
             y: 100i16,
         },
-        unit_rect: IRect {
-            min: IVec2 { x: 41i32, y: 17i32 },
-            max: IVec2 { x: 28i32, y: 20i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 41u32, y: 17u32 },
+            max: UVec2 { x: 28u32, y: 20u32 },
         },
         portrait: 65535u16,
         mineral_cost: 1u16,
@@ -12323,9 +12323,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
             x: 148i16,
             y: 100i16,
         },
-        unit_rect: IRect {
-            min: IVec2 { x: 28i32, y: 17i32 },
-            max: IVec2 { x: 41i32, y: 20i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 28u32, y: 17u32 },
+            max: UVec2 { x: 41u32, y: 20u32 },
         },
         portrait: 65535u16,
         mineral_cost: 1u16,
@@ -12377,9 +12377,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 64i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 32i32, y: 32i32 },
-            max: IVec2 { x: 31i32, y: 31i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 32u32, y: 32u32 },
+            max: UVec2 { x: 31u32, y: 31u32 },
         },
         portrait: 65535u16,
         mineral_cost: 1u16,
@@ -12431,9 +12431,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 64i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 65535u16,
         mineral_cost: 1u16,
@@ -12485,9 +12485,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 64i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 65535u16,
         mineral_cost: 1u16,
@@ -12539,9 +12539,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 64i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 65535u16,
         mineral_cost: 1u16,
@@ -12593,9 +12593,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 64i16, y: 64i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 65535u16,
         mineral_cost: 1u16,
@@ -12650,9 +12650,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
             x: 128i16,
             y: 96i16,
         },
-        unit_rect: IRect {
-            min: IVec2 { x: 48i32, y: 32i32 },
-            max: IVec2 { x: 48i32, y: 32i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 48u32, y: 32u32 },
+            max: UVec2 { x: 48u32, y: 32u32 },
         },
         portrait: 65535u16,
         mineral_cost: 0u16,
@@ -12704,9 +12704,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 82u16,
         mineral_cost: 1u16,
@@ -12758,9 +12758,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 32u16,
         mineral_cost: 1u16,
@@ -12812,9 +12812,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 80u16,
         mineral_cost: 1u16,
@@ -12866,9 +12866,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 79u16,
         mineral_cost: 1u16,
@@ -12920,9 +12920,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 81u16,
         mineral_cost: 1u16,
@@ -12974,9 +12974,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 78u16,
         mineral_cost: 1u16,
@@ -13028,9 +13028,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 78u16,
         mineral_cost: 1u16,
@@ -13082,9 +13082,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 76u16,
         mineral_cost: 1u16,
@@ -13136,9 +13136,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 76u16,
         mineral_cost: 1u16,
@@ -13190,9 +13190,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 77u16,
         mineral_cost: 1u16,
@@ -13244,9 +13244,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 77u16,
         mineral_cost: 1u16,
@@ -13298,9 +13298,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 75u16,
         mineral_cost: 1u16,
@@ -13352,9 +13352,9 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         what_sound_start: 15u16,
         what_sound_end: 15u16,
         placebox_size: I16Vec2 { x: 32i16, y: 32i16 },
-        unit_rect: IRect {
-            min: IVec2 { x: 16i32, y: 16i32 },
-            max: IVec2 { x: 15i32, y: 15i32 },
+        unit_rect: URect {
+            min: UVec2 { x: 16u32, y: 16u32 },
+            max: UVec2 { x: 15u32, y: 15u32 },
         },
         portrait: 75u16,
         mineral_cost: 1u16,

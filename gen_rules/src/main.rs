@@ -362,16 +362,16 @@ impl ByteReadable for Rect16 {
 
 impl ToTokens for Rect16 {
     fn to_tokens(&self, tokens: &mut TokenStream) {
-        let left = self.left as i32;
-        let top = self.top as i32;
-        let right = self.right as i32;
-        let bottom = self.bottom as i32;
-        // NOTE(tec27): Bevy doesn't have an I16Rect type so I'm just using the base IRect type,
+        let left = self.left as u32;
+        let top = self.top as u32;
+        let right = self.right as u32;
+        let bottom = self.bottom as u32;
+        // NOTE(tec27): Bevy doesn't have an U16Rect type so I'm just using the base URect type,
         // doubt it really matters that much in the scheme of things
         let code = quote! {
-            IRect {
-                min: IVec2 { x: #left, y: #top },
-                max: IVec2 { x: #right, y: #bottom },
+            URect {
+                min: UVec2 { x: #left, y: #top },
+                max: UVec2 { x: #right, y: #bottom },
             }
         };
         code.to_tokens(tokens);
@@ -653,8 +653,8 @@ fn write_units(data: UnitData) -> anyhow::Result<()> {
     let num_entries = entries.len();
 
     let tokens = quote! {
-        use crate::gamedata::{Construct, ConstructKind, BuildingData, UnitData};
-        use bevy::math::{I16Vec2, IRect, IVec2};
+        use crate::gamedata::{BuildingData, Construct, ConstructKind, UnitData};
+        use bevy::math::{I16Vec2, URect, UVec2};
 
         /// Contains data for all units, buildings, and other constructs in the game.
         pub const CONSTRUCTS: [Construct; #num_entries] = [#(#entries,)*];

@@ -41,6 +41,8 @@ pub struct MapAssetSettings {
 
 #[derive(Asset, Debug, TypePath)]
 pub struct MapAsset {
+    /// The name of the map.
+    pub name: String,
     /// Width of the map in tiles.
     pub width: u32,
     /// Height of the map in tiles.
@@ -111,6 +113,12 @@ impl AssetLoader for MapAssetLoader {
             info!("Loaded {} tile textures", tile_textures.len());
 
             Ok(MapAsset {
+                name: chk
+                    .scenario_props()
+                    .ok()
+                    .map(|p| p.name.clone())
+                    .flatten()
+                    .unwrap_or_default(),
                 width: chk.width() as u32,
                 height: chk.height() as u32,
                 tileset,

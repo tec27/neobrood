@@ -5,9 +5,10 @@ use bevy::utils::HashMap;
 use bevy::{prelude::*, transform::TransformSystem};
 use bevy_ecs_tilemap::prelude::*;
 
+use crate::constructs::ConstructBundle;
 use crate::settings::GameSettings;
 use crate::{
-    constructs::{ConstructTypeId, OwnedConstruct},
+    constructs::OwnedConstruct,
     gamedata::{BwGameData, LoadingAnim, CONSTRUCTS, SPRITES},
     maps::game_map::{GameMapBundle, GameMapSize},
     render::ysort::YSort,
@@ -92,13 +93,16 @@ fn map_init(
 
     info!("Map loaded!");
     let map_entity = commands
-        .spawn(GameMapBundle {
-            size: GameMapSize {
-                width: map.width,
-                height: map.height,
+        .spawn((
+            GameMapBundle {
+                size: GameMapSize {
+                    width: map.width,
+                    height: map.height,
+                },
+                ..default()
             },
-            ..default()
-        })
+            Name::new(format!("GameMap - {}", map.name)),
+        ))
         .id();
     create_tilemap(
         &mut commands,
@@ -291,15 +295,16 @@ fn create_placed_units(commands: &mut Commands, map: &MapAsset, map_entity: Enti
         };
 
         let image_id = construct.flingy().sprite().image_id;
-        let construct_id = ConstructTypeId::from(unit.unit_id);
+        let construct_type = unit.unit_id.into();
 
         let entity = commands
             .spawn((
-                SpatialBundle::default(),
-                Position::new(unit.x, unit.y),
-                construct_id,
-                YSort(2.0),
-                Name::new(format!("Unit #{} - {:?}", unit.unit_id, construct_id)),
+                ConstructBundle {
+                    construct_type,
+                    position: Position::new(unit.x, unit.y),
+                    ..default()
+                },
+                Name::new(format!("Unit #{} - {:?}", unit.unit_id, construct_type)),
             ))
             .with_children(|builder| {
                 builder.spawn(LoadingAnim::new(image_id));

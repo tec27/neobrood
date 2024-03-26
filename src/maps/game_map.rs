@@ -1,5 +1,8 @@
 use bevy::prelude::*;
 
+/// The size that all BW game logic assumes tiles are (in pixels).
+pub const LOGIC_TILE_SIZE: f32 = 32.0;
+
 #[derive(Component, Default, Reflect)]
 pub struct GameMap;
 
