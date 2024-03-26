@@ -168,15 +168,12 @@ fn search_for_empty_position(
     }
     warn!("placement_rect: {placement_rect:?}");
 
+    // Search along the bottom edge
     let mut cur_bounds =
         placed.bounding_box(IVec2::new(placement_rect.min.x, placement_rect.max.y));
     let mut x = placement_rect.min.x;
     while x <= placement_rect.max.x {
-        if cur_bounds.min.x > global_bounds.min.x
-            && cur_bounds.min.y > global_bounds.min.y
-            && cur_bounds.max.x < global_bounds.max.x
-            && cur_bounds.max.y < global_bounds.max.y
-        {
+        if cur_bounds.intersect(global_bounds) == cur_bounds {
             warn!("finding unit blocking: {cur_bounds:?}");
             if let Some(blocking) = find_blocking_construct(constructs, cur_bounds) {
                 warn!("found blocking unit in search path: {blocking:?}");
@@ -188,7 +185,7 @@ fn search_for_empty_position(
                 return Some(pos);
             }
         } else {
-            warn!("cur_bounds is outside map bounds: {cur_bounds:?}");
+            warn!("cur_bounds is outside search bounds: {cur_bounds:?}");
         }
 
         cur_bounds.min.x += 8;
@@ -196,9 +193,80 @@ fn search_for_empty_position(
         x += 8;
     }
 
-    // FIXME: search along right side
-    // FIxME: search along top side
-    // FIXME: search along left side
+    // Search along right edge
+    let mut cur_bounds =
+        placed.bounding_box(IVec2::new(placement_rect.max.x, placement_rect.max.y));
+    let mut y = placement_rect.max.y;
+    while y >= placement_rect.min.y {
+        if cur_bounds.intersect(global_bounds) == cur_bounds {
+            warn!("finding unit blocking: {cur_bounds:?}");
+            if let Some(blocking) = find_blocking_construct(constructs, cur_bounds) {
+                warn!("found blocking unit in search path: {blocking:?}");
+                // FIXME: skip area of search path that blocking unit occupies
+            } else {
+                // TODO(tec27): Check that terrain can fit the unit
+                let pos = IVec2::new(placement_rect.max.x, y);
+                warn!("empty position found: {pos:?}");
+                return Some(pos);
+            }
+        } else {
+            warn!("cur_bounds is outside search bounds: {cur_bounds:?}");
+        }
+
+        cur_bounds.min.y -= 8;
+        cur_bounds.max.y -= 8;
+        y -= 8;
+    }
+
+    // Search along top edge
+    let mut cur_bounds =
+        placed.bounding_box(IVec2::new(placement_rect.max.x, placement_rect.min.y));
+    x = placement_rect.max.x;
+    while x >= placement_rect.min.x {
+        if cur_bounds.intersect(global_bounds) == cur_bounds {
+            warn!("finding unit blocking: {cur_bounds:?}");
+            if let Some(blocking) = find_blocking_construct(constructs, cur_bounds) {
+                warn!("found blocking unit in search path: {blocking:?}");
+                // FIXME: skip area of search path that blocking unit occupies
+            } else {
+                // TODO(tec27): Check that terrain can fit the unit
+                let pos = IVec2::new(x, placement_rect.min.y);
+                warn!("empty position found: {pos:?}");
+                return Some(pos);
+            }
+        } else {
+            warn!("cur_bounds is outside search bounds: {cur_bounds:?}");
+        }
+
+        cur_bounds.min.x -= 8;
+        cur_bounds.max.x -= 8;
+        x -= 8;
+    }
+
+    // Search along left edge
+    let mut cur_bounds =
+        placed.bounding_box(IVec2::new(placement_rect.min.x, placement_rect.min.y));
+    let mut y = placement_rect.min.y;
+    while y <= placement_rect.max.y {
+        if cur_bounds.intersect(global_bounds) == cur_bounds {
+            warn!("finding unit blocking: {cur_bounds:?}");
+            if let Some(blocking) = find_blocking_construct(constructs, cur_bounds) {
+                warn!("found blocking unit in search path: {blocking:?}");
+                // FIXME: skip area of search path that blocking unit occupies
+            } else {
+                // TODO(tec27): Check that terrain can fit the unit
+                let pos = IVec2::new(placement_rect.min.x, y);
+                warn!("empty position found: {pos:?}");
+                return Some(pos);
+            }
+        } else {
+            warn!("cur_bounds is outside search bounds: {cur_bounds:?}");
+        }
+
+        cur_bounds.min.y += 8;
+        cur_bounds.max.y += 8;
+        y += 8;
+    }
 
     None
 }
