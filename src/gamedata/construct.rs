@@ -1,8 +1,10 @@
 use bevy::{
     ecs::component::Component,
-    math::{I16Vec2, IRect, IVec2, U16Vec2, URect, UVec2},
+    math::{I16Vec2, IRect, IVec2},
 };
 use num_enum::{FromPrimitive, IntoPrimitive};
+
+use crate::math::bounds::IBounds;
 
 use super::{BwImage, Flingy};
 
@@ -44,8 +46,8 @@ pub struct Construct {
     pub what_sound_start: u16,
     pub what_sound_end: u16,
     pub placebox_size: I16Vec2,
-    // TODO(tec27): an Aabb type would be more correct for this
-    pub unit_rect: URect,
+    /// The space that this [Construct] takes up on the map, in logical pixels..
+    pub bounds: IBounds,
     pub portrait: u16,
     pub mineral_cost: u16,
     pub vespene_cost: u16,
@@ -106,14 +108,6 @@ impl Construct {
     #[inline]
     pub fn type_id(&self) -> ConstructTypeId {
         self.id.into()
-    }
-
-    #[inline]
-    pub fn bounding_box(&self, position: IVec2) -> IRect {
-        // TODO(tec27): Clean this up to require less conversions
-        let min = IVec2::new(self.unit_rect.min.x as i32, self.unit_rect.min.y as i32);
-        let max = IVec2::new(self.unit_rect.max.x as i32, self.unit_rect.max.y as i32);
-        IRect::from_corners(position - min, position + max)
     }
 }
 

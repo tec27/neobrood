@@ -268,7 +268,7 @@ fn create_map_sprites(commands: &mut Commands, map: &MapAsset, map_entity: Entit
         commands
             .spawn((
                 SpatialBundle::default(),
-                Position::new(sprite.x, sprite.y),
+                Position::new(sprite.x.into(), sprite.y.into()),
                 YSort(2.0),
                 Name::new(format!("Sprite #{i}")),
             ))
@@ -301,7 +301,7 @@ fn create_placed_units(commands: &mut Commands, map: &MapAsset, map_entity: Enti
             .spawn((
                 ConstructBundle {
                     construct_type,
-                    position: Position::new(unit.x, unit.y),
+                    position: Position::new(unit.x.into(), unit.y.into()),
                     ..default()
                 },
                 Name::new(format!("Unit #{} - {:?}", unit.unit_id, construct_type)),

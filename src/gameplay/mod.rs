@@ -1,4 +1,4 @@
-use bevy::{math::U16Vec2, prelude::*};
+use bevy::prelude::*;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 use crate::{

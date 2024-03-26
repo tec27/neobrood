@@ -22,6 +22,7 @@ pub mod gamedata;
 pub mod gameplay;
 pub mod main_menu;
 pub mod maps;
+pub mod math;
 pub mod players;
 pub mod races;
 pub mod random;

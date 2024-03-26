@@ -342,14 +342,14 @@ impl ToTokens for Point16 {
 }
 
 #[derive(Copy, Clone, Eq, PartialEq, Default, Debug)]
-pub struct Rect16 {
+pub struct Bounds16 {
     pub left: i16,
     pub top: i16,
     pub right: i16,
     pub bottom: i16,
 }
 
-impl ByteReadable for Rect16 {
+impl ByteReadable for Bounds16 {
     fn read(reader: &mut impl ReadBytesExt) -> anyhow::Result<Self> {
         Ok(Self {
             left: reader.read_i16::<LittleEndian>()?,
@@ -360,18 +360,18 @@ impl ByteReadable for Rect16 {
     }
 }
 
-impl ToTokens for Rect16 {
+impl ToTokens for Bounds16 {
     fn to_tokens(&self, tokens: &mut TokenStream) {
-        let left = self.left as u32;
-        let top = self.top as u32;
-        let right = self.right as u32;
-        let bottom = self.bottom as u32;
-        // NOTE(tec27): Bevy doesn't have an U16Rect type so I'm just using the base URect type,
-        // doubt it really matters that much in the scheme of things
+        let left = self.left as i32;
+        let top = self.top as i32;
+        let right = self.right as i32;
+        let bottom = self.bottom as i32;
         let code = quote! {
-            URect {
-                min: UVec2 { x: #left, y: #top },
-                max: UVec2 { x: #right, y: #bottom },
+            IBounds {
+                left: #left,
+                top: #top,
+                right: #right,
+                bottom: #bottom,
             }
         };
         code.to_tokens(tokens);
@@ -429,7 +429,7 @@ pub struct UnitData {
     pub yes_sound_end: [u16; NUM_UNITS],
     pub placebox_size: [Point16; NUM_UNIT_DATA],
     pub addon_size: [Point16; NUM_BUILDINGS],
-    pub unit_rect: [Rect16; NUM_UNIT_DATA],
+    pub bounds: [Bounds16; NUM_UNIT_DATA],
     pub portrait: [u16; NUM_UNIT_DATA],
     pub mineral_cost: [u16; NUM_UNIT_DATA],
     pub vespene_cost: [u16; NUM_UNIT_DATA],
@@ -491,7 +491,7 @@ fn load_units_dat(mut bytes: &[u8]) -> anyhow::Result<UnitData> {
         yes_sound_end: bytes.read_u16_array::<NUM_UNITS>()?,
         placebox_size: bytes.read_array::<Point16, NUM_UNIT_DATA>()?,
         addon_size: bytes.read_array::<Point16, NUM_BUILDINGS>()?,
-        unit_rect: bytes.read_array::<Rect16, NUM_UNIT_DATA>()?,
+        bounds: bytes.read_array::<Bounds16, NUM_UNIT_DATA>()?,
         portrait: bytes.read_u16_array::<NUM_UNIT_DATA>()?,
         mineral_cost: bytes.read_u16_array::<NUM_UNIT_DATA>()?,
         vespene_cost: bytes.read_u16_array::<NUM_UNIT_DATA>()?,
@@ -545,7 +545,7 @@ fn write_units(data: UnitData) -> anyhow::Result<()> {
         let what_sound_start = data.what_sound_start[i];
         let what_sound_end = data.what_sound_end[i];
         let placebox_size = data.placebox_size[i];
-        let unit_rect = data.unit_rect[i];
+        let bounds = data.bounds[i];
         let portrait = data.portrait[i];
         let mineral_cost = data.mineral_cost[i];
         let vespene_cost = data.vespene_cost[i];
@@ -628,7 +628,7 @@ fn write_units(data: UnitData) -> anyhow::Result<()> {
                 what_sound_start: #what_sound_start,
                 what_sound_end: #what_sound_end,
                 placebox_size: #placebox_size,
-                unit_rect: #unit_rect,
+                bounds: #bounds,
                 portrait: #portrait,
                 mineral_cost: #mineral_cost,
                 vespene_cost: #vespene_cost,
@@ -654,7 +654,8 @@ fn write_units(data: UnitData) -> anyhow::Result<()> {
 
     let tokens = quote! {
         use crate::gamedata::{BuildingData, Construct, ConstructKind, UnitData};
-        use bevy::math::{I16Vec2, URect, UVec2};
+        use crate::math::bounds::IBounds;
+        use bevy::math::I16Vec2;
 
         /// Contains data for all units, buildings, and other constructs in the game.
         pub const CONSTRUCTS: [Construct; #num_entries] = [#(#entries,)*];

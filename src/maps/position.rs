@@ -4,57 +4,47 @@ use crate::settings::GameSettings;
 
 use super::game_map::{GameMap, GameMapSize, LOGIC_TILE_SIZE};
 
+/// The position of something on the map, in logical pixels. Components of this type are
+/// automatically applied to the entity's transform.
 #[derive(Component, Debug, Clone, Copy, PartialEq, Eq, Hash, Reflect, Default)]
 pub struct Position {
-    pub x: u16,
-    pub y: u16,
+    pub x: i32,
+    pub y: i32,
 }
 
 impl Position {
-    pub const fn new(x: u16, y: u16) -> Self {
+    pub const fn new(x: i32, y: i32) -> Self {
         Self { x, y }
-    }
-}
-
-impl From<Position> for U16Vec2 {
-    fn from(value: Position) -> Self {
-        Self::new(value.x, value.y)
-    }
-}
-
-impl From<&Position> for U16Vec2 {
-    fn from(value: &Position) -> Self {
-        Self::new(value.x, value.y)
     }
 }
 
 impl From<U16Vec2> for Position {
     fn from(value: U16Vec2) -> Self {
-        Self::new(value.x, value.y)
+        Self::new(value.x as i32, value.y as i32)
     }
 }
 
 impl From<&U16Vec2> for Position {
     fn from(value: &U16Vec2) -> Self {
+        Self::new(value.x as i32, value.y as i32)
+    }
+}
+
+impl From<IVec2> for Position {
+    fn from(value: IVec2) -> Self {
         Self::new(value.x, value.y)
     }
 }
 
-impl From<Position> for Vec2 {
-    fn from(value: Position) -> Self {
-        Self::new(value.x as f32, value.y as f32)
-    }
-}
-
-impl From<&Position> for Vec2 {
-    fn from(value: &Position) -> Self {
-        Self::new(value.x as f32, value.y as f32)
+impl From<&IVec2> for Position {
+    fn from(value: &IVec2) -> Self {
+        Self::new(value.x, value.y)
     }
 }
 
 impl From<Position> for IVec2 {
     fn from(value: Position) -> Self {
-        Self::new(value.x as i32, value.y as i32)
+        Self::new(value.x, value.y)
     }
 }
 
@@ -64,13 +54,13 @@ impl From<&Position> for IVec2 {
     }
 }
 
-impl PartialEq<U16Vec2> for Position {
-    fn eq(&self, other: &U16Vec2) -> bool {
+impl PartialEq<IVec2> for Position {
+    fn eq(&self, other: &IVec2) -> bool {
         self.x == other.x && self.y == other.y
     }
 }
 
-impl PartialEq<Position> for U16Vec2 {
+impl PartialEq<Position> for IVec2 {
     fn eq(&self, other: &Position) -> bool {
         self.x == other.x && self.y == other.y
     }
@@ -101,7 +91,7 @@ pub fn position_to_transform(
     let half_tile_adjustment = Vec2::new(tile_size.x / 2.0, tile_size.y / 2.0);
 
     for (pos, mut transform) in positioned.iter_mut() {
-        let mut pos = Vec2::from(pos) / LOGIC_TILE_SIZE;
+        let mut pos = Vec2::new(pos.x as f32, pos.y as f32) / LOGIC_TILE_SIZE;
         pos.y = map_size.height as f32 - pos.y;
         transform.translation =
             ((pos - half_map_size) * tile_size - half_tile_adjustment).extend(0.0);
