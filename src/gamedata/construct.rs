@@ -1,7 +1,4 @@
-use bevy::{
-    ecs::component::Component,
-    math::{I16Vec2},
-};
+use bevy::{ecs::component::Component, math::I16Vec2};
 use num_enum::{FromPrimitive, IntoPrimitive};
 
 use crate::math::bounds::IBounds;
