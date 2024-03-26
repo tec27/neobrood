@@ -27,17 +27,17 @@ impl IBounds {
     }
 
     #[inline]
-    pub fn width(&self) -> i32 {
+    pub const fn width(&self) -> i32 {
         self.right + self.left
     }
 
     #[inline]
-    pub fn height(&self) -> i32 {
+    pub const fn height(&self) -> i32 {
         self.bottom + self.top
     }
 
     #[inline]
-    pub fn size(&self) -> IVec2 {
+    pub const fn size(&self) -> IVec2 {
         IVec2::new(self.width(), self.height())
     }
 

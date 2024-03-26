@@ -67,3 +67,25 @@ impl Default for ConstructBundle {
         }
     }
 }
+
+const fn max_construct_size() -> i32 {
+    let mut max_size = 0;
+    let mut i = 0;
+    while i < CONSTRUCTS.len() {
+        let size = CONSTRUCTS[i].bounds.size();
+        if max_size < size.x {
+            max_size = size.x;
+        }
+        if max_size < size.y {
+            max_size = size.y;
+        }
+        i += 1;
+    }
+
+    return max_size;
+}
+
+/// The maximum size of any [Construct] (width or height) in logical pixels. This is intended to be
+/// useful when deciding how to size spatial indexes or other data structures that need to deal
+/// with positional data and overlaps.
+pub const MAX_CONSTRUCT_SIZE: i32 = max_construct_size();
