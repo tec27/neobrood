@@ -186,8 +186,10 @@ fn init_melee_game(
                 builder.spawn(LoadingAnim::new(image_id));
             });
 
+        warn!("{:?} is at {:?}", *construct_type, position);
+
         let worker_type = player.race.worker();
-        for _ in 0..4 {
+        for _ in 0..100 {
             commands.create_and_place_construct(worker_type.type_id(), *position, Some(owner.0))
         }
     }

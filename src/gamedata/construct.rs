@@ -109,7 +109,19 @@ impl Construct {
 }
 
 /// Specifies the type (e.g. class) of a construct (i.e. marine, zergling, mineral field, etc.).
-#[derive(Component, Debug, Clone, Copy, PartialEq, Eq, Hash, FromPrimitive, IntoPrimitive)]
+#[derive(
+    Component,
+    Debug,
+    Clone,
+    Copy,
+    PartialEq,
+    Eq,
+    PartialOrd,
+    Ord,
+    Hash,
+    FromPrimitive,
+    IntoPrimitive,
+)]
 #[repr(u16)]
 pub enum ConstructTypeId {
     TerranMarine = 0,

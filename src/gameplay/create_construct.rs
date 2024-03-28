@@ -17,12 +17,7 @@ struct CreateAndPlaceConstruct {
 }
 
 impl Command for CreateAndPlaceConstruct {
-    fn apply(self, world: &mut World) {
-        warn!(
-            "PLACING UNIT: {:?} at {:?}",
-            self.construct_type, self.position
-        );
-
+    fn apply(self, mut world: &mut World) {
         let position: IVec2 = self.position.into();
         let map_size = world
             .query_filtered::<&GameMapSize, With<GameMap>>()
@@ -42,15 +37,8 @@ impl Command for CreateAndPlaceConstruct {
             .collect::<Vec<_>>();
         constructs.sort_by_key(|(_, p)| p.x);
 
-        let construct_rect = self.construct_type.def().bounds.at_pos(position);
-        let is_within_map_bounds =
-            map_bounds.contains(construct_rect.min) && map_bounds.contains(construct_rect.max);
-        if !is_within_map_bounds {
-            warn!("unit placed outside of map bounds");
-            // TODO(tec27): Do something with this to offset the initial search location
-        }
-        let blocking_construct = find_blocking_construct(&constructs, construct_rect);
-        if blocking_construct.is_none() && is_within_map_bounds {
+        let spawn_construct = |world: &mut World, position: IVec2| {
+            warn!("Placing {:?} at {position:?}", self.construct_type);
             let mut entity = world.spawn((
                 ConstructBundle {
                     construct_type: self.construct_type,
@@ -67,26 +55,39 @@ impl Command for CreateAndPlaceConstruct {
                     self.construct_type.def().flingy().sprite().image_id,
                 ));
             });
+        };
+
+        let construct_rect = self.construct_type.def().bounds.at_pos(position);
+        let is_within_map_bounds =
+            map_bounds.contains(construct_rect.min) && map_bounds.contains(construct_rect.max);
+        if !is_within_map_bounds {
+            warn!("unit placed outside of map bounds");
+            // TODO(tec27): Do something with this to offset the initial search location
+        }
+        let blocking_construct = find_blocking_construct(&constructs, construct_rect);
+        if blocking_construct.is_none() && is_within_map_bounds {
+            spawn_construct(&mut world, position);
             return;
         }
 
-        let mut offset = if let Some((c, _)) = blocking_construct {
-            let placed_rect = self.construct_type.def().bounds;
-            let blocking_rect = c.def().bounds;
-            // Offset the search by the bottom/right of the blocking construct, plus the top/left of
-            // the placed construct
-            IVec2::new(
-                (placed_rect.left + blocking_rect.right + 2).max(8),
-                (placed_rect.top + blocking_rect.bottom + 2).max(8),
-            )
-        } else {
-            IVec2::new(8, 8)
-        };
+        let mut offset = blocking_construct
+            .map(|(c, _)| {
+                let placed_rect = self.construct_type.def().bounds;
+                let blocking_rect = c.def().bounds;
+                // Offset the search by the bottom/right of the blocking construct, plus the top/left of
+                // the placed construct
+                IVec2::new(
+                    (placed_rect.left + blocking_rect.right + 2).max(8),
+                    (placed_rect.top + blocking_rect.bottom + 2).max(8),
+                )
+            })
+            .unwrap_or(IVec2::new(8, 8));
 
         loop {
             let next_pos = position - offset;
             if !search_bounds.contains(next_pos) || !search_bounds.contains(position + offset) {
-                warn!("unit placement exceeded search bounds");
+                // TODO(tec27): Exceeded search bounds (e.g. we failed to place the construct,
+                // need to notify things in some way (event?))
                 break;
             }
 
@@ -97,22 +98,7 @@ impl Command for CreateAndPlaceConstruct {
                 search_bounds,
                 &constructs,
             ) {
-                let mut entity = world.spawn((
-                    ConstructBundle {
-                        construct_type: self.construct_type,
-                        position: found.into(),
-                        ..default()
-                    },
-                    InGameOnly,
-                ));
-                if let Some(owner) = self.owner {
-                    entity.insert(OwnedConstruct(owner));
-                }
-                entity.with_children(|builder| {
-                    builder.spawn(LoadingAnim::new(
-                        self.construct_type.def().flingy().sprite().image_id,
-                    ));
-                });
+                spawn_construct(&mut world, found);
                 return;
             }
 
@@ -157,13 +143,11 @@ fn search_for_empty_position(
     .intersect(global_bounds);
 
     let placed_size = placed.bounds.size();
-    warn!("placed_size: {placed_size:?}");
 
     // Start the search a little right of the left edge (if there is space to do so)
     if offset.x > placed_size.x + 1 {
-        placement_rect.min.x += (placed_size.x + 1) & !7;
+        placement_rect.min.x += (placed_size.x + 1 + 7) & !7;
     }
-    warn!("placement_rect: {placement_rect:?}");
 
     // Search along the bottom edge
     let mut cur_bounds = placed
@@ -172,12 +156,10 @@ fn search_for_empty_position(
     let mut x = placement_rect.min.x;
     while x <= placement_rect.max.x {
         if cur_bounds.intersect(global_bounds) == cur_bounds {
-            warn!("finding unit blocking: {cur_bounds:?}");
             if let Some(blocking) = find_blocking_construct(constructs, cur_bounds) {
-                warn!("found blocking unit in search path: {blocking:?}");
-                // Shove the left edge of the search boudns to the center of the blocking construct,
-                // then add the right size of place construct plus 1 to clear its bounds
-                let mut inc = (blocking.1.x - cur_bounds.min.x) + placed.bounds.right + 1;
+                // Shove the left edge of the search bounds to the center of the blocking construct,
+                // then add the right size of blocking construct plus 1 to clear its bounds
+                let mut inc = blocking.1.x - cur_bounds.min.x + blocking.0.def().bounds.right + 1;
                 // Push inc to the next quantized boundary
                 inc += (8 - ((x + inc) & 7)) & 7;
                 cur_bounds.min.x += inc;
@@ -187,11 +169,8 @@ fn search_for_empty_position(
             } else {
                 // TODO(tec27): Check that terrain can fit the unit
                 let pos = IVec2::new(x, placement_rect.max.y);
-                warn!("empty position found: {pos:?}");
                 return Some(pos);
             }
-        } else {
-            warn!("cur_bounds is outside search bounds: {cur_bounds:?}");
         }
 
         cur_bounds.min.x += 8;
@@ -206,22 +185,31 @@ fn search_for_empty_position(
     let mut y = placement_rect.max.y;
     while y >= placement_rect.min.y {
         if cur_bounds.intersect(global_bounds) == cur_bounds {
-            warn!("finding unit blocking: {cur_bounds:?}");
             if let Some(blocking) = find_blocking_construct(constructs, cur_bounds) {
-                warn!("found blocking unit in search path: {blocking:?}");
+                // Shove the bottom edge of the search bounds to the center of the blocking
+                // construct, then add the top size of blocking construct plus 1 to clear its bounds
+                let mut dec = cur_bounds.max.y - (blocking.1.y - blocking.0.def().bounds.top - 1);
+                dec += (8 - ((y - dec) & 7)) & 7;
+                cur_bounds.min.y -= dec;
+                cur_bounds.max.y -= dec;
+                y -= dec;
+                continue;
             } else {
                 // TODO(tec27): Check that terrain can fit the unit
                 let pos = IVec2::new(placement_rect.max.x, y);
-                warn!("empty position found: {pos:?}");
                 return Some(pos);
             }
-        } else {
-            warn!("cur_bounds is outside search bounds: {cur_bounds:?}");
         }
 
         cur_bounds.min.y -= 8;
         cur_bounds.max.y -= 8;
         y -= 8;
+    }
+
+    // Adjust the placement rect back to the original position if we adjusted it above
+    // TODO(tec27): Deal with this differently, this code is super brittle :)
+    if offset.x > placed_size.x + 1 {
+        placement_rect.min.x -= (placed_size.x + 1 + 7) & !7;
     }
 
     // Search along top edge
@@ -231,18 +219,21 @@ fn search_for_empty_position(
     x = placement_rect.max.x;
     while x >= placement_rect.min.x {
         if cur_bounds.intersect(global_bounds) == cur_bounds {
-            warn!("finding unit blocking: {cur_bounds:?}");
             if let Some(blocking) = find_blocking_construct(constructs, cur_bounds) {
-                warn!("found blocking unit in search path: {blocking:?}");
-                // FIXME: skip area of search path that blocking unit occupies
+                // Shove the right edge of the search bounds to the center of the blocking
+                // construct, then add the left size of blocking construct plus 1 to clear its
+                // bounds
+                let mut dec = cur_bounds.max.x - (blocking.1.x - blocking.0.def().bounds.left - 1);
+                dec += (8 - ((x - dec) & 7)) & 7;
+                cur_bounds.min.x -= dec;
+                cur_bounds.max.x -= dec;
+                x -= dec;
+                continue;
             } else {
                 // TODO(tec27): Check that terrain can fit the unit
                 let pos = IVec2::new(x, placement_rect.min.y);
-                warn!("empty position found: {pos:?}");
                 return Some(pos);
             }
-        } else {
-            warn!("cur_bounds is outside search bounds: {cur_bounds:?}");
         }
 
         cur_bounds.min.x -= 8;
@@ -257,18 +248,21 @@ fn search_for_empty_position(
     let mut y = placement_rect.min.y;
     while y <= placement_rect.max.y {
         if cur_bounds.intersect(global_bounds) == cur_bounds {
-            warn!("finding unit blocking: {cur_bounds:?}");
             if let Some(blocking) = find_blocking_construct(constructs, cur_bounds) {
-                warn!("found blocking unit in search path: {blocking:?}");
-                // FIXME: skip area of search path that blocking unit occupies
+                // Shove the top edge of the search bounds to the center of the blocking
+                // construct, then add the bottom size of blocking construct plus 1 to clear its
+                // bounds
+                let mut inc = blocking.1.y - cur_bounds.min.y + blocking.0.def().bounds.bottom + 1;
+                inc += (8 - ((y + inc) & 7)) & 7;
+                cur_bounds.min.y += inc;
+                cur_bounds.max.y += inc;
+                y += inc;
+                continue;
             } else {
                 // TODO(tec27): Check that terrain can fit the unit
                 let pos = IVec2::new(placement_rect.min.x, y);
-                warn!("empty position found: {pos:?}");
                 return Some(pos);
             }
-        } else {
-            warn!("cur_bounds is outside search bounds: {cur_bounds:?}");
         }
 
         cur_bounds.min.y += 8;
