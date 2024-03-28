@@ -74,6 +74,8 @@ impl PartialEq<Position> for IVec2 {
     }
 }
 
+const LOGIC_TILE_SIZE_FLOAT: f32 = LOGIC_TILE_SIZE as f32;
+
 /// Updates entities' transforms based on their [Position] component and the current map
 /// size/tile size.
 pub fn position_to_transform(
@@ -99,7 +101,7 @@ pub fn position_to_transform(
     let half_tile_adjustment = Vec2::new(tile_size.x / 2.0, tile_size.y / 2.0);
 
     for (pos, mut transform) in positioned.iter_mut() {
-        let mut pos = Vec2::new(pos.x as f32, pos.y as f32) / LOGIC_TILE_SIZE;
+        let mut pos = Vec2::new(pos.x as f32, pos.y as f32) / LOGIC_TILE_SIZE_FLOAT;
         pos.y = map_size.height as f32 - pos.y;
         transform.translation =
             ((pos - half_map_size) * tile_size - half_tile_adjustment).extend(0.0);

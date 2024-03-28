@@ -22,8 +22,8 @@ impl Command for CreateAndPlaceConstruct {
         let map_size = world
             .query_filtered::<&GameMapSize, With<GameMap>>()
             .single(world);
-        let max_position = IVec2::new(map_size.width as i32, map_size.height as i32 - 1)
-            * (LOGIC_TILE_SIZE as i32);
+        let max_position =
+            IVec2::new(map_size.width as i32, map_size.height as i32 - 1) * LOGIC_TILE_SIZE;
         let map_bounds = IRect::from_corners(IVec2::ZERO, max_position);
         let search_bounds =
             IRect::from_corners(position - IVec2::splat(128), position + IVec2::splat(127))
@@ -72,20 +72,26 @@ impl Command for CreateAndPlaceConstruct {
 
         let mut offset = blocking_construct
             .map(|(c, _)| {
-                let placed_rect = self.construct_type.def().bounds;
-                let blocking_rect = c.def().bounds;
+                let placed = self.construct_type.def().bounds;
+                let blocking = c.def().bounds;
                 // Offset the search by the bottom/right of the blocking construct, plus the top/left of
                 // the placed construct
                 IVec2::new(
-                    (placed_rect.left + blocking_rect.right + 2).max(8),
-                    (placed_rect.top + blocking_rect.bottom + 2).max(8),
+                    (placed.left + blocking.right + 2).max(8),
+                    (placed.top + blocking.bottom + 2).max(8),
                 )
             })
             .unwrap_or(IVec2::new(8, 8));
 
         loop {
-            let next_pos = position - offset;
-            if !search_bounds.contains(next_pos) || !search_bounds.contains(position + offset) {
+            let next_min = position - offset;
+            let next_max = position + offset;
+
+            if next_min.x < search_bounds.min.x
+                && next_min.y < search_bounds.min.y
+                && next_max.x > search_bounds.max.x
+                && next_max.y > search_bounds.max.y
+            {
                 // TODO(tec27): Exceeded search bounds (e.g. we failed to place the construct,
                 // need to notify things in some way (event?))
                 break;
@@ -93,9 +99,10 @@ impl Command for CreateAndPlaceConstruct {
 
             if let Some(found) = search_for_empty_position(
                 self.construct_type.def(),
-                next_pos,
+                next_min,
                 offset,
                 search_bounds,
+                map_bounds,
                 &constructs,
             ) {
                 spawn_construct(&mut world, found);
@@ -129,7 +136,8 @@ fn search_for_empty_position(
     placed: &Construct,
     position: IVec2,
     offset: IVec2,
-    global_bounds: IRect,
+    search_bounds: IRect,
+    map_bounds: IRect,
     constructs: &[(&ConstructTypeId, &Position)],
 ) -> Option<IVec2> {
     // Potential placements are quantized to mini-tiles (8x8 logical pixels)
@@ -138,9 +146,9 @@ fn search_for_empty_position(
     let mut placement_rect = IRect::from_corners(
         position & !7,
         // This value gets rounded up to the nearest minitile (+7 makes this work like `ceil`)
-        (position + offset * 2 + 7) & !7,
+        (position + (offset * 2) + 7) & !7,
     )
-    .intersect(global_bounds);
+    .intersect(search_bounds);
 
     let placed_size = placed.bounds.size();
 
@@ -155,7 +163,7 @@ fn search_for_empty_position(
         .at_pos(IVec2::new(placement_rect.min.x, placement_rect.max.y));
     let mut x = placement_rect.min.x;
     while x <= placement_rect.max.x {
-        if cur_bounds.intersect(global_bounds) == cur_bounds {
+        if cur_bounds.intersect(map_bounds) == cur_bounds {
             if let Some(blocking) = find_blocking_construct(constructs, cur_bounds) {
                 // Shove the left edge of the search bounds to the center of the blocking construct,
                 // then add the right size of blocking construct plus 1 to clear its bounds
@@ -184,7 +192,7 @@ fn search_for_empty_position(
         .at_pos(IVec2::new(placement_rect.max.x, placement_rect.max.y));
     let mut y = placement_rect.max.y;
     while y >= placement_rect.min.y {
-        if cur_bounds.intersect(global_bounds) == cur_bounds {
+        if cur_bounds.intersect(map_bounds) == cur_bounds {
             if let Some(blocking) = find_blocking_construct(constructs, cur_bounds) {
                 // Shove the bottom edge of the search bounds to the center of the blocking
                 // construct, then add the top size of blocking construct plus 1 to clear its bounds
@@ -218,7 +226,7 @@ fn search_for_empty_position(
         .at_pos(IVec2::new(placement_rect.max.x, placement_rect.min.y));
     x = placement_rect.max.x;
     while x >= placement_rect.min.x {
-        if cur_bounds.intersect(global_bounds) == cur_bounds {
+        if cur_bounds.intersect(map_bounds) == cur_bounds {
             if let Some(blocking) = find_blocking_construct(constructs, cur_bounds) {
                 // Shove the right edge of the search bounds to the center of the blocking
                 // construct, then add the left size of blocking construct plus 1 to clear its
@@ -247,7 +255,7 @@ fn search_for_empty_position(
         .at_pos(IVec2::new(placement_rect.min.x, placement_rect.min.y));
     let mut y = placement_rect.min.y;
     while y <= placement_rect.max.y {
-        if cur_bounds.intersect(global_bounds) == cur_bounds {
+        if cur_bounds.intersect(map_bounds) == cur_bounds {
             if let Some(blocking) = find_blocking_construct(constructs, cur_bounds) {
                 // Shove the top edge of the search bounds to the center of the blocking
                 // construct, then add the bottom size of blocking construct plus 1 to clear its
