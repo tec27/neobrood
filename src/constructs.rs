@@ -68,16 +68,16 @@ impl Default for ConstructBundle {
     }
 }
 
-const fn max_construct_size() -> i32 {
-    let mut max_size = 0;
+const fn max_construct_size() -> IVec2 {
+    let mut max_size = IVec2::new(0, 0);
     let mut i = 0;
     while i < CONSTRUCTS.len() {
         let size = CONSTRUCTS[i].bounds.size();
-        if max_size < size.x {
-            max_size = size.x;
+        if max_size.x < size.x {
+            max_size.x = size.x;
         }
-        if max_size < size.y {
-            max_size = size.y;
+        if max_size.y < size.y {
+            max_size.y = size.y;
         }
         i += 1;
     }
@@ -85,7 +85,7 @@ const fn max_construct_size() -> i32 {
     return max_size;
 }
 
-/// The maximum size of any [Construct] (width or height) in logical pixels. This is intended to be
-/// useful when deciding how to size spatial indexes or other data structures that need to deal
-/// with positional data and overlaps.
-pub const MAX_CONSTRUCT_SIZE: i32 = max_construct_size();
+/// The maximum size of any [Construct] in logical pixels. This is intended to be useful when
+/// deciding how to size spatial indexes or other data structures that need to deal with positional
+/// data and overlaps.
+pub const MAX_CONSTRUCT_SIZE: IVec2 = max_construct_size();

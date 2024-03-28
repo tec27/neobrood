@@ -1,7 +1,7 @@
 use bevy::{ecs::system::Command, prelude::*};
 
 use crate::{
-    constructs::{ConstructBundle, OwnedConstruct},
+    constructs::{ConstructBundle, OwnedConstruct, MAX_CONSTRUCT_SIZE},
     gamedata::{Construct, ConstructTypeId, LoadingAnim},
     maps::{
         game_map::{GameMap, GameMapSize, LOGIC_TILE_SIZE},
@@ -116,8 +116,18 @@ impl Command for CreateAndPlaceConstruct {
 
 fn find_blocking_construct<'a>(
     constructs: &'a [(&'a ConstructTypeId, &'a Position)],
-    placed_bounds: IRect,
+    mut placed_bounds: IRect,
 ) -> Option<&'a (&'a ConstructTypeId, &'a Position)> {
+    // This is weird logic that BW's unit finding algorithm does, doesn't seem very sensible to me
+    // but we have to do it as well or positioning logic won't work out the same
+    let placed_size = placed_bounds.size();
+    if placed_size.x + 1 < MAX_CONSTRUCT_SIZE.x {
+        placed_bounds.max.x += 1;
+    }
+    if placed_size.y + 1 < MAX_CONSTRUCT_SIZE.y {
+        placed_bounds.max.y += 1;
+    }
+
     // TODO(tec27): This search can be more efficient because the list is sorted by x position
     // but probably also we should use some spatial index for this
     constructs.iter().find(|(&c, &p)| {
