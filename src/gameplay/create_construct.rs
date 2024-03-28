@@ -17,7 +17,7 @@ struct CreateAndPlaceConstruct {
 }
 
 impl Command for CreateAndPlaceConstruct {
-    fn apply(self, mut world: &mut World) {
+    fn apply(self, world: &mut World) {
         let position: IVec2 = self.position.into();
         let map_size = world
             .query_filtered::<&GameMapSize, With<GameMap>>()
@@ -66,7 +66,7 @@ impl Command for CreateAndPlaceConstruct {
         }
         let blocking_construct = find_blocking_construct(&constructs, construct_rect);
         if blocking_construct.is_none() && is_within_map_bounds {
-            spawn_construct(&mut world, position);
+            spawn_construct(world, position);
             return;
         }
 
@@ -105,7 +105,7 @@ impl Command for CreateAndPlaceConstruct {
                 map_bounds,
                 &constructs,
             ) {
-                spawn_construct(&mut world, found);
+                spawn_construct(world, found);
                 return;
             }
 

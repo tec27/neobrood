@@ -82,7 +82,7 @@ const fn max_construct_size() -> IVec2 {
         i += 1;
     }
 
-    return max_size;
+    max_size
 }
 
 /// The maximum size of any [Construct] in logical pixels. This is intended to be useful when
