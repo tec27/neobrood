@@ -186,11 +186,7 @@ fn init_melee_game(
             continue;
         };
 
-        let building = if player.race != Race::Terran {
-            player.race.hq_building()
-        } else {
-            ConstructTypeId::TerranBarracks.def()
-        };
+        let building = player.race.hq_building();
         *construct_type = building.type_id();
 
         let image_id = building.flingy().sprite().image_id;
@@ -207,14 +203,8 @@ fn init_melee_game(
                 builder.spawn(LoadingAnim::new(image_id));
             });
 
-        warn!("{:?} is at {:?}", *construct_type, position);
-
-        let worker_type = if player.race != Race::Terran {
-            player.race.worker()
-        } else {
-            ConstructTypeId::TerranMarine.def()
-        };
-        for _ in 0..100 {
+        let worker_type = player.race.worker();
+        for _ in 0..4 {
             commands.create_and_place_construct(worker_type.type_id(), *position, Some(owner.0))
         }
     }

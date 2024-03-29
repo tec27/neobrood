@@ -36,7 +36,6 @@ impl Command for CreateAndPlaceConstruct {
         constructs.sort_by_key(|(_, p)| p.x);
 
         let spawn_construct = |world: &mut World, position: IVec2| {
-            warn!("Placing {:?} at {position:?}", self.construct_type);
             let mut entity = world.spawn((
                 ConstructBundle {
                     construct_type: self.construct_type,
@@ -58,10 +57,7 @@ impl Command for CreateAndPlaceConstruct {
         let construct_rect = self.construct_type.def().bounds.at_pos(position);
         let is_within_map_bounds =
             map_bounds.contains(construct_rect.min) && map_bounds.contains(construct_rect.max);
-        if !is_within_map_bounds {
-            warn!("unit placed outside of map bounds");
-            // TODO(tec27): Do something with this to offset the initial search location
-        }
+
         let blocking_construct = find_blocking_construct(&constructs, construct_rect);
         if blocking_construct.is_none() && is_within_map_bounds {
             spawn_construct(world, position);

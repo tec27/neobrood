@@ -214,11 +214,18 @@ pub struct MegaTileInfo {
     /// the VF4 mini-tile flags (already in this struct), or the texture for this tile from the
     /// VR4 file.
     pub id: u16,
-    /// Flags for the mini-tiles that make up this mega-tile. Each mega-tile contains 8x8
+    /// Flags for the mini-tiles that make up this mega-tile. Each mega-tile contains 16 8x8
     /// mini-tiles, which can have separate walkability flags that are used in pathfinding. With
     /// SC:R assets, mini-tiles are no longer used for rendering, just pathing (contrary to what
     /// documentation about this format may specify).
     pub mini_tiles: [MiniTileFlags; 16],
+}
+
+impl MegaTileInfo {
+    #[inline]
+    pub fn mini_tile_at(&self, x: usize, y: usize) -> MiniTileFlags {
+        self.mini_tiles[y * 4 + x]
+    }
 }
 
 /// Calculate the flags for a mega-tile based on the flags of its mini-tiles and tile group.

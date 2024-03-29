@@ -6,6 +6,7 @@ use bevy::{prelude::*, transform::TransformSystem};
 use bevy_ecs_tilemap::prelude::*;
 
 use crate::constructs::ConstructBundle;
+use crate::maps::game_map::GameMapTerrain;
 use crate::settings::GameSettings;
 use crate::{
     constructs::OwnedConstruct,
@@ -99,6 +100,12 @@ fn map_init(
                     width: map.width,
                     height: map.height,
                 },
+                // TODO(tec27): Handle errors in this conversion properly
+                terrain: GameMapTerrain::from_terrain_and_lookup(
+                    &map.terrain,
+                    &map.mega_tile_lookup,
+                )
+                .unwrap(),
                 ..default()
             },
             Name::new(format!("GameMap - {}", map.name)),
