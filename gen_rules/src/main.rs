@@ -364,8 +364,12 @@ impl ToTokens for Bounds16 {
     fn to_tokens(&self, tokens: &mut TokenStream) {
         let left = self.left as i32;
         let top = self.top as i32;
-        let right = self.right as i32;
-        let bottom = self.bottom as i32;
+        // NOTE(tec27): BW treats a bounds of (0, 0, 0, 0) as having size (1, 1), which feels fairly
+        // odd and they often end up adding 1 to their bounds in various places to account for this
+        // oddness. Instead of doing this haphazardly, we add 1 here and can adjust in the opposite
+        // direction in the (fewer) places where it's not desired.
+        let right = self.right as i32 + 1;
+        let bottom = self.bottom as i32 + 1;
         let code = quote! {
             IBounds {
                 left: #left,

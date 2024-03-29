@@ -136,7 +136,7 @@ fn init_players(mut commands: Commands, mut player_entities: ResMut<PlayerEntiti
             InGameOnly,
         ))
         .id();
-    player_entities.set(0, player_id);
+    player_entities.set(1, player_id);
     let enemy_id = commands
         .spawn((
             Player {
@@ -145,7 +145,7 @@ fn init_players(mut commands: Commands, mut player_entities: ResMut<PlayerEntiti
             InGameOnly,
         ))
         .id();
-    player_entities.set(1, enemy_id);
+    player_entities.set(0, enemy_id);
 }
 
 fn init_game(
@@ -186,7 +186,11 @@ fn init_melee_game(
             continue;
         };
 
-        let building = player.race.hq_building();
+        let building = if player.race != Race::Terran {
+            player.race.hq_building()
+        } else {
+            ConstructTypeId::TerranBarracks.def()
+        };
         *construct_type = building.type_id();
 
         let image_id = building.flingy().sprite().image_id;
@@ -205,7 +209,11 @@ fn init_melee_game(
 
         warn!("{:?} is at {:?}", *construct_type, position);
 
-        let worker_type = player.race.worker();
+        let worker_type = if player.race != Race::Terran {
+            player.race.worker()
+        } else {
+            ConstructTypeId::TerranMarine.def()
+        };
         for _ in 0..100 {
             commands.create_and_place_construct(worker_type.type_id(), *position, Some(owner.0))
         }

@@ -1,7 +1,7 @@
 use bevy::{ecs::system::Command, prelude::*};
 
 use crate::{
-    constructs::{ConstructBundle, OwnedConstruct, MAX_CONSTRUCT_SIZE},
+    constructs::{ConstructBundle, OwnedConstruct},
     gamedata::{Construct, ConstructTypeId, LoadingAnim},
     maps::{
         game_map::{GameMap, GameMapSize, LOGIC_TILE_SIZE},
@@ -24,11 +24,9 @@ impl Command for CreateAndPlaceConstruct {
             .single(world);
         let max_position =
             IVec2::new(map_size.width as i32, map_size.height as i32 - 1) * LOGIC_TILE_SIZE;
-        let map_bounds = IRect::from_corners(IVec2::ZERO, max_position);
+        let map_bounds = IRect::from_corners(IVec2::ZERO, max_position - 1);
         let search_bounds =
             IRect::from_corners(position - IVec2::splat(128), position + IVec2::splat(127))
-                // TODO(tec27): OpenBW subtracts 1 from max_position when clamping, but this seems
-                // incorrect to me. Verify that this implementation gives matching results
                 .intersect(map_bounds);
 
         let mut constructs = world
@@ -77,8 +75,8 @@ impl Command for CreateAndPlaceConstruct {
                 // Offset the search by the bottom/right of the blocking construct, plus the top/left of
                 // the placed construct
                 IVec2::new(
-                    (placed.left + blocking.right + 2).max(8),
-                    (placed.top + blocking.bottom + 2).max(8),
+                    (placed.left + blocking.right + 1).max(8),
+                    (placed.top + blocking.bottom + 1).max(8),
                 )
             })
             .unwrap_or(IVec2::new(8, 8));
@@ -116,18 +114,8 @@ impl Command for CreateAndPlaceConstruct {
 
 fn find_blocking_construct<'a>(
     constructs: &'a [(&'a ConstructTypeId, &'a Position)],
-    mut placed_bounds: IRect,
+    placed_bounds: IRect,
 ) -> Option<&'a (&'a ConstructTypeId, &'a Position)> {
-    // This is weird logic that BW's unit finding algorithm does, doesn't seem very sensible to me
-    // but we have to do it as well or positioning logic won't work out the same
-    let placed_size = placed_bounds.size();
-    if placed_size.x + 1 < MAX_CONSTRUCT_SIZE.x {
-        placed_bounds.max.x += 1;
-    }
-    if placed_size.y + 1 < MAX_CONSTRUCT_SIZE.y {
-        placed_bounds.max.y += 1;
-    }
-
     // TODO(tec27): This search can be more efficient because the list is sorted by x position
     // but probably also we should use some spatial index for this
     constructs.iter().find(|(&c, &p)| {
@@ -163,8 +151,8 @@ fn search_for_empty_position(
     let placed_size = placed.bounds.size();
 
     // Start the search a little right of the left edge (if there is space to do so)
-    if offset.x > placed_size.x + 1 {
-        placement_rect.min.x += (placed_size.x + 1 + 7) & !7;
+    if offset.x > placed_size.x {
+        placement_rect.min.x += (placed_size.x + 7) & !7;
     }
 
     // Search along the bottom edge
@@ -176,8 +164,8 @@ fn search_for_empty_position(
         if cur_bounds.intersect(map_bounds) == cur_bounds {
             if let Some(blocking) = find_blocking_construct(constructs, cur_bounds) {
                 // Shove the left edge of the search bounds to the center of the blocking construct,
-                // then add the right size of blocking construct plus 1 to clear its bounds
-                let mut inc = blocking.1.x - cur_bounds.min.x + blocking.0.def().bounds.right + 1;
+                // then add the right size of blocking construct to clear its bounds
+                let mut inc = (blocking.1.x - cur_bounds.min.x) + blocking.0.def().bounds.right;
                 // Push inc to the next quantized boundary
                 inc += (8 - ((x + inc) & 7)) & 7;
                 cur_bounds.min.x += inc;
@@ -206,7 +194,7 @@ fn search_for_empty_position(
             if let Some(blocking) = find_blocking_construct(constructs, cur_bounds) {
                 // Shove the bottom edge of the search bounds to the center of the blocking
                 // construct, then add the top size of blocking construct plus 1 to clear its bounds
-                let mut dec = cur_bounds.max.y - (blocking.1.y - blocking.0.def().bounds.top - 1);
+                let mut dec = cur_bounds.max.y - (blocking.1.y - blocking.0.def().bounds.top);
                 dec += (8 - ((y - dec) & 7)) & 7;
                 cur_bounds.min.y -= dec;
                 cur_bounds.max.y -= dec;
@@ -226,8 +214,8 @@ fn search_for_empty_position(
 
     // Adjust the placement rect back to the original position if we adjusted it above
     // TODO(tec27): Deal with this differently, this code is super brittle :)
-    if offset.x > placed_size.x + 1 {
-        placement_rect.min.x -= (placed_size.x + 1 + 7) & !7;
+    if offset.x > placed_size.x {
+        placement_rect.min.x -= (placed_size.x + 7) & !7;
     }
 
     // Search along top edge
@@ -241,7 +229,7 @@ fn search_for_empty_position(
                 // Shove the right edge of the search bounds to the center of the blocking
                 // construct, then add the left size of blocking construct plus 1 to clear its
                 // bounds
-                let mut dec = cur_bounds.max.x - (blocking.1.x - blocking.0.def().bounds.left - 1);
+                let mut dec = cur_bounds.max.x - (blocking.1.x - blocking.0.def().bounds.left);
                 dec += (8 - ((x - dec) & 7)) & 7;
                 cur_bounds.min.x -= dec;
                 cur_bounds.max.x -= dec;
@@ -270,7 +258,7 @@ fn search_for_empty_position(
                 // Shove the top edge of the search bounds to the center of the blocking
                 // construct, then add the bottom size of blocking construct plus 1 to clear its
                 // bounds
-                let mut inc = blocking.1.y - cur_bounds.min.y + blocking.0.def().bounds.bottom + 1;
+                let mut inc = blocking.1.y - cur_bounds.min.y + blocking.0.def().bounds.bottom;
                 inc += (8 - ((y + inc) & 7)) & 7;
                 cur_bounds.min.y += inc;
                 cur_bounds.max.y += inc;
@@ -444,7 +432,7 @@ mod tests {
                     assert_eq!(
                         new_unit,
                         (&ConstructTypeId::TerranScv, &expected.into()),
-                        "index {index} failed"
+                        "index {index} has incorrect position"
                     );
 
                     assert_eq!(new_units.count(), 0);
@@ -473,6 +461,709 @@ mod tests {
         // is blocked)
         let command = CreateAndPlaceConstruct {
             construct_type: ConstructTypeId::TerranScv,
+            position: hq_position.into(),
+            owner: None,
+        };
+        command.apply(&mut app.world);
+        app.update();
+
+        check_expected_pos_system.run(None, &mut app.world);
+    }
+
+    #[test]
+    fn bottleneck_left_side_marines_around_barracks() {
+        // This replicates a "hacked" version of the game where the initial Command Center is
+        // instead a Barracks and we only spawn marines around it
+        let mut app = App::new();
+
+        app.world.spawn(GameMapBundle {
+            size: GameMapSize {
+                width: 128,
+                height: 128,
+            },
+            ..default()
+        });
+        let hq_position = IVec2::new(288, 2416);
+        app.world.spawn(ConstructBundle {
+            construct_type: ConstructTypeId::TerranBarracks,
+            position: hq_position.into(),
+            ..default()
+        });
+        app.update();
+
+        let expected_positions = [
+            (240, 2464),
+            (264, 2464),
+            (288, 2464),
+            (312, 2464),
+            (336, 2464),
+            (360, 2464),
+            (360, 2440),
+            (360, 2416),
+            (360, 2392),
+            (360, 2368),
+            (230, 2368),
+            (216, 2392),
+            (216, 2416),
+            (216, 2440),
+            (216, 2464),
+            (342, 2352),
+            (322, 2352),
+            (298, 2352),
+            (274, 2352),
+            (250, 2352),
+            (210, 2352),
+            (208, 2496),
+            (232, 2496),
+            (256, 2496),
+            (280, 2496),
+            (304, 2496),
+            (328, 2496),
+            (352, 2496),
+            (376, 2496),
+            (392, 2472),
+            (392, 2448),
+            (392, 2424),
+            (392, 2400),
+            (392, 2376),
+            (392, 2352),
+            (374, 2336),
+            (186, 2336),
+            (184, 2360),
+            (184, 2384),
+            (184, 2408),
+            (184, 2432),
+            (184, 2456),
+            (184, 2480),
+            (400, 2512),
+            (408, 2328),
+            (354, 2320),
+            (330, 2320),
+            (306, 2320),
+            (282, 2320),
+            (258, 2320),
+            (234, 2320),
+            (210, 2320),
+            (168, 2320),
+            (168, 2504),
+            (184, 2528),
+            (208, 2528),
+            (232, 2528),
+            (256, 2528),
+            (280, 2528),
+            (304, 2528),
+            (328, 2528),
+            (352, 2528),
+            (376, 2528),
+            (415, 2488),
+            (415, 2464),
+            (415, 2440),
+            (415, 2416),
+            (415, 2392),
+            (415, 2368),
+            (415, 2304),
+            (396, 2304),
+            (374, 2304),
+            (186, 2304),
+            (160, 2344),
+            (160, 2368),
+            (160, 2392),
+            (160, 2416),
+            (160, 2440),
+            (160, 2464),
+            (160, 2528),
+            (400, 2543),
+            (354, 2288),
+            (330, 2288),
+            (306, 2288),
+            (282, 2288),
+            (258, 2288),
+            (234, 2288),
+            (210, 2288),
+            (162, 2288),
+        ]
+        .iter()
+        .map(|(x, y)| IVec2::new(*x, *y))
+        .collect::<Vec<_>>();
+
+        let check_expected_pos =
+            |In(expected): In<Option<(IVec2, usize)>>,
+             query: Query<(&ConstructTypeId, &Position), Added<ConstructTypeId>>| {
+                if let Some((expected, index)) = expected {
+                    // NOTE(tec27): Not using single here because the first run will see the
+                    // building as well
+                    let mut new_units = query
+                        .iter()
+                        .filter(|(c, _)| **c == ConstructTypeId::TerranMarine);
+                    let new_unit = new_units.next().unwrap();
+                    assert_eq!(
+                        new_unit,
+                        (&ConstructTypeId::TerranMarine, &expected.into()),
+                        "index {index} has incorrect position"
+                    );
+
+                    assert_eq!(new_units.count(), 0);
+                } else {
+                    assert!(query.is_empty());
+                }
+            };
+        let mut check_expected_pos_system = IntoSystem::into_system(check_expected_pos);
+        check_expected_pos_system.initialize(&mut app.world);
+
+        for i in 0..expected_positions.len() {
+            // TODO(tec27): Unsure how to get a Commands but might be nice to use that instead
+            let command = CreateAndPlaceConstruct {
+                construct_type: ConstructTypeId::TerranMarine,
+                position: hq_position.into(),
+                owner: None,
+            };
+            command.apply(&mut app.world);
+            app.update();
+
+            let expected = expected_positions[i];
+            check_expected_pos_system.run(Some((expected, i)), &mut app.world);
+        }
+
+        // Check that the next placement would fall outside the search bounds (e.g. building exit
+        // is blocked)
+        let command = CreateAndPlaceConstruct {
+            construct_type: ConstructTypeId::TerranMarine,
+            position: hq_position.into(),
+            owner: None,
+        };
+        command.apply(&mut app.world);
+        app.update();
+
+        check_expected_pos_system.run(None, &mut app.world);
+    }
+
+    #[test]
+    fn bottleneck_left_side_ghosts_around_barracks() {
+        // This replicates a "hacked" version of the game where the initial Command Center is
+        // instead a Barracks and we only spawn ghosts around it
+        let mut app = App::new();
+
+        app.world.spawn(GameMapBundle {
+            size: GameMapSize {
+                width: 128,
+                height: 128,
+            },
+            ..default()
+        });
+        let hq_position = IVec2::new(288, 2416);
+        app.world.spawn(ConstructBundle {
+            construct_type: ConstructTypeId::TerranBarracks,
+            position: hq_position.into(),
+            ..default()
+        });
+        app.update();
+
+        let expected_positions = [
+            (232, 2464),
+            (248, 2464),
+            (264, 2464),
+            (280, 2464),
+            (296, 2464),
+            (312, 2464),
+            (328, 2464),
+            (344, 2464),
+            (360, 2464),
+            (360, 2436),
+            (360, 2412),
+            (360, 2388),
+            (232, 2368),
+            (216, 2368),
+            (216, 2392),
+            (216, 2416),
+            (216, 2440),
+            (216, 2464),
+            (376, 2480),
+            (376, 2452),
+            (376, 2428),
+            (376, 2404),
+            (376, 2380),
+            (376, 2356),
+            (354, 2352),
+            (334, 2352),
+            (318, 2352),
+            (302, 2352),
+            (286, 2352),
+            (270, 2352),
+            (254, 2352),
+            (200, 2352),
+            (200, 2376),
+            (200, 2400),
+            (200, 2424),
+            (200, 2448),
+            (200, 2472),
+            (200, 2496),
+            (216, 2496),
+            (232, 2496),
+            (248, 2496),
+            (264, 2496),
+            (280, 2496),
+            (296, 2496),
+            (312, 2496),
+            (328, 2496),
+            (344, 2496),
+            (360, 2496),
+            (392, 2496),
+            (392, 2468),
+            (392, 2444),
+            (392, 2420),
+            (392, 2396),
+            (392, 2372),
+            (392, 2348),
+            (238, 2336),
+            (222, 2336),
+            (184, 2336),
+            (184, 2360),
+            (184, 2384),
+            (184, 2408),
+            (184, 2432),
+            (184, 2456),
+            (184, 2480),
+            (184, 2512),
+            (376, 2512),
+            (408, 2512),
+            (408, 2484),
+            (408, 2460),
+            (408, 2436),
+            (408, 2412),
+            (408, 2388),
+            (408, 2364),
+            (408, 2340),
+            (386, 2320),
+            (366, 2320),
+            (350, 2320),
+            (334, 2320),
+            (318, 2320),
+            (302, 2320),
+            (286, 2320),
+            (270, 2320),
+            (254, 2320),
+            (206, 2320),
+            (168, 2320),
+            (168, 2344),
+            (168, 2368),
+            (168, 2392),
+            (168, 2416),
+            (168, 2440),
+            (168, 2464),
+            (168, 2488),
+            (168, 2512),
+            (200, 2528),
+            (216, 2528),
+            (232, 2528),
+            (248, 2528),
+            (264, 2528),
+            (280, 2528),
+            (296, 2528),
+            (312, 2528),
+            (328, 2528),
+            (344, 2528),
+            (360, 2528),
+            (392, 2528),
+            (415, 2316),
+            (238, 2304),
+            (222, 2304),
+            (190, 2304),
+            (176, 2543),
+            (376, 2543),
+            (408, 2543),
+            (415, 2292),
+            (400, 2288),
+            (378, 2288),
+            (358, 2288),
+            (342, 2288),
+            (326, 2288),
+            (310, 2288),
+            (294, 2288),
+            (278, 2288),
+            (262, 2288),
+            (206, 2288),
+            (174, 2288),
+            (160, 2536),
+        ]
+        .iter()
+        .map(|(x, y)| IVec2::new(*x, *y))
+        .collect::<Vec<_>>();
+
+        let check_expected_pos =
+            |In(expected): In<Option<(IVec2, usize)>>,
+             query: Query<(&ConstructTypeId, &Position), Added<ConstructTypeId>>| {
+                if let Some((expected, index)) = expected {
+                    // NOTE(tec27): Not using single here because the first run will see the
+                    // building as well
+                    let mut new_units = query
+                        .iter()
+                        .filter(|(c, _)| **c == ConstructTypeId::TerranGhost);
+                    let new_unit = new_units.next().unwrap();
+                    assert_eq!(
+                        new_unit,
+                        (&ConstructTypeId::TerranGhost, &expected.into()),
+                        "index {index} has incorrect position"
+                    );
+
+                    assert_eq!(new_units.count(), 0);
+                } else {
+                    assert!(query.is_empty());
+                }
+            };
+        let mut check_expected_pos_system = IntoSystem::into_system(check_expected_pos);
+        check_expected_pos_system.initialize(&mut app.world);
+
+        for i in 0..expected_positions.len() {
+            // TODO(tec27): Unsure how to get a Commands but might be nice to use that instead
+            let command = CreateAndPlaceConstruct {
+                construct_type: ConstructTypeId::TerranGhost,
+                position: hq_position.into(),
+                owner: None,
+            };
+            command.apply(&mut app.world);
+            app.update();
+
+            let expected = expected_positions[i];
+            check_expected_pos_system.run(Some((expected, i)), &mut app.world);
+        }
+
+        // Check that the next placement would fall outside the search bounds (e.g. building exit
+        // is blocked)
+        let command = CreateAndPlaceConstruct {
+            construct_type: ConstructTypeId::TerranGhost,
+            position: hq_position.into(),
+            owner: None,
+        };
+        command.apply(&mut app.world);
+        app.update();
+
+        check_expected_pos_system.run(None, &mut app.world);
+    }
+
+    #[test]
+    fn bottleneck_left_side_tanks_around_factory() {
+        // This replicates a "hacked" version of the game where the initial Command Center is
+        // instead a Factory and we only spawn tanks around it
+        let mut app = App::new();
+
+        app.world.spawn(GameMapBundle {
+            size: GameMapSize {
+                width: 128,
+                height: 128,
+            },
+            ..default()
+        });
+        let hq_position = IVec2::new(288, 2416);
+        app.world.spawn(ConstructBundle {
+            construct_type: ConstructTypeId::TerranFactory,
+            position: hq_position.into(),
+            ..default()
+        });
+        app.update();
+
+        let expected_positions = [
+            (240, 2480),
+            (272, 2480),
+            (304, 2480),
+            (336, 2480),
+            (368, 2480),
+            (368, 2448),
+            (368, 2416),
+            (368, 2384),
+            (368, 2352),
+            (336, 2352),
+            (304, 2352),
+            (272, 2352),
+            (240, 2352),
+            (208, 2352),
+            (208, 2384),
+            (208, 2416),
+            (208, 2448),
+            (208, 2480),
+            (208, 2512),
+            (240, 2512),
+            (272, 2512),
+            (304, 2512),
+            (336, 2512),
+            (368, 2512),
+            (400, 2512),
+            (400, 2480),
+            (400, 2448),
+            (400, 2416),
+            (400, 2384),
+            (400, 2352),
+            (400, 2320),
+            (368, 2320),
+            (336, 2320),
+            (304, 2320),
+            (272, 2320),
+            (240, 2320),
+            (208, 2320),
+            (176, 2320),
+            (176, 2352),
+            (176, 2384),
+            (176, 2416),
+            (176, 2448),
+            (176, 2480),
+            (176, 2512),
+            (415, 2288),
+            (382, 2288),
+            (348, 2288),
+            (312, 2288),
+            (280, 2288),
+            (248, 2288),
+            (216, 2288),
+            (184, 2288),
+        ]
+        .iter()
+        .map(|(x, y)| IVec2::new(*x, *y))
+        .collect::<Vec<_>>();
+
+        let check_expected_pos =
+            |In(expected): In<Option<(IVec2, usize)>>,
+             query: Query<(&ConstructTypeId, &Position), Added<ConstructTypeId>>| {
+                if let Some((expected, index)) = expected {
+                    // NOTE(tec27): Not using single here because the first run will see the
+                    // building as well
+                    let mut new_units = query
+                        .iter()
+                        .filter(|(c, _)| **c == ConstructTypeId::TerranSiegeTank);
+                    let new_unit = new_units.next().unwrap();
+                    assert_eq!(
+                        new_unit,
+                        (&ConstructTypeId::TerranSiegeTank, &expected.into()),
+                        "index {index} has incorrect position"
+                    );
+
+                    assert_eq!(new_units.count(), 0);
+                } else {
+                    assert!(query.is_empty());
+                }
+            };
+        let mut check_expected_pos_system = IntoSystem::into_system(check_expected_pos);
+        check_expected_pos_system.initialize(&mut app.world);
+
+        for i in 0..expected_positions.len() {
+            // TODO(tec27): Unsure how to get a Commands but might be nice to use that instead
+            let command = CreateAndPlaceConstruct {
+                construct_type: ConstructTypeId::TerranSiegeTank,
+                position: hq_position.into(),
+                owner: None,
+            };
+            command.apply(&mut app.world);
+            app.update();
+
+            let expected = expected_positions[i];
+            check_expected_pos_system.run(Some((expected, i)), &mut app.world);
+        }
+
+        // Check that the next placement would fall outside the search bounds (e.g. building exit
+        // is blocked)
+        let command = CreateAndPlaceConstruct {
+            construct_type: ConstructTypeId::TerranSiegeTank,
+            position: hq_position.into(),
+            owner: None,
+        };
+        command.apply(&mut app.world);
+        app.update();
+
+        check_expected_pos_system.run(None, &mut app.world);
+    }
+
+    #[test]
+    fn corner_starts_bottom_right_siege_tanks_around_factory() {
+        // This replicates a "hacked" version of the game where the initial Command Center is
+        // instead a Factory and we only spawn tanks around it
+        let mut app = App::new();
+
+        app.world.spawn(GameMapBundle {
+            size: GameMapSize {
+                width: 64,
+                height: 64,
+            },
+            ..default()
+        });
+        let hq_position = IVec2::new(1984, 1936);
+        app.world.spawn(ConstructBundle {
+            construct_type: ConstructTypeId::TerranFactory,
+            position: hq_position.into(),
+            ..default()
+        });
+        app.update();
+
+        let expected_positions = [
+            (2031, 1872),
+            (1998, 1872),
+            (1964, 1872),
+            (1928, 1872),
+            (1904, 1904),
+            (1904, 1936),
+            (1904, 1968),
+            (1896, 1856),
+            (2031, 1840),
+            (1998, 1840),
+            (1964, 1840),
+            (1928, 1840),
+            (1872, 1888),
+            (1872, 1920),
+            (1872, 1952),
+            (1872, 1984),
+            (1896, 1824),
+            (1864, 1824),
+            (1856, 1856),
+            (2031, 1808),
+            (1998, 1808),
+            (1964, 1808),
+            (1928, 1808),
+        ]
+        .iter()
+        .map(|(x, y)| IVec2::new(*x, *y))
+        .collect::<Vec<_>>();
+
+        let check_expected_pos =
+            |In(expected): In<Option<(IVec2, usize)>>,
+             query: Query<(&ConstructTypeId, &Position), Added<ConstructTypeId>>| {
+                if let Some((expected, index)) = expected {
+                    // NOTE(tec27): Not using single here because the first run will see the
+                    // building as well
+                    let mut new_units = query
+                        .iter()
+                        .filter(|(c, _)| **c == ConstructTypeId::TerranSiegeTank);
+                    let new_unit = new_units.next();
+                    assert!(
+                        new_unit.is_some(),
+                        "expected to be able to place index {index} but couldn't"
+                    );
+                    assert_eq!(
+                        new_unit.unwrap(),
+                        (&ConstructTypeId::TerranSiegeTank, &expected.into()),
+                        "index {index} has incorrect position"
+                    );
+
+                    assert_eq!(new_units.count(), 0);
+                } else {
+                    assert!(query.is_empty());
+                }
+            };
+        let mut check_expected_pos_system = IntoSystem::into_system(check_expected_pos);
+        check_expected_pos_system.initialize(&mut app.world);
+
+        for i in 0..expected_positions.len() {
+            // TODO(tec27): Unsure how to get a Commands but might be nice to use that instead
+            let command = CreateAndPlaceConstruct {
+                construct_type: ConstructTypeId::TerranSiegeTank,
+                position: hq_position.into(),
+                owner: None,
+            };
+            command.apply(&mut app.world);
+            app.update();
+
+            let expected = expected_positions[i];
+            check_expected_pos_system.run(Some((expected, i)), &mut app.world);
+        }
+
+        // Check that the next placement would fall outside the search bounds (e.g. building exit
+        // is blocked)
+        let command = CreateAndPlaceConstruct {
+            construct_type: ConstructTypeId::TerranSiegeTank,
+            position: hq_position.into(),
+            owner: None,
+        };
+        command.apply(&mut app.world);
+        app.update();
+
+        check_expected_pos_system.run(None, &mut app.world);
+    }
+
+    #[test]
+    fn corner_starts_top_left_siege_tanks_around_factory() {
+        // This replicates a "hacked" version of the game where the initial Command Center is
+        // instead a Factory and we only spawn tanks around it
+        let mut app = App::new();
+
+        app.world.spawn(GameMapBundle {
+            size: GameMapSize {
+                width: 64,
+                height: 64,
+            },
+            ..default()
+        });
+        let hq_position = IVec2::new(64, 48);
+        app.world.spawn(ConstructBundle {
+            construct_type: ConstructTypeId::TerranFactory,
+            position: hq_position.into(),
+            ..default()
+        });
+        app.update();
+
+        let expected_positions = [
+            (32, 112),
+            (64, 112),
+            (96, 112),
+            (128, 112),
+            (144, 80),
+            (144, 48),
+            (144, 16),
+            (160, 128),
+            (32, 144),
+            (64, 144),
+            (96, 144),
+            (128, 144),
+            (176, 96),
+            (176, 64),
+            (176, 32),
+            (160, 160),
+        ]
+        .iter()
+        .map(|(x, y)| IVec2::new(*x, *y))
+        .collect::<Vec<_>>();
+
+        let check_expected_pos =
+            |In(expected): In<Option<(IVec2, usize)>>,
+             query: Query<(&ConstructTypeId, &Position), Added<ConstructTypeId>>| {
+                if let Some((expected, index)) = expected {
+                    // NOTE(tec27): Not using single here because the first run will see the
+                    // building as well
+                    let mut new_units = query
+                        .iter()
+                        .filter(|(c, _)| **c == ConstructTypeId::TerranSiegeTank);
+                    let new_unit = new_units.next();
+                    assert!(
+                        new_unit.is_some(),
+                        "expected to be able to place index {index} but couldn't"
+                    );
+                    assert_eq!(
+                        new_unit.unwrap(),
+                        (&ConstructTypeId::TerranSiegeTank, &expected.into()),
+                        "index {index} has incorrect position"
+                    );
+
+                    assert_eq!(new_units.count(), 0);
+                } else {
+                    assert!(query.is_empty());
+                }
+            };
+        let mut check_expected_pos_system = IntoSystem::into_system(check_expected_pos);
+        check_expected_pos_system.initialize(&mut app.world);
+
+        for i in 0..expected_positions.len() {
+            // TODO(tec27): Unsure how to get a Commands but might be nice to use that instead
+            let command = CreateAndPlaceConstruct {
+                construct_type: ConstructTypeId::TerranSiegeTank,
+                position: hq_position.into(),
+                owner: None,
+            };
+            command.apply(&mut app.world);
+            app.update();
+
+            let expected = expected_positions[i];
+            check_expected_pos_system.run(Some((expected, i)), &mut app.world);
+        }
+
+        // Check that the next placement would fall outside the search bounds (e.g. building exit
+        // is blocked)
+        let command = CreateAndPlaceConstruct {
+            construct_type: ConstructTypeId::TerranSiegeTank,
             position: hq_position.into(),
             owner: None,
         };
