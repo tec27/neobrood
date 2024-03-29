@@ -316,3 +316,169 @@ impl<'w, 's> CreateConstructExt for Commands<'w, 's> {
         });
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use crate::maps::game_map::GameMapBundle;
+
+    use super::*;
+
+    #[test]
+    fn bottleneck_right_side_scv_placement() {
+        let mut app = App::new();
+
+        app.world.spawn(GameMapBundle {
+            size: GameMapSize {
+                width: 128,
+                height: 128,
+            },
+            ..default()
+        });
+        let hq_position = IVec2::new(3808, 2384);
+        app.world.spawn(ConstructBundle {
+            construct_type: ConstructTypeId::TerranCommandCenter,
+            position: hq_position.into(),
+            ..default()
+        });
+        app.update();
+
+        let expected_positions = [
+            (3760, 2440),
+            (3784, 2440),
+            (3808, 2440),
+            (3832, 2440),
+            (3856, 2440),
+            (3880, 2440),
+            (3880, 2410),
+            (3880, 2382),
+            (3880, 2358),
+            (3880, 2334),
+            (3850, 2328),
+            (3822, 2328),
+            (3798, 2328),
+            (3774, 2328),
+            (3750, 2328),
+            (3736, 2352),
+            (3736, 2376),
+            (3736, 2400),
+            (3736, 2424),
+            (3726, 2312),
+            (3720, 2448),
+            (3728, 2472),
+            (3752, 2472),
+            (3776, 2472),
+            (3800, 2472),
+            (3824, 2472),
+            (3848, 2472),
+            (3872, 2472),
+            (3896, 2472),
+            (3912, 2442),
+            (3912, 2414),
+            (3912, 2390),
+            (3912, 2366),
+            (3912, 2342),
+            (3912, 2318),
+            (3882, 2296),
+            (3854, 2296),
+            (3830, 2296),
+            (3806, 2296),
+            (3782, 2296),
+            (3758, 2296),
+            (3704, 2336),
+            (3704, 2360),
+            (3704, 2384),
+            (3704, 2408),
+            (3704, 2472),
+            (3920, 2488),
+            (3928, 2294),
+            (3734, 2280),
+            (3710, 2280),
+            (3688, 2304),
+            (3688, 2432),
+            (3704, 2504),
+            (3728, 2504),
+            (3752, 2504),
+            (3776, 2504),
+            (3800, 2504),
+            (3824, 2504),
+            (3848, 2504),
+            (3872, 2504),
+            (3896, 2504),
+            (3935, 2458),
+            (3935, 2430),
+            (3935, 2406),
+            (3935, 2382),
+            (3935, 2358),
+            (3935, 2334),
+            (3935, 2270),
+            (3912, 2264),
+            (3882, 2264),
+            (3854, 2264),
+            (3830, 2264),
+            (3806, 2264),
+            (3782, 2264),
+            (3758, 2264),
+            (3686, 2264),
+            (3680, 2328),
+            (3680, 2352),
+            (3680, 2376),
+            (3680, 2400),
+            (3680, 2456),
+            (3680, 2480),
+            (3680, 2504),
+        ]
+        .iter()
+        .map(|(x, y)| IVec2::new(*x, *y))
+        .collect::<Vec<_>>();
+
+        let check_expected_pos =
+            |In(expected): In<Option<(IVec2, usize)>>,
+             query: Query<(&ConstructTypeId, &Position), Added<ConstructTypeId>>| {
+                if let Some((expected, index)) = expected {
+                    // NOTE(tec27): Not using single here because the first run will see the
+                    // Command Center as well
+                    let mut new_units = query
+                        .iter()
+                        .filter(|(c, _)| **c == ConstructTypeId::TerranScv);
+                    let new_unit = new_units.next().unwrap();
+                    assert_eq!(
+                        new_unit,
+                        (&ConstructTypeId::TerranScv, &expected.into()),
+                        "index {index} failed"
+                    );
+
+                    assert_eq!(new_units.count(), 0);
+                } else {
+                    assert!(query.is_empty());
+                }
+            };
+        let mut check_expected_pos_system = IntoSystem::into_system(check_expected_pos);
+        check_expected_pos_system.initialize(&mut app.world);
+
+        for i in 0..expected_positions.len() {
+            // TODO(tec27): Unsure how to get a Commands but might be nice to use that instead
+            let command = CreateAndPlaceConstruct {
+                construct_type: ConstructTypeId::TerranScv,
+                position: hq_position.into(),
+                owner: None,
+            };
+            command.apply(&mut app.world);
+            app.update();
+
+            let expected = expected_positions[i];
+            check_expected_pos_system.run(Some((expected, i)), &mut app.world);
+        }
+
+        // Check that the next placement would fall outside the search bounds (e.g. building exit
+        // is blocked)
+        let command = CreateAndPlaceConstruct {
+            construct_type: ConstructTypeId::TerranScv,
+            position: hq_position.into(),
+            owner: None,
+        };
+        command.apply(&mut app.world);
+        app.update();
+
+        check_expected_pos_system.run(None, &mut app.world);
+    }
+}
