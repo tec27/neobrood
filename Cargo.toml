@@ -39,8 +39,8 @@ version = "0.13"
 features = ["dds"]
 
 [dependencies.bevy_ecs_tilemap]
-git = "https://github.com/rparrett/bevy_ecs_tilemap"
-rev = "a7b308aa11ad82ac6b3b74c0237e607f1d4ddf5b"
+git = "https://github.com/StarArawn/bevy_ecs_tilemap"
+rev = "25def41e029626bb5e84fe7aca1f16a1d6beccdc"
 
 [dependencies.broodmap]
 git = "https://github.com/ShieldBattery/broodmap.git"
