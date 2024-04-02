@@ -2,6 +2,7 @@ use bevy::input::mouse::{MouseScrollUnit, MouseWheel};
 use bevy::prelude::*;
 use bevy::window::{CursorGrabMode, PrimaryWindow, WindowFocused};
 
+use crate::gameplay::InGameMenuState;
 use crate::states::AppState;
 
 /// How far from the edge of the screen the mouse needs to be to start scrolling, in pixels.
@@ -18,7 +19,9 @@ impl Plugin for CameraControlPlugin {
             .add_systems(OnEnter(AppState::InGame), setup)
             .add_systems(
                 Update,
-                (handle_window_focus, camera_control).run_if(in_state(AppState::InGame)),
+                (handle_window_focus, camera_control).run_if(
+                    in_state(AppState::InGame).and_then(in_state(InGameMenuState::Disabled)),
+                ),
             );
     }
 }

@@ -1,4 +1,5 @@
 use crate::camera::CameraPanLocked;
+use crate::gameplay::InGameMenuState;
 use crate::states::AppState;
 use bevy::input::mouse::MouseButtonInput;
 use bevy::input::ButtonState;
@@ -11,7 +12,12 @@ impl Plugin for DragSelectionPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(OnEnter(AppState::InGame), drag_selection_setup)
             .add_systems(OnExit(AppState::InGame), drag_selection_cleanup)
-            .add_systems(Update, drag_selection.run_if(in_state(AppState::InGame)));
+            .add_systems(
+                Update,
+                drag_selection.run_if(
+                    in_state(AppState::InGame).and_then(in_state(InGameMenuState::Disabled)),
+                ),
+            );
     }
 }
 

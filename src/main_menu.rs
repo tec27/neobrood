@@ -4,6 +4,7 @@ use bevy::{app::AppExit, prelude::*};
 
 use crate::{
     ecs::despawn_all,
+    fonts::{FONT_BODY, FONT_BRAND},
     maps::{load_map, CurrentMap},
     settings::GameSettings,
     states::AppState,
@@ -36,8 +37,8 @@ enum MenuAction {
 }
 
 fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
-    let sofia = asset_server.load("fonts/SofiaSans-Bold.ttf");
-    let inter = asset_server.load("fonts/Inter-Regular.ttf");
+    let brand = asset_server.load(FONT_BRAND);
+    let body = asset_server.load(FONT_BODY);
 
     let button_style = Style {
         width: Val::Px(240.0),
@@ -48,7 +49,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
         ..default()
     };
     let button_text_style = TextStyle {
-        font: inter.clone(),
+        font: body.clone(),
         font_size: 32.0,
         color: Color::rgb(0.9, 0.9, 0.9),
     };
@@ -85,7 +86,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                         TextBundle::from_section(
                             "neobrood",
                             TextStyle {
-                                font: sofia,
+                                font: brand,
                                 font_size: 80.0,
                                 color: Color::rgb(0.9, 0.9, 0.9),
                             },
@@ -100,7 +101,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                         TextBundle::from_section(
                             "drag and drop a map to start, or use the menu below",
                             TextStyle {
-                                font: inter,
+                                font: body,
                                 font_size: 24.0,
                                 color: Color::rgb(0.7, 0.7, 0.7),
                             },

@@ -6,3 +6,13 @@ pub fn despawn_all<T: Component>(to_despawn: Query<Entity, With<T>>, mut command
         commands.entity(entity).despawn_recursive();
     }
 }
+
+/// Generic system that logs every state transition.
+pub fn log_transitions<T: States>(mut transitions: EventReader<StateTransitionEvent<T>>) {
+    for transition in transitions.read() {
+        info!(
+            "transition: {:?} => {:?}",
+            transition.before, transition.after
+        );
+    }
+}

@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::ecs::despawn_all;
+use crate::ecs::{despawn_all, log_transitions};
 
 #[derive(Debug, Clone, Copy, Default, Eq, PartialEq, Hash, States)]
 pub enum AppState {
@@ -24,16 +24,7 @@ pub struct StatesPlugin;
 impl Plugin for StatesPlugin {
     fn build(&self, app: &mut App) {
         app.register_type::<InGameOnly>()
-            .add_systems(Update, log_transitions)
+            .add_systems(Update, log_transitions::<AppState>)
             .add_systems(OnExit(AppState::InGame), despawn_all::<InGameOnly>);
-    }
-}
-
-fn log_transitions(mut transitions: EventReader<StateTransitionEvent<AppState>>) {
-    for transition in transitions.read() {
-        info!(
-            "transition: {:?} => {:?}",
-            transition.before, transition.after
-        );
     }
 }

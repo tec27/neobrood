@@ -19,10 +19,14 @@ use self::{
         create_constructs, place_constructs, CreateConstructEvent, PlaceConstructEvent,
     },
     gizmos::{show_construct_gizmos, ConstructGizmos},
+    in_game_menu::InGameMenuPlugin,
 };
 
 pub mod create_construct;
 pub mod gizmos;
+mod in_game_menu;
+
+pub use in_game_menu::InGameMenuState;
 
 #[allow(dead_code)]
 pub enum GameSpeed {
@@ -91,12 +95,19 @@ pub struct GameplayPlugin;
 
 impl Plugin for GameplayPlugin {
     fn build(&self, app: &mut App) {
-        app.register_type::<ConstructGizmos>()
+        app.add_plugins(InGameMenuPlugin)
+            .register_type::<ConstructGizmos>()
             .add_event::<CreateConstructEvent>()
             .add_event::<PlaceConstructEvent>()
             .init_resource::<GameMode>()
             .init_resource::<PlayerEntities>()
-            .init_gizmo_group::<ConstructGizmos>()
+            .insert_gizmo_group(
+                ConstructGizmos::default(),
+                GizmoConfig {
+                    enabled: false,
+                    ..default()
+                },
+            )
             .add_systems(OnEnter(AppState::PreGame), init_random)
             .add_systems(Update, proceed_to_game.run_if(in_state(AppState::PreGame)))
             .add_systems(OnEnter(AppState::InGame), (init_players, init_game).chain())

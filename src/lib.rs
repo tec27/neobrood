@@ -15,9 +15,12 @@ use random::LcgRand;
 use settings::GameSettings;
 use states::AppState;
 
+use crate::fonts::FONT_MONO;
+
 pub mod camera;
 pub mod constructs;
 pub mod ecs;
+pub mod fonts;
 pub mod gamedata;
 pub mod gameplay;
 pub mod main_menu;
@@ -73,8 +76,10 @@ pub fn create_app(settings: GameSettings, maps: Vec<PathBuf>) -> App {
     .add_systems(Startup, setup)
     .add_systems(Update, update_fps_text)
     .add_systems(Update, map_navigator.run_if(in_state(AppState::InGame)))
-    // TODO(tec27): Remove this once we have actual game stuff
-    .add_systems(Update, bevy::window::close_on_esc);
+    .add_systems(
+        Update,
+        bevy::window::close_on_esc.run_if(in_state(AppState::Menu)),
+    );
 
     if has_map_args {
         app.insert_state(AppState::PreGame);
@@ -126,7 +131,7 @@ fn setup(
 
     commands.spawn(Camera2dBundle::default());
 
-    let font = asset_server.load("fonts/JetbrainsMono-Regular.ttf");
+    let font = asset_server.load(FONT_MONO);
     commands.spawn((
         TextBundle::from_section(
             "FPS: 0",
