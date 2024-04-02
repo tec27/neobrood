@@ -1,4 +1,4 @@
-use bevy::{ecs::system::Command, prelude::*};
+use bevy::{ecs::system::SystemState, prelude::*};
 
 use crate::{
     constructs::{ConstructBundle, OwnedConstruct},
@@ -10,111 +10,189 @@ use crate::{
     states::InGameOnly,
 };
 
-struct CreateAndPlaceConstruct {
-    construct_type: ConstructTypeId,
-    position: Position,
-    owner: Option<u8>,
+/// Event that signifies a new Construct should be created during the FixedUpdate phase. If a
+/// position is specified, the Construct will be placed immediately after creation, otherwise its
+/// placement will need to be manually triggered.
+#[derive(Event, Debug, Copy, Clone, Default)]
+pub struct CreateConstructEvent {
+    pub construct_type: ConstructTypeId,
+    pub owner: Option<u8>,
+    pub position: Option<Position>,
 }
 
-impl Command for CreateAndPlaceConstruct {
-    fn apply(self, world: &mut World) {
-        let position: IVec2 = self.position.into();
-        let map_size = world
-            .query_filtered::<&GameMapSize, With<GameMap>>()
-            .single(world);
-        let max_position =
-            IVec2::new(map_size.width as i32, map_size.height as i32 - 1) * LOGIC_TILE_SIZE;
-        let map_bounds = IRect::from_corners(IVec2::ZERO, max_position - 1);
+/// Event that signifies a Construct should be placed on the map at its current position. The
+/// standard placement algorithm will be followed (attempting to find an empty area around the
+/// desired position that has terrain that can accomodate the construct).
+#[derive(Event, Debug, Copy, Clone)]
+pub struct PlaceConstructEvent {
+    pub entity: Entity,
+}
+
+pub fn create_constructs(
+    world: &mut World,
+    params: &mut SystemState<(
+        EventReader<CreateConstructEvent>,
+        EventWriter<PlaceConstructEvent>,
+        Commands,
+    )>,
+) {
+    let (mut events, mut writer, mut commands) = params.get_mut(world);
+    for e in events.read() {
+        let mut entity = commands.spawn((
+            ConstructBundle {
+                construct_type: e.construct_type,
+                position: e.position.unwrap_or_default(),
+                spatial: SpatialBundle {
+                    // NOTE(tec27): These will be unhidden when placed
+                    visibility: Visibility::Hidden,
+                    ..default()
+                },
+                ..default()
+            },
+            InGameOnly,
+        ));
+        if let Some(owner) = e.owner {
+            entity.insert(OwnedConstruct(owner));
+        }
+        entity.with_children(|builder| {
+            builder.spawn(LoadingAnim::new(
+                e.construct_type.def().flingy().sprite().image_id,
+            ));
+        });
+
+        if e.position.is_some() {
+            writer.send(PlaceConstructEvent {
+                entity: entity.id(),
+            });
+        }
+    }
+
+    params.apply(world);
+}
+
+pub fn place_constructs(
+    world: &mut World,
+    params: &mut SystemState<(
+        EventReader<PlaceConstructEvent>,
+        Query<(Entity, &ConstructTypeId, &mut Position, &mut Visibility)>,
+        Query<&GameMapSize, With<GameMap>>,
+        Commands,
+    )>,
+) {
+    let (mut events, mut constructs_query, map_query, mut commands) = params.get_mut(world);
+    let map_size = map_query.single();
+    let max_position =
+        IVec2::new(map_size.width as i32, map_size.height as i32 - 1) * LOGIC_TILE_SIZE;
+    let map_bounds = IRect::from_corners(IVec2::ZERO, max_position - 1);
+
+    for e in events.read() {
+        let mut found_position: Option<Position> = None;
+
+        let mut constructs = constructs_query
+            .iter()
+            .filter(|(id, _, _, &v)| *id != e.entity && v != Visibility::Hidden)
+            .collect::<Vec<_>>();
+        constructs.sort_by_key(|(_, _, p, _)| p.x);
+
+        let Ok((_, construct_type, entity_position, _)) = constructs_query.get(e.entity) else {
+            error!(
+                "Failed to find construct entity {:?} for placement",
+                e.entity
+            );
+            continue;
+        };
+        let position = IVec2::from(*entity_position);
+
         let search_bounds =
             IRect::from_corners(position - IVec2::splat(128), position + IVec2::splat(127))
                 .intersect(map_bounds);
 
-        let mut constructs = world
-            .query::<(&ConstructTypeId, &Position)>()
-            .iter(world)
-            .collect::<Vec<_>>();
-        constructs.sort_by_key(|(_, p)| p.x);
-
-        let spawn_construct = |world: &mut World, position: IVec2| {
-            let mut entity = world.spawn((
-                ConstructBundle {
-                    construct_type: self.construct_type,
-                    position: position.into(),
-                    ..default()
-                },
-                InGameOnly,
-            ));
-            if let Some(owner) = self.owner {
-                entity.insert(OwnedConstruct(owner));
-            }
-            entity.with_children(|builder| {
-                builder.spawn(LoadingAnim::new(
-                    self.construct_type.def().flingy().sprite().image_id,
-                ));
-            });
-        };
-
-        let construct_rect = self.construct_type.def().bounds.at_pos(position);
+        let construct_rect = construct_type.def().bounds.at_pos(position);
         let is_within_map_bounds =
             map_bounds.contains(construct_rect.min) && map_bounds.contains(construct_rect.max);
 
         let blocking_construct = find_blocking_construct(&constructs, construct_rect);
         if blocking_construct.is_none() && is_within_map_bounds {
-            spawn_construct(world, position);
-            return;
+            // TODO(tec27): Check if it fits within the terrain as well
+            found_position = Some(position.into());
         }
 
-        let mut offset = blocking_construct
-            .map(|(c, _)| {
-                let placed = self.construct_type.def().bounds;
-                let blocking = c.def().bounds;
-                // Offset the search by the bottom/right of the blocking construct, plus the top/left of
-                // the placed construct
-                IVec2::new(
-                    (placed.left + blocking.right + 1).max(8),
-                    (placed.top + blocking.bottom + 1).max(8),
-                )
-            })
-            .unwrap_or(IVec2::new(8, 8));
+        if found_position.is_none() {
+            let mut offset = blocking_construct
+                .map(|(_, c, _, _)| {
+                    let placed = construct_type.def().bounds;
+                    let blocking = c.def().bounds;
+                    // Offset the search by the bottom/right of the blocking construct, plus the top/left of
+                    // the placed construct
+                    IVec2::new(
+                        (placed.left + blocking.right + 1).max(8),
+                        (placed.top + blocking.bottom + 1).max(8),
+                    )
+                })
+                .unwrap_or(IVec2::new(8, 8));
 
-        loop {
-            let next_min = position - offset;
-            let next_max = position + offset;
+            loop {
+                let next_min = position - offset;
+                let next_max = position + offset;
 
-            if next_min.x < search_bounds.min.x
-                && next_min.y < search_bounds.min.y
-                && next_max.x > search_bounds.max.x
-                && next_max.y > search_bounds.max.y
-            {
-                // TODO(tec27): Exceeded search bounds (e.g. we failed to place the construct,
-                // need to notify things in some way (event?))
-                break;
+                if next_min.x < search_bounds.min.x
+                    && next_min.y < search_bounds.min.y
+                    && next_max.x > search_bounds.max.x
+                    && next_max.y > search_bounds.max.y
+                {
+                    // TODO(tec27): Exceeded search bounds (e.g. we failed to place the construct,
+                    // need to notify things in some way (event?))
+                    break;
+                }
+
+                if let Some(found) = search_for_empty_position(
+                    construct_type.def(),
+                    next_min,
+                    offset,
+                    search_bounds,
+                    map_bounds,
+                    &constructs,
+                ) {
+                    found_position = Some(found.into());
+                    break;
+                }
+
+                offset += IVec2::splat(16);
             }
+        }
 
-            if let Some(found) = search_for_empty_position(
-                self.construct_type.def(),
-                next_min,
-                offset,
-                search_bounds,
-                map_bounds,
-                &constructs,
-            ) {
-                spawn_construct(world, found);
-                return;
-            }
-
-            offset += IVec2::splat(16);
+        if let Some(position) = found_position {
+            let Ok((_, _, mut entity_position, mut visibility)) =
+                constructs_query.get_mut(e.entity)
+            else {
+                warn!(
+                    "Failed to find entity {:?} after finding a placement position for it",
+                    e.entity
+                );
+                continue;
+            };
+            *entity_position = position;
+            *visibility = Visibility::Inherited;
+        } else {
+            warn!(
+                "Failed to place construct {:?} [{construct_type:?} @ {entity_position:?}]",
+                e.entity
+            );
+            // TODO(tec27): Refund, etc.
+            commands.entity(e.entity).despawn_recursive();
         }
     }
+
+    params.apply(world);
 }
 
 fn find_blocking_construct<'a>(
-    constructs: &'a [(&'a ConstructTypeId, &'a Position)],
+    constructs: &'a [(Entity, &'a ConstructTypeId, &'a Position, &'a Visibility)],
     placed_bounds: IRect,
-) -> Option<&'a (&'a ConstructTypeId, &'a Position)> {
+) -> Option<&'a (Entity, &'a ConstructTypeId, &'a Position, &'a Visibility)> {
     // TODO(tec27): This search can be more efficient because the list is sorted by x position
     // but probably also we should use some spatial index for this
-    constructs.iter().find(|(&c, &p)| {
+    constructs.iter().find(|(_, c, &p, _)| {
         // TODO(tec27): Flying units should only be blocked by other flying units
         // TODO(tec27): Flying production buildings should block the things they produce
         // TODO(tec27): Don't check against dead units
@@ -132,7 +210,7 @@ fn search_for_empty_position(
     offset: IVec2,
     search_bounds: IRect,
     map_bounds: IRect,
-    constructs: &[(&ConstructTypeId, &Position)],
+    constructs: &[(Entity, &ConstructTypeId, &Position, &Visibility)],
 ) -> Option<IVec2> {
     // Potential placements are quantized to mini-tiles (8x8 logical pixels)
     // We will try to place the construct along the edges of this rectangle, starting in the
@@ -158,10 +236,13 @@ fn search_for_empty_position(
     let mut x = placement_rect.min.x;
     while x <= placement_rect.max.x {
         if cur_bounds.intersect(map_bounds) == cur_bounds {
-            if let Some(blocking) = find_blocking_construct(constructs, cur_bounds) {
+            if let Some((_, blocking_type, blocking_pos, _)) =
+                find_blocking_construct(constructs, cur_bounds)
+            {
                 // Shove the left edge of the search bounds to the center of the blocking construct,
                 // then add the right size of blocking construct to clear its bounds
-                let mut inc = (blocking.1.x - cur_bounds.min.x) + blocking.0.def().bounds.right;
+                let mut inc =
+                    (blocking_pos.x - cur_bounds.min.x) + blocking_type.def().bounds.right;
                 // Push inc to the next quantized boundary
                 inc += (8 - ((x + inc) & 7)) & 7;
                 cur_bounds.min.x += inc;
@@ -187,10 +268,12 @@ fn search_for_empty_position(
     let mut y = placement_rect.max.y;
     while y >= placement_rect.min.y {
         if cur_bounds.intersect(map_bounds) == cur_bounds {
-            if let Some(blocking) = find_blocking_construct(constructs, cur_bounds) {
+            if let Some((_, blocking_type, blocking_pos, _)) =
+                find_blocking_construct(constructs, cur_bounds)
+            {
                 // Shove the bottom edge of the search bounds to the center of the blocking
                 // construct, then add the top size of blocking construct plus 1 to clear its bounds
-                let mut dec = cur_bounds.max.y - (blocking.1.y - blocking.0.def().bounds.top);
+                let mut dec = cur_bounds.max.y - (blocking_pos.y - blocking_type.def().bounds.top);
                 dec += (8 - ((y - dec) & 7)) & 7;
                 cur_bounds.min.y -= dec;
                 cur_bounds.max.y -= dec;
@@ -221,11 +304,13 @@ fn search_for_empty_position(
     x = placement_rect.max.x;
     while x >= placement_rect.min.x {
         if cur_bounds.intersect(map_bounds) == cur_bounds {
-            if let Some(blocking) = find_blocking_construct(constructs, cur_bounds) {
+            if let Some((_, blocking_type, blocking_pos, _)) =
+                find_blocking_construct(constructs, cur_bounds)
+            {
                 // Shove the right edge of the search bounds to the center of the blocking
                 // construct, then add the left size of blocking construct plus 1 to clear its
                 // bounds
-                let mut dec = cur_bounds.max.x - (blocking.1.x - blocking.0.def().bounds.left);
+                let mut dec = cur_bounds.max.x - (blocking_pos.x - blocking_type.def().bounds.left);
                 dec += (8 - ((x - dec) & 7)) & 7;
                 cur_bounds.min.x -= dec;
                 cur_bounds.max.x -= dec;
@@ -250,11 +335,13 @@ fn search_for_empty_position(
     let mut y = placement_rect.min.y;
     while y <= placement_rect.max.y {
         if cur_bounds.intersect(map_bounds) == cur_bounds {
-            if let Some(blocking) = find_blocking_construct(constructs, cur_bounds) {
+            if let Some((_, blocking_type, blocking_pos, _)) =
+                find_blocking_construct(constructs, cur_bounds)
+            {
                 // Shove the top edge of the search bounds to the center of the blocking
                 // construct, then add the bottom size of blocking construct plus 1 to clear its
                 // bounds
-                let mut inc = blocking.1.y - cur_bounds.min.y + blocking.0.def().bounds.bottom;
+                let mut inc = blocking_pos.y - cur_bounds.min.y + blocking_type.def().bounds.bottom;
                 inc += (8 - ((y + inc) & 7)) & 7;
                 cur_bounds.min.y += inc;
                 cur_bounds.max.y += inc;
@@ -275,42 +362,81 @@ fn search_for_empty_position(
     None
 }
 
-pub trait CreateConstructExt {
-    fn create_and_place_construct(
-        &mut self,
-        construct_type: ConstructTypeId,
-        position: Position,
-        owner: Option<u8>,
-    );
-}
-
-impl<'w, 's> CreateConstructExt for Commands<'w, 's> {
-    /// Creates and places a construct of the given type as close as possible to the given position.
-    fn create_and_place_construct(
-        &mut self,
-        construct_type: ConstructTypeId,
-        position: Position,
-        owner: Option<u8>,
-    ) {
-        // TODO(tec27): This can fail in some cases, how do we handle that? Events?
-        self.add(CreateAndPlaceConstruct {
-            construct_type,
-            position,
-            owner,
-        });
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use crate::maps::game_map::GameMapBundle;
 
     use super::*;
 
+    fn setup_app() -> App {
+        let mut app = App::new();
+        app.add_event::<CreateConstructEvent>()
+            .add_event::<PlaceConstructEvent>()
+            .add_systems(Update, (create_constructs, place_constructs).chain());
+        app
+    }
+
+    #[test]
+    fn multiple_units_at_once() {
+        // Check that placing multiple units in the same turns takes into account the placement of
+        // those same-turn units
+
+        let mut app = setup_app();
+        app.world.spawn(GameMapBundle {
+            size: GameMapSize {
+                width: 128,
+                height: 128,
+            },
+            ..default()
+        });
+        let hq_position = IVec2::new(3808, 2384);
+        app.world.spawn(ConstructBundle {
+            construct_type: ConstructTypeId::TerranCommandCenter,
+            position: hq_position.into(),
+            ..default()
+        });
+        app.update();
+
+        let expected_positions = [(3760, 2440), (3784, 2440), (3808, 2440), (3832, 2440)]
+            .iter()
+            .map(|(x, y)| IVec2::new(*x, *y))
+            .collect::<Vec<_>>();
+
+        let check_expected_pos =
+            |In(expected): In<Vec<IVec2>>,
+             query: Query<(&ConstructTypeId, &Position), Added<ConstructTypeId>>| {
+                // NOTE(tec27): Not using single here because the first run will see the
+                // Command Center as well
+                let new_units = query
+                    .iter()
+                    .filter(|(c, _)| **c == ConstructTypeId::TerranScv)
+                    .enumerate();
+                for (i, new_unit) in new_units {
+                    assert_eq!(
+                        new_unit,
+                        (&ConstructTypeId::TerranScv, &expected[i].into()),
+                        "index {i} has incorrect position"
+                    );
+                }
+            };
+        let mut check_expected_pos_system = IntoSystem::into_system(check_expected_pos);
+        check_expected_pos_system.initialize(&mut app.world);
+
+        for _ in 0..expected_positions.len() {
+            app.world.send_event(CreateConstructEvent {
+                construct_type: ConstructTypeId::TerranScv,
+                position: Some(hq_position.into()),
+                owner: None,
+            });
+        }
+
+        app.update();
+        check_expected_pos_system.run(expected_positions, &mut app.world);
+    }
+
     #[test]
     fn bottleneck_right_side_scv_placement() {
-        let mut app = App::new();
-
+        let mut app = setup_app();
         app.world.spawn(GameMapBundle {
             size: GameMapSize {
                 width: 128,
@@ -440,13 +566,11 @@ mod tests {
         check_expected_pos_system.initialize(&mut app.world);
 
         for i in 0..expected_positions.len() {
-            // TODO(tec27): Unsure how to get a Commands but might be nice to use that instead
-            let command = CreateAndPlaceConstruct {
+            app.world.send_event(CreateConstructEvent {
                 construct_type: ConstructTypeId::TerranScv,
-                position: hq_position.into(),
+                position: Some(hq_position.into()),
                 owner: None,
-            };
-            command.apply(&mut app.world);
+            });
             app.update();
 
             let expected = expected_positions[i];
@@ -455,12 +579,11 @@ mod tests {
 
         // Check that the next placement would fall outside the search bounds (e.g. building exit
         // is blocked)
-        let command = CreateAndPlaceConstruct {
+        app.world.send_event(CreateConstructEvent {
             construct_type: ConstructTypeId::TerranScv,
-            position: hq_position.into(),
+            position: Some(hq_position.into()),
             owner: None,
-        };
-        command.apply(&mut app.world);
+        });
         app.update();
 
         check_expected_pos_system.run(None, &mut app.world);
@@ -470,7 +593,8 @@ mod tests {
     fn bottleneck_left_side_marines_around_barracks() {
         // This replicates a "hacked" version of the game where the initial Command Center is
         // instead a Barracks and we only spawn marines around it
-        let mut app = App::new();
+
+        let mut app = setup_app();
 
         app.world.spawn(GameMapBundle {
             size: GameMapSize {
@@ -607,13 +731,11 @@ mod tests {
         check_expected_pos_system.initialize(&mut app.world);
 
         for i in 0..expected_positions.len() {
-            // TODO(tec27): Unsure how to get a Commands but might be nice to use that instead
-            let command = CreateAndPlaceConstruct {
+            app.world.send_event(CreateConstructEvent {
                 construct_type: ConstructTypeId::TerranMarine,
-                position: hq_position.into(),
+                position: Some(hq_position.into()),
                 owner: None,
-            };
-            command.apply(&mut app.world);
+            });
             app.update();
 
             let expected = expected_positions[i];
@@ -622,12 +744,11 @@ mod tests {
 
         // Check that the next placement would fall outside the search bounds (e.g. building exit
         // is blocked)
-        let command = CreateAndPlaceConstruct {
+        app.world.send_event(CreateConstructEvent {
             construct_type: ConstructTypeId::TerranMarine,
-            position: hq_position.into(),
+            position: Some(hq_position.into()),
             owner: None,
-        };
-        command.apply(&mut app.world);
+        });
         app.update();
 
         check_expected_pos_system.run(None, &mut app.world);
@@ -637,7 +758,8 @@ mod tests {
     fn bottleneck_left_side_ghosts_around_barracks() {
         // This replicates a "hacked" version of the game where the initial Command Center is
         // instead a Barracks and we only spawn ghosts around it
-        let mut app = App::new();
+
+        let mut app = setup_app();
 
         app.world.spawn(GameMapBundle {
             size: GameMapSize {
@@ -811,12 +933,11 @@ mod tests {
 
         for i in 0..expected_positions.len() {
             // TODO(tec27): Unsure how to get a Commands but might be nice to use that instead
-            let command = CreateAndPlaceConstruct {
+            app.world.send_event(CreateConstructEvent {
                 construct_type: ConstructTypeId::TerranGhost,
-                position: hq_position.into(),
+                position: Some(hq_position.into()),
                 owner: None,
-            };
-            command.apply(&mut app.world);
+            });
             app.update();
 
             let expected = expected_positions[i];
@@ -825,12 +946,11 @@ mod tests {
 
         // Check that the next placement would fall outside the search bounds (e.g. building exit
         // is blocked)
-        let command = CreateAndPlaceConstruct {
+        app.world.send_event(CreateConstructEvent {
             construct_type: ConstructTypeId::TerranGhost,
-            position: hq_position.into(),
+            position: Some(hq_position.into()),
             owner: None,
-        };
-        command.apply(&mut app.world);
+        });
         app.update();
 
         check_expected_pos_system.run(None, &mut app.world);
@@ -840,7 +960,8 @@ mod tests {
     fn bottleneck_left_side_tanks_around_factory() {
         // This replicates a "hacked" version of the game where the initial Command Center is
         // instead a Factory and we only spawn tanks around it
-        let mut app = App::new();
+
+        let mut app = setup_app();
 
         app.world.spawn(GameMapBundle {
             size: GameMapSize {
@@ -940,13 +1061,11 @@ mod tests {
         check_expected_pos_system.initialize(&mut app.world);
 
         for i in 0..expected_positions.len() {
-            // TODO(tec27): Unsure how to get a Commands but might be nice to use that instead
-            let command = CreateAndPlaceConstruct {
+            app.world.send_event(CreateConstructEvent {
                 construct_type: ConstructTypeId::TerranSiegeTank,
-                position: hq_position.into(),
+                position: Some(hq_position.into()),
                 owner: None,
-            };
-            command.apply(&mut app.world);
+            });
             app.update();
 
             let expected = expected_positions[i];
@@ -955,12 +1074,11 @@ mod tests {
 
         // Check that the next placement would fall outside the search bounds (e.g. building exit
         // is blocked)
-        let command = CreateAndPlaceConstruct {
+        app.world.send_event(CreateConstructEvent {
             construct_type: ConstructTypeId::TerranSiegeTank,
-            position: hq_position.into(),
+            position: Some(hq_position.into()),
             owner: None,
-        };
-        command.apply(&mut app.world);
+        });
         app.update();
 
         check_expected_pos_system.run(None, &mut app.world);
@@ -970,7 +1088,8 @@ mod tests {
     fn corner_starts_bottom_right_siege_tanks_around_factory() {
         // This replicates a "hacked" version of the game where the initial Command Center is
         // instead a Factory and we only spawn tanks around it
-        let mut app = App::new();
+
+        let mut app = setup_app();
 
         app.world.spawn(GameMapBundle {
             size: GameMapSize {
@@ -1046,12 +1165,11 @@ mod tests {
 
         for i in 0..expected_positions.len() {
             // TODO(tec27): Unsure how to get a Commands but might be nice to use that instead
-            let command = CreateAndPlaceConstruct {
+            app.world.send_event(CreateConstructEvent {
                 construct_type: ConstructTypeId::TerranSiegeTank,
-                position: hq_position.into(),
+                position: Some(hq_position.into()),
                 owner: None,
-            };
-            command.apply(&mut app.world);
+            });
             app.update();
 
             let expected = expected_positions[i];
@@ -1060,12 +1178,11 @@ mod tests {
 
         // Check that the next placement would fall outside the search bounds (e.g. building exit
         // is blocked)
-        let command = CreateAndPlaceConstruct {
+        app.world.send_event(CreateConstructEvent {
             construct_type: ConstructTypeId::TerranSiegeTank,
-            position: hq_position.into(),
+            position: Some(hq_position.into()),
             owner: None,
-        };
-        command.apply(&mut app.world);
+        });
         app.update();
 
         check_expected_pos_system.run(None, &mut app.world);
@@ -1075,7 +1192,8 @@ mod tests {
     fn corner_starts_top_left_siege_tanks_around_factory() {
         // This replicates a "hacked" version of the game where the initial Command Center is
         // instead a Factory and we only spawn tanks around it
-        let mut app = App::new();
+
+        let mut app = setup_app();
 
         app.world.spawn(GameMapBundle {
             size: GameMapSize {
@@ -1143,13 +1261,11 @@ mod tests {
         check_expected_pos_system.initialize(&mut app.world);
 
         for i in 0..expected_positions.len() {
-            // TODO(tec27): Unsure how to get a Commands but might be nice to use that instead
-            let command = CreateAndPlaceConstruct {
+            app.world.send_event(CreateConstructEvent {
                 construct_type: ConstructTypeId::TerranSiegeTank,
-                position: hq_position.into(),
+                position: Some(hq_position.into()),
                 owner: None,
-            };
-            command.apply(&mut app.world);
+            });
             app.update();
 
             let expected = expected_positions[i];
@@ -1158,12 +1274,11 @@ mod tests {
 
         // Check that the next placement would fall outside the search bounds (e.g. building exit
         // is blocked)
-        let command = CreateAndPlaceConstruct {
+        app.world.send_event(CreateConstructEvent {
             construct_type: ConstructTypeId::TerranSiegeTank,
-            position: hq_position.into(),
+            position: Some(hq_position.into()),
             owner: None,
-        };
-        command.apply(&mut app.world);
+        });
         app.update();
 
         check_expected_pos_system.run(None, &mut app.world);

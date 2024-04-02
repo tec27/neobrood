@@ -78,7 +78,7 @@ impl GameMapTerrain {
                 lookup
                     .get(&tile_id.id())
                     .cloned()
-                    .ok_or_else(|| GameMapTerrainError::UnknownMegaTile(*tile_id))
+                    .ok_or(GameMapTerrainError::UnknownMegaTile(*tile_id))
             })
             .collect::<Result<Vec<_>, _>>()?;
 
@@ -124,6 +124,6 @@ impl GameMapTerrain {
             return mega.mini_tile_at(x, y).contains(MiniTileFlags::WALKABLE);
         }
 
-        return false;
+        false
     }
 }

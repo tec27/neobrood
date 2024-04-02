@@ -15,7 +15,9 @@ use crate::{
 };
 
 use self::{
-    create_construct::CreateConstructExt,
+    create_construct::{
+        create_constructs, place_constructs, CreateConstructEvent, PlaceConstructEvent,
+    },
     gizmos::{show_construct_gizmos, ConstructGizmos},
 };
 
@@ -90,6 +92,8 @@ pub struct GameplayPlugin;
 impl Plugin for GameplayPlugin {
     fn build(&self, app: &mut App) {
         app.register_type::<ConstructGizmos>()
+            .add_event::<CreateConstructEvent>()
+            .add_event::<PlaceConstructEvent>()
             .init_resource::<GameMode>()
             .init_resource::<PlayerEntities>()
             .init_gizmo_group::<ConstructGizmos>()
@@ -103,6 +107,12 @@ impl Plugin for GameplayPlugin {
                     .run_if(|store: Res<GizmoConfigStore>| {
                         store.config::<ConstructGizmos>().0.enabled
                     }),
+            )
+            .add_systems(
+                FixedUpdate,
+                (create_constructs, place_constructs)
+                    .chain()
+                    .run_if(in_state(AppState::InGame)),
             );
     }
 }
@@ -154,11 +164,16 @@ fn init_game(
     player_entities: Res<PlayerEntities>,
     player_query: Query<&Player>,
     game_mode: Res<GameMode>,
+    mut creation_events: EventWriter<CreateConstructEvent>,
 ) {
     match *game_mode {
-        GameMode::Melee => {
-            init_melee_game(&mut commands, &mut units, &player_entities, &player_query)
-        }
+        GameMode::Melee => init_melee_game(
+            &mut commands,
+            &mut units,
+            &player_entities,
+            &player_query,
+            &mut creation_events,
+        ),
         GameMode::MapView => {}
     }
 }
@@ -168,6 +183,7 @@ fn init_melee_game(
     units: &mut Query<(Entity, &mut ConstructTypeId, &OwnedConstruct, &Position)>,
     player_entities: &Res<PlayerEntities>,
     player_query: &Query<&Player>,
+    creation_events: &mut EventWriter<CreateConstructEvent>,
 ) {
     for (entity, mut construct_type, owner, position) in units
         .iter_mut()
@@ -194,8 +210,6 @@ fn init_melee_game(
         // TODO(tec27): Need to also destroy any constructs that are within the bounds of the HQ
         // building
 
-        // TODO(tec27): Maybe we should have a change handler for UnitType that does this instead?
-        // Could also use that for initializing the placed unit's in the first place
         commands
             .entity(entity)
             .despawn_descendants()
@@ -204,8 +218,11 @@ fn init_melee_game(
             });
 
         let worker_type = player.race.worker();
-        for _ in 0..4 {
-            commands.create_and_place_construct(worker_type.type_id(), *position, Some(owner.0))
-        }
+
+        creation_events.send_batch((0..4).map(|_| CreateConstructEvent {
+            construct_type: worker_type.type_id(),
+            position: Some(*position),
+            owner: Some(owner.0),
+        }));
     }
 }
