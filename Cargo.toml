@@ -36,7 +36,7 @@ thiserror = "1.0"
 
 [dependencies.bevy]
 version = "0.13"
-features = ["dds"]
+features = ["dds", "wav"]
 
 [dependencies.bevy_ecs_tilemap]
 git = "https://github.com/StarArawn/bevy_ecs_tilemap"
