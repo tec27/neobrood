@@ -372,7 +372,16 @@ fn handle_drag_selection(
     let (mut selectable, max_count) = if !owned.is_empty() {
         (owned, 12)
     } else {
-        (contained_constructs, 1)
+        let owned_by_others = contained_constructs
+            .iter()
+            .copied()
+            .filter(|(_, _, _, _, oc)| oc.is_some())
+            .collect::<Vec<_>>();
+        if !owned_by_others.is_empty() {
+            (owned_by_others, 1)
+        } else {
+            (contained_constructs, 1)
+        }
     };
 
     // Sort by Euclidean distnace (squared) from the start of the selection
