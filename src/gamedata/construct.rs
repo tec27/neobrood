@@ -106,6 +106,18 @@ impl Construct {
     pub fn type_id(&self) -> ConstructTypeId {
         self.id.into()
     }
+
+    /// Returns if this [Construct] is a unit.
+    #[inline]
+    pub fn is_unit(&self) -> bool {
+        matches!(self.kind, ConstructKind::Unit(_))
+    }
+
+    /// Returns if this [Construct] is a building.
+    #[inline]
+    pub fn is_building(&self) -> bool {
+        matches!(self.kind, ConstructKind::Building(_))
+    }
 }
 
 /// Specifies the type (e.g. class) of a construct (i.e. marine, zergling, mineral field, etc.).

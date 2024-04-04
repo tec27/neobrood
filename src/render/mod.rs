@@ -1,6 +1,6 @@
 use bevy::{prelude::*, transform::TransformSystem};
 
-use crate::maps::position::position_to_transform;
+use crate::maps::position::apply_position_to_transform;
 
 use self::ysort::YSort;
 
@@ -15,7 +15,7 @@ impl Plugin for RenderPlugin {
             ysort::y_sort
                 .before(TransformSystem::TransformPropagate)
                 // TODO(tec27): Add a custom schedule for this instead
-                .after(position_to_transform),
+                .after(apply_position_to_transform),
         );
     }
 }

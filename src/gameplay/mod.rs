@@ -2,29 +2,32 @@ use bevy::prelude::*;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 use crate::{
-    constructs::OwnedConstruct,
     gamedata::{BwGameData, ConstructTypeId, LoadingAnim},
     maps::{
         game_map::GameMap,
         position::{self, Position},
     },
-    players::{ControlledPlayer, Player},
     races::Race,
     random::LcgRand,
     states::{AppState, InGameOnly},
 };
 
 use self::{
+    constructs::OwnedConstruct,
     create_construct::{
         create_constructs, place_constructs, CreateConstructEvent, PlaceConstructEvent,
     },
     gizmos::{show_construct_gizmos, ConstructGizmos},
-    in_game_menu::InGameMenuPlugin,
+    players::{ControlledPlayer, Player, PlayerEntities},
+    selection::SelectedEntities,
 };
 
+pub mod constructs;
 pub mod create_construct;
 pub mod gizmos;
 mod in_game_menu;
+pub mod players;
+pub mod selection;
 
 pub use in_game_menu::InGameMenuState;
 
@@ -64,38 +67,12 @@ pub enum GameMode {
     MapView,
     // TODO(tec27): Implement more game modes
 }
-
-/// Resource that stores the entity corresponding to a particular player number.
-#[derive(Resource, Debug, Default)]
-pub struct PlayerEntities {
-    entities: Vec<Option<Entity>>,
-}
-
-impl PlayerEntities {
-    /// Retrieve the player entity that corresponds to a given player number (if any).
-    pub fn get(&self, player: u8) -> Option<Entity> {
-        self.entities.get(player as usize).copied().flatten()
-    }
-
-    /// Sets the player entity that corresponds to a given player number.
-    pub fn set(&mut self, player: u8, entity: Entity) {
-        if player as usize >= self.entities.len() {
-            self.entities.resize(player as usize + 1, None);
-        }
-        self.entities[player as usize] = Some(entity);
-    }
-
-    /// Clears all registered player entities.
-    pub fn clear(&mut self) {
-        self.entities.clear();
-    }
-}
-
 pub struct GameplayPlugin;
 
 impl Plugin for GameplayPlugin {
     fn build(&self, app: &mut App) {
-        app.add_plugins(InGameMenuPlugin)
+        app.add_plugins(in_game_menu::InGameMenuPlugin)
+            .add_plugins(selection::DragSelectionPlugin)
             .register_type::<ConstructGizmos>()
             .add_event::<CreateConstructEvent>()
             .add_event::<PlaceConstructEvent>()
@@ -114,7 +91,7 @@ impl Plugin for GameplayPlugin {
             .add_systems(
                 PostUpdate,
                 (show_construct_gizmos)
-                    .after(position::position_to_transform)
+                    .after(position::apply_position_to_transform)
                     .run_if(|store: Res<GizmoConfigStore>| {
                         store.config::<ConstructGizmos>().0.enabled
                     }),
@@ -154,6 +131,7 @@ fn init_players(mut commands: Commands, mut player_entities: ResMut<PlayerEntiti
         .spawn((
             Player { race: Race::Terran },
             ControlledPlayer {},
+            SelectedEntities::default(),
             InGameOnly,
         ))
         .id();
@@ -163,6 +141,7 @@ fn init_players(mut commands: Commands, mut player_entities: ResMut<PlayerEntiti
             Player {
                 race: Race::Protoss,
             },
+            SelectedEntities::default(),
             InGameOnly,
         ))
         .id();

@@ -43,6 +43,18 @@ impl ConstructTypeId {
     pub fn def(&self) -> &Construct {
         &CONSTRUCTS[*self]
     }
+
+    /// Returns if this type of Construct is a unit.
+    #[inline]
+    pub fn is_unit(&self) -> bool {
+        self.def().is_unit()
+    }
+
+    /// Returns if this type of Construct is a building.
+    #[inline]
+    pub fn is_building(&self) -> bool {
+        self.def().is_building()
+    }
 }
 
 /// Component that specifies a [Construct]'s owner (via a player number).

@@ -5,11 +5,10 @@ use bevy::utils::HashMap;
 use bevy::{prelude::*, transform::TransformSystem};
 use bevy_ecs_tilemap::prelude::*;
 
-use crate::constructs::ConstructBundle;
+use crate::gameplay::constructs::{ConstructBundle, OwnedConstruct};
 use crate::maps::game_map::GameMapTerrain;
 use crate::settings::GameSettings;
 use crate::{
-    constructs::OwnedConstruct,
     gamedata::{BwGameData, LoadingAnim, CONSTRUCTS, SPRITES},
     maps::game_map::{GameMapBundle, GameMapSize},
     render::ysort::YSort,
@@ -17,7 +16,7 @@ use crate::{
 };
 use asset::{MapAsset, MapAssetLoader};
 use game_map::GameMap;
-use position::position_to_transform;
+use position::apply_position_to_transform;
 use position::Position;
 
 mod asset;
@@ -44,7 +43,7 @@ impl Plugin for MapsPlugin {
             .add_systems(OnExit(AppState::InGame), map_cleanup)
             .add_systems(
                 PostUpdate,
-                position_to_transform.before(TransformSystem::TransformPropagate),
+                apply_position_to_transform.before(TransformSystem::TransformPropagate),
             );
     }
 }

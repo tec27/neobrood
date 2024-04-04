@@ -1,6 +1,6 @@
-// NOTE(tec27): This lint is way too sensitive for typical bevy queries, and I think is easy enough
-// to catch in reviews anyway
-#![allow(clippy::type_complexity)]
+// NOTE(tec27): These lints are way too sensitive for typical bevy usage, and I think are easy
+// enough to catch in reviews anyway
+#![allow(clippy::type_complexity, clippy::too_many_arguments)]
 
 use std::path::PathBuf;
 
@@ -18,7 +18,6 @@ use states::AppState;
 use crate::fonts::FONT_MONO;
 
 pub mod camera;
-pub mod constructs;
 pub mod ecs;
 pub mod fonts;
 pub mod gamedata;
@@ -26,11 +25,9 @@ pub mod gameplay;
 pub mod main_menu;
 pub mod maps;
 pub mod math;
-pub mod players;
 pub mod races;
 pub mod random;
 pub mod render;
-pub mod selection;
 pub mod settings;
 pub mod states;
 
@@ -70,7 +67,6 @@ pub fn create_app(settings: GameSettings, maps: Vec<PathBuf>) -> App {
         main_menu::MainMenuPlugin,
         maps::MapsPlugin,
         render::RenderPlugin,
-        selection::DragSelectionPlugin,
         states::StatesPlugin,
     ))
     .add_systems(Startup, setup)

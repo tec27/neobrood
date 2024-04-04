@@ -78,7 +78,7 @@ const LOGIC_TILE_SIZE_FLOAT: f32 = LOGIC_TILE_SIZE as f32;
 
 /// Updates entities' transforms based on their [Position] component and the current map
 /// size/tile size.
-pub fn position_to_transform(
+pub fn apply_position_to_transform(
     mut positioned: Query<(&Position, &mut Transform), Changed<Position>>,
     map: Query<&GameMapSize, With<GameMap>>,
     settings: Res<GameSettings>,

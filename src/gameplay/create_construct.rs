@@ -1,14 +1,16 @@
 use bevy::{ecs::system::SystemState, prelude::*};
 
 use crate::{
-    constructs::{ConstructBundle, OwnedConstruct},
     gamedata::{Construct, ConstructTypeId, LoadingAnim},
     maps::{
         game_map::{GameMap, GameMapSize, LOGIC_TILE_SIZE},
         position::Position,
     },
+    random::LcgRand,
     states::InGameOnly,
 };
+
+use super::constructs::{ConstructBundle, OwnedConstruct};
 
 /// Event that signifies a new Construct should be created during the FixedUpdate phase. If a
 /// position is specified, the Construct will be placed immediately after creation, otherwise its
@@ -34,10 +36,16 @@ pub fn create_constructs(
         EventReader<CreateConstructEvent>,
         EventWriter<PlaceConstructEvent>,
         Commands,
+        ResMut<LcgRand>,
     )>,
 ) {
-    let (mut events, mut writer, mut commands) = params.get_mut(world);
+    let (mut events, mut writer, mut commands, mut rng) = params.get_mut(world);
     for e in events.read() {
+        // NOTE(tec27): Blizzard's version does this as well, seemingly since very early on, I guess
+        // they left this in place to not destabilize replays at some point?
+        rng.next_i32();
+
+        // TODO(tec27): Check if we're at the max number of constructs
         let mut entity = commands.spawn((
             ConstructBundle {
                 construct_type: e.construct_type,
