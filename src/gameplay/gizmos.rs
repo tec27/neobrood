@@ -40,7 +40,7 @@ pub fn show_construct_gizmos(
         let half_tile_adjustment = Vec2::new(tile_size.x / 2.0, tile_size.y / 2.0);
 
         for (c, pos) in constructs.iter() {
-            let rect = c.def().bounds.at_pos(pos.into());
+            let rect = c.bounds().at_pos(pos.into());
 
             let convert_point = |x: i32, y: i32| {
                 let mut point = Vec2::new(x as f32, y as f32) / (LOGIC_TILE_SIZE as f32);

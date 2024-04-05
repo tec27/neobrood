@@ -155,6 +155,27 @@ pub struct AnimOffsets {
 /// Image ID of the Start Location graphic, which only exists in the standard asset pack.
 const START_LOCATION_ID: u16 = 588;
 
+#[derive(Bundle)]
+pub struct PreloadedAnimBundle {
+    pub sprite_sheet: SpriteSheetBundle,
+    pub anim_offsets: AnimOffsets,
+}
+
+impl PreloadedAnimBundle {
+    pub fn for_asset(asset: &AnimAsset) -> Self {
+        Self {
+            sprite_sheet: SpriteSheetBundle {
+                texture: asset.layers.get("diffuse").cloned().unwrap_or_default(),
+                atlas: asset.layout.clone().into(),
+                ..default()
+            },
+            anim_offsets: AnimOffsets {
+                offsets: asset.offsets.clone(),
+            },
+        }
+    }
+}
+
 fn init_loaded_anims(
     mut commands: Commands,
     mut query: Query<(Entity, &LoadingAnim, Option<&Handle<AnimAsset>>)>,
@@ -199,16 +220,10 @@ fn init_loaded_anims(
         };
 
         if let Some(anim) = anim_assets.get(handle) {
-            commands.entity(entity).remove::<LoadingAnim>().insert((
-                SpriteSheetBundle {
-                    texture: anim.layers.get("diffuse").cloned().unwrap_or_default(),
-                    atlas: anim.layout.clone().into(),
-                    ..default()
-                },
-                AnimOffsets {
-                    offsets: anim.offsets.clone(),
-                },
-            ));
+            commands
+                .entity(entity)
+                .remove::<LoadingAnim>()
+                .insert(PreloadedAnimBundle::for_asset(anim));
         } else if asset_server.load_state(handle) == LoadState::Failed {
             // TODO(tec27): Show a dialog or something instead?
             panic!(

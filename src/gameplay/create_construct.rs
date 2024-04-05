@@ -64,7 +64,7 @@ pub fn create_constructs(
         }
         entity.with_children(|builder| {
             builder.spawn(LoadingAnim::new(
-                e.construct_type.def().flingy().sprite().image_id,
+                e.construct_type.flingy().sprite().image_id,
             ));
         });
 
@@ -115,7 +115,7 @@ pub fn place_constructs(
             IRect::from_corners(position - IVec2::splat(128), position + IVec2::splat(127))
                 .intersect(map_bounds);
 
-        let construct_rect = construct_type.def().bounds.at_pos(position);
+        let construct_rect = construct_type.bounds().at_pos(position);
         let is_within_map_bounds =
             map_bounds.contains(construct_rect.min) && map_bounds.contains(construct_rect.max);
 
@@ -128,8 +128,8 @@ pub fn place_constructs(
         if found_position.is_none() {
             let mut offset = blocking_construct
                 .map(|(_, c, _, _)| {
-                    let placed = construct_type.def().bounds;
-                    let blocking = c.def().bounds;
+                    let placed = construct_type.bounds();
+                    let blocking = c.bounds();
                     // Offset the search by the bottom/right of the blocking construct, plus the top/left of
                     // the placed construct
                     IVec2::new(
@@ -204,8 +204,7 @@ fn find_blocking_construct<'a>(
         // TODO(tec27): Flying units should only be blocked by other flying units
         // TODO(tec27): Flying production buildings should block the things they produce
         // TODO(tec27): Don't check against dead units
-        !c.def()
-            .bounds
+        !c.bounds()
             .at_pos(p.into())
             .intersect(placed_bounds)
             .is_empty()
@@ -249,8 +248,7 @@ fn search_for_empty_position(
             {
                 // Shove the left edge of the search bounds to the center of the blocking construct,
                 // then add the right size of blocking construct to clear its bounds
-                let mut inc =
-                    (blocking_pos.x - cur_bounds.min.x) + blocking_type.def().bounds.right;
+                let mut inc = (blocking_pos.x - cur_bounds.min.x) + blocking_type.bounds().right;
                 // Push inc to the next quantized boundary
                 inc += (8 - ((x + inc) & 7)) & 7;
                 cur_bounds.min.x += inc;
@@ -281,7 +279,7 @@ fn search_for_empty_position(
             {
                 // Shove the bottom edge of the search bounds to the center of the blocking
                 // construct, then add the top size of blocking construct plus 1 to clear its bounds
-                let mut dec = cur_bounds.max.y - (blocking_pos.y - blocking_type.def().bounds.top);
+                let mut dec = cur_bounds.max.y - (blocking_pos.y - blocking_type.bounds().top);
                 dec += (8 - ((y - dec) & 7)) & 7;
                 cur_bounds.min.y -= dec;
                 cur_bounds.max.y -= dec;
@@ -318,7 +316,7 @@ fn search_for_empty_position(
                 // Shove the right edge of the search bounds to the center of the blocking
                 // construct, then add the left size of blocking construct plus 1 to clear its
                 // bounds
-                let mut dec = cur_bounds.max.x - (blocking_pos.x - blocking_type.def().bounds.left);
+                let mut dec = cur_bounds.max.x - (blocking_pos.x - blocking_type.bounds().left);
                 dec += (8 - ((x - dec) & 7)) & 7;
                 cur_bounds.min.x -= dec;
                 cur_bounds.max.x -= dec;
@@ -349,7 +347,7 @@ fn search_for_empty_position(
                 // Shove the top edge of the search bounds to the center of the blocking
                 // construct, then add the bottom size of blocking construct plus 1 to clear its
                 // bounds
-                let mut inc = blocking_pos.y - cur_bounds.min.y + blocking_type.def().bounds.bottom;
+                let mut inc = blocking_pos.y - cur_bounds.min.y + blocking_type.bounds().bottom;
                 inc += (8 - ((y + inc) & 7)) & 7;
                 cur_bounds.min.y += inc;
                 cur_bounds.max.y += inc;

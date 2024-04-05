@@ -62,6 +62,14 @@ impl AssetQuality {
             Self::ExtraHigh => Vec2::splat(128.0),
         }
     }
+
+    pub const fn scale(&self) -> f32 {
+        match self {
+            Self::Standard => 1.0,
+            Self::High => 2.0,
+            Self::ExtraHigh => 4.0,
+        }
+    }
 }
 
 #[allow(unused)]

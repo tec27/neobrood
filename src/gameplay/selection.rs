@@ -1,9 +1,10 @@
 use crate::camera::CameraPanLocked;
-use crate::gamedata::ConstructTypeId;
+use crate::gamedata::anim::AnimAsset;
+use crate::gamedata::{ConstructTypeId, PreloadedAnimBundle};
 use crate::gameplay::InGameMenuState;
 use crate::maps::game_map::{GameMap, GameMapSize, LOGIC_TILE_SIZE};
 use crate::maps::position::Position;
-use crate::settings::GameSettings;
+use crate::settings::{AssetPack, GameSettings};
 use crate::states::AppState;
 use bevy::input::mouse::MouseButtonInput;
 use bevy::input::ButtonState;
@@ -19,6 +20,7 @@ pub struct DragSelectionPlugin;
 impl Plugin for DragSelectionPlugin {
     fn build(&self, app: &mut App) {
         app.add_event::<SelectEvent>()
+            .add_systems(OnEnter(AppState::PreGame), preload_selection_circles)
             .add_systems(OnEnter(AppState::InGame), drag_selection_setup)
             .add_systems(OnExit(AppState::InGame), drag_selection_cleanup)
             .add_systems(
@@ -59,6 +61,37 @@ pub enum SelectEvent {
 pub struct DragSelectEvent {
     pub start: Position,
     pub end: Position,
+}
+
+/// The anim ID of the first selection circle
+const FIRST_SELECTION_CIRCLE: u16 = 561;
+const NUM_SELECTION_CIRCLES: usize = 10;
+// TODO(tec27): If/when we need the dashed circles, they're right after these (571+)
+
+#[derive(Resource, Default, Debug)]
+pub struct SelectionCircles {
+    pub handles: [Handle<AnimAsset>; NUM_SELECTION_CIRCLES],
+}
+
+fn preload_selection_circles(
+    mut commands: Commands,
+    asset_server: Res<AssetServer>,
+    settings: Res<GameSettings>,
+) {
+    commands.remove_resource::<SelectionCircles>();
+
+    let mut circles = SelectionCircles::default();
+    for i in 0..NUM_SELECTION_CIRCLES {
+        let handle: Handle<AnimAsset> = asset_server.load(format!(
+            "casc-extracted/{}anim/{}main_{:03}.anim",
+            settings.asset_quality.asset_path(),
+            AssetPack::Standard.asset_path(),
+            i + FIRST_SELECTION_CIRCLE as usize,
+        ));
+        circles.handles[i] = handle;
+    }
+
+    commands.insert_resource(circles);
 }
 
 #[derive(Component)]
@@ -268,7 +301,7 @@ fn handle_click_selection(
     let contained_constructs = constructs
         .iter()
         .filter(|(_, &pos, &ty, &vis, _)| {
-            vis != Visibility::Hidden && ty.def().bounds.at_pos(pos.into()).contains(click_pos)
+            vis != Visibility::Hidden && ty.bounds().at_pos(pos.into()).contains(click_pos)
         })
         .collect::<Vec<_>>();
     let owned = {
@@ -338,7 +371,7 @@ fn handle_drag_selection(
         .filter(|(_, &pos, &ty, &vis, _)| {
             vis != Visibility::Hidden
                 && !drag_rect
-                    .intersect(ty.def().bounds.at_pos(pos.into()))
+                    .intersect(ty.bounds().at_pos(pos.into()))
                     .is_empty()
         })
         .collect::<Vec<_>>();
@@ -398,31 +431,68 @@ fn handle_drag_selection(
     );
 }
 
+// TODO(tec27): Pick a better/more accurate color for this
+const COLOR_SELF: Color = Color::rgb(0.1, 1.0, 0.3);
+const COLOR_ENEMY: Color = Color::rgb(1.0, 0.1, 0.3);
+const COLOR_NEUTRAL: Color = Color::rgb(1.0, 1.0, 0.3);
+
 fn update_locally_selected(
     mut commands: Commands,
-    controlled_player: Query<&SelectedEntities, With<ControlledPlayer>>,
+    controlled_player: Query<(Entity, &SelectedEntities), With<ControlledPlayer>>,
     last_selected: Query<(Entity, &Parent), With<LocallySelected>>,
+    constructs: Query<(&ConstructTypeId, Option<&OwnedConstruct>)>,
+    settings: Res<GameSettings>,
+    selection_circles: Res<SelectionCircles>,
+    anim_assets: Res<Assets<AnimAsset>>,
+    player_entities: Res<PlayerEntities>,
 ) {
     for (e, p) in last_selected.iter() {
         commands.entity(p.get()).remove_children(&[e]);
-        commands.entity(e).despawn();
+        commands.entity(e).despawn_recursive();
     }
 
-    for selected in controlled_player.iter() {
+    for (player_entity, selected) in controlled_player.iter() {
+        let player_num = player_entities.player_num_for(player_entity).unwrap_or(255);
         for &e in selected.0.iter() {
+            let (ty, owner) = constructs.get(e).unwrap();
+            let Some(circle_id) = ty.flingy().sprite().selection_circle else {
+                // TODO(tec27): This is probably extremely spammy given this runs every frame :)
+                error!("Selected a construct type that has no selection circle: {ty:?}");
+                continue;
+            };
+            let offset = ty.flingy().sprite().selection_circle_offset.unwrap_or(0);
+
             let child = commands
                 .spawn((
                     LocallySelected,
-                    SpriteBundle {
-                        sprite: Sprite {
-                            color: Color::rgba(0.0, 1.0, 0.0, 0.5),
-                            custom_size: Some(Vec2::new(32.0, 32.0)),
-                            ..default()
-                        },
+                    SpatialBundle {
+                        transform: Transform::from_translation(Vec3::new(
+                            0.0,
+                            offset as f32 * -settings.asset_quality.scale(),
+                            // Display under the construct
+                            -0.1,
+                        )),
                         ..default()
                     },
                 ))
                 .id();
+
+            if let Some(circle_asset) =
+                anim_assets.get(&selection_circles.handles[circle_id as usize])
+            {
+                let color = match owner {
+                    Some(o) if o.0 == player_num => COLOR_SELF,
+                    // TODO(tec27): Handle alliances
+                    Some(_) => COLOR_ENEMY,
+                    _ => COLOR_NEUTRAL,
+                };
+
+                let mut bundle = PreloadedAnimBundle::for_asset(circle_asset);
+                bundle.sprite_sheet.sprite.color = color;
+
+                let anim = commands.spawn(bundle).id();
+                commands.entity(child).add_child(anim);
+            }
             commands.entity(e).add_child(child);
         }
     }

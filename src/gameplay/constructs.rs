@@ -2,8 +2,9 @@ use bevy::prelude::*;
 use std::ops::Index;
 
 use crate::{
-    gamedata::{Construct, ConstructTypeId, CONSTRUCTS},
+    gamedata::{Construct, ConstructTypeId, Flingy, CONSTRUCTS},
     maps::position::Position,
+    math::bounds::IBounds,
     races::Race,
     render::ysort::YSort,
 };
@@ -42,6 +43,18 @@ impl ConstructTypeId {
     #[inline]
     pub fn def(&self) -> &Construct {
         &CONSTRUCTS[*self]
+    }
+
+    /// Returns the [Flingy] for this construct type.
+    #[inline]
+    pub fn flingy(&self) -> &'static Flingy {
+        self.def().flingy()
+    }
+
+    /// Returns the bounds of this construct type.
+    #[inline]
+    pub fn bounds(&self) -> IBounds {
+        self.def().bounds
     }
 
     /// Returns if this type of Construct is a unit.
