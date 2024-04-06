@@ -135,11 +135,7 @@ impl ToTokens for IscriptId {
 }
 
 pub fn write_iscripts(data: IscriptBinData) -> anyhow::Result<()> {
-    let mut sorted_anim_blocks = data
-        .anim_blocks
-        .into_iter()
-        .map(|(k, v)| (k, v))
-        .collect::<Vec<_>>();
+    let mut sorted_anim_blocks = data.anim_blocks.into_iter().collect::<Vec<_>>();
     // Sort the most referenced blocks to the beginning (I don't know if this is the best way to
     // sort these but it does maybe make them easier to navigate in the generated code)
     sorted_anim_blocks.sort_by_key(|(k, _)| u32::MAX - *data.anim_ref_count.get(k).unwrap_or(&0));
@@ -305,7 +301,7 @@ pub fn write_iscripts(data: IscriptBinData) -> anyhow::Result<()> {
         /// Contains all the iscript collections referenced by images in the game.
         pub const ISCRIPTS: [IscriptCollection<'static>; #num_iscripts] = unsafe { [#(#entries,)*] };
 
-        pub const ISCRIPT_ANIMS: [&'static [IC]; #num_anim_entries] = [
+        pub const ISCRIPT_ANIMS: [&[IC]; #num_anim_entries] = [
             #(
                 &[
                     #(#anim_entries,)*
@@ -1079,7 +1075,7 @@ fn type_to_animation_block_len(ty: u8) -> anyhow::Result<usize> {
         20 | 21 => Ok(22),
         23 => Ok(24),
         24 => Ok(26),
-        26 | 27 | 28 | 29 => Ok(28),
+        26..=29 => Ok(28),
         _ => Err(anyhow!("Invalid iscript type: {ty}")),
     }
 }
