@@ -10,21 +10,21 @@ use crate::{
 };
 
 impl Race {
-    /// Returns the [Construct] for this race's starting building.
-    pub fn hq_building(&self) -> &'static Construct {
+    /// Returns the [ConstructTypeId] for this race's starting building.
+    pub fn hq_building(&self) -> ConstructTypeId {
         match self {
-            Race::Protoss => &CONSTRUCTS[ConstructTypeId::ProtossNexus],
-            Race::Terran => &CONSTRUCTS[ConstructTypeId::TerranCommandCenter],
-            Race::Zerg => &CONSTRUCTS[ConstructTypeId::ZergHatchery],
+            Race::Protoss => ConstructTypeId::ProtossNexus,
+            Race::Terran => ConstructTypeId::TerranCommandCenter,
+            Race::Zerg => ConstructTypeId::ZergHatchery,
         }
     }
 
-    /// Returns the [Construct] for this race's worker unit.
-    pub fn worker(&self) -> &'static Construct {
+    /// Returns the [ConstructTypeId] for this race's worker unit.
+    pub fn worker(&self) -> ConstructTypeId {
         match self {
-            Race::Protoss => &CONSTRUCTS[ConstructTypeId::ProtossProbe],
-            Race::Terran => &CONSTRUCTS[ConstructTypeId::TerranScv],
-            Race::Zerg => &CONSTRUCTS[ConstructTypeId::ZergDrone],
+            Race::Protoss => ConstructTypeId::ProtossProbe,
+            Race::Terran => ConstructTypeId::TerranScv,
+            Race::Zerg => ConstructTypeId::ZergDrone,
         }
     }
 }

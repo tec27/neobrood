@@ -175,12 +175,12 @@ fn init_melee_game(
     player_query: &Query<&Player>,
     creation_events: &mut EventWriter<CreateConstructEvent>,
 ) {
-    for (entity, mut construct_type, owner, position) in units
+    for (entity, _c, owner, position) in units
         .iter_mut()
-        .filter(|(_, u, _, _)| **u == ConstructTypeId::StartLocation)
+        .filter(|(_, c, _, _)| **c == ConstructTypeId::StartLocation)
     {
+        commands.entity(entity).despawn_recursive();
         let Some(player_entity) = player_entities.get(owner.0) else {
-            commands.entity(entity).despawn_recursive();
             continue;
         };
         let Ok(player) = player_query.get(player_entity) else {
@@ -188,29 +188,22 @@ fn init_melee_game(
                 "Couldn't find player specified by PlayerEntities: {:?}",
                 player_entity
             );
-            commands.entity(entity).despawn_recursive();
             continue;
         };
-
-        let building = player.race.hq_building();
-        *construct_type = building.type_id();
-
-        let image_id = building.flingy().sprite().image_id;
 
         // TODO(tec27): Need to also destroy any constructs that are within the bounds of the HQ
         // building
 
-        commands
-            .entity(entity)
-            .despawn_descendants()
-            .with_children(|builder| {
-                builder.spawn(LoadingAnim::new(image_id));
-            });
+        let building = player.race.hq_building();
+        creation_events.send(CreateConstructEvent {
+            construct_type: building,
+            position: Some(*position),
+            owner: Some(owner.0),
+        });
 
-        let worker_type = player.race.worker();
-
+        let worker = player.race.worker();
         creation_events.send_batch((0..4).map(|_| CreateConstructEvent {
-            construct_type: worker_type.type_id(),
+            construct_type: worker,
             position: Some(*position),
             owner: Some(owner.0),
         }));
