@@ -2066,6 +2066,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "byteorder",
+ "num_enum",
  "prettyplease",
  "proc-macro2",
  "quote",

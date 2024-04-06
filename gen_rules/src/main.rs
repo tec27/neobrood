@@ -8,6 +8,7 @@ use syn::Ident;
 use crate::bytes::{ByteReadable, ReadByteArraysExt};
 
 mod bytes;
+mod iscript;
 
 fn main() -> Result<(), anyhow::Error> {
     let mut args = env::args();
@@ -46,6 +47,13 @@ fn main() -> Result<(), anyhow::Error> {
         write_units(data)?;
     }
 
+    {
+        let path = game_data_path.join("scripts/iscript.bin");
+        let bytes = std::fs::read(path).expect("Couldn't read iscript.bin");
+        let data = iscript::load_iscript_bin(&bytes)?;
+        iscript::write_iscripts(data)?;
+    }
+
     Ok(())
 }
 
@@ -75,12 +83,12 @@ const IMAGE_DATA_SIZE: usize = 38;
 #[derive(Clone, Debug)]
 pub struct ImageData {
     pub grp: [u32; NUM_IMAGE_DATA],
-    pub graphics_turns: [u8; NUM_IMAGE_DATA],
+    pub has_directional_frames: [u8; NUM_IMAGE_DATA],
     pub clickable: [u8; NUM_IMAGE_DATA],
     pub use_full_iscript: [u8; NUM_IMAGE_DATA],
-    pub draw_if_cloaked: [u8; NUM_IMAGE_DATA],
+    pub always_visible: [u8; NUM_IMAGE_DATA],
     pub draw_function: [u8; NUM_IMAGE_DATA],
-    pub remapping: [u8; NUM_IMAGE_DATA],
+    pub color_shift: [u8; NUM_IMAGE_DATA],
     pub iscript: [u32; NUM_IMAGE_DATA],
     pub shield_overlay: [u32; NUM_IMAGE_DATA],
     pub attack_overlay: [u32; NUM_IMAGE_DATA],
@@ -97,12 +105,12 @@ fn load_images_dat(mut bytes: &[u8]) -> anyhow::Result<ImageData> {
 
     Ok(ImageData {
         grp: bytes.read_u32_array::<NUM_IMAGE_DATA>()?,
-        graphics_turns: bytes.read_u8_array::<NUM_IMAGE_DATA>()?,
+        has_directional_frames: bytes.read_u8_array::<NUM_IMAGE_DATA>()?,
         clickable: bytes.read_u8_array::<NUM_IMAGE_DATA>()?,
         use_full_iscript: bytes.read_u8_array::<NUM_IMAGE_DATA>()?,
-        draw_if_cloaked: bytes.read_u8_array::<NUM_IMAGE_DATA>()?,
+        always_visible: bytes.read_u8_array::<NUM_IMAGE_DATA>()?,
         draw_function: bytes.read_u8_array::<NUM_IMAGE_DATA>()?,
-        remapping: bytes.read_u8_array::<NUM_IMAGE_DATA>()?,
+        color_shift: bytes.read_u8_array::<NUM_IMAGE_DATA>()?,
         iscript: bytes.read_u32_array::<NUM_IMAGE_DATA>()?,
         shield_overlay: bytes.read_u32_array::<NUM_IMAGE_DATA>()?,
         attack_overlay: bytes.read_u32_array::<NUM_IMAGE_DATA>()?,
@@ -118,12 +126,12 @@ fn write_images(data: ImageData) -> anyhow::Result<()> {
     for i in 0..NUM_IMAGE_DATA {
         let id = i as u16;
         let grp = data.grp[i];
-        let graphics_turns = data.graphics_turns[i];
-        let clickable = data.clickable[i];
-        let use_full_iscript = data.use_full_iscript[i];
-        let draw_if_cloaked = data.draw_if_cloaked[i];
+        let has_directional_frames = data.has_directional_frames[i] != 0;
+        let clickable = data.clickable[i] != 0;
+        let use_full_iscript = data.use_full_iscript[i] != 0;
+        let always_visible = data.always_visible[i] != 0;
         let draw_function = data.draw_function[i];
-        let remapping = data.remapping[i];
+        let color_shift = data.color_shift[i];
         let iscript = data.iscript[i];
         let shield_overlay = data.shield_overlay[i];
         let attack_overlay = data.attack_overlay[i];
@@ -136,12 +144,12 @@ fn write_images(data: ImageData) -> anyhow::Result<()> {
             BwImage {
                 id: #id,
                 grp: #grp,
-                graphics_turns: #graphics_turns,
+                has_directional_frames: #has_directional_frames,
                 clickable: #clickable,
                 use_full_iscript: #use_full_iscript,
-                draw_if_cloaked: #draw_if_cloaked,
+                always_visible: #always_visible,
                 draw_function: #draw_function,
-                remapping: #remapping,
+                color_shift: #color_shift,
                 iscript: #iscript,
                 shield_overlay: #shield_overlay,
                 attack_overlay: #attack_overlay,

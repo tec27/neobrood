@@ -187,7 +187,7 @@ struct AnimTexture {
     height: u16,
 }
 
-const ANIM_MAGIC: u32 = 0x4d494e41; // "ANIM"
+const ANIM_MAGIC: u32 = u32::from_le_bytes(*b"ANIM");
 const TYPE_SD: u8 = 0x01;
 const TYPE_HD: u8 = 0x02;
 

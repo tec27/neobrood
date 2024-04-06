@@ -6545,7 +6545,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 0u16,
         what_sound_end: 0u16,
-        placebox_size: I16Vec2 { x: 140i16, y: 100i16 },
+        placebox_size: I16Vec2 {
+            x: 140i16,
+            y: 100i16,
+        },
         bounds: IBounds {
             left: 60i32,
             top: 40i32,
@@ -6607,7 +6610,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 2u8,
         what_sound_start: 15u16,
         what_sound_end: 15u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 96i16,
+        },
         bounds: IBounds {
             left: 58i32,
             top: 41i32,
@@ -6690,7 +6696,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         star_edit_availability_flag: 463u16,
         kind: ConstructKind::Building(BuildingData {
             infestation: 228u16,
-            addon_size: I16Vec2 { x: 128i16, y: 32i16 },
+            addon_size: I16Vec2 {
+                x: 128i16,
+                y: 32i16,
+            },
         }),
     },
     Construct {
@@ -6749,7 +6758,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         star_edit_availability_flag: 463u16,
         kind: ConstructKind::Building(BuildingData {
             infestation: 228u16,
-            addon_size: I16Vec2 { x: 128i16, y: 32i16 },
+            addon_size: I16Vec2 {
+                x: 128i16,
+                y: 32i16,
+            },
         }),
     },
     Construct {
@@ -6843,7 +6855,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 400u16,
         what_sound_end: 400u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 64i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 64i16,
+        },
         bounds: IBounds {
             left: 56i32,
             top: 32i32,
@@ -6902,7 +6917,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 2u8,
         what_sound_start: 15u16,
         what_sound_end: 15u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 96i16,
+        },
         bounds: IBounds {
             left: 48i32,
             top: 40i32,
@@ -7020,7 +7038,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 2u8,
         what_sound_start: 15u16,
         what_sound_end: 15u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 96i16,
+        },
         bounds: IBounds {
             left: 56i32,
             top: 40i32,
@@ -7079,7 +7100,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 2u8,
         what_sound_start: 15u16,
         what_sound_end: 15u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 96i16,
+        },
         bounds: IBounds {
             left: 48i32,
             top: 40i32,
@@ -7162,7 +7186,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         star_edit_availability_flag: 463u16,
         kind: ConstructKind::Building(BuildingData {
             infestation: 228u16,
-            addon_size: I16Vec2 { x: 128i16, y: 32i16 },
+            addon_size: I16Vec2 {
+                x: 128i16,
+                y: 32i16,
+            },
         }),
     },
     Construct {
@@ -7197,7 +7224,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 2u8,
         what_sound_start: 395u16,
         what_sound_end: 395u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 96i16,
+        },
         bounds: IBounds {
             left: 48i32,
             top: 38i32,
@@ -7280,7 +7310,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         star_edit_availability_flag: 463u16,
         kind: ConstructKind::Building(BuildingData {
             infestation: 228u16,
-            addon_size: I16Vec2 { x: 128i16, y: 32i16 },
+            addon_size: I16Vec2 {
+                x: 128i16,
+                y: 32i16,
+            },
         }),
     },
     Construct {
@@ -7339,7 +7372,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         star_edit_availability_flag: 463u16,
         kind: ConstructKind::Building(BuildingData {
             infestation: 228u16,
-            addon_size: I16Vec2 { x: 128i16, y: 32i16 },
+            addon_size: I16Vec2 {
+                x: 128i16,
+                y: 32i16,
+            },
         }),
     },
     Construct {
@@ -7457,7 +7493,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         star_edit_availability_flag: 463u16,
         kind: ConstructKind::Building(BuildingData {
             infestation: 228u16,
-            addon_size: I16Vec2 { x: 128i16, y: 32i16 },
+            addon_size: I16Vec2 {
+                x: 128i16,
+                y: 32i16,
+            },
         }),
     },
     Construct {
@@ -7551,7 +7590,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 2u8,
         what_sound_start: 402u16,
         what_sound_end: 402u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 96i16,
+        },
         bounds: IBounds {
             left: 48i32,
             top: 32i32,
@@ -8023,7 +8065,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 2u8,
         what_sound_start: 15u16,
         what_sound_end: 15u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 96i16,
+        },
         bounds: IBounds {
             left: 58i32,
             top: 41i32,
@@ -8082,7 +8127,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 759u16,
         what_sound_end: 759u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 96i16,
+        },
         bounds: IBounds {
             left: 49i32,
             top: 32i32,
@@ -8141,7 +8189,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 762u16,
         what_sound_end: 762u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 96i16,
+        },
         bounds: IBounds {
             left: 49i32,
             top: 32i32,
@@ -8200,7 +8251,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 760u16,
         what_sound_end: 760u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 96i16,
+        },
         bounds: IBounds {
             left: 49i32,
             top: 32i32,
@@ -8377,7 +8431,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 766u16,
         what_sound_end: 766u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 64i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 64i16,
+        },
         bounds: IBounds {
             left: 48i32,
             top: 32i32,
@@ -9026,7 +9083,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 769u16,
         what_sound_end: 769u16,
-        placebox_size: I16Vec2 { x: 160i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 160i16,
+            y: 96i16,
+        },
         bounds: IBounds {
             left: 80i32,
             top: 32i32,
@@ -9085,7 +9145,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 769u16,
         what_sound_end: 769u16,
-        placebox_size: I16Vec2 { x: 160i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 160i16,
+            y: 96i16,
+        },
         bounds: IBounds {
             left: 80i32,
             top: 32i32,
@@ -9144,7 +9207,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 761u16,
         what_sound_end: 761u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 64i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 64i16,
+        },
         bounds: IBounds {
             left: 64i32,
             top: 32i32,
@@ -9439,7 +9505,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 484u16,
         what_sound_end: 484u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 96i16,
+        },
         bounds: IBounds {
             left: 56i32,
             top: 39i32,
@@ -9616,7 +9685,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 474u16,
         what_sound_end: 474u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 64i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 64i16,
+        },
         bounds: IBounds {
             left: 48i32,
             top: 32i32,
@@ -9675,7 +9747,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 15u16,
         what_sound_end: 15u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 96i16,
+        },
         bounds: IBounds {
             left: 64i32,
             top: 48i32,
@@ -9793,7 +9868,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 479u16,
         what_sound_end: 479u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 96i16,
+        },
         bounds: IBounds {
             left: 48i32,
             top: 32i32,
@@ -10206,7 +10284,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 15u16,
         what_sound_end: 15u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 96i16,
+        },
         bounds: IBounds {
             left: 48i32,
             top: 40i32,
@@ -10265,7 +10346,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 399u16,
         what_sound_end: 399u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 96i16,
+        },
         bounds: IBounds {
             left: 64i32,
             top: 48i32,
@@ -10560,7 +10644,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 482u16,
         what_sound_end: 482u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 96i16,
+        },
         bounds: IBounds {
             left: 64i32,
             top: 48i32,
@@ -10619,7 +10706,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 486u16,
         what_sound_end: 486u16,
-        placebox_size: I16Vec2 { x: 224i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 224i16,
+            y: 96i16,
+        },
         bounds: IBounds {
             left: 112i32,
             top: 48i32,
@@ -10678,7 +10768,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 486u16,
         what_sound_end: 486u16,
-        placebox_size: I16Vec2 { x: 160i16, y: 128i16 },
+        placebox_size: I16Vec2 {
+            x: 160i16,
+            y: 128i16,
+        },
         bounds: IBounds {
             left: 80i32,
             top: 34i32,
@@ -11445,7 +11538,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 15u16,
         what_sound_end: 15u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 64i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 64i16,
+        },
         bounds: IBounds {
             left: 64i32,
             top: 32i32,
@@ -11563,7 +11659,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 391u16,
         what_sound_end: 391u16,
-        placebox_size: I16Vec2 { x: 160i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 160i16,
+            y: 96i16,
+        },
         bounds: IBounds {
             left: 80i32,
             top: 38i32,
@@ -12153,7 +12252,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 396u16,
         what_sound_end: 396u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 96i16,
+        },
         bounds: IBounds {
             left: 56i32,
             top: 28i32,
@@ -12271,7 +12373,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 0u16,
         what_sound_end: 0u16,
-        placebox_size: I16Vec2 { x: 160i16, y: 160i16 },
+        placebox_size: I16Vec2 {
+            x: 160i16,
+            y: 160i16,
+        },
         bounds: IBounds {
             left: 80i32,
             top: 80i32,
@@ -12383,7 +12488,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 30u16,
         what_sound_end: 31u16,
-        placebox_size: I16Vec2 { x: 256i16, y: 128i16 },
+        placebox_size: I16Vec2 {
+            x: 256i16,
+            y: 128i16,
+        },
         bounds: IBounds {
             left: 128i32,
             top: 64i32,
@@ -12439,7 +12547,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 24u16,
         what_sound_end: 25u16,
-        placebox_size: I16Vec2 { x: 136i16, y: 136i16 },
+        placebox_size: I16Vec2 {
+            x: 136i16,
+            y: 136i16,
+        },
         bounds: IBounds {
             left: 25i32,
             top: 17i32,
@@ -12495,7 +12606,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 26u16,
         what_sound_end: 27u16,
-        placebox_size: I16Vec2 { x: 136i16, y: 136i16 },
+        placebox_size: I16Vec2 {
+            x: 136i16,
+            y: 136i16,
+        },
         bounds: IBounds {
             left: 44i32,
             top: 17i32,
@@ -12551,7 +12665,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 28u16,
         what_sound_end: 29u16,
-        placebox_size: I16Vec2 { x: 148i16, y: 100i16 },
+        placebox_size: I16Vec2 {
+            x: 148i16,
+            y: 100i16,
+        },
         bounds: IBounds {
             left: 41i32,
             top: 17i32,
@@ -12607,7 +12724,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 30u16,
         what_sound_end: 31u16,
-        placebox_size: I16Vec2 { x: 148i16, y: 100i16 },
+        placebox_size: I16Vec2 {
+            x: 148i16,
+            y: 100i16,
+        },
         bounds: IBounds {
             left: 28i32,
             top: 17i32,
@@ -12943,7 +13063,10 @@ pub const CONSTRUCTS: [Construct; 228usize] = [
         right_click_action: 0u8,
         what_sound_start: 15u16,
         what_sound_end: 15u16,
-        placebox_size: I16Vec2 { x: 128i16, y: 96i16 },
+        placebox_size: I16Vec2 {
+            x: 128i16,
+            y: 96i16,
+        },
         bounds: IBounds {
             left: 48i32,
             top: 32i32,
