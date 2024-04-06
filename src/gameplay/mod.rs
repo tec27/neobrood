@@ -2,7 +2,7 @@ use bevy::prelude::*;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 use crate::{
-    gamedata::{BwGameData, ConstructTypeId, LoadingAnim},
+    gamedata::{BwGameData, ConstructTypeId},
     maps::{
         game_map::GameMap,
         position::{self, Position},
