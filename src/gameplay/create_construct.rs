@@ -175,20 +175,20 @@ pub fn finish_constructs(
         }
         if ty.is_building() {
             // TODO(tec27): Remove construction graphic
-        } else {
-            if can_turn.is_some() {
-                let mut dir = ty.def().unit_direction;
-                if dir == 32 {
-                    dir = rng.next_u8() % 32;
-                }
-
-                // TODO(tec27): Need to update velocities as well
-                facing.0 = ANGLE_PER_SPRITE * dir;
+        } else if can_turn.is_some() {
+            let mut dir = ty.def().unit_direction;
+            if dir == 32 {
+                dir = rng.next_u8() % 32;
             }
+
+            // TODO(tec27): Need to update velocities as well
+            facing.0 = ANGLE_PER_SPRITE * dir;
         }
+        // TODO(tec27): Show unit if it's a trap
 
         commands.entity(entity).remove::<UnderConstruction>();
-        writer.send(PlaceConstructEvent { entity: entity });
+        // TODO(tec27): This should probably only happen for non-buildings?
+        writer.send(PlaceConstructEvent { entity });
     }
 }
 

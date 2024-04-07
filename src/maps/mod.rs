@@ -298,7 +298,7 @@ fn create_placed_units(commands: &mut Commands, map: &MapAsset, map_entity: Enti
     );
 
     for unit in map.placed_units.iter() {
-        if !CONSTRUCTS.get(unit.unit_id as usize).is_some() {
+        if CONSTRUCTS.get(unit.unit_id as usize).is_none() {
             warn!(
                 "Encountered Unit {} which isn't a valid ID, skipping",
                 unit.unit_id
