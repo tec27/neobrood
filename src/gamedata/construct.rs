@@ -1,7 +1,8 @@
 use bevy::{ecs::component::Component, math::I16Vec2};
+use bitflags::bitflags;
 use num_enum::{FromPrimitive, IntoPrimitive};
 
-use crate::math::bounds::IBounds;
+use crate::math::{bounds::IBounds, FixedPoint};
 
 use super::{BwImage, Flingy};
 
@@ -13,13 +14,13 @@ use super::{BwImage, Flingy};
 pub struct Construct {
     pub id: u16,
     pub flingy_id: u8,
-    pub sub_unit_1: u16,
-    pub sub_unit_2: u16,
+    pub turret_type: Option<u16>,
+    // NOTE(tec27): The unit data has a second sub unit type field, but none of the data actually
+    // uses it so we discard it
     pub construction_image_id: u32,
     pub unit_direction: u8,
-    pub shield_enabled: u8,
-    pub shield_amount: i16,
-    pub hit_points: i32,
+    pub shield_points: Option<FixedPoint>,
+    pub hit_points: FixedPoint,
     pub elevation_level: u8,
     pub unknown_0: u8,
     pub sub_label: u8,
@@ -33,7 +34,7 @@ pub struct Construct {
     pub air_weapon: u8,
     pub max_air_hits: u8,
     pub ai_internal: u8,
-    pub special_ability_flags: u32,
+    pub flags: ConstructFlags,
     pub target_acquisition_range: u8,
     pub sight_range: u8,
     pub armor_upgrade: u8,
@@ -43,7 +44,7 @@ pub struct Construct {
     pub what_sound_start: u16,
     pub what_sound_end: u16,
     pub placebox_size: I16Vec2,
-    /// The space that this [Construct] takes up on the map, in logical pixels..
+    /// The space that this [Construct] takes up on the map, in logical pixels.
     pub bounds: IBounds,
     pub portrait: u16,
     pub mineral_cost: u16,
@@ -91,14 +92,54 @@ pub struct UnitData {
     pub yes_sound_end: u16,
 }
 
+bitflags! {
+    #[derive(Debug, Clone, Copy, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
+    pub struct ConstructFlags: u32 {
+        const BUILDING = 0x1;
+        const ADDON = 0x2;
+        const FLYER = 0x4;
+
+        const WORKER = 0x8;
+        const TURRET = 0x10;
+        const FLYING_BUILDING = 0x20;
+        const HERO = 0x40;
+        const REGENERATES_HEALTH = 0x80;
+        const UNKNOWN_100 = 0x100;
+
+        const TWO_UNITS_PER_EGG = 0x400;
+        const POWERUP = 0x800;
+        const RESOURCE_DEPOT = 0x1_000;
+        const RESOURCE = 0x2_000;
+        const ROBOTIC = 0x4_000;
+        const DETECTOR = 0x8_000;
+        const ORGANIC = 0x10_000;
+        const REQUIRES_CREEP = 0x20_000;
+
+        const REQUIRES_PSI_POWER = 0x80_000;
+        const CAN_BURROW = 0x100_000;
+        const HAS_ENERGY = 0x200_000;
+        const INITIALLY_CLOAKED = 0x400_000;
+
+        const SPRITE_SIZE_MEDIUM = 0x2_000_000;
+        const SPRITE_SIZE_LARGE = 0x4_000_000;
+
+        const CAN_MOVE = 0x8_000_000;
+        const CAN_TURN = 0x10_000_000;
+        const INVINCIBLE = 0x20_000_000;
+        const MECHANICAL = 0x40_000_000;
+        // TODO(tec27): Figure out what this is for, seems like maybe PROVIDES_CREEP?
+        const UNKNOWN_80000000 = 0x80_000_000;
+    }
+}
+
 impl Construct {
     #[inline]
-    pub fn flingy(&self) -> &'static Flingy {
+    pub const fn flingy(&self) -> &'static Flingy {
         &super::FLINGIES[self.flingy_id as usize]
     }
 
     #[inline]
-    pub fn construction_image(&self) -> &'static BwImage {
+    pub const fn construction_image(&self) -> &'static BwImage {
         &super::IMAGES[self.construction_image_id as usize]
     }
 
@@ -109,13 +150,13 @@ impl Construct {
 
     /// Returns if this [Construct] is a unit.
     #[inline]
-    pub fn is_unit(&self) -> bool {
+    pub const fn is_unit(&self) -> bool {
         matches!(self.kind, ConstructKind::Unit(_))
     }
 
     /// Returns if this [Construct] is a building.
     #[inline]
-    pub fn is_building(&self) -> bool {
+    pub const fn is_building(&self) -> bool {
         matches!(self.kind, ConstructKind::Building(_))
     }
 }

@@ -390,6 +390,17 @@ impl ToTokens for Bounds16 {
     }
 }
 
+#[derive(Copy, Clone, Eq, PartialEq, Default, Debug)]
+pub struct FixedPointFromInt(pub i32);
+
+impl ToTokens for FixedPointFromInt {
+    fn to_tokens(&self, tokens: &mut TokenStream) {
+        let value = self.0;
+        let code = quote! { FixedPoint::const_from_int(#value) };
+        code.to_tokens(tokens);
+    }
+}
+
 /// How many things (units + buildings + other) are specified in the units.dat file.
 const NUM_UNIT_DATA: usize = 228;
 /// How many units are specified in the units.dat file (these are at the beginning).
@@ -527,12 +538,18 @@ fn write_units(data: UnitData) -> anyhow::Result<()> {
     for i in 0..NUM_UNIT_DATA {
         let id = i as u16;
         let flingy_id = data.flingy[i];
-        let sub_unit_1 = data.sub_unit_1[i];
-        let sub_unit_2 = data.sub_unit_2[i];
+        let turret_type = if data.sub_unit_1[i] < NUM_UNIT_DATA as u16 {
+            PreservedOption(Some(data.sub_unit_1[i]))
+        } else {
+            PreservedOption(None)
+        };
         let construction_image_id = data.construction_image[i];
         let unit_direction = data.unit_direction[i];
-        let shield_enabled = data.shield_enabled[i];
-        let shield_amount = data.shield_amount[i];
+        let shield_points = if data.shield_enabled[i] == 0 {
+            PreservedOption(None)
+        } else {
+            PreservedOption(Some(FixedPointFromInt(data.shield_amount[i] as i32)))
+        };
         let hit_points = data.hit_points[i];
         let elevation_level = data.elevation_level[i];
         let unknown_0 = data.unknown_0[i];
@@ -610,13 +627,11 @@ fn write_units(data: UnitData) -> anyhow::Result<()> {
             Construct {
                 id: #id,
                 flingy_id: #flingy_id,
-                sub_unit_1: #sub_unit_1,
-                sub_unit_2: #sub_unit_2,
+                turret_type: #turret_type,
                 construction_image_id: #construction_image_id,
                 unit_direction: #unit_direction,
-                shield_enabled: #shield_enabled,
-                shield_amount: #shield_amount,
-                hit_points: #hit_points,
+                shield_points: #shield_points,
+                hit_points: FixedPoint::from_bits(#hit_points),
                 elevation_level: #elevation_level,
                 unknown_0: #unknown_0,
                 sub_label: #sub_label,
@@ -630,7 +645,7 @@ fn write_units(data: UnitData) -> anyhow::Result<()> {
                 air_weapon: #air_weapon,
                 max_air_hits: #max_air_hits,
                 ai_internal: #ai_internal,
-                special_ability_flags: #special_ability_flags,
+                flags: ConstructFlags::from_bits_retain(#special_ability_flags),
                 target_acquisition_range: #target_acquisition_range,
                 sight_range: #sight_range,
                 armor_upgrade: #armor_upgrade,
@@ -665,8 +680,8 @@ fn write_units(data: UnitData) -> anyhow::Result<()> {
     let num_entries = entries.len();
 
     let tokens = quote! {
-        use crate::gamedata::{BuildingData, Construct, ConstructKind, UnitData};
-        use crate::math::bounds::IBounds;
+        use crate::gamedata::{BuildingData, Construct, ConstructFlags, ConstructKind, UnitData};
+        use crate::math::{bounds::IBounds, FixedPoint};
         use bevy::math::I16Vec2;
 
         /// Contains data for all units, buildings, and other constructs in the game.

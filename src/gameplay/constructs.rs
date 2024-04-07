@@ -2,12 +2,17 @@ use bevy::prelude::*;
 use std::ops::Index;
 
 use crate::{
-    gamedata::{Construct, ConstructTypeId, Flingy, CONSTRUCTS},
+    gamedata::{
+        BwImage, BwSprite, Construct, ConstructFlags, ConstructTypeId, Flingy, LoadingAnimBundle,
+        CONSTRUCTS, IMAGES, SPRITES,
+    },
     maps::position::Position,
-    math::bounds::IBounds,
+    math::{bounds::IBounds, FixedPoint},
     races::Race,
     render::ysort::YSort,
 };
+
+use super::{build_time::UnderConstruction, facing_direction::FacingDirection, health::Health};
 
 impl Race {
     /// Returns the [ConstructTypeId] for this race's starting building.
@@ -68,10 +73,25 @@ impl ConstructTypeId {
     pub fn is_building(&self) -> bool {
         self.def().is_building()
     }
+
+    #[inline]
+    pub fn max_health(&self) -> FixedPoint {
+        self.def().hit_points
+    }
+
+    #[inline]
+    pub fn shield_points(&self) -> Option<FixedPoint> {
+        self.def().shield_points
+    }
+
+    #[inline]
+    pub fn flags(&self) -> ConstructFlags {
+        self.def().flags
+    }
 }
 
 /// Component that specifies a [Construct]'s owner (via a player number).
-#[derive(Component, Debug, Clone, Copy, PartialEq, Eq, Default)]
+#[derive(Component, Debug, Clone, Copy, PartialEq, Eq, Default, Reflect)]
 pub struct OwnedConstruct(pub u8);
 
 #[derive(Bundle)]
@@ -80,6 +100,9 @@ pub struct ConstructBundle {
     pub construct_type: ConstructTypeId,
     pub position: Position,
     pub ysort: YSort,
+    pub health: Health,
+    pub under_construction: UnderConstruction,
+    pub facing_direction: FacingDirection,
 }
 
 impl Default for ConstructBundle {
@@ -89,6 +112,9 @@ impl Default for ConstructBundle {
             position: Default::default(),
             construct_type: Default::default(),
             ysort: YSort(2.0),
+            health: Default::default(),
+            under_construction: Default::default(),
+            facing_direction: Default::default(),
         }
     }
 }
@@ -114,3 +140,61 @@ const fn max_construct_size() -> IVec2 {
 /// deciding how to size spatial indexes or other data structures that need to deal with positional
 /// data and overlaps.
 pub const MAX_CONSTRUCT_SIZE: IVec2 = max_construct_size();
+
+/// Component that specifies an entity is a sprite for a [Construct].
+#[derive(Component, Debug, Clone, PartialEq, Eq, Default, Reflect)]
+pub struct ConstructSprite {
+    /// The ID of the sprite this entity maps to. Can be looked up in [SPRITES].
+    pub id: u16,
+}
+
+impl ConstructSprite {
+    pub fn def(&self) -> &'static BwSprite {
+        &SPRITES[self.id as usize]
+    }
+}
+
+#[derive(Bundle, Default)]
+pub struct ConstructSpriteBundle {
+    pub sprite: ConstructSprite,
+    pub spatial: SpatialBundle,
+}
+
+impl ConstructSpriteBundle {
+    pub fn new(id: u16) -> Self {
+        Self {
+            sprite: ConstructSprite { id },
+            ..default()
+        }
+    }
+}
+
+/// Component that specifies an entity is an image for a [ConstructSprite].
+#[derive(Component, Debug, Clone, PartialEq, Eq, Default, Reflect)]
+pub struct ConstructImage {
+    /// The ID of the image this entity maps to. Can be looked up in [IMAGES].
+    pub id: u16,
+}
+
+impl ConstructImage {
+    pub fn def(&self) -> &'static BwImage {
+        &IMAGES[self.id as usize]
+    }
+}
+
+#[derive(Bundle, Default)]
+pub struct ConstructImageBundle {
+    pub image: ConstructImage,
+    pub spatial: SpatialBundle,
+    pub loading_anim: LoadingAnimBundle,
+}
+
+impl ConstructImageBundle {
+    pub fn new(id: u16) -> Self {
+        Self {
+            image: ConstructImage { id },
+            loading_anim: LoadingAnimBundle::new(id),
+            ..default()
+        }
+    }
+}

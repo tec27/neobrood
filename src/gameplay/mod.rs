@@ -13,21 +13,25 @@ use crate::{
 };
 
 use self::{
-    constructs::OwnedConstruct,
-    create_construct::{
-        create_constructs, place_constructs, CreateConstructEvent, PlaceConstructEvent,
-    },
+    constructs::{ConstructImage, ConstructSprite, OwnedConstruct},
+    create_construct::{CreateConstructEvent, CreationKind},
+    facing_direction::apply_facing_to_images,
     gizmos::{show_construct_gizmos, ConstructGizmos},
     players::{ControlledPlayer, Player, PlayerEntities},
     selection::SelectedEntities,
 };
 
+pub mod build_time;
 pub mod constructs;
 pub mod create_construct;
+pub mod facing_direction;
 pub mod gizmos;
+pub mod health;
 mod in_game_menu;
 pub mod players;
 pub mod selection;
+pub mod shield;
+pub mod status;
 
 pub use in_game_menu::InGameMenuState;
 
@@ -73,9 +77,11 @@ impl Plugin for GameplayPlugin {
     fn build(&self, app: &mut App) {
         app.add_plugins(in_game_menu::InGameMenuPlugin)
             .add_plugins(selection::DragSelectionPlugin)
+            .add_plugins(create_construct::plugin)
             .register_type::<ConstructGizmos>()
-            .add_event::<CreateConstructEvent>()
-            .add_event::<PlaceConstructEvent>()
+            .register_type::<ConstructImage>()
+            .register_type::<ConstructSprite>()
+            .register_type::<OwnedConstruct>()
             .init_resource::<GameMode>()
             .init_resource::<PlayerEntities>()
             .insert_gizmo_group(
@@ -88,6 +94,7 @@ impl Plugin for GameplayPlugin {
             .add_systems(OnEnter(AppState::PreGame), init_random)
             .add_systems(Update, proceed_to_game.run_if(in_state(AppState::PreGame)))
             .add_systems(OnEnter(AppState::InGame), (init_players, init_game).chain())
+            .add_systems(FixedPostUpdate, apply_facing_to_images)
             .add_systems(
                 PostUpdate,
                 (show_construct_gizmos)
@@ -95,12 +102,6 @@ impl Plugin for GameplayPlugin {
                     .run_if(|store: Res<GizmoConfigStore>| {
                         store.config::<ConstructGizmos>().0.enabled
                     }),
-            )
-            .add_systems(
-                FixedUpdate,
-                (create_constructs, place_constructs)
-                    .chain()
-                    .run_if(in_state(AppState::InGame)),
             );
     }
 }
@@ -199,6 +200,7 @@ fn init_melee_game(
             construct_type: building,
             position: Some(*position),
             owner: Some(owner.0),
+            kind: CreationKind::Immediate,
         });
 
         let worker = player.race.worker();
@@ -206,6 +208,7 @@ fn init_melee_game(
             construct_type: worker,
             position: Some(*position),
             owner: Some(owner.0),
+            kind: CreationKind::Immediate,
         }));
     }
 }

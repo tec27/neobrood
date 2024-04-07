@@ -1,16 +1,46 @@
 use bevy::{ecs::system::SystemState, prelude::*};
 
 use crate::{
-    gamedata::{Construct, ConstructTypeId, LoadingAnim},
+    gamedata::{Construct, ConstructFlags, ConstructTypeId},
     maps::{
         game_map::{GameMap, GameMapSize, LOGIC_TILE_SIZE},
         position::Position,
     },
+    math::ANGLE_PER_SPRITE,
     random::LcgRand,
-    states::InGameOnly,
+    states::{AppState, InGameOnly},
 };
 
-use super::constructs::{ConstructBundle, OwnedConstruct};
+use super::{
+    build_time::UnderConstruction,
+    constructs::{ConstructBundle, ConstructImageBundle, ConstructSpriteBundle, OwnedConstruct},
+    facing_direction::FacingDirection,
+    health::Health,
+    shield::Shield,
+    status::CanTurn,
+};
+
+pub fn plugin(app: &mut App) {
+    app.add_event::<CreateConstructEvent>()
+        .add_event::<FinishConstructEvent>()
+        .add_event::<PlaceConstructEvent>()
+        .add_systems(
+            FixedUpdate,
+            (create_constructs, finish_constructs, place_constructs)
+                .chain()
+                .run_if(in_state(AppState::InGame)),
+        );
+}
+
+#[derive(Debug, Copy, Clone, Default, PartialEq, Eq)]
+pub enum CreationKind {
+    /// The Construct will go through a "normal" creation process, needing to pass its build time
+    /// before it has full health/etc.
+    #[default]
+    Normal,
+    /// The Construct will go through the finishing process immediately upon creation.
+    Immediate,
+}
 
 /// Event that signifies a new Construct should be created during the FixedUpdate phase. If a
 /// position is specified, the Construct will be placed immediately after creation, otherwise its
@@ -19,7 +49,19 @@ use super::constructs::{ConstructBundle, OwnedConstruct};
 pub struct CreateConstructEvent {
     pub construct_type: ConstructTypeId,
     pub owner: Option<u8>,
+    /// Where to place the construct. If specified, the construct will be placed immediately.
+    /// Otherwise, the construct will be created by won't be put onto the map yet (e.g. it may still
+    /// be a unit under construction).
     pub position: Option<Position>,
+    pub kind: CreationKind,
+}
+
+/// Event that signifies a Construct has finished construction. If it is a unit, it will have its
+/// state initialized for placement. If it is a building, it will have its state updated to show
+/// the finished building sprite.
+#[derive(Event, Debug, Copy, Clone)]
+pub struct FinishConstructEvent {
+    pub entity: Entity,
 }
 
 /// Event that signifies a Construct should be placed on the map at its current position. The
@@ -34,7 +76,7 @@ pub fn create_constructs(
     world: &mut World,
     params: &mut SystemState<(
         EventReader<CreateConstructEvent>,
-        EventWriter<PlaceConstructEvent>,
+        EventWriter<FinishConstructEvent>,
         Commands,
         ResMut<LcgRand>,
     )>,
@@ -55,27 +97,99 @@ pub fn create_constructs(
                     visibility: Visibility::Hidden,
                     ..default()
                 },
+                health: Health::initial(e.construct_type),
+                under_construction: UnderConstruction::for_type(e.construct_type),
                 ..default()
             },
             InGameOnly,
         ));
+        if e.construct_type.flags().contains(ConstructFlags::CAN_TURN) {
+            entity.insert(CanTurn);
+        }
+        if let Some(shield) = Shield::initial(e.construct_type) {
+            entity.insert(shield);
+        }
         if let Some(owner) = e.owner {
             entity.insert(OwnedConstruct(owner));
         }
+
         entity.with_children(|builder| {
-            builder.spawn(LoadingAnim::new(
-                e.construct_type.flingy().sprite().image_id,
-            ));
+            builder
+                .spawn(ConstructSpriteBundle::new(
+                    e.construct_type.flingy().sprite_id,
+                ))
+                .with_children(|builder| {
+                    builder.spawn(ConstructImageBundle::new(
+                        e.construct_type.flingy().sprite().image_id,
+                    ));
+                });
         });
 
-        if e.position.is_some() {
-            writer.send(PlaceConstructEvent {
+        if e.kind == CreationKind::Immediate {
+            writer.send(FinishConstructEvent {
                 entity: entity.id(),
             });
         }
     }
 
     params.apply(world);
+}
+
+pub fn finish_constructs(
+    world: &mut World,
+    params: &mut SystemState<(
+        EventReader<FinishConstructEvent>,
+        EventWriter<PlaceConstructEvent>,
+        Query<(
+            Entity,
+            &ConstructTypeId,
+            &UnderConstruction,
+            &mut Health,
+            Option<&mut Shield>,
+            Option<&CanTurn>,
+            &mut FacingDirection,
+        )>,
+        Commands,
+        ResMut<LcgRand>,
+    )>,
+) {
+    let (mut events, mut writer, mut constructs_query, mut commands, mut rng) =
+        params.get_mut(world);
+    for e in events.read() {
+        let Ok((entity, ty, uc, mut health, mut shield, can_turn, mut facing)) =
+            constructs_query.get_mut(e.entity)
+        else {
+            error!(
+                "Failed to find construct entity {:?} for finishing",
+                e.entity
+            );
+            continue;
+        };
+
+        if uc.has_time_remaining() {
+            // This must have been an immediate creation, so we set its health/shields to full
+            health.current = health.max;
+            if let Some(ref mut shield) = shield {
+                shield.current = shield.max;
+            }
+        }
+        if ty.is_building() {
+            // TODO(tec27): Remove construction graphic
+        } else {
+            if can_turn.is_some() {
+                let mut dir = ty.def().unit_direction;
+                if dir == 32 {
+                    dir = rng.next_u8() % 32;
+                }
+
+                // TODO(tec27): Need to update velocities as well
+                facing.0 = ANGLE_PER_SPRITE * dir;
+            }
+        }
+
+        commands.entity(entity).remove::<UnderConstruction>();
+        writer.send(PlaceConstructEvent { entity: entity });
+    }
 }
 
 pub fn place_constructs(
@@ -378,6 +492,7 @@ mod tests {
         let mut app = App::new();
         app.add_event::<CreateConstructEvent>()
             .add_event::<PlaceConstructEvent>()
+            .insert_resource(LcgRand::new(42))
             .add_systems(Update, (create_constructs, place_constructs).chain());
         app
     }
@@ -433,6 +548,7 @@ mod tests {
                 construct_type: ConstructTypeId::TerranScv,
                 position: Some(hq_position.into()),
                 owner: None,
+                kind: CreationKind::Immediate,
             });
         }
 
@@ -576,6 +692,7 @@ mod tests {
                 construct_type: ConstructTypeId::TerranScv,
                 position: Some(hq_position.into()),
                 owner: None,
+                kind: CreationKind::Immediate,
             });
             app.update();
 
@@ -589,6 +706,7 @@ mod tests {
             construct_type: ConstructTypeId::TerranScv,
             position: Some(hq_position.into()),
             owner: None,
+            kind: CreationKind::Immediate,
         });
         app.update();
 
@@ -741,6 +859,7 @@ mod tests {
                 construct_type: ConstructTypeId::TerranMarine,
                 position: Some(hq_position.into()),
                 owner: None,
+                kind: CreationKind::Immediate,
             });
             app.update();
 
@@ -754,6 +873,7 @@ mod tests {
             construct_type: ConstructTypeId::TerranMarine,
             position: Some(hq_position.into()),
             owner: None,
+            kind: CreationKind::Immediate,
         });
         app.update();
 
@@ -943,6 +1063,7 @@ mod tests {
                 construct_type: ConstructTypeId::TerranGhost,
                 position: Some(hq_position.into()),
                 owner: None,
+                kind: CreationKind::Immediate,
             });
             app.update();
 
@@ -956,6 +1077,7 @@ mod tests {
             construct_type: ConstructTypeId::TerranGhost,
             position: Some(hq_position.into()),
             owner: None,
+            kind: CreationKind::Immediate,
         });
         app.update();
 
@@ -1071,6 +1193,7 @@ mod tests {
                 construct_type: ConstructTypeId::TerranSiegeTank,
                 position: Some(hq_position.into()),
                 owner: None,
+                kind: CreationKind::Immediate,
             });
             app.update();
 
@@ -1084,6 +1207,7 @@ mod tests {
             construct_type: ConstructTypeId::TerranSiegeTank,
             position: Some(hq_position.into()),
             owner: None,
+            kind: CreationKind::Immediate,
         });
         app.update();
 
@@ -1175,6 +1299,7 @@ mod tests {
                 construct_type: ConstructTypeId::TerranSiegeTank,
                 position: Some(hq_position.into()),
                 owner: None,
+                kind: CreationKind::Immediate,
             });
             app.update();
 
@@ -1188,6 +1313,7 @@ mod tests {
             construct_type: ConstructTypeId::TerranSiegeTank,
             position: Some(hq_position.into()),
             owner: None,
+            kind: CreationKind::Immediate,
         });
         app.update();
 
@@ -1271,6 +1397,7 @@ mod tests {
                 construct_type: ConstructTypeId::TerranSiegeTank,
                 position: Some(hq_position.into()),
                 owner: None,
+                kind: CreationKind::Immediate,
             });
             app.update();
 
@@ -1284,6 +1411,7 @@ mod tests {
             construct_type: ConstructTypeId::TerranSiegeTank,
             position: Some(hq_position.into()),
             owner: None,
+            kind: CreationKind::Immediate,
         });
         app.update();
 

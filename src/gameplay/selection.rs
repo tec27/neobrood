@@ -487,7 +487,7 @@ fn update_locally_selected(
                     _ => COLOR_NEUTRAL,
                 };
 
-                let mut bundle = PreloadedAnimBundle::for_asset(circle_asset);
+                let mut bundle = PreloadedAnimBundle::for_asset(circle_asset, 0, false);
                 bundle.sprite_sheet.sprite.color = color;
 
                 let anim = commands.spawn(bundle).id();

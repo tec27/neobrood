@@ -39,6 +39,11 @@ impl LcgRand {
         self.next_u32() as usize
     }
 
+    /// Generates a new random number as [u8]. This value will be in the range `[0, 0xff]`.
+    pub fn next_u8(&mut self) -> u8 {
+        self.next_u32() as u8
+    }
+
     // NOTE(tec27): These range implementations match the behavior of the game, but I make no
     // guarantees about the quality of their output :)
 

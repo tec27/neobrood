@@ -5,11 +5,13 @@ use bevy::utils::HashMap;
 use bevy::{prelude::*, transform::TransformSystem};
 use bevy_ecs_tilemap::prelude::*;
 
-use crate::gameplay::constructs::{ConstructBundle, OwnedConstruct};
+use crate::gameplay::constructs::{
+    ConstructBundle, ConstructImageBundle, ConstructSpriteBundle, OwnedConstruct,
+};
 use crate::maps::game_map::GameMapTerrain;
 use crate::settings::GameSettings;
 use crate::{
-    gamedata::{BwGameData, LoadingAnim, CONSTRUCTS, SPRITES},
+    gamedata::{BwGameData, CONSTRUCTS, SPRITES},
     maps::game_map::{GameMapBundle, GameMapSize},
     render::ysort::YSort,
     states::AppState,
@@ -279,7 +281,11 @@ fn create_map_sprites(commands: &mut Commands, map: &MapAsset, map_entity: Entit
                 Name::new(format!("Sprite #{i}")),
             ))
             .with_children(|builder| {
-                builder.spawn(LoadingAnim::new(s.image_id));
+                builder
+                    .spawn(ConstructSpriteBundle::new(s.id))
+                    .with_children(|builder| {
+                        builder.spawn(ConstructImageBundle::new(s.image_id));
+                    });
             })
             .set_parent(map_entity);
     }
@@ -292,7 +298,7 @@ fn create_placed_units(commands: &mut Commands, map: &MapAsset, map_entity: Enti
     );
 
     for unit in map.placed_units.iter() {
-        let Some(construct) = CONSTRUCTS.get(unit.unit_id as usize) else {
+        if !CONSTRUCTS.get(unit.unit_id as usize).is_some() {
             warn!(
                 "Encountered Unit {} which isn't a valid ID, skipping",
                 unit.unit_id
@@ -300,7 +306,6 @@ fn create_placed_units(commands: &mut Commands, map: &MapAsset, map_entity: Enti
             continue;
         };
 
-        let image_id = construct.flingy().sprite().image_id;
         let construct_type = unit.unit_id.into();
 
         let entity = commands
@@ -313,7 +318,15 @@ fn create_placed_units(commands: &mut Commands, map: &MapAsset, map_entity: Enti
                 Name::new(format!("Unit #{} - {:?}", unit.unit_id, construct_type)),
             ))
             .with_children(|builder| {
-                builder.spawn(LoadingAnim::new(image_id));
+                builder
+                    .spawn(ConstructSpriteBundle::new(
+                        construct_type.flingy().sprite_id,
+                    ))
+                    .with_children(|builder| {
+                        builder.spawn(ConstructImageBundle::new(
+                            construct_type.flingy().sprite().image_id,
+                        ));
+                    });
             })
             .set_parent(map_entity)
             .id();

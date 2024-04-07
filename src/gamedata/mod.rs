@@ -83,14 +83,26 @@ pub struct BwGameData {
 }
 
 #[derive(Component, Debug, Default, Reflect)]
-pub struct LoadingAnim {
-    pub anim_id: u16,
+struct LoadingAnim {
+    anim_id: u16,
 }
 
-impl LoadingAnim {
+#[derive(Bundle, Default)]
+pub struct LoadingAnimBundle {
+    loading_anim: LoadingAnim,
+    // NOTE(tec27): We need to insert the TextureAtlas + Sprite immediately so that any updates to
+    // the frame before the anim loads will still be reflected
+    pub texture_atlas: TextureAtlas,
+    pub sprite: Sprite,
+}
+
+impl LoadingAnimBundle {
     #[inline]
-    pub const fn new(anim_id: u16) -> Self {
-        Self { anim_id }
+    pub fn new(anim_id: u16) -> Self {
+        Self {
+            loading_anim: LoadingAnim { anim_id },
+            ..default()
+        }
     }
 }
 
@@ -166,11 +178,18 @@ pub struct PreloadedAnimBundle {
 }
 
 impl PreloadedAnimBundle {
-    pub fn for_asset(asset: &AnimAsset) -> Self {
+    pub fn for_asset(asset: &AnimAsset, index: usize, flip_x: bool) -> Self {
         Self {
             sprite_sheet: SpriteSheetBundle {
                 texture: asset.layers.get("diffuse").cloned().unwrap_or_default(),
-                atlas: asset.layout.clone().into(),
+                atlas: TextureAtlas {
+                    layout: asset.layout.clone(),
+                    index,
+                },
+                sprite: Sprite {
+                    flip_x,
+                    ..default()
+                },
                 ..default()
             },
             anim_offsets: AnimOffsets {
@@ -182,7 +201,13 @@ impl PreloadedAnimBundle {
 
 fn init_loaded_anims(
     mut commands: Commands,
-    mut query: Query<(Entity, &LoadingAnim, Option<&Handle<AnimAsset>>)>,
+    mut query: Query<(
+        Entity,
+        &LoadingAnim,
+        Option<&Handle<AnimAsset>>,
+        &TextureAtlas,
+        &Sprite,
+    )>,
     anim_assets: Res<Assets<AnimAsset>>,
     game_data: Option<Res<BwGameData>>,
     asset_server: Res<AssetServer>,
@@ -193,7 +218,7 @@ fn init_loaded_anims(
         return;
     };
 
-    for (entity, loading_anim, handle) in &mut query {
+    for (entity, loading_anim, handle, atlas, sprite) in &mut query {
         let Some(handle) = handle else {
             let relation = game_data
                 .relations
@@ -227,7 +252,11 @@ fn init_loaded_anims(
             commands
                 .entity(entity)
                 .remove::<LoadingAnim>()
-                .insert(PreloadedAnimBundle::for_asset(anim));
+                .insert(PreloadedAnimBundle::for_asset(
+                    anim,
+                    atlas.index,
+                    sprite.flip_x,
+                ));
         } else if asset_server.load_state(handle) == LoadState::Failed {
             // TODO(tec27): Show a dialog or something instead?
             panic!(

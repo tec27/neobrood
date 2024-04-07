@@ -26,6 +26,7 @@ bevy_framepace = { version = "0.15", optional = true }
 bevy-inspector-egui = { version = "0.23", optional = true }
 byteorder = "1.5"
 directories = "5.0"
+fixed = "1.27"
 image = "0.24"
 memchr = "2.7"
 mimalloc = { version = "0.1", optional = true, default-features = false }
