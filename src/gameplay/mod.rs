@@ -94,7 +94,7 @@ impl Plugin for GameplayPlugin {
             .add_systems(OnEnter(AppState::PreGame), init_random)
             .add_systems(Update, proceed_to_game.run_if(in_state(AppState::PreGame)))
             .add_systems(OnEnter(AppState::InGame), (init_players, init_game).chain())
-            .add_systems(FixedPostUpdate, apply_facing_to_images)
+            .add_systems(Update, apply_facing_to_images)
             .add_systems(
                 PostUpdate,
                 (show_construct_gizmos)
