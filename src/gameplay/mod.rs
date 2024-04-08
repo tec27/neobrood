@@ -8,7 +8,7 @@ use crate::{
         position::{self, Position},
     },
     races::Race,
-    random::LcgRand,
+    random::LockedLcgRand,
     states::{AppState, InGameOnly},
 };
 
@@ -106,13 +106,12 @@ impl Plugin for GameplayPlugin {
     }
 }
 
-fn init_random(mut lcg: ResMut<LcgRand>) {
+fn init_random(mut lcg: ResMut<LockedLcgRand>) {
     let seed = SystemTime::now()
         .duration_since(UNIX_EPOCH)
         .expect("System clock set incorrectly")
         .as_millis() as u32;
-    lcg.reseed(seed);
-    info!("Seeded RNG with {seed}");
+    lcg.i_know_what_im_doing_please_reseed(seed);
 }
 
 fn proceed_to_game(

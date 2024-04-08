@@ -1,10 +1,44 @@
 // This implementation matches BW's random number generator, with convenience methods to get values
 // in the desired type.
 
-use bevy::{ecs::system::Resource, reflect::Reflect};
+use bevy::prelude::*;
+
+pub fn plugin(app: &mut App) {
+    app.init_resource::<LockedLcgRand>()
+        .add_systems(FixedFirst, insert_lcg_rand)
+        .add_systems(FixedLast, remove_lcg_rand);
+}
+
+/// A resource that holds the current [LcgRand] but does not allow access to it. The LcgRand will be
+/// inserted only for the duration of the Fixed schedule.
+#[derive(Resource, Debug, Default, Clone)]
+pub struct LockedLcgRand(LcgRand);
+
+impl LockedLcgRand {
+    /// Reseeds the internal [LcgRand] with the specified seed. This should *ONLY* be called during
+    /// game initialization!!!
+    pub fn i_know_what_im_doing_please_reseed(&mut self, seed: u32) {
+        self.0.reseed(seed);
+        info!("Seeded RNG with {seed}");
+    }
+}
+
+fn insert_lcg_rand(mut commands: Commands, mut locked_lcg_rand: ResMut<LockedLcgRand>) {
+    let lcg_rand = std::mem::take(&mut locked_lcg_rand.0);
+    commands.insert_resource(lcg_rand);
+}
+
+fn remove_lcg_rand(
+    mut commands: Commands,
+    mut locked_lcg_rand: ResMut<LockedLcgRand>,
+    lcg_rand: Res<LcgRand>,
+) {
+    locked_lcg_rand.0 = lcg_rand.clone();
+    commands.remove_resource::<LcgRand>();
+}
 
 /// A Linear Congruential Generator (LCG) with Borland C++ constants.
-#[derive(Debug, Clone, PartialEq, Eq, Resource, Reflect)]
+#[derive(Debug, Clone, PartialEq, Eq, Resource, Reflect, Default)]
 pub struct LcgRand {
     state: u32,
 }

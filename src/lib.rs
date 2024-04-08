@@ -6,12 +6,10 @@ use std::path::PathBuf;
 
 use bevy::diagnostic::{DiagnosticsStore, FrameTimeDiagnosticsPlugin};
 use bevy::prelude::*;
-use bevy::window::{PresentMode, WindowResolution};
 
-use gameplay::GameMode;
-use gameplay::GameSpeed;
+use bevy::window::{PresentMode, WindowResolution};
+use gameplay::{GameMode, GameSpeed};
 use maps::{load_map, CurrentMap};
-use random::LcgRand;
 use settings::GameSettings;
 use states::AppState;
 
@@ -63,7 +61,6 @@ pub fn create_app(settings: GameSettings, maps: Vec<PathBuf>) -> App {
     .insert_resource(Time::<Fixed>::from_duration(
         GameSpeed::Fastest.to_turn_duration(),
     ))
-    .insert_resource(LcgRand::new(0))
     .add_plugins((
         FrameTimeDiagnosticsPlugin,
         camera::CameraControlPlugin,
@@ -71,6 +68,7 @@ pub fn create_app(settings: GameSettings, maps: Vec<PathBuf>) -> App {
         gameplay::GameplayPlugin,
         main_menu::MainMenuPlugin,
         maps::MapsPlugin,
+        random::plugin,
         render::RenderPlugin,
         states::StatesPlugin,
     ))
