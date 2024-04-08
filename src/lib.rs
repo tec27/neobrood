@@ -36,21 +36,26 @@ pub fn create_app(settings: GameSettings, maps: Vec<PathBuf>) -> App {
 
     let mut app = App::new();
     // TODO(tec27): Use a smaller set of plugins, we really don't need most of this
-    app.add_plugins(DefaultPlugins.set(WindowPlugin {
-        primary_window: Some(Window {
-            title: "neobrood".into(),
-            present_mode: PresentMode::AutoNoVsync,
-            mode: settings.window_mode.into(),
-            resolution: WindowResolution::new(
-                settings.window_size.map(|(w, _)| w).unwrap_or(1280) as f32,
-                settings.window_size.map(|(_, h)| h).unwrap_or(960) as f32,
-            ),
-            // TODO(tec27): Save and restore position
-            position: WindowPosition::Centered(MonitorSelection::Primary),
-            ..default()
-        }),
-        ..default()
-    }))
+    app.add_plugins(
+        DefaultPlugins
+            .set(WindowPlugin {
+                primary_window: Some(Window {
+                    title: "neobrood".into(),
+                    present_mode: PresentMode::AutoNoVsync,
+                    mode: settings.window_mode.into(),
+                    resolution: WindowResolution::new(
+                        settings.window_size.map(|(w, _)| w).unwrap_or(1280) as f32,
+                        settings.window_size.map(|(_, h)| h).unwrap_or(960) as f32,
+                    ),
+                    // TODO(tec27): Save and restore position
+                    position: WindowPosition::Centered(MonitorSelection::Primary),
+                    ..default()
+                }),
+                ..default()
+            })
+            // Fixes issues with white "halo" effect at the transparent edges of sprites
+            .set(ImagePlugin::default_nearest()),
+    )
     .register_type::<GameSettings>()
     .insert_resource(settings)
     .insert_resource(ClearColor(Color::rgb(0.0, 0.0, 0.0)))
