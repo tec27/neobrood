@@ -1,4 +1,4 @@
-use anyhow::{anyhow, bail};
+use anyhow::{anyhow, bail, Context};
 use byteorder::{LittleEndian, ReadBytesExt};
 use proc_macro2::{Delimiter, Group, Span, TokenStream};
 use quote::{quote, ToTokens, TokenStreamExt};
@@ -48,6 +48,15 @@ fn main() -> Result<(), anyhow::Error> {
     }
 
     {
+        let path = game_data_path.join("arr/sfxdata.dat");
+        let bytes = std::fs::read(path).expect("Couldn't read sfxdata.dat");
+        let tbl_path = game_data_path.join("arr/sfxdata.tbl");
+        let tbl_bytes = std::fs::read(tbl_path).expect("Couldn't read sfxdata.tbl");
+        let data = load_sfxdata_dat(&bytes, &tbl_bytes)?;
+        write_sfxdata(data)?;
+    }
+
+    {
         let path = game_data_path.join("scripts/iscript.bin");
         let bytes = std::fs::read(path).expect("Couldn't read iscript.bin");
         let data = iscript::load_iscript_bin(&bytes)?;
@@ -73,6 +82,51 @@ impl<T: ToTokens> ToTokens for PreservedOption<T> {
             }
         }
     }
+}
+
+/// Loads a `.tbl` file, returning a [Vec<String>] in the same order as the original file.
+fn load_tbl(bytes: &[u8]) -> anyhow::Result<Vec<String>> {
+    // A TBL file consists of:
+    // - A u16 length stating the number of strings it contains
+    // - A list of `length` u16 offsets into the string data (relative to the beginning of the
+    //   file), one for each string
+    // - null-terminated UTF-8 string data (as of SC:R, anyway)
+
+    if bytes.len() < 2 {
+        bail!("Malformed TBL file, does not contain a valid length");
+    }
+
+    let length = u16::from_le_bytes(bytes[0..2].try_into().unwrap()) as usize;
+
+    let offsets = bytes
+        .chunks_exact(2)
+        .skip(1)
+        .take(length)
+        .map(|chunk| u16::from_le_bytes(chunk.try_into().unwrap()) as usize);
+    if offsets.len() != length {
+        bail!(
+            "Malformed TBL file, expected {} offsets but found {}",
+            length,
+            offsets.len()
+        );
+    }
+
+    offsets
+        .map(|o| {
+            if o >= bytes.len() {
+                bail!("Malformed TBL file, offset {o:#0x} is out of bounds");
+            }
+
+            let bytes = &bytes[o..];
+            std::str::from_utf8(if let Some(end) = memchr::memchr(b'\0', bytes) {
+                &bytes[..end]
+            } else {
+                bytes
+            })
+            .map(|s| s.to_string())
+            .context("Malformed TBL file, invalid UTF-8 string")
+        })
+        .collect()
 }
 
 /// How many images are specified in the images.dat file.
@@ -692,6 +746,85 @@ fn write_units(data: UnitData) -> anyhow::Result<()> {
     let src = prettyplease::unparse(&src);
     std::fs::write("src/gamedata/generated/unit.rs", src)
         .expect("Couldn't write generated/unit.rs");
+
+    Ok(())
+}
+
+/// How many sounds are specified in the sfxdata.dat file.
+const NUM_SFX_DATA: usize = 1144;
+/// How much data each sfxdata instance takes up in the sfxdata.dat file (in bytes).
+const SFX_DATA_SIZE: usize = 9;
+
+#[derive(Clone, Debug)]
+pub struct SfxData {
+    pub file: [u32; NUM_SFX_DATA],
+    pub priority: [u8; NUM_SFX_DATA],
+    pub flags: [u8; NUM_SFX_DATA],
+    pub race: [u16; NUM_SFX_DATA],
+    pub min_volume: [u8; NUM_SFX_DATA],
+
+    pub tbl: Vec<String>,
+}
+
+fn load_sfxdata_dat(mut bytes: &[u8], tbl_bytes: &[u8]) -> anyhow::Result<SfxData> {
+    if bytes.len() < NUM_SFX_DATA * SFX_DATA_SIZE {
+        return Err(anyhow!("sfxdata.dat file is too small: {}", bytes.len()));
+    }
+
+    Ok(SfxData {
+        file: bytes.read_u32_array::<NUM_SFX_DATA>()?,
+        priority: bytes.read_u8_array::<NUM_SFX_DATA>()?,
+        flags: bytes.read_u8_array::<NUM_SFX_DATA>()?,
+        race: bytes.read_u16_array::<NUM_SFX_DATA>()?,
+        min_volume: bytes.read_u8_array::<NUM_SFX_DATA>()?,
+
+        tbl: load_tbl(tbl_bytes)?,
+    })
+}
+
+fn write_sfxdata(data: SfxData) -> anyhow::Result<()> {
+    // TODO(tec27): I think sound 0 is a special case that isn't ever really meant to be used either
+    // but it for some reason points to ZDrErr00.wav (although there are 2 *other* IDs for this
+    // particular file anyway). 0 in the units.dat always seems to mean "don't play a sound for
+    // this". Probably we should just write a null sound for this entry and treat sound IDs as
+    // Option<NonZeroU16>?
+
+    // The last sound seems to be a value indicating that no sound should play (and doesn't have a
+    // filepath in the tbl), so we just skip writing it
+    let num_sounds = NUM_SFX_DATA - 1;
+
+    let mut entries = Vec::new();
+    for i in 0..num_sounds {
+        let id = i as u16;
+        let file = data.tbl[data.file[i] as usize].as_str();
+        let priority = data.priority[i];
+        let flags = data.flags[i];
+        let race = data.race[i];
+        let min_volume = data.min_volume[i];
+
+        entries.push(quote! {
+            BwSound {
+                id: #id,
+                file: #file,
+                priority: #priority,
+                flags: #flags,
+                race: #race,
+                min_volume: #min_volume,
+            }
+        });
+    }
+
+    let tokens = quote! {
+        use crate::gamedata::BwSound;
+
+        /// Contains data for all sounds in the game.
+        pub const SOUNDS: [BwSound; #num_sounds] = [#(#entries,)*];
+    };
+
+    let src = syn::parse2(tokens).expect("Couldn't parse generated sound.rs");
+    let src = prettyplease::unparse(&src);
+    std::fs::write("src/gamedata/generated/sound.rs", src)
+        .expect("Couldn't write generated/sound.rs");
 
     Ok(())
 }

@@ -18,6 +18,7 @@ mod generated;
 mod image;
 mod iscript;
 pub mod rel;
+mod sound;
 mod sprite;
 pub mod tbl;
 
@@ -31,6 +32,7 @@ pub use generated::sprite::SPRITES;
 pub use generated::unit::CONSTRUCTS;
 pub use image::*;
 pub use iscript::*;
+pub use sound::*;
 pub use sprite::*;
 
 pub struct GameDataPlugin;
