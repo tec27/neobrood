@@ -851,7 +851,7 @@ fn write_sfxdata(data: SfxData) -> anyhow::Result<()> {
             id: BwSoundId::new_unchecked(u16::MAX),
             file: "",
             priority: 0,
-            flags: 0,
+            flags: BwSoundFlags::from_bits_retain(0),
             length_adjustment: 0,
             min_volume: 0,
         }
@@ -870,7 +870,7 @@ fn write_sfxdata(data: SfxData) -> anyhow::Result<()> {
                 id: BwSoundId::new_unchecked(#id),
                 file: #file,
                 priority: #priority,
-                flags: #flags,
+                flags: BwSoundFlags::from_bits_retain(#flags),
                 length_adjustment: #length_adjustment,
                 min_volume: #min_volume,
             }
@@ -878,7 +878,7 @@ fn write_sfxdata(data: SfxData) -> anyhow::Result<()> {
     }
 
     let tokens = quote! {
-        use crate::gamedata::{BwSound, BwSoundId};
+        use crate::gamedata::{BwSound, BwSoundFlags, BwSoundId};
 
         /// Contains data for all sounds in the game.
         pub const SOUNDS: [BwSound; #NUM_SFX_DATA] = unsafe { [#(#entries,)*] };

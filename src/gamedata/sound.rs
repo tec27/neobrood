@@ -1,3 +1,4 @@
+use bitflags::bitflags;
 use std::{num::NonZeroU16, ops::Range};
 
 use bevy::reflect::Reflect;
@@ -10,12 +11,7 @@ pub struct BwSound {
     pub id: BwSoundId,
     pub file: &'static str,
     pub priority: u8,
-    // TODO(tec27): These flags are:
-    // - 1 preload
-    // - 2 unitSpeech
-    // - 16 oneAtTime
-    // - 32 neverPreempt
-    pub flags: u8,
+    pub flags: BwSoundFlags,
     pub length_adjustment: u16,
     pub min_volume: u8,
 }
@@ -77,5 +73,15 @@ impl LcgRandGen for BwSoundRange {
 
     fn gen_random(&self, rng: &mut LcgRand) -> Self::Output {
         BwSoundId::new(rng.in_range_u16(self.start.get(), self.end.get() - 1)).unwrap()
+    }
+}
+
+bitflags! {
+    #[derive(Debug, Clone, Copy, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
+    pub struct BwSoundFlags: u8 {
+        const PRELOAD = 1;
+        const UNIT_SPEECH = 2;
+        const ONE_AT_A_TIME = 16;
+        const NEVER_PREEMPT = 32;
     }
 }

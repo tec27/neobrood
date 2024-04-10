@@ -58,6 +58,7 @@ pub fn create_app(settings: GameSettings, maps: Vec<PathBuf>) -> App {
     .insert_resource(settings)
     .insert_resource(ClearColor(Color::rgb(0.0, 0.0, 0.0)))
     .insert_resource(LoadableMaps { maps, cur_index: 0 })
+    .insert_resource(GlobalVolume::new(settings.volumes.global))
     .insert_resource(Time::<Fixed>::from_duration(
         GameSpeed::Fastest.to_turn_duration(),
     ))

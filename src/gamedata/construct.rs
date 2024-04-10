@@ -1,4 +1,4 @@
-use bevy::{ecs::component::Component, math::I16Vec2};
+use bevy::{ecs::component::Component, math::I16Vec2, reflect::Reflect};
 use bitflags::bitflags;
 use num_enum::{FromPrimitive, IntoPrimitive};
 
@@ -171,6 +171,7 @@ impl Construct {
     Hash,
     FromPrimitive,
     IntoPrimitive,
+    Reflect,
 )]
 #[repr(u16)]
 pub enum ConstructTypeId {

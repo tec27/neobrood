@@ -457,7 +457,7 @@ fn handle_drag_selection(
 fn play_selection_sounds(
     mut commands: Commands,
     mut selection_events: EventReader<ConstructsSelectedEvent>,
-    constructs: Query<(&ConstructTypeId, Option<&OwnedConstruct>)>,
+    constructs: Query<(&ConstructTypeId, &Position, Option<&OwnedConstruct>)>,
     mut rng: ResMut<UnsyncedLcgRand>,
     controlled_player: Query<Entity, With<ControlledPlayer>>,
     player_entities: Res<PlayerEntities>,
@@ -467,11 +467,14 @@ fn play_selection_sounds(
         // this ordering is correct but there might be some easier underlying logic than maintaining
         // a list: https://tl.net/forum/brood-war/98797-unit-ranks-priority (we also don't
         // necessarily need to match this exactly for sounds/portraits)
-        let Some((what_sounds, owner)) = event.constructs.iter().find_map(|&e| {
-            constructs
-                .get(e)
-                .ok()
-                .and_then(|(c, o)| c.what_sounds().map(|s| (s, o)))
+        let Some((construct_type, pos, owner)) = event.constructs.iter().find_map(|&e| {
+            constructs.get(e).ok().and_then(|(c, p, o)| {
+                if c.what_sounds().is_some() {
+                    Some((c, p, o))
+                } else {
+                    None
+                }
+            })
         }) else {
             continue;
         };
@@ -486,8 +489,8 @@ fn play_selection_sounds(
             continue;
         }
 
-        let sound = rng.next_value(what_sounds);
-        commands.play_sound(sound);
+        let sound = rng.next_value(construct_type.what_sounds().unwrap());
+        commands.play_sound_from(sound, *construct_type, *pos);
     }
 }
 

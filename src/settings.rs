@@ -20,7 +20,6 @@ impl From<NeobroodWindowMode> for WindowMode {
     }
 }
 
-#[allow(unused)]
 #[derive(
     Debug,
     Clone,
@@ -72,7 +71,6 @@ impl AssetQuality {
     }
 }
 
-#[allow(unused)]
 #[derive(
     Debug,
     Clone,
@@ -103,6 +101,62 @@ impl AssetPack {
     }
 }
 
+const fn default_volume() -> f32 {
+    1.0
+}
+
+#[allow(unused)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, Reflect)]
+#[serde(rename_all = "camelCase")]
+pub struct Volumes {
+    #[serde(default = "default_volume")]
+    pub global: f32,
+    #[serde(default = "default_volume")]
+    pub music: f32,
+    #[serde(default = "default_volume")]
+    pub sound_effects: f32,
+}
+
+impl Default for Volumes {
+    fn default() -> Self {
+        Self {
+            global: default_volume(),
+            music: default_volume(),
+            sound_effects: default_volume(),
+        }
+    }
+}
+
+#[derive(
+    Debug,
+    Clone,
+    Copy,
+    Eq,
+    PartialEq,
+    Hash,
+    Ord,
+    PartialOrd,
+    Default,
+    Serialize,
+    Deserialize,
+    Reflect,
+)]
+#[serde(rename_all = "camelCase")]
+pub enum AudioQuality {
+    Classic,
+    #[default]
+    Remastered,
+}
+
+impl AudioQuality {
+    pub const fn asset_path(&self) -> &'static str {
+        match self {
+            Self::Classic => "SD/sound/",
+            Self::Remastered => "sound/",
+        }
+    }
+}
+
 // TODO(tec27): Write a way to configure these ingame and save them to the file
 #[derive(Resource, Clone, Copy, Debug, Default, Serialize, Deserialize, Reflect)]
 #[serde(rename_all = "camelCase")]
@@ -114,4 +168,9 @@ pub struct GameSettings {
     pub asset_quality: AssetQuality,
     #[serde(default)]
     pub asset_pack: AssetPack,
+
+    #[serde(default)]
+    pub volumes: Volumes,
+    #[serde(default)]
+    pub audio_quality: AudioQuality,
 }
