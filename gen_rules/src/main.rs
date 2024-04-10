@@ -455,6 +455,41 @@ impl ToTokens for FixedPointFromInt {
     }
 }
 
+#[derive(Copy, Clone, Eq, PartialEq, Default, Debug)]
+pub struct BwSoundId(pub u16);
+
+impl ToTokens for BwSoundId {
+    fn to_tokens(&self, tokens: &mut TokenStream) {
+        let value = self.0;
+        let code = quote! { BwSoundId::new_unchecked(#value) };
+        code.to_tokens(tokens);
+    }
+}
+
+#[derive(Copy, Clone, Eq, PartialEq, Default, Debug)]
+pub struct BwSoundRange {
+    pub start: BwSoundId,
+    pub end: BwSoundId,
+}
+
+impl BwSoundRange {
+    pub const fn new(start: u16, end: u16) -> Self {
+        Self {
+            start: BwSoundId(start),
+            end: BwSoundId(end),
+        }
+    }
+}
+
+impl ToTokens for BwSoundRange {
+    fn to_tokens(&self, tokens: &mut TokenStream) {
+        let start = self.start;
+        let end = self.end;
+        let code = quote! { BwSoundRange::new(#start, #end) };
+        code.to_tokens(tokens);
+    }
+}
+
 /// How many things (units + buildings + other) are specified in the units.dat file.
 const NUM_UNIT_DATA: usize = 228;
 /// How many units are specified in the units.dat file (these are at the beginning).
@@ -625,8 +660,15 @@ fn write_units(data: UnitData) -> anyhow::Result<()> {
         let unit_size = data.unit_size[i];
         let armor = data.armor[i];
         let right_click_action = data.right_click_action[i];
-        let what_sound_start = data.what_sound_start[i];
-        let what_sound_end = data.what_sound_end[i];
+        let what_sounds = if data.what_sound_start[i] > 0 {
+            PreservedOption(Some(BwSoundRange::new(
+                data.what_sound_start[i],
+                // end is inclusive for only this sound range for some reason ???
+                data.what_sound_end[i] + 1,
+            )))
+        } else {
+            PreservedOption(None)
+        };
         let placebox_size = data.placebox_size[i];
         let bounds = data.bounds[i];
         let portrait = data.portrait[i];
@@ -648,18 +690,33 @@ fn write_units(data: UnitData) -> anyhow::Result<()> {
         let kind = match (UNITS_RANGE.contains(&i), BUILDINGS_RANGE.contains(&i)) {
             (true, false) => {
                 let i = i - UNITS_RANGE.start;
-                let ready_sound = data.ready_sound[i];
-                let piss_sound_start = data.piss_sound_start[i];
-                let piss_sound_end = data.piss_sound_end[i];
-                let yes_sound_start = data.yes_sound_start[i];
-                let yes_sound_end = data.yes_sound_end[i];
+                let ready_sound = if data.ready_sound[i] > 0 {
+                    PreservedOption(Some(BwSoundId(data.ready_sound[i])))
+                } else {
+                    PreservedOption(None)
+                };
+                let piss_sounds = if data.piss_sound_start[i] > 0 {
+                    PreservedOption(Some(BwSoundRange::new(
+                        data.piss_sound_start[i],
+                        data.piss_sound_end[i],
+                    )))
+                } else {
+                    PreservedOption(None)
+                };
+                let yes_sounds = if data.yes_sound_start[i] > 0 {
+                    PreservedOption(Some(BwSoundRange::new(
+                        data.yes_sound_start[i],
+                        data.yes_sound_end[i],
+                    )))
+                } else {
+                    PreservedOption(None)
+                };
+
                 quote! {
                     ConstructKind::Unit(UnitData {
                         ready_sound: #ready_sound,
-                        piss_sound_start: #piss_sound_start,
-                        piss_sound_end: #piss_sound_end,
-                        yes_sound_start: #yes_sound_start,
-                        yes_sound_end: #yes_sound_end,
+                        piss_sounds: #piss_sounds,
+                        yes_sounds: #yes_sounds,
                     })
                 }
             }
@@ -706,8 +763,7 @@ fn write_units(data: UnitData) -> anyhow::Result<()> {
                 unit_size: #unit_size,
                 armor: #armor,
                 right_click_action: #right_click_action,
-                what_sound_start: #what_sound_start,
-                what_sound_end: #what_sound_end,
+                what_sounds: #what_sounds,
                 placebox_size: #placebox_size,
                 bounds: #bounds,
                 portrait: #portrait,
@@ -734,12 +790,15 @@ fn write_units(data: UnitData) -> anyhow::Result<()> {
     let num_entries = entries.len();
 
     let tokens = quote! {
-        use crate::gamedata::{BuildingData, Construct, ConstructFlags, ConstructKind, UnitData};
+        use crate::gamedata::{
+            BuildingData, BwSoundId, BwSoundRange, Construct, ConstructFlags,
+            ConstructKind, UnitData
+        };
         use crate::math::{bounds::IBounds, FixedPoint};
         use bevy::math::I16Vec2;
 
         /// Contains data for all units, buildings, and other constructs in the game.
-        pub const CONSTRUCTS: [Construct; #num_entries] = [#(#entries,)*];
+        pub const CONSTRUCTS: [Construct; #num_entries] = unsafe { [#(#entries,)*] };
     };
 
     let src = syn::parse2(tokens).expect("Couldn't parse generated unit.rs");
@@ -760,7 +819,7 @@ pub struct SfxData {
     pub file: [u32; NUM_SFX_DATA],
     pub priority: [u8; NUM_SFX_DATA],
     pub flags: [u8; NUM_SFX_DATA],
-    pub race: [u16; NUM_SFX_DATA],
+    pub length_adjustment: [u16; NUM_SFX_DATA],
     pub min_volume: [u8; NUM_SFX_DATA],
 
     pub tbl: Vec<String>,
@@ -775,7 +834,7 @@ fn load_sfxdata_dat(mut bytes: &[u8], tbl_bytes: &[u8]) -> anyhow::Result<SfxDat
         file: bytes.read_u32_array::<NUM_SFX_DATA>()?,
         priority: bytes.read_u8_array::<NUM_SFX_DATA>()?,
         flags: bytes.read_u8_array::<NUM_SFX_DATA>()?,
-        race: bytes.read_u16_array::<NUM_SFX_DATA>()?,
+        length_adjustment: bytes.read_u16_array::<NUM_SFX_DATA>()?,
         min_volume: bytes.read_u8_array::<NUM_SFX_DATA>()?,
 
         tbl: load_tbl(tbl_bytes)?,
@@ -783,42 +842,46 @@ fn load_sfxdata_dat(mut bytes: &[u8], tbl_bytes: &[u8]) -> anyhow::Result<SfxDat
 }
 
 fn write_sfxdata(data: SfxData) -> anyhow::Result<()> {
-    // TODO(tec27): I think sound 0 is a special case that isn't ever really meant to be used either
-    // but it for some reason points to ZDrErr00.wav (although there are 2 *other* IDs for this
-    // particular file anyway). 0 in the units.dat always seems to mean "don't play a sound for
-    // this". Probably we should just write a null sound for this entry and treat sound IDs as
-    // Option<NonZeroU16>?
-
-    // The last sound seems to be a value indicating that no sound should play (and doesn't have a
-    // filepath in the tbl), so we just skip writing it
-    let num_sounds = NUM_SFX_DATA - 1;
-
     let mut entries = Vec::new();
-    for i in 0..num_sounds {
-        let id = i as u16;
+    // Push an entry corresponding to SND_NONE, which they don't include in sfxdata.dat. This is
+    // expected never to be actually referenced in our code, but makes it so we can use NonZeroU16
+    // for sound ID types
+    entries.push(quote! {
+        BwSound {
+            id: BwSoundId::new_unchecked(u16::MAX),
+            file: "",
+            priority: 0,
+            flags: 0,
+            length_adjustment: 0,
+            min_volume: 0,
+        }
+    });
+
+    for i in 0..NUM_SFX_DATA - 1 {
+        let id = (i + 1) as u16;
         let file = data.tbl[data.file[i] as usize].as_str();
         let priority = data.priority[i];
         let flags = data.flags[i];
-        let race = data.race[i];
+        let length_adjustment = data.length_adjustment[i];
         let min_volume = data.min_volume[i];
 
         entries.push(quote! {
             BwSound {
-                id: #id,
+                id: BwSoundId::new_unchecked(#id),
                 file: #file,
                 priority: #priority,
                 flags: #flags,
-                race: #race,
+                length_adjustment: #length_adjustment,
                 min_volume: #min_volume,
             }
         });
     }
 
     let tokens = quote! {
-        use crate::gamedata::BwSound;
+        use crate::gamedata::{BwSound, BwSoundId};
 
         /// Contains data for all sounds in the game.
-        pub const SOUNDS: [BwSound; #num_sounds] = [#(#entries,)*];
+        pub const SOUNDS: [BwSound; #NUM_SFX_DATA] = unsafe { [#(#entries,)*] };
     };
 
     let src = syn::parse2(tokens).expect("Couldn't parse generated sound.rs");

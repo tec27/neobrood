@@ -3,8 +3,8 @@ use std::ops::Index;
 
 use crate::{
     gamedata::{
-        BwImage, BwSprite, Construct, ConstructFlags, ConstructTypeId, Flingy, LoadingAnimBundle,
-        CONSTRUCTS, IMAGES, SPRITES,
+        BwImage, BwSoundRange, BwSprite, Construct, ConstructFlags, ConstructTypeId, Flingy,
+        LoadingAnimBundle, CONSTRUCTS, IMAGES, SPRITES,
     },
     maps::position::Position,
     math::{bounds::IBounds, FixedPoint},
@@ -87,6 +87,11 @@ impl ConstructTypeId {
     #[inline]
     pub fn flags(&self) -> ConstructFlags {
         self.def().flags
+    }
+
+    #[inline]
+    pub fn what_sounds(&self) -> Option<BwSoundRange> {
+        self.def().what_sounds
     }
 }
 

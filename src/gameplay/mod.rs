@@ -31,6 +31,7 @@ mod in_game_menu;
 pub mod players;
 pub mod selection;
 pub mod shield;
+pub mod sounds;
 pub mod status;
 
 pub use in_game_menu::InGameMenuState;

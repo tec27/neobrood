@@ -28,6 +28,7 @@ pub use generated::flingy::FLINGIES;
 pub use generated::image::IMAGES;
 pub use generated::iscript::ISCRIPTS;
 pub use generated::iscript::ISCRIPT_ANIMS;
+pub use generated::sound::SOUNDS;
 pub use generated::sprite::SPRITES;
 pub use generated::unit::CONSTRUCTS;
 pub use image::*;

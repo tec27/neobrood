@@ -1,9 +1,11 @@
 use crate::camera::CameraPanLocked;
 use crate::gamedata::anim::AnimAsset;
 use crate::gamedata::{ConstructTypeId, PreloadedAnimBundle};
+use crate::gameplay::sounds::PlaySoundCommandsExt;
 use crate::gameplay::InGameMenuState;
 use crate::maps::game_map::{GameMap, GameMapSize, LOGIC_TILE_SIZE};
 use crate::maps::position::Position;
+use crate::random::UnsyncedLcgRand;
 use crate::settings::{AssetPack, GameSettings};
 use crate::states::AppState;
 use bevy::input::mouse::MouseButtonInput;
@@ -19,13 +21,18 @@ pub struct DragSelectionPlugin;
 
 impl Plugin for DragSelectionPlugin {
     fn build(&self, app: &mut App) {
-        app.add_event::<SelectEvent>()
+        app.add_event::<SelectInputEvent>()
+            .add_event::<ConstructsSelectedEvent>()
             .add_systems(OnEnter(AppState::PreGame), preload_selection_circles)
             .add_systems(OnEnter(AppState::InGame), drag_selection_setup)
             .add_systems(OnExit(AppState::InGame), drag_selection_cleanup)
             .add_systems(
                 Update,
-                (selection_input, apply_selection, update_locally_selected)
+                (
+                    selection_input,
+                    apply_selection,
+                    (play_selection_sounds, update_locally_selected),
+                )
                     .chain()
                     .run_if(
                         in_state(AppState::InGame).and_then(in_state(InGameMenuState::Disabled)),
@@ -50,17 +57,24 @@ impl DragSelectionState {
 }
 
 // TODO(tec27): Handle modifiers, e.g. shift-select should add to the existing selection
-/// Event fired when a selection is completed, specified by logical map coordinates.
+/// Event fired when a selection input is completed, specified by logical map coordinates.
 #[derive(Event, Debug, Copy, Clone)]
-pub enum SelectEvent {
+pub enum SelectInputEvent {
     Click(Position),
     Drag(DragSelectEvent),
 }
 
-#[derive(Event, Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone)]
 pub struct DragSelectEvent {
     pub start: Position,
     pub end: Position,
+}
+
+/// Event fired when the local player selects constructs, detailing the constructs that were
+/// selected.
+#[derive(Event, Debug, Clone)]
+pub struct ConstructsSelectedEvent {
+    pub constructs: Vec<Entity>,
 }
 
 /// The anim ID of the first selection circle
@@ -126,7 +140,7 @@ fn selection_input(
     mut camera_pan_locked: ResMut<CameraPanLocked>,
     mut mouse_reader: EventReader<MouseButtonInput>,
     mut drag_box_query: Query<(&mut Style, &mut Visibility), With<DragSelectionBox>>,
-    mut select_event_writer: EventWriter<SelectEvent>,
+    mut select_event_writer: EventWriter<SelectInputEvent>,
     window: Query<&Window, (With<PrimaryWindow>, Without<DragSelectionBox>)>,
     camera_query: Query<(&GlobalTransform, &Camera)>,
     map: Query<&GameMapSize, With<GameMap>>,
@@ -182,7 +196,8 @@ fn selection_input(
 
                     let start = clamp_to_map(convert_pos(start)).into();
                     let end = clamp_to_map(convert_pos(end)).into();
-                    select_event_writer.send(SelectEvent::Drag(DragSelectEvent { start, end }));
+                    select_event_writer
+                        .send(SelectInputEvent::Drag(DragSelectEvent { start, end }));
                 } else {
                     // TODO(tec27): Would it be better to use the mouse down position? The average?
                     let pos =
@@ -195,7 +210,7 @@ fn selection_input(
                         ),
                     );
                     if map_rect.contains(pos) {
-                        select_event_writer.send(SelectEvent::Click(pos.into()));
+                        select_event_writer.send(SelectInputEvent::Click(pos.into()));
                     }
                 }
                 state.mouse_down = false;
@@ -241,7 +256,7 @@ pub struct SelectedEntities(pub SmallVec<[Entity; 12]>);
 pub struct LocallySelected;
 
 fn apply_selection(
-    mut drag_events: EventReader<SelectEvent>,
+    mut select_events: EventReader<SelectInputEvent>,
     mut controlled_player: Query<(Entity, &mut SelectedEntities), With<ControlledPlayer>>,
     constructs: Query<(
         Entity,
@@ -251,6 +266,7 @@ fn apply_selection(
         Option<&OwnedConstruct>,
     )>,
     player_entities: Res<PlayerEntities>,
+    mut constructs_selected_writer: EventWriter<ConstructsSelectedEvent>,
 ) {
     let Ok((controlled_player, mut selected_entities)) = controlled_player.get_single_mut() else {
         // No locally-controlled player so drag selection can't be done
@@ -262,9 +278,9 @@ fn apply_selection(
         return;
     };
 
-    for event in drag_events.read() {
+    for event in select_events.read() {
         match event {
-            SelectEvent::Click(pos) => {
+            SelectInputEvent::Click(pos) => {
                 handle_click_selection(
                     pos.into(),
                     controlled_player,
@@ -272,7 +288,7 @@ fn apply_selection(
                     &mut selected_entities,
                 );
             }
-            SelectEvent::Drag(event) => {
+            SelectInputEvent::Drag(event) => {
                 handle_drag_selection(
                     event.start.into(),
                     IRect::from_corners(event.start.into(), event.end.into()),
@@ -281,6 +297,13 @@ fn apply_selection(
                     &mut selected_entities,
                 );
             }
+        }
+
+        if !selected_entities.0.is_empty() {
+            let selected = selected_entities.0.iter().copied().collect();
+            constructs_selected_writer.send(ConstructsSelectedEvent {
+                constructs: selected,
+            });
         }
     }
 }
@@ -429,6 +452,43 @@ fn handle_drag_selection(
             .take(max_count)
             .map(|(entity, _, _, _, _)| *entity),
     );
+}
+
+fn play_selection_sounds(
+    mut commands: Commands,
+    mut selection_events: EventReader<ConstructsSelectedEvent>,
+    constructs: Query<(&ConstructTypeId, Option<&OwnedConstruct>)>,
+    mut rng: ResMut<UnsyncedLcgRand>,
+    controlled_player: Query<Entity, With<ControlledPlayer>>,
+    player_entities: Res<PlayerEntities>,
+) {
+    for event in selection_events.read() {
+        // TODO(tec27): Properly pick the highest "priority" unit of the selected group, I think
+        // this ordering is correct but there might be some easier underlying logic than maintaining
+        // a list: https://tl.net/forum/brood-war/98797-unit-ranks-priority (we also don't
+        // necessarily need to match this exactly for sounds/portraits)
+        let Some((what_sounds, owner)) = event.constructs.iter().find_map(|&e| {
+            constructs
+                .get(e)
+                .ok()
+                .and_then(|(c, o)| c.what_sounds().map(|s| (s, o)))
+        }) else {
+            continue;
+        };
+
+        let controlled = controlled_player
+            .get_single()
+            .ok()
+            .and_then(|e| player_entities.player_num_for(e));
+        let owner = owner.map(|o| o.0);
+        if controlled.is_some() && owner.is_some() && controlled != owner {
+            // Don't play sounds for other players' constructs
+            continue;
+        }
+
+        let sound = rng.next_value(what_sounds);
+        commands.play_sound(sound);
+    }
 }
 
 // TODO(tec27): Pick a better/more accurate color for this

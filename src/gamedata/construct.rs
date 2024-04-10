@@ -4,7 +4,7 @@ use num_enum::{FromPrimitive, IntoPrimitive};
 
 use crate::math::{bounds::IBounds, FixedPoint};
 
-use super::{BwImage, Flingy};
+use super::{BwImage, BwSoundId, BwSoundRange, Flingy};
 
 /// A thing that can be constructed by a player (e.g. a unit, a building, etc.). Note that not all
 /// of these are actually buildable by players in normal gameplay, it is just hard to come up with
@@ -41,8 +41,7 @@ pub struct Construct {
     pub unit_size: u8,
     pub armor: u8,
     pub right_click_action: u8,
-    pub what_sound_start: u16,
-    pub what_sound_end: u16,
+    pub what_sounds: Option<BwSoundRange>,
     pub placebox_size: I16Vec2,
     /// The space that this [Construct] takes up on the map, in logical pixels.
     pub bounds: IBounds,
@@ -85,11 +84,9 @@ pub struct BuildingData {
 #[allow(dead_code)]
 #[derive(Copy, Clone, Debug)]
 pub struct UnitData {
-    pub ready_sound: u16,
-    pub piss_sound_start: u16,
-    pub piss_sound_end: u16,
-    pub yes_sound_start: u16,
-    pub yes_sound_end: u16,
+    pub ready_sound: Option<BwSoundId>,
+    pub piss_sounds: Option<BwSoundRange>,
+    pub yes_sounds: Option<BwSoundRange>,
 }
 
 bitflags! {
