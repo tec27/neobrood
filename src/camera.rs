@@ -3,6 +3,8 @@ use bevy::prelude::*;
 use bevy::window::{CursorGrabMode, PrimaryWindow, WindowFocused};
 
 use crate::gameplay::InGameMenuState;
+use crate::maps::game_map::{GameMap, GameMapSize};
+use crate::settings::GameSettings;
 use crate::states::AppState;
 
 /// How far from the edge of the screen the mouse needs to be to start scrolling, in pixels.
@@ -81,6 +83,8 @@ fn camera_control(
     window: Query<&Window, (With<PrimaryWindow>, Without<Camera>)>,
     mut camera_query: Query<(&mut Transform, &mut OrthographicProjection), With<Camera>>,
     mut scroll_events: EventReader<MouseWheel>,
+    settings: Res<GameSettings>,
+    map_size: Query<&GameMapSize, With<GameMap>>,
 ) {
     // TODO(tec27): implement arrow key scrolling + middle mouse panning as well
     let window = window.get_single().unwrap();
@@ -125,6 +129,21 @@ fn camera_control(
     }
 
     if pan_x != 0.0 || pan_y != 0.0 {
+        let mut max_pos: Vec2 = map_size
+            .get_single()
+            .ok()
+            .copied()
+            .unwrap_or_default()
+            .into();
+        max_pos *= settings.asset_quality.tile_size() / 2.0;
+        // Let the camera go half the width/height past the edge of the map so centering is always
+        // possible. Note that we divide by 4 since this value is for the edges of a rect centered
+        // at (0, 0).
+        // TODO(tec27): We can likely make this smaller without causing real issues?
+        // TODO(tec27): Need to adjust this based on what a window pixel is with camera scale as
+        // well.
+        max_pos = max_pos + Vec2::new(width / 4.0, height / 4.0);
+
         let (mut transform, projection) = camera_query.single_mut();
         let scale = projection.scale;
         transform.translation += Vec3::new(
@@ -132,5 +151,8 @@ fn camera_control(
             pan_y * MOUSE_PAN_SPEED * time.delta_seconds() * scale,
             0.0,
         );
+        transform.translation = transform
+            .translation
+            .clamp(-max_pos.extend(0.0), max_pos.extend(0.0));
     }
 }

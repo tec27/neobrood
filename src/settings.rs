@@ -54,6 +54,7 @@ impl AssetQuality {
         }
     }
 
+    /// The size of a single tile in this asset quality in pixels.
     pub const fn tile_size(&self) -> Vec2 {
         match self {
             Self::Standard => Vec2::splat(32.0),
@@ -62,6 +63,7 @@ impl AssetQuality {
         }
     }
 
+    /// The scale factor over SD assets for this asset quality.
     pub const fn scale(&self) -> f32 {
         match self {
             Self::Standard => 1.0,

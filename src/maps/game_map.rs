@@ -16,7 +16,7 @@ pub const LOGIC_MINI_TILE_SIZE: i32 = 8;
 #[derive(Component, Default, Reflect)]
 pub struct GameMap;
 
-#[derive(Component, Default, Reflect)]
+#[derive(Component, Copy, Clone, Debug, Default, Reflect)]
 pub struct GameMapSize {
     /// Width of the map in tiles
     pub width: u32,
