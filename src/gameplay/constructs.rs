@@ -273,7 +273,7 @@ pub fn update_construct_image_frames(
                 ImageOrder::Bottom => -0.05,
             });
 
-        if &image.render_style == &Some(RenderStyle::Shadow) {
+        if image.render_style == Some(RenderStyle::Shadow) {
             // TODO(tec27): This isn't totally correct and doesn't deal with the "shadow stacking"
             // feature at all. I think shadows should always be 50% grey as well? Probably room for
             // creativity here.
