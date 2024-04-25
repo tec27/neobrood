@@ -499,6 +499,18 @@ const COLOR_SELF: Color = Color::rgb(0.1, 1.0, 0.3);
 const COLOR_ENEMY: Color = Color::rgb(1.0, 0.1, 0.3);
 const COLOR_NEUTRAL: Color = Color::rgb(1.0, 1.0, 0.3);
 
+// NOTE(tec27): This should be kept up to date with bevy's SpriteBundle, just remove the things that
+// would be overwritten by PreloadedAnimBundle to avoid an error on spawning both here.
+#[derive(Bundle, Default)]
+struct TexturelessSpriteBundle {
+    sprite: Sprite,
+    transform: Transform,
+    global_transform: GlobalTransform,
+    visible: Visibility,
+    inherited_visibility: InheritedVisibility,
+    view_visibility: ViewVisibility,
+}
+
 fn update_locally_selected(
     mut commands: Commands,
     controlled_player: Query<(Entity, &SelectedEntities), With<ControlledPlayer>>,
@@ -550,10 +562,15 @@ fn update_locally_selected(
                     _ => COLOR_NEUTRAL,
                 };
 
-                let mut bundle = PreloadedAnimBundle::for_asset(circle_asset, 0, false);
-                bundle.sprite_sheet.sprite.color = color;
-
-                let anim = commands.spawn(bundle).id();
+                let anim = commands
+                    .spawn((
+                        TexturelessSpriteBundle {
+                            sprite: Sprite { color, ..default() },
+                            ..default()
+                        },
+                        PreloadedAnimBundle::for_asset(circle_asset, 0),
+                    ))
+                    .id();
                 commands.entity(child).add_child(anim);
             }
             commands.entity(e).add_child(child);

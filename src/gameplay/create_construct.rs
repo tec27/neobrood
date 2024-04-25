@@ -1,7 +1,7 @@
 use bevy::{ecs::system::SystemState, prelude::*};
 
 use crate::{
-    gamedata::{Construct, ConstructFlags, ConstructTypeId},
+    gamedata::{Construct, ConstructFlags, ConstructTypeId, IscriptType},
     maps::{
         game_map::{GameMap, GameMapSize, LOGIC_TILE_SIZE},
         position::Position,
@@ -13,9 +13,13 @@ use crate::{
 
 use super::{
     build_time::UnderConstruction,
-    constructs::{ConstructBundle, ConstructImageBundle, ConstructSpriteBundle, OwnedConstruct},
+    constructs::{
+        ConstructBundle, ConstructImage, ConstructImageBundle, ConstructSprite,
+        ConstructSpriteBundle, OwnedConstruct,
+    },
     facing_direction::FacingDirection,
     health::Health,
+    iscripts::IscriptController,
     shield::Shield,
     status::CanTurn,
 };
@@ -80,8 +84,16 @@ pub fn create_constructs(
         Commands,
         ResMut<LcgRand>,
     )>,
+    init_iscript_params: &mut SystemState<(
+        Query<&Children, With<ConstructTypeId>>,
+        Query<(Entity, &Children), With<ConstructSprite>>,
+        Query<(&mut ConstructImage, &mut IscriptController)>,
+        Commands,
+        ResMut<LcgRand>,
+    )>,
 ) {
     let (mut events, mut writer, mut commands, mut rng) = params.get_mut(world);
+    let mut constructed = vec![];
     for e in events.read() {
         // NOTE(tec27): Blizzard's version does this as well, seemingly since very early on, I guess
         // they left this in place to not destabilize replays at some point?
@@ -130,9 +142,33 @@ pub fn create_constructs(
                 entity: entity.id(),
             });
         }
+
+        constructed.push(entity.id());
     }
 
+    // Apply all the commands to the world
     params.apply(world);
+
+    // Initialize the ConstructImage entities that now exist
+    let (q_constructs, q_sprites, mut q_images, mut commands, mut rand) =
+        init_iscript_params.get_mut(world);
+    for e in constructed {
+        let construct_children = q_constructs.get(e).unwrap();
+        for (sprite, images) in q_sprites.iter_many(construct_children) {
+            let mut iter = q_images.iter_many_mut(images);
+            while let Some((mut image, mut iscript)) = iter.fetch_next() {
+                iscript.run_anim(
+                    IscriptType::Init,
+                    &mut image,
+                    sprite,
+                    &mut commands,
+                    &mut rand,
+                );
+            }
+        }
+    }
+
+    init_iscript_params.apply(world);
 }
 
 pub fn finish_constructs(

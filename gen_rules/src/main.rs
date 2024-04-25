@@ -141,7 +141,7 @@ pub struct ImageData {
     pub clickable: [u8; NUM_IMAGE_DATA],
     pub use_full_iscript: [u8; NUM_IMAGE_DATA],
     pub always_visible: [u8; NUM_IMAGE_DATA],
-    pub draw_function: [u8; NUM_IMAGE_DATA],
+    pub render_style: [u8; NUM_IMAGE_DATA],
     pub color_shift: [u8; NUM_IMAGE_DATA],
     pub iscript: [u32; NUM_IMAGE_DATA],
     pub shield_overlay: [u32; NUM_IMAGE_DATA],
@@ -163,7 +163,7 @@ fn load_images_dat(mut bytes: &[u8]) -> anyhow::Result<ImageData> {
         clickable: bytes.read_u8_array::<NUM_IMAGE_DATA>()?,
         use_full_iscript: bytes.read_u8_array::<NUM_IMAGE_DATA>()?,
         always_visible: bytes.read_u8_array::<NUM_IMAGE_DATA>()?,
-        draw_function: bytes.read_u8_array::<NUM_IMAGE_DATA>()?,
+        render_style: bytes.read_u8_array::<NUM_IMAGE_DATA>()?,
         color_shift: bytes.read_u8_array::<NUM_IMAGE_DATA>()?,
         iscript: bytes.read_u32_array::<NUM_IMAGE_DATA>()?,
         shield_overlay: bytes.read_u32_array::<NUM_IMAGE_DATA>()?,
@@ -184,7 +184,27 @@ fn write_images(data: ImageData) -> anyhow::Result<()> {
         let clickable = data.clickable[i] != 0;
         let use_full_iscript = data.use_full_iscript[i] != 0;
         let always_visible = data.always_visible[i] != 0;
-        let draw_function = data.draw_function[i];
+        let render_style = match data.render_style[i] {
+            0 => quote! { None },
+            1 => quote! { Some(RenderStyle::OverlayOnTarget) },
+            2 => quote! { Some(RenderStyle::EnemyUnitCloak) },
+            3 => quote! { Some(RenderStyle::OwnUnitCloak) },
+            4 => quote! { Some(RenderStyle::AllyUnitCloak) },
+            5 => quote! { Some(RenderStyle::OwnUnitCloak2) },
+            6 => quote! { Some(RenderStyle::OwnUnitCloakDrawOnly) },
+            7 => quote! { Some(RenderStyle::Crash) },
+            8 => quote! { Some(RenderStyle::EmpShockwave) },
+            9 => quote! { Some(RenderStyle::UseRemapping) },
+            10 => quote! { Some(RenderStyle::Shadow) },
+            11 => quote! { Some(RenderStyle::HpFloatDraw) },
+            12 => quote! { Some(RenderStyle::WarpFlash) },
+            13 => quote! { Some(RenderStyle::Outline) },
+            14 => quote! { Some(RenderStyle::PlayerSide) },
+            15 => quote! { Some(RenderStyle::BoundingRect) },
+            16 => quote! { Some(RenderStyle::Hallucination) },
+            17 => quote! { Some(RenderStyle::WarpFlash2) },
+            _ => bail!("Unknown render_style value: {}", data.render_style[i]),
+        };
         let color_shift = data.color_shift[i];
         let iscript = data.iscript[i];
         let shield_overlay = data.shield_overlay[i];
@@ -202,7 +222,7 @@ fn write_images(data: ImageData) -> anyhow::Result<()> {
                 clickable: #clickable,
                 use_full_iscript: #use_full_iscript,
                 always_visible: #always_visible,
-                draw_function: #draw_function,
+                render_style: #render_style,
                 color_shift: #color_shift,
                 iscript: #iscript,
                 shield_overlay: #shield_overlay,
@@ -216,7 +236,7 @@ fn write_images(data: ImageData) -> anyhow::Result<()> {
     }
 
     let tokens = quote! {
-        use crate::gamedata::BwImage;
+        use crate::gamedata::{BwImage, RenderStyle};
 
         /// Contains data for all images in the game.
         pub const IMAGES: [BwImage; #NUM_IMAGE_DATA] = [#(#entries,)*];

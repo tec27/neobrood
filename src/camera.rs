@@ -142,7 +142,7 @@ fn camera_control(
         // TODO(tec27): We can likely make this smaller without causing real issues?
         // TODO(tec27): Need to adjust this based on what a window pixel is with camera scale as
         // well.
-        max_pos = max_pos + Vec2::new(width / 4.0, height / 4.0);
+        max_pos += Vec2::new(width / 4.0, height / 4.0);
 
         let (mut transform, projection) = camera_query.single_mut();
         let scale = projection.scale;

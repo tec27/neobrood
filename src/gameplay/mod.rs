@@ -13,10 +13,11 @@ use crate::{
 };
 
 use self::{
-    constructs::{ConstructImage, ConstructSprite, OwnedConstruct},
+    constructs::{update_construct_image_frames, ConstructSprite, OwnedConstruct},
     create_construct::{CreateConstructEvent, CreationKind},
     facing_direction::apply_facing_to_images,
     gizmos::{show_construct_gizmos, ConstructGizmos},
+    iscripts::exec_iscripts,
     players::{ControlledPlayer, Player, PlayerEntities},
     selection::SelectedEntities,
 };
@@ -28,6 +29,7 @@ pub mod facing_direction;
 pub mod gizmos;
 pub mod health;
 mod in_game_menu;
+pub mod iscripts;
 pub mod players;
 pub mod selection;
 pub mod shield;
@@ -80,7 +82,6 @@ impl Plugin for GameplayPlugin {
             .add_plugins(selection::DragSelectionPlugin)
             .add_plugins(create_construct::plugin)
             .register_type::<ConstructGizmos>()
-            .register_type::<ConstructImage>()
             .register_type::<ConstructSprite>()
             .register_type::<OwnedConstruct>()
             .init_resource::<GameMode>()
@@ -95,7 +96,12 @@ impl Plugin for GameplayPlugin {
             .add_systems(OnEnter(AppState::PreGame), init_random)
             .add_systems(Update, proceed_to_game.run_if(in_state(AppState::PreGame)))
             .add_systems(OnEnter(AppState::InGame), (init_players, init_game).chain())
+            .add_systems(FixedUpdate, exec_iscripts)
             .add_systems(Update, apply_facing_to_images)
+            .add_systems(
+                Update,
+                update_construct_image_frames.after(apply_facing_to_images),
+            )
             .add_systems(
                 PostUpdate,
                 (show_construct_gizmos)

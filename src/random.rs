@@ -124,6 +124,12 @@ impl LcgRand {
         min + (self.next_u32().saturating_mul(max as u32 - min as u32 + 1) >> 15) as u16
     }
 
+    /// Generates a new random number as a [u8] in the range `[min, max]`.
+    #[inline]
+    pub fn in_range_u8(&mut self, min: u8, max: u8) -> u8 {
+        min + (self.next_u32().saturating_mul(max as u32 - min as u32 + 1) >> 15) as u8
+    }
+
     /// Generates a new random number as a [usize] in the range `[min, max]`.
     #[inline]
     pub fn in_range_usize(&mut self, min: usize, max: usize) -> usize {

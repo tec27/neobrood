@@ -2,7 +2,7 @@ use std::num::NonZeroU16;
 
 use num_enum::{IntoPrimitive, TryFromPrimitive};
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Copy, Clone)]
 pub struct IscriptCollection<'a> {
     pub id: u16,
     pub scripts: &'a [Option<IscriptId>],
@@ -11,7 +11,9 @@ pub struct IscriptCollection<'a> {
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct IscriptId(pub NonZeroU16);
 
-#[derive(Copy, Clone, Debug, TryFromPrimitive, IntoPrimitive)]
+#[derive(
+    Copy, Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, TryFromPrimitive, IntoPrimitive,
+)]
 #[repr(usize)]
 pub enum IscriptType {
     Init = 0,

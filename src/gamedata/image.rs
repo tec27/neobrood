@@ -10,7 +10,7 @@ pub struct BwImage {
     /// If true, the image is drawn even if the unit is cloaked.
     pub always_visible: bool,
     /// Modifies the way the image is drawn (effects).
-    pub draw_function: u8,
+    pub render_style: Option<RenderStyle>,
     pub color_shift: u8,
     pub iscript: u32,
     pub shield_overlay: u32,
@@ -19,4 +19,27 @@ pub struct BwImage {
     pub special_overlay: u32,
     pub landing_dust_overlay: u32,
     pub lift_off_dust_overlay: u32,
+}
+
+/// Describes a method of rendering a BwImage to change how it looks.
+#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord)]
+pub enum RenderStyle {
+    OverlayOnTarget,
+    EnemyUnitCloak,
+    OwnUnitCloak,
+    AllyUnitCloak,
+    OwnUnitCloak2,
+    OwnUnitCloakDrawOnly,
+    // My favorite :)
+    Crash,
+    EmpShockwave,
+    UseRemapping,
+    Shadow,
+    HpFloatDraw,
+    WarpFlash,
+    Outline,
+    PlayerSide,
+    BoundingRect,
+    Hallucination,
+    WarpFlash2,
 }

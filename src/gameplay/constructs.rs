@@ -1,18 +1,22 @@
-use bevy::prelude::*;
+use bevy::{math::I16Vec2, prelude::*};
 use std::ops::Index;
 
 use crate::{
     gamedata::{
         BwImage, BwSoundRange, BwSprite, Construct, ConstructFlags, ConstructTypeId, Flingy,
-        LoadingAnimBundle, CONSTRUCTS, IMAGES, SPRITES,
+        LoadingAnimBundle, RenderStyle, CONSTRUCTS, IMAGES, SPRITES,
     },
     maps::position::Position,
     math::{bounds::IBounds, FixedPoint},
     races::Race,
     render::ysort::YSort,
+    settings::GameSettings,
 };
 
-use super::{build_time::UnderConstruction, facing_direction::FacingDirection, health::Health};
+use super::{
+    build_time::UnderConstruction, facing_direction::FacingDirection, health::Health,
+    iscripts::IscriptController,
+};
 
 impl Race {
     /// Returns the [ConstructTypeId] for this race's starting building.
@@ -174,11 +178,39 @@ impl ConstructSpriteBundle {
     }
 }
 
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Default, Reflect)]
+/// Ordering for layers of images within a sprite.
+pub enum ImageOrder {
+    /// The image is drawn on top of other images.
+    Top,
+    /// The image is drawn on top of any other images that are not `Top`. This is the default.
+    #[default]
+    Above,
+    /// The image is only drawn on top of images that are `Bottom`.
+    Below,
+    /// The image is drawn below all other images.
+    Bottom,
+}
+
 /// Component that specifies an entity is an image for a [ConstructSprite].
-#[derive(Component, Debug, Clone, PartialEq, Eq, Default, Reflect)]
+#[derive(Component, Debug, Clone, PartialEq, Eq, Default)]
 pub struct ConstructImage {
     /// The ID of the image this entity maps to. Can be looked up in [IMAGES].
     pub id: u16,
+    /// The base frame index for this image, used alongside `frame_offset` to pick a frame from the
+    /// texture atlas.
+    pub frame_base: u16,
+    /// The offset to apply to the base frame index to pick the actual frame from the texture atlas.
+    pub frame_offset: u16,
+    /// Whether to flip the image horizontally. This is generally used for half of the sprite
+    /// rotations as one side is simply mirrored.
+    pub flip_x: bool,
+    /// The offset to apply from the sprite's location to this image, in logical pixels.
+    pub offset: I16Vec2,
+    /// The layering order for this image.
+    pub order: ImageOrder,
+    /// How to render this image (if any special handling is needed).
+    pub render_style: Option<RenderStyle>,
 }
 
 impl ConstructImage {
@@ -192,14 +224,64 @@ pub struct ConstructImageBundle {
     pub image: ConstructImage,
     pub spatial: SpatialBundle,
     pub loading_anim: LoadingAnimBundle,
+    pub iscript: IscriptController,
 }
 
 impl ConstructImageBundle {
     pub fn new(id: u16) -> Self {
+        let mut image = ConstructImage { id, ..default() };
+        image.render_style = image.def().render_style;
+        let iscript = IscriptController::for_image(&image);
+
         Self {
-            image: ConstructImage { id },
+            image,
+            iscript,
             loading_anim: LoadingAnimBundle::new(id),
             ..default()
         }
+    }
+}
+
+const SHADOW_COLOR: Color = Color::rgba(0.0, 0.0, 0.0, 0.7);
+
+/// System to update the current texture atlas frame for changed [ConstructImage] components.
+pub fn update_construct_image_frames(
+    mut query: Query<
+        (
+            &ConstructImage,
+            &mut TextureAtlas,
+            &mut Sprite,
+            &mut Transform,
+        ),
+        Changed<ConstructImage>,
+    >,
+    settings: Res<GameSettings>,
+) {
+    let tile_scale = settings.asset_quality.scale();
+    for (image, mut atlas, mut sprite, mut transform) in query.iter_mut() {
+        atlas.index = (image.frame_base + image.frame_offset) as usize;
+        sprite.flip_x = image.flip_x;
+        transform.translation = (Vec2::new(image.offset.x as f32, -image.offset.y as f32)
+            * tile_scale)
+            .extend(match image.order {
+                // TODO(tec27): This isn't really the correct behavior, this ordering is meant to
+                // describe how to insert this image within the list of existing images, so we can't
+                // easily calculate the correct z value at this point. Rework this somehow.
+                ImageOrder::Top => 0.05,
+                ImageOrder::Above => 0.01,
+                ImageOrder::Below => -0.01,
+                ImageOrder::Bottom => -0.05,
+            });
+
+        if &image.render_style == &Some(RenderStyle::Shadow) {
+            // TODO(tec27): This isn't totally correct and doesn't deal with the "shadow stacking"
+            // feature at all. I think shadows should always be 50% grey as well? Probably room for
+            // creativity here.
+            sprite.color = SHADOW_COLOR;
+        } else if sprite.color == SHADOW_COLOR {
+            sprite.color = Color::WHITE;
+        }
+        // TODO(tec27): Deal with other render styles, and probably avoid clobbering the sprite
+        // color better?
     }
 }

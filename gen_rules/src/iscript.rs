@@ -96,15 +96,18 @@ fn load_animation_block<R: Read>(
     let mut commands = Vec::new();
     let mut referenced = Vec::new();
 
-    loop {
+    let mut done = false;
+    while !done {
         let op: IscriptOp = r.read_u8()?.try_into()?;
         let command = read_command(&mut r, op)?;
 
         match command {
-            IscriptCommand::End | IscriptCommand::Return => break,
+            IscriptCommand::End | IscriptCommand::Return => {
+                done = true;
+            }
             IscriptCommand::Goto(label) => {
                 referenced.push(label);
-                break;
+                done = true;
             }
             IscriptCommand::RandomConditionalJump { label, .. }
             | IscriptCommand::Call(label)

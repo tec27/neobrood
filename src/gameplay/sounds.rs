@@ -121,7 +121,6 @@ impl Command for PlaySoundCommand {
                     mode: PlaybackMode::Despawn,
                     ..default()
                 },
-                ..default()
             },
             PlayingSound,
         ));
