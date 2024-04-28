@@ -3,8 +3,8 @@
 name: Install Mac dependencies
 description: Installs the dependencies necessary to build neobrood on Mac.
 inputs:
-  zld:
-    description: Install zld
+  llvm:
+    description: Install llvm
     required: false
     default: true
 runs:
@@ -14,4 +14,4 @@ runs:
       shell: bash
       if: ${{ runner.os == 'macos' }}
       run: >
-        brew install ${{ fromJSON(inputs.zld) && 'michaeleisel/zld/zld' || '' }}
+        brew install ${{ fromJSON(inputs.llvm) && 'llvm' || '' }}
