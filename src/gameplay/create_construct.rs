@@ -527,9 +527,14 @@ mod tests {
     fn setup_app() -> App {
         let mut app = App::new();
         app.add_event::<CreateConstructEvent>()
+            .add_event::<FinishConstructEvent>()
             .add_event::<PlaceConstructEvent>()
-            .insert_resource(LcgRand::new(42))
-            .add_systems(Update, (create_constructs, place_constructs).chain());
+            .add_systems(
+                Update,
+                (create_constructs, finish_constructs, place_constructs).chain(),
+            )
+            .insert_resource(LcgRand::new(42));
+
         app
     }
 
@@ -568,13 +573,18 @@ mod tests {
                     .iter()
                     .filter(|(c, _)| **c == ConstructTypeId::TerranScv)
                     .enumerate();
+
+                let mut count = 0;
                 for (i, new_unit) in new_units {
+                    count += 1;
                     assert_eq!(
                         new_unit,
                         (&ConstructTypeId::TerranScv, &expected[i].into()),
                         "index {i} has incorrect position"
                     );
                 }
+
+                assert_eq!(count, expected.len());
             };
         let mut check_expected_pos_system = IntoSystem::into_system(check_expected_pos);
         check_expected_pos_system.initialize(&mut app.world);
