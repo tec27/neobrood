@@ -5,6 +5,8 @@ entirely new and original code based on the [Bevy](https://bevyengine.org/) game
 currently incomplete and a work-in-progress with many features either missing or incorrectly
 implemented.
 
+![gameplay-screenshot](https://github.com/tec27/neobrood/assets/360513/4e2b8f1c-2133-4dfb-81ab-bc23dd5c1070)
+
 ## Disclaimer
 
 StarCraft is a registered trademark of Blizzard Entertainment, Inc.
