@@ -1,0 +1,17 @@
+# See ../install-linux-deps/action.yml for advanced usage info that applies to this as well.
+
+name: Install Mac dependencies
+description: Installs the dependencies necessary to build neobrood on Mac.
+inputs:
+  zld:
+    description: Install zld
+    required: false
+    default: true
+runs:
+  using: composite
+  steps:
+    - name: Install Mac dependencies
+      shell: bash
+      if: ${{ runner.os == 'macos' }}
+      run: >
+        brew install ${{ fromJSON(inputs.zld) && 'michaeleisel/zld/zld' || '' }}

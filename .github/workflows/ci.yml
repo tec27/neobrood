@@ -27,6 +27,10 @@ jobs:
             ~/.cargo/git/db/
             target/
           key: ${{ runner.os }}-cargo-build-stable-${{ hashFiles('**/Cargo.toml') }}
+      - name: Install Linux dependencies
+        uses: ./.github/actions/install-linux-deps
+      - name: Install Mac dependencies
+        uses: ./.github/actions/install-mac-deps
       - name: Build
         run: cargo build --workspace --verbose
       - name: Run tests
@@ -47,6 +51,10 @@ jobs:
             ~/.cargo/git/db/
             target/
           key: ${{ runner.os }}-cargo-build-stable-${{ hashFiles('**/Cargo.toml') }}
+      - name: Install Linux dependencies
+        uses: ./.github/actions/install-linux-deps
+      - name: Install Mac dependencies
+        uses: ./.github/actions/install-mac-deps
       - name: clippy
         run: cargo clippy --all-targets --workspace -- -D warnings
 
