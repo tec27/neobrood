@@ -1,7 +1,7 @@
 # neobrood
 
-neobrood aims to be a compatible implementation of StarCraft: Remastered's game engine, using
-entirely new and original code based on the [Bevy](https://bevyengine.org/) game engine. It is
+neobrood aims to be a gameplay-compatible implementation of StarCraft: Remastered's game engine,
+using entirely new and original code based on the [Bevy](https://bevyengine.org/) game engine. It is
 currently incomplete and a work-in-progress with many features either missing or incorrectly
 implemented.
 
@@ -30,11 +30,18 @@ git lfs pull
 
 ### Rust build tools
 
-This uses the LLD linker, which may not be installed by default. Run this once to get it:
+On Windows, this uses the LLD linker, which may not be installed by default. Run this once to get
+it:
 
 ```shell
 cargo install -f cargo-binutils
 rustup component add llvm-tools-preview
+```
+
+On Mac, it also uses LLD, which may not be installed by default. Run this once to get it:
+
+```shell
+brew install llvm
 ```
 
 ### CASC files
