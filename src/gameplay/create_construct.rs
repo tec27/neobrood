@@ -733,7 +733,7 @@ mod tests {
         let mut check_expected_pos_system = IntoSystem::into_system(check_expected_pos);
         check_expected_pos_system.initialize(&mut app.world);
 
-        for i in 0..expected_positions.len() {
+        for (i, &expected) in expected_positions.iter().enumerate() {
             app.world.send_event(CreateConstructEvent {
                 construct_type: ConstructTypeId::TerranScv,
                 position: Some(hq_position.into()),
@@ -742,7 +742,6 @@ mod tests {
             });
             app.update();
 
-            let expected = expected_positions[i];
             check_expected_pos_system.run(Some((expected, i)), &mut app.world);
         }
 
@@ -900,7 +899,7 @@ mod tests {
         let mut check_expected_pos_system = IntoSystem::into_system(check_expected_pos);
         check_expected_pos_system.initialize(&mut app.world);
 
-        for i in 0..expected_positions.len() {
+        for (i, &expected) in expected_positions.iter().enumerate() {
             app.world.send_event(CreateConstructEvent {
                 construct_type: ConstructTypeId::TerranMarine,
                 position: Some(hq_position.into()),
@@ -909,7 +908,6 @@ mod tests {
             });
             app.update();
 
-            let expected = expected_positions[i];
             check_expected_pos_system.run(Some((expected, i)), &mut app.world);
         }
 
@@ -1103,7 +1101,7 @@ mod tests {
         let mut check_expected_pos_system = IntoSystem::into_system(check_expected_pos);
         check_expected_pos_system.initialize(&mut app.world);
 
-        for i in 0..expected_positions.len() {
+        for (i, &expected) in expected_positions.iter().enumerate() {
             // TODO(tec27): Unsure how to get a Commands but might be nice to use that instead
             app.world.send_event(CreateConstructEvent {
                 construct_type: ConstructTypeId::TerranGhost,
@@ -1113,7 +1111,6 @@ mod tests {
             });
             app.update();
 
-            let expected = expected_positions[i];
             check_expected_pos_system.run(Some((expected, i)), &mut app.world);
         }
 
@@ -1234,7 +1231,7 @@ mod tests {
         let mut check_expected_pos_system = IntoSystem::into_system(check_expected_pos);
         check_expected_pos_system.initialize(&mut app.world);
 
-        for i in 0..expected_positions.len() {
+        for (i, &expected) in expected_positions.iter().enumerate() {
             app.world.send_event(CreateConstructEvent {
                 construct_type: ConstructTypeId::TerranSiegeTank,
                 position: Some(hq_position.into()),
@@ -1243,7 +1240,6 @@ mod tests {
             });
             app.update();
 
-            let expected = expected_positions[i];
             check_expected_pos_system.run(Some((expected, i)), &mut app.world);
         }
 
@@ -1339,7 +1335,7 @@ mod tests {
         let mut check_expected_pos_system = IntoSystem::into_system(check_expected_pos);
         check_expected_pos_system.initialize(&mut app.world);
 
-        for i in 0..expected_positions.len() {
+        for (i, &expected) in expected_positions.iter().enumerate() {
             // TODO(tec27): Unsure how to get a Commands but might be nice to use that instead
             app.world.send_event(CreateConstructEvent {
                 construct_type: ConstructTypeId::TerranSiegeTank,
@@ -1349,7 +1345,6 @@ mod tests {
             });
             app.update();
 
-            let expected = expected_positions[i];
             check_expected_pos_system.run(Some((expected, i)), &mut app.world);
         }
 
@@ -1438,7 +1433,7 @@ mod tests {
         let mut check_expected_pos_system = IntoSystem::into_system(check_expected_pos);
         check_expected_pos_system.initialize(&mut app.world);
 
-        for i in 0..expected_positions.len() {
+        for (i, &expected) in expected_positions.iter().enumerate() {
             app.world.send_event(CreateConstructEvent {
                 construct_type: ConstructTypeId::TerranSiegeTank,
                 position: Some(hq_position.into()),
@@ -1447,7 +1442,6 @@ mod tests {
             });
             app.update();
 
-            let expected = expected_positions[i];
             check_expected_pos_system.run(Some((expected, i)), &mut app.world);
         }
 
