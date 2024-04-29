@@ -81,11 +81,11 @@ impl Plugin for GameplayPlugin {
         app.add_plugins(in_game_menu::InGameMenuPlugin)
             .add_plugins(selection::DragSelectionPlugin)
             .add_plugins(create_construct::plugin)
+            .add_plugins(players::plugin)
             .register_type::<ConstructGizmos>()
             .register_type::<ConstructSprite>()
             .register_type::<OwnedConstruct>()
             .init_resource::<GameMode>()
-            .init_resource::<PlayerEntities>()
             .insert_gizmo_group(
                 ConstructGizmos::default(),
                 GizmoConfig {

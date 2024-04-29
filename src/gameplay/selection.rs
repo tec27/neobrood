@@ -15,7 +15,7 @@ use bevy::utils::smallvec::SmallVec;
 use bevy::window::PrimaryWindow;
 
 use super::constructs::OwnedConstruct;
-use super::players::{ControlledPlayer, PlayerEntities};
+use super::players::{ControlledPlayer, PlayerEntities, PlayerNumber};
 
 pub struct DragSelectionPlugin;
 
@@ -257,7 +257,7 @@ pub struct LocallySelected;
 
 fn apply_selection(
     mut select_events: EventReader<SelectInputEvent>,
-    mut controlled_player: Query<(Entity, &mut SelectedEntities), With<ControlledPlayer>>,
+    mut controlled_player: Query<(&mut SelectedEntities, &PlayerNumber), With<ControlledPlayer>>,
     constructs: Query<(
         Entity,
         &Position,
@@ -265,16 +265,11 @@ fn apply_selection(
         &Visibility,
         Option<&OwnedConstruct>,
     )>,
-    player_entities: Res<PlayerEntities>,
     mut constructs_selected_writer: EventWriter<ConstructsSelectedEvent>,
 ) {
-    let Ok((controlled_player, mut selected_entities)) = controlled_player.get_single_mut() else {
+    let Ok((mut selected_entities, &controlled_player)) = controlled_player.get_single_mut() else {
         // No locally-controlled player so drag selection can't be done
         // TODO(tec27): Figure out how observers should work with this
-        return;
-    };
-    let Some(controlled_player) = player_entities.player_num_for(controlled_player) else {
-        warn!("Couldn't find controlled player in PlayerEntities");
         return;
     };
 
@@ -310,7 +305,7 @@ fn apply_selection(
 
 fn handle_click_selection(
     click_pos: IVec2,
-    controlled_player: u8,
+    controlled_player: PlayerNumber,
     constructs: &Query<(
         Entity,
         &Position,
@@ -333,7 +328,7 @@ fn handle_click_selection(
             .iter()
             .copied()
             .filter(|(_, _, _, _, oc)| match oc {
-                Some(owner) => owner.0 == controlled_player,
+                Some(owner) => owner.0 == controlled_player.0,
                 None => false,
             })
             .collect::<Vec<_>>();
@@ -378,7 +373,7 @@ fn handle_click_selection(
 fn handle_drag_selection(
     drag_start: IVec2,
     drag_rect: IRect,
-    controlled_player: u8,
+    controlled_player: PlayerNumber,
     constructs: &Query<(
         Entity,
         &Position,
@@ -404,7 +399,7 @@ fn handle_drag_selection(
             .iter()
             .copied()
             .filter(|(_, _, _, _, oc)| match oc {
-                Some(owner) => owner.0 == controlled_player,
+                Some(owner) => owner.0 == controlled_player.0,
                 None => false,
             })
             .collect::<Vec<_>>();
