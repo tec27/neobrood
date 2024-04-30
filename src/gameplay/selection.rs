@@ -274,27 +274,23 @@ fn apply_selection(
     };
 
     for event in select_events.read() {
-        match event {
-            SelectInputEvent::Click(pos) => {
-                handle_click_selection(
-                    pos.into(),
-                    controlled_player,
-                    &constructs,
-                    &mut selected_entities,
-                );
-            }
-            SelectInputEvent::Drag(event) => {
-                handle_drag_selection(
-                    event.start.into(),
-                    IRect::from_corners(event.start.into(), event.end.into()),
-                    controlled_player,
-                    &constructs,
-                    &mut selected_entities,
-                );
-            }
-        }
+        let updated = match event {
+            SelectInputEvent::Click(pos) => handle_click_selection(
+                pos.into(),
+                controlled_player,
+                &constructs,
+                &mut selected_entities,
+            ),
+            SelectInputEvent::Drag(event) => handle_drag_selection(
+                event.start.into(),
+                IRect::from_corners(event.start.into(), event.end.into()),
+                controlled_player,
+                &constructs,
+                &mut selected_entities,
+            ),
+        };
 
-        if !selected_entities.0.is_empty() {
+        if updated && !selected_entities.0.is_empty() {
             let selected = selected_entities.0.iter().copied().collect();
             constructs_selected_writer.send(ConstructsSelectedEvent {
                 constructs: selected,
@@ -314,7 +310,7 @@ fn handle_click_selection(
         Option<&OwnedConstruct>,
     )>,
     selected_entities: &mut Mut<SelectedEntities>,
-) {
+) -> bool {
     // All constructs that are visible and contain the click
     let contained_constructs = constructs
         .iter()
@@ -355,19 +351,24 @@ fn handle_click_selection(
         contained_constructs
     };
 
-    // Sort by Euclidean distnace (squared) from the click
-    selectable.sort_by_cached_key(|(_, pos, _, _, _)| {
-        (pos.x - click_pos.x).pow(2) + (pos.y - click_pos.y).pow(2)
-    });
+    if !selectable.is_empty() {
+        // Sort by Euclidean distnace (squared) from the click
+        selectable.sort_by_cached_key(|(_, pos, _, _, _)| {
+            (pos.x - click_pos.x).pow(2) + (pos.y - click_pos.y).pow(2)
+        });
 
-    // TODO(tec27): For click selection it probably makes more sense to prefer things at the higher
-    // "layer" (e.g. prefer flying units over ground units?). Potentially we should just project a
-    // ray from the camera through the click and select the first thing it hits?
+        // TODO(tec27): For click selection it probably makes more sense to prefer things at the
+        // higher "layer" (e.g. prefer flying units over ground units?). Potentially we should just
+        // project a ray from the camera through the click and select the first thing it hits?
 
-    selected_entities.0.clear();
-    selected_entities
-        .0
-        .extend(selectable.first().map(|(entity, _, _, _, _)| *entity));
+        selected_entities.0.clear();
+        selected_entities
+            .0
+            .extend(selectable.first().map(|(entity, _, _, _, _)| *entity));
+        true
+    } else {
+        false
+    }
 }
 
 fn handle_drag_selection(
@@ -382,7 +383,7 @@ fn handle_drag_selection(
         Option<&OwnedConstruct>,
     )>,
     selected_entities: &mut Mut<SelectedEntities>,
-) {
+) -> bool {
     // All constructs that are visible and within the drag
     let contained_constructs = constructs
         .iter()
@@ -435,18 +436,23 @@ fn handle_drag_selection(
         }
     };
 
-    // Sort by Euclidean distnace (squared) from the start of the selection
-    selectable.sort_by_cached_key(|(_, pos, _, _, _)| {
-        (pos.x - drag_start.x).pow(2) + (pos.y - drag_start.y).pow(2)
-    });
+    if !selectable.is_empty() {
+        // Sort by Euclidean distnace (squared) from the start of the selection
+        selectable.sort_by_cached_key(|(_, pos, _, _, _)| {
+            (pos.x - drag_start.x).pow(2) + (pos.y - drag_start.y).pow(2)
+        });
 
-    selected_entities.0.clear();
-    selected_entities.0.extend(
-        selectable
-            .iter()
-            .take(max_count)
-            .map(|(entity, _, _, _, _)| *entity),
-    );
+        selected_entities.0.clear();
+        selected_entities.0.extend(
+            selectable
+                .iter()
+                .take(max_count)
+                .map(|(entity, _, _, _, _)| *entity),
+        );
+        true
+    } else {
+        false
+    }
 }
 
 fn play_selection_sounds(
