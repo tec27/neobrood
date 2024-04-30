@@ -5,18 +5,14 @@ use bevy::utils::HashMap;
 use bevy::{prelude::*, transform::TransformSystem};
 use bevy_ecs_tilemap::prelude::*;
 
-use crate::gameplay::constructs::{
-    ConstructBundle, ConstructImageBundle, ConstructSpriteBundle, OwnedConstruct,
-};
 use crate::maps::game_map::GameMapTerrain;
 use crate::settings::GameSettings;
 use crate::{
-    gamedata::{BwGameData, CONSTRUCTS, SPRITES},
+    gamedata::BwGameData,
     maps::game_map::{GameMapBundle, GameMapSize},
-    render::ysort::YSort,
     states::AppState,
 };
-use asset::{MapAsset, MapAssetLoader};
+use asset::MapAssetLoader;
 use game_map::GameMap;
 use position::apply_position_to_transform;
 use position::Position;
@@ -26,6 +22,7 @@ pub mod game_map;
 pub mod position;
 mod tileset;
 
+pub use asset::MapAsset;
 pub use asset::MapAssetSettings;
 
 pub struct MapsPlugin;
@@ -119,8 +116,6 @@ fn map_init(
         &settings,
         map_entity,
     );
-    create_map_sprites(&mut commands, map, map_entity);
-    create_placed_units(&mut commands, map, map_entity);
 }
 
 fn map_cleanup(mut commands: Commands, maps: Query<Entity, With<GameMap>>) {
@@ -255,83 +250,5 @@ fn create_tilemap(
             texture: texture_vec,
             ..default()
         });
-    }
-}
-
-fn create_map_sprites(commands: &mut Commands, map: &MapAsset, map_entity: Entity) {
-    info!(
-        "Creating map sprites, map has {} sprites",
-        map.sprites.len()
-    );
-
-    for (i, sprite) in map.sprites.iter().enumerate() {
-        let Some(s) = SPRITES.get(sprite.id as usize) else {
-            warn!(
-                "Encountered Sprite {} which isn't a valid ID, skipping",
-                sprite.id
-            );
-            continue;
-        };
-
-        commands
-            .spawn((
-                SpatialBundle::default(),
-                Position::new(sprite.x.into(), sprite.y.into()),
-                YSort(2.0),
-                Name::new(format!("Sprite #{i}")),
-            ))
-            .with_children(|builder| {
-                builder
-                    .spawn(ConstructSpriteBundle::new(s.id))
-                    .with_children(|builder| {
-                        builder.spawn(ConstructImageBundle::new(s.image_id));
-                    });
-            })
-            .set_parent(map_entity);
-    }
-}
-
-fn create_placed_units(commands: &mut Commands, map: &MapAsset, map_entity: Entity) {
-    info!(
-        "Creating placed units, map has {} placed units",
-        map.placed_units.len()
-    );
-
-    for unit in map.placed_units.iter() {
-        if CONSTRUCTS.get(unit.unit_id as usize).is_none() {
-            warn!(
-                "Encountered Unit {} which isn't a valid ID, skipping",
-                unit.unit_id
-            );
-            continue;
-        };
-
-        let construct_type = unit.unit_id.into();
-
-        let entity = commands
-            .spawn((
-                ConstructBundle {
-                    construct_type,
-                    position: Position::new(unit.x.into(), unit.y.into()),
-                    ..default()
-                },
-                Name::new(format!("Unit #{} - {:?}", unit.unit_id, construct_type)),
-            ))
-            .with_children(|builder| {
-                builder
-                    .spawn(ConstructSpriteBundle::new(
-                        construct_type.flingy().sprite_id,
-                    ))
-                    .with_children(|builder| {
-                        builder.spawn(ConstructImageBundle::new(
-                            construct_type.flingy().sprite().image_id,
-                        ));
-                    });
-            })
-            .set_parent(map_entity)
-            .id();
-        if let Some(owner) = unit.owner {
-            commands.entity(entity).insert(OwnedConstruct(owner));
-        }
     }
 }

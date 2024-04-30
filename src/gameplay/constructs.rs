@@ -97,6 +97,27 @@ impl ConstructTypeId {
     pub fn what_sounds(&self) -> Option<BwSoundRange> {
         self.def().what_sounds
     }
+
+    /// Returns whether this construct type is a "neutral unit". These will still be spawned even in
+    /// non-UMS games when placed with a map editor.
+    pub fn is_neutral(&self) -> bool {
+        match self {
+            // Is a mineral field
+            ConstructTypeId::ResourceMineralField1
+            | ConstructTypeId::ResourceMineralField2
+            | ConstructTypeId::ResourceMineralField3 => true,
+            // Or a vespene geyser
+            ConstructTypeId::ResourceVespeneGeyser => true,
+            // Or a critter
+            ConstructTypeId::CritterBengalaas
+            | ConstructTypeId::CritterKakaru
+            | ConstructTypeId::CritterRagnasaur
+            | ConstructTypeId::CritterRhynadon
+            | ConstructTypeId::CritterScantid
+            | ConstructTypeId::CritterUrsadon => true,
+            _ => false,
+        }
+    }
 }
 
 /// Component that specifies a [Construct]'s owner (via a player number).
