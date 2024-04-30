@@ -267,7 +267,7 @@ pub fn place_constructs(
 
         let construct_rect = construct_type.bounds().at_pos(position);
         let is_within_map_bounds =
-            map_bounds.contains(construct_rect.min) && map_bounds.contains(construct_rect.max);
+            map_bounds.contains(construct_rect.min) && map_bounds.contains(construct_rect.max - 1);
 
         let blocking_construct = find_blocking_construct(&constructs, construct_rect);
         if blocking_construct.is_none() && is_within_map_bounds {

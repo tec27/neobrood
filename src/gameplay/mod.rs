@@ -309,6 +309,8 @@ fn create_placed_units(
             continue;
         }
 
+        // TODO(tec27): The logic for creating units comes from OpenBW, but doesn't seem to actually
+        // match SC:R's behavior (owner 12, non-hallucinated units don't seem to be created)
         if let Some(owner) = unit.owner {
             if owner >= 12 {
                 warn!(
@@ -319,7 +321,7 @@ fn create_placed_units(
             }
 
             // TODO(tec27): Also deal with the weird slot types, e.g. rescue
-            if player_entities.get(owner).is_none() {
+            if owner < 8 && player_entities.get(owner).is_none() {
                 // Skip units for any players that are not present
                 continue;
             }
