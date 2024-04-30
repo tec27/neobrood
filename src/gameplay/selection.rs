@@ -15,7 +15,7 @@ use bevy::utils::smallvec::SmallVec;
 use bevy::window::PrimaryWindow;
 
 use super::constructs::OwnedConstruct;
-use super::players::{ControlledPlayer, PlayerEntities, PlayerNumber};
+use super::players::{ControlledPlayer, PlayerNumber};
 
 pub struct DragSelectionPlugin;
 
@@ -460,8 +460,7 @@ fn play_selection_sounds(
     mut selection_events: EventReader<ConstructsSelectedEvent>,
     constructs: Query<(&ConstructTypeId, &Position, Option<&OwnedConstruct>)>,
     mut rng: ResMut<UnsyncedLcgRand>,
-    controlled_player: Query<Entity, With<ControlledPlayer>>,
-    player_entities: Res<PlayerEntities>,
+    controlled_player: Query<&PlayerNumber, With<ControlledPlayer>>,
 ) {
     for event in selection_events.read() {
         // TODO(tec27): Properly pick the highest "priority" unit of the selected group, I think
@@ -480,12 +479,11 @@ fn play_selection_sounds(
             continue;
         };
 
-        let controlled = controlled_player
-            .get_single()
-            .ok()
-            .and_then(|e| player_entities.player_num_for(e));
+        let Some(controlled) = controlled_player.get_single().ok() else {
+            continue;
+        };
         let owner = owner.map(|o| o.0);
-        if controlled.is_some() && owner.is_some() && controlled != owner {
+        if owner.is_some() && controlled.0 != owner.unwrap() {
             // Don't play sounds for other players' constructs
             continue;
         }
@@ -514,21 +512,20 @@ struct TexturelessSpriteBundle {
 
 fn update_locally_selected(
     mut commands: Commands,
-    controlled_player: Query<(Entity, &SelectedEntities), With<ControlledPlayer>>,
+    controlled_player: Query<(&PlayerNumber, &SelectedEntities), With<ControlledPlayer>>,
     last_selected: Query<(Entity, &Parent), With<LocallySelected>>,
     constructs: Query<(&ConstructTypeId, Option<&OwnedConstruct>)>,
     settings: Res<GameSettings>,
     selection_circles: Res<SelectionCircles>,
     anim_assets: Res<Assets<AnimAsset>>,
-    player_entities: Res<PlayerEntities>,
 ) {
     for (e, p) in last_selected.iter() {
         commands.entity(p.get()).remove_children(&[e]);
         commands.entity(e).despawn_recursive();
     }
 
-    for (player_entity, selected) in controlled_player.iter() {
-        let player_num = player_entities.player_num_for(player_entity).unwrap_or(255);
+    for (player_num, selected) in controlled_player.iter() {
+        let player_num = player_num.0;
         for &e in selected.0.iter() {
             let (ty, owner) = constructs.get(e).unwrap();
             let Some(circle_id) = ty.flingy().sprite().selection_circle else {
