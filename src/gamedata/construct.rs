@@ -154,7 +154,7 @@ impl Construct {
     /// Returns if this [Construct] is a building.
     #[inline]
     pub const fn is_building(&self) -> bool {
-        matches!(self.kind, ConstructKind::Building(_))
+        self.flags.contains(ConstructFlags::BUILDING)
     }
 }
 

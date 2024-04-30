@@ -105,8 +105,13 @@ pub fn create_constructs(
                 construct_type: e.construct_type,
                 position: e.position.unwrap_or_default(),
                 spatial: SpatialBundle {
-                    // NOTE(tec27): These will be unhidden when placed
-                    visibility: Visibility::Hidden,
+                    // TODO(tec27): Make a custom component that gets mapped to the proper
+                    // Visibility
+                    visibility: if e.construct_type.is_building() {
+                        Visibility::Inherited
+                    } else {
+                        Visibility::Hidden
+                    },
                     ..default()
                 },
                 health: Health::initial(e.construct_type),
@@ -168,6 +173,10 @@ pub fn create_constructs(
         }
     }
 
+    // TODO(tec27): It seems like the iscript might be executed an additional time after running
+    // Init. If this causes all the images to be removed, the sprite is removed and the Construct
+    // initialization fails (e.g. it should be refunded as if it was never created)
+
     init_iscript_params.apply(world);
 }
 
@@ -211,6 +220,7 @@ pub fn finish_constructs(
         }
         if ty.is_building() {
             // TODO(tec27): Remove construction graphic
+            // TODO(tec27): Run iscript Built animation
         } else if can_turn.is_some() {
             let mut dir = ty.def().unit_direction;
             if dir == 32 {
@@ -223,8 +233,10 @@ pub fn finish_constructs(
         // TODO(tec27): Show unit if it's a trap
 
         commands.entity(entity).remove::<UnderConstruction>();
-        // TODO(tec27): This should probably only happen for non-buildings?
-        writer.send(PlaceConstructEvent { entity });
+
+        if !ty.is_building() {
+            writer.send(PlaceConstructEvent { entity });
+        }
     }
 }
 
@@ -1517,6 +1529,74 @@ mod tests {
             app.world.send_event(CreateConstructEvent {
                 construct_type: ConstructTypeId::ProtossDragoon,
                 position: Some(spawn_positions[i].into()),
+                owner: None,
+                kind: CreationKind::Immediate,
+            });
+            app.update();
+
+            check_expected_pos_system.run(Some((expected, i)), &mut app.world);
+        }
+    }
+
+    #[test]
+    fn stacked_buildings() {
+        // This replicates assets/stacked-buildings.scm, which has 6 psi disrupters stacked on top
+        // of each other that should not get spread out
+
+        let mut app = setup_app();
+
+        app.world.spawn(GameMapBundle {
+            size: GameMapSize {
+                width: 64,
+                height: 64,
+            },
+            ..default()
+        });
+
+        app.update();
+
+        let expected_positions = [
+            (1456, 1648),
+            (1456, 1680),
+            (1456, 1712),
+            (1424, 1712),
+            (1424, 1680),
+            (1424, 1648),
+        ]
+        .iter()
+        .map(|(x, y)| IVec2::new(*x, *y))
+        .collect::<Vec<_>>();
+
+        let check_expected_pos =
+            |In(expected): In<Option<(IVec2, usize)>>,
+             query: Query<(&ConstructTypeId, &Position), Added<ConstructTypeId>>| {
+                if let Some((expected, index)) = expected {
+                    let mut new_units = query
+                        .iter()
+                        .filter(|(c, _)| **c == ConstructTypeId::SpecialPsiDisrupter);
+                    let new_unit = new_units.next();
+                    assert!(
+                        new_unit.is_some(),
+                        "expected to be able to place index {index} but couldn't"
+                    );
+                    assert_eq!(
+                        new_unit.unwrap(),
+                        (&ConstructTypeId::SpecialPsiDisrupter, &expected.into()),
+                        "index {index} has incorrect position"
+                    );
+
+                    assert_eq!(new_units.count(), 0);
+                } else {
+                    assert!(query.is_empty());
+                }
+            };
+        let mut check_expected_pos_system = IntoSystem::into_system(check_expected_pos);
+        check_expected_pos_system.initialize(&mut app.world);
+
+        for (i, &expected) in expected_positions.iter().enumerate() {
+            app.world.send_event(CreateConstructEvent {
+                construct_type: ConstructTypeId::SpecialPsiDisrupter,
+                position: Some(expected.into()),
                 owner: None,
                 kind: CreationKind::Immediate,
             });
