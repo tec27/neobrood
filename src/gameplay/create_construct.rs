@@ -1457,4 +1457,72 @@ mod tests {
 
         check_expected_pos_system.run(None, &mut app.world);
     }
+
+    #[test]
+    fn stacked_dragoons() {
+        // This replicates assets/stacked-units.scm, which has 4 dragoons stacked on top of each
+        // other that should get spread out when the game starts.
+
+        let mut app = setup_app();
+
+        app.world.spawn(GameMapBundle {
+            size: GameMapSize {
+                width: 64,
+                height: 64,
+            },
+            ..default()
+        });
+
+        app.update();
+
+        let expected_positions = [(1424, 1648), (1432, 1688), (1464, 1704), (1464, 1672)]
+            .iter()
+            .map(|(x, y)| IVec2::new(*x, *y))
+            .collect::<Vec<_>>();
+
+        let check_expected_pos =
+            |In(expected): In<Option<(IVec2, usize)>>,
+             query: Query<(&ConstructTypeId, &Position), Added<ConstructTypeId>>| {
+                if let Some((expected, index)) = expected {
+                    // NOTE(tec27): Not using single here because the first run will see the
+                    // building as well
+                    let mut new_units = query
+                        .iter()
+                        .filter(|(c, _)| **c == ConstructTypeId::ProtossDragoon);
+                    let new_unit = new_units.next();
+                    assert!(
+                        new_unit.is_some(),
+                        "expected to be able to place index {index} but couldn't"
+                    );
+                    assert_eq!(
+                        new_unit.unwrap(),
+                        (&ConstructTypeId::ProtossDragoon, &expected.into()),
+                        "index {index} has incorrect position"
+                    );
+
+                    assert_eq!(new_units.count(), 0);
+                } else {
+                    assert!(query.is_empty());
+                }
+            };
+        let mut check_expected_pos_system = IntoSystem::into_system(check_expected_pos);
+        check_expected_pos_system.initialize(&mut app.world);
+
+        let spawn_positions = [(1424, 1648), (1440, 1648), (1440, 1664), (1424, 1664)]
+            .iter()
+            .map(|(x, y)| IVec2::new(*x, *y))
+            .collect::<Vec<_>>();
+
+        for (i, &expected) in expected_positions.iter().enumerate() {
+            app.world.send_event(CreateConstructEvent {
+                construct_type: ConstructTypeId::ProtossDragoon,
+                position: Some(spawn_positions[i].into()),
+                owner: None,
+                kind: CreationKind::Immediate,
+            });
+            app.update();
+
+            check_expected_pos_system.run(Some((expected, i)), &mut app.world);
+        }
+    }
 }
