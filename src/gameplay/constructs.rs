@@ -3,8 +3,8 @@ use std::ops::Index;
 
 use crate::{
     gamedata::{
-        BwImage, BwSoundRange, BwSprite, Construct, ConstructFlags, ConstructTypeId, Flingy,
-        LoadingAnimBundle, RenderStyle, CONSTRUCTS, IMAGES, SPRITES,
+        AnimFrameCount, BwImage, BwSoundRange, BwSprite, Construct, ConstructFlags,
+        ConstructTypeId, Flingy, LoadingAnimBundle, RenderStyle, CONSTRUCTS, IMAGES, SPRITES,
     },
     maps::position::Position,
     math::{bounds::IBounds, FixedPoint},
@@ -21,7 +21,8 @@ use super::{
 };
 
 pub fn plugin(app: &mut App) {
-    app.register_type::<ConstructSprite>()
+    app.register_type::<ConstructTypeId>()
+        .register_type::<ConstructSprite>()
         .register_type::<OwnedConstruct>()
         .register_type::<ConstructImageOrder>()
         .add_systems(
@@ -376,19 +377,29 @@ pub fn update_construct_image_order(
 pub fn update_construct_image_frames(
     mut query: Query<
         (
-            &ConstructImage,
+            &mut ConstructImage,
             &ConstructImageOrder,
             &mut TextureAtlas,
             &mut Sprite,
             &mut Transform,
+            Option<&AnimFrameCount>,
         ),
-        Changed<ConstructImage>,
+        Or<(Changed<ConstructImage>, Changed<AnimFrameCount>)>,
     >,
     settings: Res<GameSettings>,
 ) {
     let tile_scale = settings.asset_quality.scale();
-    for (image, image_order, mut atlas, mut sprite, mut transform) in query.iter_mut() {
+    for (mut image, image_order, mut atlas, mut sprite, mut transform, frame_count) in
+        query.iter_mut()
+    {
         atlas.index = (image.frame_base + image.frame_offset) as usize;
+        if let Some(frame_count) = frame_count {
+            if atlas.index >= frame_count.0 {
+                image.frame_base = 0;
+                image.frame_offset = 0;
+                atlas.index = 0;
+            }
+        }
         sprite.flip_x = image.flip_x;
         transform.translation = (Vec2::new(image.offset.x as f32, -image.offset.y as f32)
             * tile_scale)

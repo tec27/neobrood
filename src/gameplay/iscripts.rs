@@ -165,7 +165,12 @@ impl IscriptController {
 
         loop {
             let command = &program[self.pc];
-            // warn!("ISCRIPT: {:?}", command);
+            /*
+                warn!(
+                    "ISCRIPT: [{:?}] {:?} {command:?}",
+                    context.image.id, context.image_entity
+                );
+            */
             self.pc += 1;
             match command {
                 IscriptCommand::End => {
@@ -203,10 +208,13 @@ impl IscriptController {
                         Tileset::Twilight => 7,
                     };
 
-                    // NOTE(tec27): Blizzard's version checks that this is within bounds, but
-                    // this is guaranteed given the assets that use this functionality (just
-                    // vespene geysers + zerg eggs) so we skip the check since it would be
-                    // annoying for us to query here given that the asset may not be loaded yet
+                    // NOTE(tec27): Blizzard's version checks that this is a valid frame (e.g.
+                    // below the total frame count) before doing it, but we don't necessarily have
+                    // that information at this point (the asset may not be loaded yet). Instead the
+                    // code that applies `frame_base` to the texture atlas index will check if it
+                    // is within bounds and reset it to 0 if it's not. This does have different
+                    // semantics, but in practice with how this iscript operation is used, it should
+                    // work out the same.
                     context.image.frame_base = frame.0 + index;
                 }
                 IscriptCommand::Wait(frames) => {

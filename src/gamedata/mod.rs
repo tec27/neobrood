@@ -48,6 +48,7 @@ impl Plugin for GameDataPlugin {
             .init_asset_loader::<AnimAssetLoader>()
             .register_type::<LoadingAnim>()
             .register_type::<AnimOffsets>()
+            .register_type::<AnimFrameCount>()
             .add_systems(OnEnter(AppState::PreGame), load_game_data)
             .add_systems(
                 Update,
@@ -171,16 +172,26 @@ pub struct AnimOffsets {
     pub offsets: Vec<Anchor>,
 }
 
+#[derive(Component, Debug, Copy, Clone, Reflect)]
+pub struct AnimFrameCount(pub usize);
+
+impl Default for AnimFrameCount {
+    fn default() -> Self {
+        Self(1)
+    }
+}
+
 /// Image ID of the Start Location graphic, which only exists in the standard asset pack.
 const START_LOCATION_ID: u16 = 588;
 
 /// Bundle for an anim that has already had its assets loaded. Any entities that use this bundle
 /// should have all the components from [SpriteSheetBundle] to render correctly.
-#[derive(Bundle)]
+#[derive(Bundle, Default)]
 pub struct PreloadedAnimBundle {
     pub texture: Handle<Image>,
     pub atlas: TextureAtlas,
     pub anim_offsets: AnimOffsets,
+    pub frame_count: AnimFrameCount,
 }
 
 impl PreloadedAnimBundle {
@@ -194,6 +205,7 @@ impl PreloadedAnimBundle {
             anim_offsets: AnimOffsets {
                 offsets: asset.offsets.clone(),
             },
+            frame_count: AnimFrameCount(asset.frame_count),
         }
     }
 }

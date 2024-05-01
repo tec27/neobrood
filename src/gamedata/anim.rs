@@ -84,7 +84,6 @@ impl AssetLoader for AnimAssetLoader {
             }
 
             let mut layout = TextureAtlasLayout::new_empty(Vec2::new(width as f32, height as f32));
-            let mut offsets = Vec::with_capacity(frames.len());
             let scale = FRAME_SCALE as f32 / scale as f32;
             let use_offsets = if width == 0 && height == 0 {
                 // TODO(tec27): We should use the GRP sizes instead in this case
@@ -96,6 +95,12 @@ impl AssetLoader for AnimAssetLoader {
             } else {
                 true
             };
+            let mut offsets = if use_offsets {
+                Vec::with_capacity(frames.len())
+            } else {
+                Vec::with_capacity(0)
+            };
+            let frame_count = frames.len();
 
             let width = width as f32 / scale;
             let height = height as f32 / scale;
@@ -126,6 +131,7 @@ impl AssetLoader for AnimAssetLoader {
             Ok(AnimAsset {
                 size: Vec2::new(width, height),
                 layout,
+                frame_count,
                 offsets,
                 layers: layer_handles,
             })
@@ -141,6 +147,7 @@ impl AssetLoader for AnimAssetLoader {
 pub struct AnimAsset {
     pub size: Vec2,
     pub layout: Handle<TextureAtlasLayout>,
+    pub frame_count: usize,
     /// How much to offset the frame from the sprite's origin during rendering (from the top left?).
     /// These are expressed as a fraction of the total size of the sprite.
     pub offsets: Vec<Anchor>,
