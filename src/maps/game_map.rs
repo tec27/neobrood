@@ -1,5 +1,8 @@
 use bevy::{prelude::*, utils::HashMap};
-use broodmap::chk::terrain::{TerrainTileIds, TileId};
+use broodmap::chk::{
+    terrain::{TerrainTileIds, TileId},
+    tileset::Tileset,
+};
 use thiserror::Error;
 
 use super::{
@@ -15,6 +18,15 @@ pub const LOGIC_MINI_TILE_SIZE: i32 = 8;
 
 #[derive(Component, Default, Reflect)]
 pub struct GameMap;
+
+#[derive(Component, Copy, Clone, Debug, Deref)]
+pub struct GameMapTileset(pub Tileset);
+
+impl Default for GameMapTileset {
+    fn default() -> Self {
+        Self(Tileset::Arctic)
+    }
+}
 
 #[derive(Component, Copy, Clone, Debug, Default, Reflect)]
 pub struct GameMapSize {
@@ -39,6 +51,7 @@ impl From<&GameMapSize> for Vec2 {
 #[derive(Bundle, Default)]
 pub struct GameMapBundle {
     pub game_map: GameMap,
+    pub tileset: GameMapTileset,
     pub size: GameMapSize,
     pub spatial: SpatialBundle,
     pub terrain: GameMapTerrain,

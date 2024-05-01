@@ -5,7 +5,7 @@ use bevy::utils::HashMap;
 use bevy::{prelude::*, transform::TransformSystem};
 use bevy_ecs_tilemap::prelude::*;
 
-use crate::maps::game_map::GameMapTerrain;
+use crate::maps::game_map::{GameMapTerrain, GameMapTileset};
 use crate::settings::GameSettings;
 use crate::{
     gamedata::BwGameData,
@@ -98,6 +98,7 @@ fn map_init(
                     width: map.width,
                     height: map.height,
                 },
+                tileset: GameMapTileset(map.tileset),
                 // TODO(tec27): Handle errors in this conversion properly
                 terrain: GameMapTerrain::from_terrain_and_lookup(
                     &map.terrain,

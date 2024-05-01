@@ -3,7 +3,7 @@ use bevy::{ecs::system::SystemState, prelude::*};
 use crate::{
     gamedata::{Construct, ConstructFlags, ConstructTypeId, IscriptType},
     maps::{
-        game_map::{GameMap, GameMapSize, LOGIC_TILE_SIZE},
+        game_map::{GameMap, GameMapSize, GameMapTileset, LOGIC_TILE_SIZE},
         position::Position,
     },
     math::ANGLE_PER_SPRITE,
@@ -90,6 +90,7 @@ pub fn create_constructs(
         Query<(Entity, &mut ConstructImage, &mut IscriptController)>,
         Commands,
         ResMut<LcgRand>,
+        Query<&GameMapTileset>,
     )>,
 ) {
     let (mut events, mut writer, mut commands, mut rng) = params.get_mut(world);
@@ -155,8 +156,9 @@ pub fn create_constructs(
     params.apply(world);
 
     // Initialize the ConstructImage entities that now exist
-    let (q_constructs, mut q_sprites, mut q_images, mut commands, mut rand) =
+    let (q_constructs, mut q_sprites, mut q_images, mut commands, mut rand, q_tileset) =
         init_iscript_params.get_mut(world);
+    let tileset = q_tileset.get_single().ok().map(|&t| *t);
     for e in constructed {
         let construct_children = q_constructs.get(e).unwrap();
         let mut sprites = q_sprites.iter_many_mut(construct_children);
@@ -171,6 +173,7 @@ pub fn create_constructs(
                     parent_sprite_entity: sprite_entity,
                     parent_sprite: &mut sprite,
                     rand: &mut rand,
+                    tileset,
                 };
                 iscript.run_anim(IscriptType::Init, context, &mut commands);
             }

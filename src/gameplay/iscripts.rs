@@ -3,9 +3,11 @@ use crate::{
         IscriptCollection, IscriptCommand, IscriptType, LoadingAnimBundle, RenderStyle, ISCRIPTS,
         ISCRIPT_ANIMS,
     },
+    maps::game_map::GameMapTileset,
     random::LcgRand,
 };
 use bevy::{math::I16Vec2, prelude::*};
+use broodmap::chk::tileset::Tileset;
 use std::ops::DerefMut;
 
 use super::constructs::{ConstructImage, ConstructImageBundle, ConstructSprite, ImageOrder};
@@ -81,6 +83,8 @@ where
     pub parent_sprite: &'a mut SpriteType,
     /// The random number generator to use for any random operations.
     pub rand: &'a mut LcgRand,
+    /// The current map tileset (or None if not available)
+    pub tileset: Option<Tileset>,
 }
 
 impl IscriptController {
@@ -183,6 +187,28 @@ impl IscriptController {
                 IscriptCommand::PlayFrame { frame } => {
                     context.image.frame_base = frame.0;
                 }
+                IscriptCommand::PlayFrameTile { frame } => {
+                    let Some(tileset) = context.tileset else {
+                        error!("No tileset available for PlayFrameTile");
+                        continue;
+                    };
+                    let index = match tileset {
+                        Tileset::Badlands => 0,
+                        Tileset::SpacePlatform => 1,
+                        Tileset::Installation => 2,
+                        Tileset::Ashworld => 3,
+                        Tileset::Jungle => 4,
+                        Tileset::Desert => 5,
+                        Tileset::Arctic => 6,
+                        Tileset::Twilight => 7,
+                    };
+
+                    // NOTE(tec27): Blizzard's version checks that this is within bounds, but
+                    // this is guaranteed given the assets that use this functionality (just
+                    // vespene geysers + zerg eggs) so we skip the check since it would be
+                    // annoying for us to query here given that the asset may not be loaded yet
+                    context.image.frame_base = frame.0 + index;
+                }
                 IscriptCommand::Wait(frames) => {
                     self.wait_timer = *frames - 1;
                     break;
@@ -254,7 +280,7 @@ impl IscriptController {
                     }
                 }
                 _c => {
-                    // warn!("Unimplemented: {c:?}");
+                    // warn!("Unimplemented: {_c:?}");
                 }
             }
         }
@@ -294,6 +320,7 @@ impl IscriptController {
             parent_sprite_entity: creating_context.parent_sprite_entity,
             parent_sprite: creating_context.parent_sprite,
             rand: creating_context.rand,
+            tileset: creating_context.tileset,
         };
         iscript.run_anim(IscriptType::Init, context, commands);
 
@@ -333,7 +360,9 @@ pub fn exec_iscripts(
     mut q_sprites: Query<(Entity, &mut ConstructSprite)>,
     mut commands: Commands,
     mut rand: ResMut<LcgRand>,
+    q_tileset: Query<&GameMapTileset>,
 ) {
+    let tileset = q_tileset.get_single().ok().map(|&t| *t);
     // TODO(tec27): This order is almost certainly not correct. #1 we need to look at sprites in
     // a particular order, and #2 we probably need to look at their images in a particular order?
     for (image_entity, mut controller, mut image, parent) in q_images.iter_mut() {
@@ -344,6 +373,7 @@ pub fn exec_iscripts(
                 parent_sprite_entity: sprite_entity,
                 parent_sprite: &mut sprite,
                 rand: &mut rand,
+                tileset,
             };
             controller.exec(context, &mut commands);
         } else {
