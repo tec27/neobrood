@@ -15,11 +15,11 @@ use super::{
     build_time::UnderConstruction,
     constructs::{
         ConstructBundle, ConstructImage, ConstructImageBundle, ConstructSprite,
-        ConstructSpriteBundle, OwnedConstruct,
+        ConstructSpriteBundle, ImageOrder, OwnedConstruct,
     },
     facing_direction::FacingDirection,
     health::Health,
-    iscripts::IscriptController,
+    iscripts::{IscriptController, IscriptExecContext},
     shield::Shield,
     status::CanTurn,
 };
@@ -86,8 +86,8 @@ pub fn create_constructs(
     )>,
     init_iscript_params: &mut SystemState<(
         Query<&Children, With<ConstructTypeId>>,
-        Query<(Entity, &Children), With<ConstructSprite>>,
-        Query<(&mut ConstructImage, &mut IscriptController)>,
+        Query<(Entity, &mut ConstructSprite, &Children)>,
+        Query<(Entity, &mut ConstructImage, &mut IscriptController)>,
         Commands,
         ResMut<LcgRand>,
     )>,
@@ -155,20 +155,24 @@ pub fn create_constructs(
     params.apply(world);
 
     // Initialize the ConstructImage entities that now exist
-    let (q_constructs, q_sprites, mut q_images, mut commands, mut rand) =
+    let (q_constructs, mut q_sprites, mut q_images, mut commands, mut rand) =
         init_iscript_params.get_mut(world);
     for e in constructed {
         let construct_children = q_constructs.get(e).unwrap();
-        for (sprite, images) in q_sprites.iter_many(construct_children) {
+        let mut sprites = q_sprites.iter_many_mut(construct_children);
+        while let Some((sprite_entity, mut sprite, images)) = sprites.fetch_next() {
             let mut iter = q_images.iter_many_mut(images);
-            while let Some((mut image, mut iscript)) = iter.fetch_next() {
-                iscript.run_anim(
-                    IscriptType::Init,
-                    &mut image,
-                    sprite,
-                    &mut commands,
-                    &mut rand,
-                );
+            while let Some((image_entity, mut image, mut iscript)) = iter.fetch_next() {
+                sprite.add_image(image_entity, ImageOrder::default());
+
+                let context = IscriptExecContext {
+                    image_entity,
+                    image: &mut image,
+                    parent_sprite_entity: sprite_entity,
+                    parent_sprite: &mut sprite,
+                    rand: &mut rand,
+                };
+                iscript.run_anim(IscriptType::Init, context, &mut commands);
             }
         }
     }

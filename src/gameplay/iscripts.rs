@@ -8,7 +8,7 @@ use crate::{
 use bevy::{math::I16Vec2, prelude::*};
 use std::ops::DerefMut;
 
-use super::constructs::{ConstructImage, ConstructImageBundle, ImageOrder};
+use super::constructs::{ConstructImage, ConstructImageBundle, ConstructSprite, ImageOrder};
 
 impl<'a> IscriptCollection<'a> {
     /// Returns the script of the given type within this collection, if it exists.
@@ -22,6 +22,8 @@ impl<'a> IscriptCollection<'a> {
     }
 }
 
+/// Contains the state for a running iscript animation, and can be used to continue executing the
+/// current animation or start a new one.
 #[derive(Component, Debug, Clone)]
 pub struct IscriptController {
     pub collection: &'static IscriptCollection<'static>,
@@ -61,6 +63,26 @@ impl Default for IscriptController {
     }
 }
 
+/// Context for executing an iscript animation. This is state that is necessary for the various
+/// operations an iscript animation can perform.
+pub struct IscriptExecContext<'a, ImageType, SpriteType>
+where
+    ImageType: DerefMut<Target = ConstructImage>,
+    SpriteType: DerefMut<Target = ConstructSprite>,
+{
+    /// The [Entity] of the image the script is associated with.
+    pub image_entity: Entity,
+    /// The [ConstructImage] the script is associated with. This should generally be a [Mut]
+    /// returned from a query.
+    pub image: &'a mut ImageType,
+    /// The [Entity] of the sprite that the image is associated with.
+    pub parent_sprite_entity: Entity,
+    /// The sprite that the image is associated with.
+    pub parent_sprite: &'a mut SpriteType,
+    /// The random number generator to use for any random operations.
+    pub rand: &'a mut LcgRand,
+}
+
 impl IscriptController {
     pub fn for_image(image: &ConstructImage) -> Self {
         let collection = &ISCRIPTS[image.def().iscript as usize];
@@ -79,14 +101,15 @@ impl IscriptController {
         self.wait_timer = 0;
     }
 
-    pub fn run_anim(
+    pub fn run_anim<I, S>(
         &mut self,
         mut anim: IscriptType,
-        image: &mut impl DerefMut<Target = ConstructImage>,
-        parent: Entity,
+        context: IscriptExecContext<I, S>,
         commands: &mut Commands,
-        rand: &mut LcgRand,
-    ) {
+    ) where
+        I: DerefMut<Target = ConstructImage>,
+        S: DerefMut<Target = ConstructSprite>,
+    {
         if !self.use_full_collection && !matches!(anim, IscriptType::Init | IscriptType::Death) {
             return;
         }
@@ -118,17 +141,15 @@ impl IscriptController {
         if self.program.is_none() {
             error!("Asked to play iscript anim {anim:?} but it wasn't in the collection");
         } else {
-            self.exec(image, parent, commands, rand);
+            self.exec(context, commands);
         }
     }
 
-    fn exec(
-        &mut self,
-        image: &mut impl DerefMut<Target = ConstructImage>,
-        parent: Entity,
-        commands: &mut Commands,
-        rand: &mut LcgRand,
-    ) {
+    fn exec<I, S>(&mut self, mut context: IscriptExecContext<I, S>, commands: &mut Commands)
+    where
+        I: DerefMut<Target = ConstructImage>,
+        S: DerefMut<Target = ConstructSprite>,
+    {
         if self.wait_timer > 0 {
             self.wait_timer -= 1;
             return;
@@ -160,33 +181,47 @@ impl IscriptController {
                     self.pc = 0;
                 }
                 IscriptCommand::PlayFrame { frame } => {
-                    image.frame_base = frame.0;
+                    context.image.frame_base = frame.0;
                 }
                 IscriptCommand::Wait(frames) => {
                     self.wait_timer = *frames - 1;
                     break;
                 }
                 IscriptCommand::WaitRandom { min, max } => {
-                    self.wait_timer = rand.in_range_u8(*min, *max) - 1;
+                    self.wait_timer = context.rand.in_range_u8(*min, *max) - 1;
                     break;
+                }
+                IscriptCommand::ImageOverlay {
+                    image: image_id,
+                    x,
+                    y,
+                } => {
+                    let offset = I16Vec2::new(*x as i16, *y as i16) + context.image.offset;
+                    self.add_image(
+                        image_id.0,
+                        offset,
+                        ImageOrder::Above(Some(context.image_entity)),
+                        &mut context,
+                        commands,
+                    );
                 }
                 IscriptCommand::ImageUnderlay {
                     image: image_id,
                     x,
                     y,
                 } => {
-                    let offset = I16Vec2::new(*x as i16, *y as i16) + image.offset;
+                    let offset = I16Vec2::new(*x as i16, *y as i16) + context.image.offset;
                     self.add_image(
                         image_id.0,
                         offset,
-                        ImageOrder::Below,
-                        image,
-                        parent,
+                        ImageOrder::Below(Some(context.image_entity)),
+                        &mut context,
                         commands,
-                        rand,
                     )
                 }
-                _ => {}
+                _c => {
+                    // warn!("Unimplemented: {c:?}");
+                }
             }
         }
 
@@ -195,35 +230,42 @@ impl IscriptController {
 
     /// Creates and initializes an image for an iscript instruction. This will run scripts for the
     /// image immediately but defer the actual entity spawning via [Commands].
-    fn add_image(
+    fn add_image<'a, 'b, I, S>(
         &mut self,
         image_id: u16,
         offset: I16Vec2,
         order: ImageOrder,
-        creator: &mut impl DerefMut<Target = ConstructImage>,
-        parent_sprite: Entity,
+        creating_context: &'a mut IscriptExecContext<'b, I, S>,
         commands: &mut Commands,
-        rand: &mut LcgRand,
-    ) {
+    ) where
+        'b: 'a,
+        I: DerefMut<Target = ConstructImage>,
+        S: DerefMut<Target = ConstructSprite>,
+    {
         let mut image = ConstructImage {
             id: image_id,
             offset,
-            order,
             ..default()
         };
         image.render_style = image.def().render_style;
         let mut iscript = IscriptController::for_image(&image);
-        iscript.run_anim(
-            IscriptType::Init,
-            &mut &mut image,
-            parent_sprite,
-            commands,
-            rand,
-        );
+        let image_entity = commands.spawn_empty().id();
+        creating_context
+            .parent_sprite
+            .add_image(image_entity, order);
+
+        let context = IscriptExecContext {
+            image_entity,
+            image: &mut &mut image,
+            parent_sprite_entity: creating_context.parent_sprite_entity,
+            parent_sprite: creating_context.parent_sprite,
+            rand: creating_context.rand,
+        };
+        iscript.run_anim(IscriptType::Init, context, commands);
 
         if image.render_style.is_none()
             && matches!(
-                creator.render_style,
+                creating_context.image.render_style,
                 Some(
                     RenderStyle::EnemyUnitCloak
                         | RenderStyle::OwnUnitCloak
@@ -234,29 +276,42 @@ impl IscriptController {
                 )
             )
         {
-            image.render_style = creator.render_style;
+            image.render_style = creating_context.image.render_style;
             // TODO(tec27): Seems like there is sometimes data associated with the render styles?
             // Not sure what this does yet, but it seems to be copied from the creator in this case
         }
         // TODO(tec27): Handle hiding the image in some cases?
 
-        commands.entity(parent_sprite).with_children(|parent| {
-            parent.spawn(ConstructImageBundle {
-                image,
-                iscript,
-                loading_anim: LoadingAnimBundle::new(image_id),
-                ..default()
-            });
+        commands.entity(image_entity).insert(ConstructImageBundle {
+            image,
+            iscript,
+            loading_anim: LoadingAnimBundle::new(image_id),
+            ..default()
         });
+        commands
+            .entity(creating_context.parent_sprite_entity)
+            .add_child(image_entity);
     }
 }
 
 pub fn exec_iscripts(
-    mut q: Query<(&mut IscriptController, &mut ConstructImage, &Parent)>,
+    mut q_images: Query<(Entity, &mut IscriptController, &mut ConstructImage, &Parent)>,
+    mut q_sprites: Query<(Entity, &mut ConstructSprite)>,
     mut commands: Commands,
     mut rand: ResMut<LcgRand>,
 ) {
-    for (mut controller, mut image, parent) in q.iter_mut() {
-        controller.exec(&mut image, parent.get(), &mut commands, &mut rand);
+    for (image_entity, mut controller, mut image, parent) in q_images.iter_mut() {
+        if let Ok((sprite_entity, mut sprite)) = q_sprites.get_mut(parent.get()) {
+            let context = IscriptExecContext {
+                image_entity,
+                image: &mut image,
+                parent_sprite_entity: sprite_entity,
+                parent_sprite: &mut sprite,
+                rand: &mut rand,
+            };
+            controller.exec(context, &mut commands);
+        } else {
+            warn!("Found image entity {image_entity:?} without a parent sprite");
+        }
     }
 }

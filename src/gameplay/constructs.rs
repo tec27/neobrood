@@ -1,4 +1,4 @@
-use bevy::{math::I16Vec2, prelude::*};
+use bevy::{math::I16Vec2, prelude::*, utils::smallvec::SmallVec};
 use std::ops::Index;
 
 use crate::{
@@ -14,9 +14,23 @@ use crate::{
 };
 
 use super::{
-    build_time::UnderConstruction, facing_direction::FacingDirection, health::Health,
+    build_time::UnderConstruction,
+    facing_direction::{apply_facing_to_images, FacingDirection},
+    health::Health,
     iscripts::IscriptController,
 };
+
+pub fn plugin(app: &mut App) {
+    app.register_type::<ConstructSprite>()
+        .register_type::<OwnedConstruct>()
+        .register_type::<ConstructImageOrder>()
+        .add_systems(
+            Update,
+            (update_construct_image_order, update_construct_image_frames)
+                .chain()
+                .after(apply_facing_to_images),
+        );
+}
 
 impl Race {
     /// Returns the [ConstructTypeId] for this race's starting building.
@@ -176,11 +190,95 @@ pub const MAX_CONSTRUCT_SIZE: IVec2 = max_construct_size();
 pub struct ConstructSprite {
     /// The ID of the sprite this entity maps to. Can be looked up in [SPRITES].
     pub id: u16,
+
+    /// The current "main image" of the sprite, usually the image specified in the [BwSprite] data,
+    /// but can be changed via iscript. Ordering of insertions into `images` will usually depend on
+    /// this image, and certain iscript operations use it directly. If a value is present, it should
+    /// always be in `images` as well.
+    main_image: Option<Entity>,
+    pub images: SmallVec<[Entity; 4]>,
+}
+
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+/// Ordering for layers of images within a sprite.
+pub enum ImageOrder {
+    /// The image is placed on top of all other images.
+    Top,
+    /// The image is placed just above the specified image, or above the main image if no image is
+    /// specified. This is the default.
+    Above(Option<Entity>),
+    /// The image is placed just below the specified image, or below the main image if no image is
+    /// specified.
+    Below(Option<Entity>),
+    /// The image is placed below all other images.
+    Bottom,
+}
+
+impl Default for ImageOrder {
+    fn default() -> Self {
+        ImageOrder::Above(None)
+    }
 }
 
 impl ConstructSprite {
     pub fn def(&self) -> &'static BwSprite {
         &SPRITES[self.id as usize]
+    }
+
+    pub fn set_main_image(&mut self, image: Entity) {
+        debug_assert!(self.images.contains(&image));
+        self.main_image = Some(image);
+    }
+
+    /// Add an image to this sprite using the specified ordering. If this is the first image to be
+    /// added it will become the main image for the sprite.
+    pub fn add_image(&mut self, image: Entity, order: ImageOrder) {
+        if self.images.is_empty() {
+            self.main_image = Some(image);
+            self.images.push(image);
+            return;
+        }
+
+        match order {
+            ImageOrder::Top => self.images.insert(0, image),
+            ImageOrder::Bottom => self.images.push(image),
+            ImageOrder::Above(Some(ref above)) => {
+                let i = self.images.iter().position(|i| i == above).unwrap_or(0);
+                self.images.insert(i, image);
+            }
+            ImageOrder::Above(None) => {
+                let i = self
+                    .main_image
+                    .and_then(|ref main_image| self.images.iter().position(|i| i == main_image))
+                    .unwrap_or(0);
+                self.images.insert(i, image);
+            }
+            ImageOrder::Below(Some(ref below)) => {
+                let i = self
+                    .images
+                    .iter()
+                    .position(|i| i == below)
+                    .unwrap_or_else(|| self.images.len() - 1)
+                    + 1;
+                if i < self.images.len() {
+                    self.images.insert(i, image);
+                } else {
+                    self.images.push(image);
+                }
+            }
+            ImageOrder::Below(None) => {
+                let i = self
+                    .main_image
+                    .and_then(|ref main_image| self.images.iter().position(|i| i == main_image))
+                    .unwrap_or_else(|| self.images.len() - 1)
+                    + 1;
+                if i < self.images.len() {
+                    self.images.insert(i, image);
+                } else {
+                    self.images.push(image);
+                }
+            }
+        }
     }
 }
 
@@ -193,24 +291,10 @@ pub struct ConstructSpriteBundle {
 impl ConstructSpriteBundle {
     pub fn new(id: u16) -> Self {
         Self {
-            sprite: ConstructSprite { id },
+            sprite: ConstructSprite { id, ..default() },
             ..default()
         }
     }
-}
-
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Default, Reflect)]
-/// Ordering for layers of images within a sprite.
-pub enum ImageOrder {
-    /// The image is drawn on top of other images.
-    Top,
-    /// The image is drawn on top of any other images that are not `Top`. This is the default.
-    #[default]
-    Above,
-    /// The image is only drawn on top of images that are `Bottom`.
-    Below,
-    /// The image is drawn below all other images.
-    Bottom,
 }
 
 /// Component that specifies an entity is an image for a [ConstructSprite].
@@ -228,8 +312,6 @@ pub struct ConstructImage {
     pub flip_x: bool,
     /// The offset to apply from the sprite's location to this image, in logical pixels.
     pub offset: I16Vec2,
-    /// The layering order for this image.
-    pub order: ImageOrder,
     /// How to render this image (if any special handling is needed).
     pub render_style: Option<RenderStyle>,
 }
@@ -240,12 +322,18 @@ impl ConstructImage {
     }
 }
 
+/// A component that specifies this [ConstructImage]'s order within its parent sprite's images (0
+/// being the top-most image).
+#[derive(Component, Debug, Copy, Clone, PartialEq, Eq, Default, Reflect)]
+pub struct ConstructImageOrder(pub u8);
+
 #[derive(Bundle, Default)]
 pub struct ConstructImageBundle {
     pub image: ConstructImage,
     pub spatial: SpatialBundle,
     pub loading_anim: LoadingAnimBundle,
     pub iscript: IscriptController,
+    pub image_order: ConstructImageOrder,
 }
 
 impl ConstructImageBundle {
@@ -265,11 +353,27 @@ impl ConstructImageBundle {
 
 const SHADOW_COLOR: Color = Color::rgba(0.0, 0.0, 0.0, 0.7);
 
+/// System that applies a sprite's image ordering to the individual images.
+pub fn update_construct_image_order(
+    q_sprites: Query<&ConstructSprite, Changed<ConstructSprite>>,
+    mut q_images: Query<&mut ConstructImageOrder>,
+) {
+    for sprite in q_sprites.iter() {
+        let mut images = q_images.iter_many_mut(sprite.images.iter());
+        let mut i = 0u8;
+        while let Some(mut image_order) = images.fetch_next() {
+            image_order.0 = i;
+            i += 1;
+        }
+    }
+}
+
 /// System to update the current texture atlas frame for changed [ConstructImage] components.
 pub fn update_construct_image_frames(
     mut query: Query<
         (
             &ConstructImage,
+            &ConstructImageOrder,
             &mut TextureAtlas,
             &mut Sprite,
             &mut Transform,
@@ -279,20 +383,12 @@ pub fn update_construct_image_frames(
     settings: Res<GameSettings>,
 ) {
     let tile_scale = settings.asset_quality.scale();
-    for (image, mut atlas, mut sprite, mut transform) in query.iter_mut() {
+    for (image, image_order, mut atlas, mut sprite, mut transform) in query.iter_mut() {
         atlas.index = (image.frame_base + image.frame_offset) as usize;
         sprite.flip_x = image.flip_x;
         transform.translation = (Vec2::new(image.offset.x as f32, -image.offset.y as f32)
             * tile_scale)
-            .extend(match image.order {
-                // TODO(tec27): This isn't really the correct behavior, this ordering is meant to
-                // describe how to insert this image within the list of existing images, so we can't
-                // easily calculate the correct z value at this point. Rework this somehow.
-                ImageOrder::Top => 0.05,
-                ImageOrder::Above => 0.01,
-                ImageOrder::Below => -0.01,
-                ImageOrder::Bottom => -0.05,
-            });
+            .extend(-(image_order.0 as f32 / 1000.0));
 
         if image.render_style == Some(RenderStyle::Shadow) {
             // TODO(tec27): This isn't totally correct and doesn't deal with the "shadow stacking"
