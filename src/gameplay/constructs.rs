@@ -230,6 +230,10 @@ impl ConstructSprite {
         self.main_image = Some(image);
     }
 
+    pub fn main_image(&self) -> Option<Entity> {
+        self.main_image
+    }
+
     /// Add an image to this sprite using the specified ordering. If this is the first image to be
     /// added it will become the main image for the sprite.
     pub fn add_image(&mut self, image: Entity, order: ImageOrder) {

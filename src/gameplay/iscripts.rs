@@ -219,6 +219,40 @@ impl IscriptController {
                         commands,
                     )
                 }
+                IscriptCommand::FollowMainGraphic => {
+                    // NOTE(tec27): This ends up copying the info at a later point than Blizzard's
+                    // version (which does it immediately), but in practice for the places this is
+                    // used, this works out the same, and is easier for us to accomplish in Bevy.
+                    if let Some(main_image_entity) = context.parent_sprite.main_image() {
+                        let image_entity = context.image_entity;
+                        commands.add(move |world: &mut World| {
+                            let mut images = world.query::<&mut ConstructImage>();
+                            let Ok(main_image) = images.get(world, main_image_entity) else {
+                                warn!(
+                                    "Couldn't find main image entity {:?} in FollowMainGraphic",
+                                    main_image_entity
+                                );
+                                return;
+                            };
+
+                            let frame_base = main_image.frame_base;
+                            let frame_offset = main_image.frame_offset;
+                            let flip_x = main_image.flip_x;
+
+                            let Ok(mut image) = images.get_mut(world, image_entity) else {
+                                warn!(
+                                    "Couldn't find target image entity {:?} in FollowMainGraphic",
+                                    image_entity
+                                );
+                                return;
+                            };
+
+                            image.frame_base = frame_base;
+                            image.frame_offset = frame_offset;
+                            image.flip_x = flip_x;
+                        });
+                    }
+                }
                 _c => {
                     // warn!("Unimplemented: {c:?}");
                 }
@@ -300,6 +334,8 @@ pub fn exec_iscripts(
     mut commands: Commands,
     mut rand: ResMut<LcgRand>,
 ) {
+    // TODO(tec27): This order is almost certainly not correct. #1 we need to look at sprites in
+    // a particular order, and #2 we probably need to look at their images in a particular order?
     for (image_entity, mut controller, mut image, parent) in q_images.iter_mut() {
         if let Ok((sprite_entity, mut sprite)) = q_sprites.get_mut(parent.get()) {
             let context = IscriptExecContext {
