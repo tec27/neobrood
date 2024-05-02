@@ -1,6 +1,7 @@
 use bevy::{asset::LoadState, prelude::*, sprite::Anchor, transform::TransformSystem};
 
 use crate::{
+    gameplay::constructs::ConstructImage,
     settings::{AssetPack, GameSettings},
     states::AppState,
 };
@@ -273,17 +274,48 @@ fn init_loaded_anims(
     }
 }
 
+fn flip_anchor_x(anchor: &Anchor) -> Anchor {
+    match anchor {
+        Anchor::TopLeft => Anchor::TopRight,
+        Anchor::TopCenter => Anchor::TopCenter,
+        Anchor::TopRight => Anchor::TopLeft,
+        Anchor::CenterLeft => Anchor::CenterRight,
+        Anchor::Center => Anchor::Center,
+        Anchor::CenterRight => Anchor::CenterLeft,
+        Anchor::BottomLeft => Anchor::BottomRight,
+        Anchor::BottomCenter => Anchor::BottomCenter,
+        Anchor::BottomRight => Anchor::BottomLeft,
+        Anchor::Custom(p) => Anchor::Custom(Vec2::new(-p.x, p.y)),
+    }
+}
+
 fn update_anim_offsets(
     mut query: Query<
-        (&AnimOffsets, &TextureAtlas, &mut Sprite),
-        Or<(Changed<AnimOffsets>, Changed<TextureAtlas>)>,
+        (
+            &AnimOffsets,
+            &TextureAtlas,
+            &mut Sprite,
+            Option<&ConstructImage>,
+        ),
+        Or<(
+            Changed<AnimOffsets>,
+            Changed<TextureAtlas>,
+            Changed<ConstructImage>,
+        )>,
     >,
 ) {
-    for (offsets, atlas, mut sprite) in query.iter_mut() {
+    for (offsets, atlas, mut sprite, image) in query.iter_mut() {
+        let flip_x = image.map_or(false, |i| i.flip_x);
         sprite.anchor = offsets
             .offsets
             .get(atlas.index)
-            .copied()
+            .map(|anchor| {
+                if flip_x {
+                    flip_anchor_x(anchor)
+                } else {
+                    *anchor
+                }
+            })
             .unwrap_or_default()
     }
 }
