@@ -288,7 +288,7 @@ impl IscriptController {
                     }
                 }
                 _c => {
-                    // warn!("Unimplemented: {_c:?}");
+                    warn!("Unimplemented: {_c:?} from Image {}", context.image.id);
                 }
             }
         }
