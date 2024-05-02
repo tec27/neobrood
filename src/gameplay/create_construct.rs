@@ -6,7 +6,6 @@ use crate::{
         game_map::{GameMap, GameMapSize, GameMapTileset, LOGIC_TILE_SIZE},
         position::Position,
     },
-    math::ANGLE_PER_SPRITE,
     random::LcgRand,
     states::{AppState, InGameOnly},
 };
@@ -85,7 +84,7 @@ pub fn create_constructs(
         ResMut<LcgRand>,
     )>,
     init_iscript_params: &mut SystemState<(
-        Query<&Children, With<ConstructTypeId>>,
+        Query<(&Children, &mut FacingDirection, &Position), With<ConstructTypeId>>,
         Query<(Entity, &mut ConstructSprite, &Children)>,
         Query<(Entity, &mut ConstructImage, &mut IscriptController)>,
         Commands,
@@ -156,22 +155,31 @@ pub fn create_constructs(
     params.apply(world);
 
     // Initialize the ConstructImage entities that now exist
-    let (q_constructs, mut q_sprites, mut q_images, mut commands, mut rand, q_tileset) =
+    let (mut q_constructs, mut q_sprites, mut q_images, mut commands, mut rand, q_tileset) =
         init_iscript_params.get_mut(world);
     let tileset = q_tileset.get_single().ok().map(|&t| *t);
     for e in constructed {
-        let construct_children = q_constructs.get(e).unwrap();
+        let (construct_children, mut construct_facing, position) = q_constructs.get_mut(e).unwrap();
+
         let mut sprites = q_sprites.iter_many_mut(construct_children);
         while let Some((sprite_entity, mut sprite, images)) = sprites.fetch_next() {
             let mut iter = q_images.iter_many_mut(images);
             while let Some((image_entity, mut image, mut iscript)) = iter.fetch_next() {
                 sprite.add_image(image_entity, ImageOrder::default());
 
+                let construct_facing = Some(&mut construct_facing);
                 let context = IscriptExecContext {
                     image_entity,
                     image: &mut image,
                     parent_sprite_entity: sprite_entity,
                     parent_sprite: &mut sprite,
+                    construct_facing,
+                    // TODO(tec27): This probably needs to be corrected given the sprite's
+                    // transform? Or we need to automatically track what a Sprite's position is
+                    // without applying that to its Transform component directly. It's also possible
+                    // that Construct entities should not have transforms themselves, and instead
+                    // we apply "global" transforms to each sprite within them?
+                    sprite_position: *position,
                     rand: &mut rand,
                     tileset,
                 };
@@ -235,7 +243,7 @@ pub fn finish_constructs(
             }
 
             // TODO(tec27): Need to update velocities as well
-            facing.0 = ANGLE_PER_SPRITE * dir;
+            facing.set_angle_by_direction(dir);
         }
         // TODO(tec27): Show unit if it's a trap
 

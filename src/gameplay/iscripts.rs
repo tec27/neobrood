@@ -1,16 +1,20 @@
 use crate::{
     gamedata::{
-        IscriptCollection, IscriptCommand, IscriptType, LoadingAnimBundle, RenderStyle, ISCRIPTS,
-        ISCRIPT_ANIMS,
+        BwSoundId, IscriptCollection, IscriptCommand, IscriptLabel, IscriptType, LoadingAnimBundle,
+        RenderStyle, ISCRIPTS, ISCRIPT_ANIMS,
     },
-    maps::game_map::GameMapTileset,
+    maps::{game_map::GameMapTileset, position::Position},
     random::LcgRand,
 };
 use bevy::{math::I16Vec2, prelude::*};
 use broodmap::chk::tileset::Tileset;
 use std::ops::DerefMut;
 
-use super::constructs::{ConstructImage, ConstructImageBundle, ConstructSprite, ImageOrder};
+use super::{
+    constructs::{ConstructImage, ConstructImageBundle, ConstructSprite, ImageOrder},
+    facing_direction::FacingDirection,
+    sounds::PlaySoundCommandsExt,
+};
 
 impl<'a> IscriptCollection<'a> {
     /// Returns the script of the given type within this collection, if it exists.
@@ -67,10 +71,11 @@ impl Default for IscriptController {
 
 /// Context for executing an iscript animation. This is state that is necessary for the various
 /// operations an iscript animation can perform.
-pub struct IscriptExecContext<'a, ImageType, SpriteType>
+pub struct IscriptExecContext<'a, ImageType, SpriteType, FacingType>
 where
     ImageType: DerefMut<Target = ConstructImage>,
     SpriteType: DerefMut<Target = ConstructSprite>,
+    FacingType: DerefMut<Target = FacingDirection>,
 {
     /// The [Entity] of the image the script is associated with.
     pub image_entity: Entity,
@@ -81,6 +86,11 @@ where
     pub parent_sprite_entity: Entity,
     /// The sprite that the image is associated with.
     pub parent_sprite: &'a mut SpriteType,
+    /// The [FacingDirection] of the Construct that owns the image for the currently executing
+    /// script. Will be [None] if there is no associated Construct.
+    pub construct_facing: Option<&'a mut FacingType>,
+    /// The [Position] of the sprite that owns the image for the currently executing script.
+    pub sprite_position: Position,
     /// The random number generator to use for any random operations.
     pub rand: &'a mut LcgRand,
     /// The current map tileset (or None if not available)
@@ -105,14 +115,15 @@ impl IscriptController {
         self.wait_timer = 0;
     }
 
-    pub fn run_anim<I, S>(
+    pub fn run_anim<I, S, F>(
         &mut self,
         mut anim: IscriptType,
-        context: IscriptExecContext<I, S>,
+        context: IscriptExecContext<I, S, F>,
         commands: &mut Commands,
     ) where
         I: DerefMut<Target = ConstructImage>,
         S: DerefMut<Target = ConstructSprite>,
+        F: DerefMut<Target = FacingDirection>,
     {
         if !self.use_full_collection && !matches!(anim, IscriptType::Init | IscriptType::Death) {
             return;
@@ -149,10 +160,11 @@ impl IscriptController {
         }
     }
 
-    fn exec<I, S>(&mut self, mut context: IscriptExecContext<I, S>, commands: &mut Commands)
+    fn exec<I, S, F>(&mut self, mut context: IscriptExecContext<I, S, F>, commands: &mut Commands)
     where
         I: DerefMut<Target = ConstructImage>,
         S: DerefMut<Target = ConstructSprite>,
+        F: DerefMut<Target = FacingDirection>,
     {
         if self.wait_timer > 0 {
             self.wait_timer -= 1;
@@ -183,11 +195,12 @@ impl IscriptController {
                     break;
                 }
                 IscriptCommand::Goto(anim) => {
-                    // NOTE(tec27): As part of the code gen process these are guaranteed to always
-                    // exist in the slice
-                    program = &ISCRIPT_ANIMS[anim.0 as usize];
-                    self.program = Some(program);
-                    self.pc = 0;
+                    program = self.jump_to_label(anim);
+                }
+                IscriptCommand::RandomConditionalJump { chance, label } => {
+                    if context.rand.next_u8() <= *chance {
+                        program = self.jump_to_label(label);
+                    }
                 }
                 IscriptCommand::PlayFrame { frame } => {
                     context.image.frame_base = frame.0;
@@ -287,8 +300,55 @@ impl IscriptController {
                         });
                     }
                 }
+                IscriptCommand::TempRemoveGraphicStart => {
+                    context.image.hidden = true;
+                }
+                IscriptCommand::TempRemoveGraphicEnd => {
+                    context.image.hidden = false;
+                }
+                IscriptCommand::SetFlingyDirection(direction) => {
+                    if let Some(ref mut construct_facing) = context.construct_facing {
+                        construct_facing.set_angle_by_direction(*direction);
+                    }
+                }
+                IscriptCommand::TurnClockwise(amount) => {
+                    if let Some(ref mut construct_facing) = context.construct_facing {
+                        construct_facing.turn_clockwise(*amount);
+                    }
+                }
+                IscriptCommand::TurnOnceClockwise => {
+                    if let Some(ref mut construct_facing) = context.construct_facing {
+                        construct_facing.turn_clockwise(1);
+                    }
+                }
+                IscriptCommand::TurnCounterClockwise(amount) => {
+                    if let Some(ref mut construct_facing) = context.construct_facing {
+                        construct_facing.turn_counter_clockwise(*amount);
+                    }
+                }
+                IscriptCommand::TurnRandom(amount) => {
+                    if let Some(ref mut construct_facing) = context.construct_facing {
+                        if context.rand.next_u8() % 4 == 1 {
+                            construct_facing.turn_counter_clockwise(*amount);
+                        } else {
+                            construct_facing.turn_clockwise(*amount);
+                        }
+                    }
+                }
+                IscriptCommand::PlaySound(sound) => {
+                    commands.play_sound_at(sound.into(), context.sprite_position);
+                }
+                IscriptCommand::PlaySoundBetween { min, max } => {
+                    let sound_id = context.rand.in_range_u16(min.0, max.0);
+                    commands
+                        .play_sound_at(BwSoundId::new(sound_id).unwrap(), context.sprite_position);
+                }
+                IscriptCommand::PlaySoundRandom { num_sounds, sounds } => {
+                    let index = (context.rand.next_u8() % *num_sounds) as usize;
+                    commands.play_sound_at(sounds[index].into(), context.sprite_position);
+                }
                 _c => {
-                    warn!("Unimplemented: {_c:?} from Image {}", context.image.id);
+                    // warn!("Unimplemented: {_c:?} from Image {}", context.image.id);
                 }
             }
         }
@@ -296,19 +356,29 @@ impl IscriptController {
         // warn!("==================");
     }
 
+    #[inline]
+    fn jump_to_label(&mut self, label: &IscriptLabel) -> &'static [IscriptCommand] {
+        let program = &ISCRIPT_ANIMS[label.0 as usize];
+        self.program = Some(program);
+        self.pc = 0;
+
+        program
+    }
+
     /// Creates and initializes an image for an iscript instruction. This will run scripts for the
     /// image immediately but defer the actual entity spawning via [Commands].
-    fn add_image<'a, 'b, I, S>(
+    fn add_image<'a, 'b, I, S, F>(
         &mut self,
         image_id: u16,
         offset: I16Vec2,
         order: ImageOrder,
-        creating_context: &'a mut IscriptExecContext<'b, I, S>,
+        creating_context: &'a mut IscriptExecContext<'b, I, S, F>,
         commands: &mut Commands,
     ) where
         'b: 'a,
         I: DerefMut<Target = ConstructImage>,
         S: DerefMut<Target = ConstructSprite>,
+        F: DerefMut<Target = FacingDirection>,
     {
         let mut image = ConstructImage {
             id: image_id,
@@ -327,6 +397,8 @@ impl IscriptController {
             image: &mut &mut image,
             parent_sprite_entity: creating_context.parent_sprite_entity,
             parent_sprite: creating_context.parent_sprite,
+            construct_facing: creating_context.construct_facing.as_deref_mut(),
+            sprite_position: creating_context.sprite_position,
             rand: creating_context.rand,
             tileset: creating_context.tileset,
         };
@@ -365,7 +437,8 @@ impl IscriptController {
 
 pub fn exec_iscripts(
     mut q_images: Query<(Entity, &mut IscriptController, &mut ConstructImage, &Parent)>,
-    mut q_sprites: Query<(Entity, &mut ConstructSprite)>,
+    mut q_sprites: Query<(Entity, &mut ConstructSprite, &Parent)>,
+    mut q_constructs: Query<(&mut FacingDirection, &Position)>,
     mut commands: Commands,
     mut rand: ResMut<LcgRand>,
     q_tileset: Query<&GameMapTileset>,
@@ -374,12 +447,22 @@ pub fn exec_iscripts(
     // TODO(tec27): This order is almost certainly not correct. #1 we need to look at sprites in
     // a particular order, and #2 we probably need to look at their images in a particular order?
     for (image_entity, mut controller, mut image, parent) in q_images.iter_mut() {
-        if let Ok((sprite_entity, mut sprite)) = q_sprites.get_mut(parent.get()) {
+        if let Ok((sprite_entity, mut sprite, sprite_parent)) = q_sprites.get_mut(parent.get()) {
+            let mut query_result = q_constructs.get_mut(sprite_parent.get());
+            let (construct_facing, sprite_position) = match query_result {
+                Ok((ref mut facing, p)) => (Some(facing), *p),
+                // TODO(tec27): This demonstrates why it would be better to store the Positions
+                // that get mapped to Transforms in the Sprite entities rather than on the Construct
+                _ => (None, Position::default()),
+            };
+
             let context = IscriptExecContext {
                 image_entity,
                 image: &mut image,
                 parent_sprite_entity: sprite_entity,
                 parent_sprite: &mut sprite,
+                construct_facing,
+                sprite_position,
                 rand: &mut rand,
                 tileset,
             };

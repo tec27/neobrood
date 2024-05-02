@@ -2,6 +2,8 @@ use std::num::NonZeroU16;
 
 use num_enum::{IntoPrimitive, TryFromPrimitive};
 
+use super::BwSoundId;
+
 #[derive(Debug, Copy, Clone)]
 pub struct IscriptCollection<'a> {
     pub id: u16,
@@ -72,6 +74,18 @@ pub struct FlipState(pub u8);
 
 #[derive(Debug, Clone, Copy)]
 pub struct SoundId(pub u16);
+
+impl From<&SoundId> for BwSoundId {
+    fn from(sound_id: &SoundId) -> BwSoundId {
+        BwSoundId::new(sound_id.0).unwrap()
+    }
+}
+
+impl From<SoundId> for BwSoundId {
+    fn from(sound_id: SoundId) -> BwSoundId {
+        BwSoundId::new(sound_id.0).unwrap()
+    }
+}
 
 #[derive(Debug, Clone, Copy)]
 pub struct SignalId(pub u8);

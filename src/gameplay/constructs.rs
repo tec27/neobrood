@@ -319,6 +319,9 @@ pub struct ConstructImage {
     pub offset: I16Vec2,
     /// How to render this image (if any special handling is needed).
     pub render_style: Option<RenderStyle>,
+    /// Whether this image is currently hidden (not rendered). This is used for temporary hiding,
+    /// e.g. by the TempRemoveGraphicStart iscript operation.
+    pub hidden: bool,
 }
 
 impl ConstructImage {
@@ -382,6 +385,7 @@ pub fn update_construct_image_frames(
             &mut TextureAtlas,
             &mut Sprite,
             &mut Transform,
+            &mut Visibility,
             Option<&AnimFrameCount>,
         ),
         Or<(Changed<ConstructImage>, Changed<AnimFrameCount>)>,
@@ -389,8 +393,15 @@ pub fn update_construct_image_frames(
     settings: Res<GameSettings>,
 ) {
     let tile_scale = settings.asset_quality.scale();
-    for (mut image, image_order, mut atlas, mut sprite, mut transform, frame_count) in
-        query.iter_mut()
+    for (
+        mut image,
+        image_order,
+        mut atlas,
+        mut sprite,
+        mut transform,
+        mut visibility,
+        frame_count,
+    ) in query.iter_mut()
     {
         atlas.index = (image.frame_base + image.frame_offset) as usize;
         if let Some(frame_count) = frame_count {
@@ -415,5 +426,11 @@ pub fn update_construct_image_frames(
         }
         // TODO(tec27): Deal with other render styles, and probably avoid clobbering the sprite
         // color better?
+
+        if image.hidden && *visibility != Visibility::Hidden {
+            *visibility = Visibility::Hidden;
+        } else if !image.hidden && *visibility == Visibility::Hidden {
+            *visibility = Visibility::Inherited;
+        }
     }
 }

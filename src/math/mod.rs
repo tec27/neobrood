@@ -9,6 +9,3 @@ pub type FixedPoint = FixedI32<U8>;
 /// Specifies an angle in fixed-point format. BW uses this for specifying the direction a unit is
 /// facing.
 pub type FixedAngle = FixedU8<U8>;
-
-/// The amount that each successive frame of a sprite turns.
-pub const ANGLE_PER_SPRITE: FixedAngle = FixedAngle::from_bits(8);
