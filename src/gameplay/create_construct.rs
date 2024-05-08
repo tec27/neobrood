@@ -2,10 +2,12 @@ use bevy::{ecs::system::SystemState, prelude::*};
 
 use crate::{
     gamedata::{Construct, ConstructFlags, ConstructTypeId, IscriptType},
+    gameplay::resources::ResourceAmount,
     maps::{
         game_map::{GameMap, GameMapSize, GameMapTileset, LOGIC_TILE_SIZE},
         position::Position,
     },
+    math::FixedPoint,
     random::LcgRand,
     states::{AppState, InGameOnly},
 };
@@ -57,6 +59,13 @@ pub struct CreateConstructEvent {
     /// be a unit under construction).
     pub position: Option<Position>,
     pub kind: CreationKind,
+
+    pub hp_percent: Option<FixedPoint>,
+    // TODO(tec27): Use this in construct creation
+    pub shield_percent: Option<FixedPoint>,
+    // TODO(tec27): Use this in construct creation
+    pub energy_percent: Option<FixedPoint>,
+    pub resource_amount: Option<u32>,
 }
 
 /// Event that signifies a Construct has finished construction. If it is a unit, it will have its
@@ -84,7 +93,15 @@ pub fn create_constructs(
         ResMut<LcgRand>,
     )>,
     init_iscript_params: &mut SystemState<(
-        Query<(&Children, &mut FacingDirection, &Position), With<ConstructTypeId>>,
+        Query<
+            (
+                &Children,
+                &mut FacingDirection,
+                &Position,
+                Option<&ResourceAmount>,
+            ),
+            With<ConstructTypeId>,
+        >,
         Query<(Entity, &mut ConstructSprite, &Children)>,
         Query<(Entity, &mut ConstructImage, &mut IscriptController)>,
         Commands,
@@ -114,6 +131,7 @@ pub fn create_constructs(
                     },
                     ..default()
                 },
+                // TODO(tec27): Use the value from the event
                 health: Health::initial(e.construct_type),
                 under_construction: UnderConstruction::for_type(e.construct_type),
                 ..default()
@@ -128,6 +146,20 @@ pub fn create_constructs(
         }
         if let Some(owner) = e.owner {
             entity.insert(OwnedConstruct(owner));
+        }
+        if e.construct_type.is_resource() {
+            if let Some(amount) = e.resource_amount {
+                entity.insert(match e.construct_type {
+                    ConstructTypeId::ResourceMineralField1
+                    | ConstructTypeId::ResourceMineralField2
+                    | ConstructTypeId::ResourceMineralField3 => ResourceAmount::Minerals(amount),
+                    ConstructTypeId::ResourceVespeneGeyser => ResourceAmount::Gas(amount),
+                    c => {
+                        warn!("Non-resource {c:?} had resource amount, adding as minerals");
+                        ResourceAmount::Minerals(amount)
+                    }
+                });
+            }
         }
 
         entity.with_children(|builder| {
@@ -159,7 +191,8 @@ pub fn create_constructs(
         init_iscript_params.get_mut(world);
     let tileset = q_tileset.get_single().ok().map(|&t| *t);
     for e in constructed {
-        let (construct_children, mut construct_facing, position) = q_constructs.get_mut(e).unwrap();
+        let (construct_children, mut construct_facing, position, resources) =
+            q_constructs.get_mut(e).unwrap();
 
         let mut sprites = q_sprites.iter_many_mut(construct_children);
         while let Some((sprite_entity, mut sprite, images)) = sprites.fetch_next() {
@@ -174,6 +207,7 @@ pub fn create_constructs(
                     parent_sprite_entity: sprite_entity,
                     parent_sprite: &mut sprite,
                     construct_facing,
+                    construct_resources: resources.copied(),
                     // TODO(tec27): This probably needs to be corrected given the sprite's
                     // transform? Or we need to automatically track what a Sprite's position is
                     // without applying that to its Transform component directly. It's also possible
@@ -622,6 +656,7 @@ mod tests {
                 position: Some(hq_position.into()),
                 owner: None,
                 kind: CreationKind::Immediate,
+                ..default()
             });
         }
 
@@ -766,6 +801,7 @@ mod tests {
                 position: Some(hq_position.into()),
                 owner: None,
                 kind: CreationKind::Immediate,
+                ..default()
             });
             app.update();
 
@@ -779,6 +815,7 @@ mod tests {
             position: Some(hq_position.into()),
             owner: None,
             kind: CreationKind::Immediate,
+            ..default()
         });
         app.update();
 
@@ -932,6 +969,7 @@ mod tests {
                 position: Some(hq_position.into()),
                 owner: None,
                 kind: CreationKind::Immediate,
+                ..default()
             });
             app.update();
 
@@ -945,6 +983,7 @@ mod tests {
             position: Some(hq_position.into()),
             owner: None,
             kind: CreationKind::Immediate,
+            ..default()
         });
         app.update();
 
@@ -1135,6 +1174,7 @@ mod tests {
                 position: Some(hq_position.into()),
                 owner: None,
                 kind: CreationKind::Immediate,
+                ..default()
             });
             app.update();
 
@@ -1148,6 +1188,7 @@ mod tests {
             position: Some(hq_position.into()),
             owner: None,
             kind: CreationKind::Immediate,
+            ..default()
         });
         app.update();
 
@@ -1264,6 +1305,7 @@ mod tests {
                 position: Some(hq_position.into()),
                 owner: None,
                 kind: CreationKind::Immediate,
+                ..default()
             });
             app.update();
 
@@ -1277,6 +1319,7 @@ mod tests {
             position: Some(hq_position.into()),
             owner: None,
             kind: CreationKind::Immediate,
+            ..default()
         });
         app.update();
 
@@ -1369,6 +1412,7 @@ mod tests {
                 position: Some(hq_position.into()),
                 owner: None,
                 kind: CreationKind::Immediate,
+                ..default()
             });
             app.update();
 
@@ -1382,6 +1426,7 @@ mod tests {
             position: Some(hq_position.into()),
             owner: None,
             kind: CreationKind::Immediate,
+            ..default()
         });
         app.update();
 
@@ -1466,6 +1511,7 @@ mod tests {
                 position: Some(hq_position.into()),
                 owner: None,
                 kind: CreationKind::Immediate,
+                ..default()
             });
             app.update();
 
@@ -1479,6 +1525,7 @@ mod tests {
             position: Some(hq_position.into()),
             owner: None,
             kind: CreationKind::Immediate,
+            ..default()
         });
         app.update();
 
@@ -1546,6 +1593,7 @@ mod tests {
                 position: Some(spawn_positions[i].into()),
                 owner: None,
                 kind: CreationKind::Immediate,
+                ..default()
             });
             app.update();
 
@@ -1614,6 +1662,7 @@ mod tests {
                 position: Some(expected.into()),
                 owner: None,
                 kind: CreationKind::Immediate,
+                ..default()
             });
             app.update();
 

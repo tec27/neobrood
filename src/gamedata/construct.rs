@@ -156,6 +156,12 @@ impl Construct {
     pub const fn is_building(&self) -> bool {
         self.flags.contains(ConstructFlags::BUILDING)
     }
+
+    /// Returns if this [Construct] is a resource (e.g. mineral patches, geysers).
+    #[inline]
+    pub const fn is_resource(&self) -> bool {
+        self.flags.contains(ConstructFlags::RESOURCE)
+    }
 }
 
 /// Specifies the type (e.g. class) of a construct (i.e. marine, zergling, mineral field, etc.).

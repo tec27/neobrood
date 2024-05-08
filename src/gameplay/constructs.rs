@@ -93,6 +93,12 @@ impl ConstructTypeId {
         self.def().is_building()
     }
 
+    /// Returns if this type of Construct is a resource (e.g. mineral patches, geysers).
+    #[inline]
+    pub fn is_resource(&self) -> bool {
+        self.def().is_resource()
+    }
+
     #[inline]
     pub fn max_health(&self) -> FixedPoint {
         self.def().hit_points
@@ -248,13 +254,13 @@ impl ConstructSprite {
             ImageOrder::Top => self.images.insert(0, image),
             ImageOrder::Bottom => self.images.push(image),
             ImageOrder::Above(Some(ref above)) => {
-                let i = self.images.iter().position(|i| i == above).unwrap_or(0);
+                let i = self.images.iter().position(|e| e == above).unwrap_or(0);
                 self.images.insert(i, image);
             }
             ImageOrder::Above(None) => {
                 let i = self
                     .main_image
-                    .and_then(|ref main_image| self.images.iter().position(|i| i == main_image))
+                    .and_then(|ref main_image| self.images.iter().position(|e| e == main_image))
                     .unwrap_or(0);
                 self.images.insert(i, image);
             }
@@ -262,7 +268,7 @@ impl ConstructSprite {
                 let i = self
                     .images
                     .iter()
-                    .position(|i| i == below)
+                    .position(|e| e == below)
                     .unwrap_or_else(|| self.images.len() - 1)
                     + 1;
                 if i < self.images.len() {
@@ -274,7 +280,7 @@ impl ConstructSprite {
             ImageOrder::Below(None) => {
                 let i = self
                     .main_image
-                    .and_then(|ref main_image| self.images.iter().position(|i| i == main_image))
+                    .and_then(|ref main_image| self.images.iter().position(|e| e == main_image))
                     .unwrap_or_else(|| self.images.len() - 1)
                     + 1;
                 if i < self.images.len() {
@@ -284,6 +290,19 @@ impl ConstructSprite {
                 }
             }
         }
+    }
+
+    /// Removes a specified image entity from this sprite. The image should generally be despawned
+    /// afterwards (but this is not handled by this method).
+    pub fn remove_image(&mut self, image: Entity) {
+        let Some(index) = self.images.iter().position(|e| *e == image) else {
+            error!(
+                "Tried to remove image {image:?} that wasn't in this [{}]'s image list",
+                self.id
+            );
+            return;
+        };
+        self.images.remove(index);
     }
 }
 
@@ -388,7 +407,11 @@ pub fn update_construct_image_frames(
             &mut Visibility,
             Option<&AnimFrameCount>,
         ),
-        Or<(Changed<ConstructImage>, Changed<AnimFrameCount>)>,
+        Or<(
+            Changed<ConstructImage>,
+            Changed<ConstructImageOrder>,
+            Changed<AnimFrameCount>,
+        )>,
     >,
     settings: Res<GameSettings>,
 ) {

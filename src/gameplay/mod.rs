@@ -10,6 +10,7 @@ use crate::{
         position::{self, Position},
         CurrentMap, MapAsset,
     },
+    math::FixedPoint,
     races::Race,
     random::LockedLcgRand,
     render::ysort::YSort,
@@ -34,6 +35,7 @@ pub mod health;
 mod in_game_menu;
 pub mod iscripts;
 pub mod players;
+pub mod resources;
 pub mod selection;
 pub mod shield;
 pub mod sounds;
@@ -81,7 +83,8 @@ pub struct GameplayPlugin;
 
 impl Plugin for GameplayPlugin {
     fn build(&self, app: &mut App) {
-        app.add_plugins(in_game_menu::InGameMenuPlugin)
+        app.register_type::<resources::ResourceAmount>()
+            .add_plugins(in_game_menu::InGameMenuPlugin)
             .add_plugins(selection::DragSelectionPlugin)
             .add_plugins(create_construct::plugin)
             .add_plugins(constructs::plugin)
@@ -270,6 +273,7 @@ fn create_map_sprites(
                     position: Some(Position::new(sprite.x as i32, sprite.y as i32)),
                     owner: Some(owner),
                     kind: CreationKind::Immediate,
+                    ..default()
                 });
                 // TODO(tec27): Deal with disabled unit sprites
             }
@@ -329,12 +333,19 @@ fn create_placed_units(
             // TODO(tec27): UMS has some special additional logic around creating units for certain
             // players/forces that needs to be handled
 
-            // TODO(tec27): Pass all the health/shield/etc. values through
             creation_events.send(CreateConstructEvent {
                 construct_type,
                 position: Some(Position::new(unit.x as i32, unit.y as i32)),
                 owner: unit.owner,
                 kind: CreationKind::Immediate,
+                hp_percent: unit.hp_percent.map(|hp| FixedPoint::from_bits(hp as i32)),
+                shield_percent: unit
+                    .shield_percent
+                    .map(|shield| FixedPoint::from_bits(shield as i32)),
+                energy_percent: unit
+                    .energy_percent
+                    .map(|energy| FixedPoint::from_bits(energy as i32)),
+                resource_amount: unit.resource_amount,
             });
         }
     }
@@ -371,6 +382,7 @@ fn init_melee_game(
             position: Some(*position),
             owner: Some(i),
             kind: CreationKind::Immediate,
+            ..default()
         });
 
         let worker = player.race.worker();
@@ -379,7 +391,10 @@ fn init_melee_game(
             position: Some(*position),
             owner: Some(i),
             kind: CreationKind::Immediate,
+            ..default()
         }));
+
+        // TODO(tec27): Create overlord for zerg
     }
 }
 

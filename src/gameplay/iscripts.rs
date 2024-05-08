@@ -13,6 +13,7 @@ use std::ops::DerefMut;
 use super::{
     constructs::{ConstructImage, ConstructImageBundle, ConstructSprite, ImageOrder},
     facing_direction::FacingDirection,
+    resources::ResourceAmount,
     sounds::PlaySoundCommandsExt,
 };
 
@@ -89,6 +90,9 @@ where
     /// The [FacingDirection] of the Construct that owns the image for the currently executing
     /// script. Will be [None] if there is no associated Construct.
     pub construct_facing: Option<&'a mut FacingType>,
+    /// The [ResourceAmount] of the Construct that owns the image for the currently executing
+    /// script. Will be [None] if there is no associated Construct or it is not a resource.
+    pub construct_resources: Option<ResourceAmount>,
     /// The [Position] of the sprite that owns the image for the currently executing script.
     pub sprite_position: Position,
     /// The random number generator to use for any random operations.
@@ -186,12 +190,14 @@ impl IscriptController {
             self.pc += 1;
             match command {
                 IscriptCommand::End => {
-                    // FIXME: this should destroy the image (despawn?)
                     self.reset();
+                    context.parent_sprite.remove_image(context.image_entity);
+                    commands.entity(context.image_entity).despawn_recursive();
                     break;
                 }
                 IscriptCommand::Return => {
                     // FIXME: implement properly
+                    warn!("Iscript Return from Image {}", context.image.id);
                     break;
                 }
                 IscriptCommand::Goto(anim) => {
@@ -347,6 +353,24 @@ impl IscriptController {
                     let index = (context.rand.next_u8() % *num_sounds) as usize;
                     commands.play_sound_at(sounds[index].into(), context.sprite_position);
                 }
+                IscriptCommand::CreateGasOverlays(image_id) => {
+                    if let Some(ResourceAmount::Gas(amount)) = context.construct_resources {
+                        let image_id = if amount > 0 { 430 } else { 435 } + image_id.0 as u16;
+                        // TODO(tec27): Load LO* file for this to set offset?
+                        self.add_image(
+                            image_id,
+                            I16Vec2::ZERO,
+                            ImageOrder::Above(None),
+                            &mut context,
+                            commands,
+                        );
+                    } else {
+                        warn!(
+                            "CreateGasOverlays called on Image {} without any gas",
+                            context.image.id
+                        );
+                    }
+                }
                 _c => {
                     // warn!("Unimplemented: {_c:?} from Image {}", context.image.id);
                 }
@@ -398,6 +422,7 @@ impl IscriptController {
             parent_sprite_entity: creating_context.parent_sprite_entity,
             parent_sprite: creating_context.parent_sprite,
             construct_facing: creating_context.construct_facing.as_deref_mut(),
+            construct_resources: creating_context.construct_resources,
             sprite_position: creating_context.sprite_position,
             rand: creating_context.rand,
             tileset: creating_context.tileset,
@@ -438,7 +463,7 @@ impl IscriptController {
 pub fn exec_iscripts(
     mut q_images: Query<(Entity, &mut IscriptController, &mut ConstructImage, &Parent)>,
     mut q_sprites: Query<(Entity, &mut ConstructSprite, &Parent)>,
-    mut q_constructs: Query<(&mut FacingDirection, &Position)>,
+    mut q_constructs: Query<(&mut FacingDirection, &Position, Option<&ResourceAmount>)>,
     mut commands: Commands,
     mut rand: ResMut<LcgRand>,
     q_tileset: Query<&GameMapTileset>,
@@ -449,11 +474,11 @@ pub fn exec_iscripts(
     for (image_entity, mut controller, mut image, parent) in q_images.iter_mut() {
         if let Ok((sprite_entity, mut sprite, sprite_parent)) = q_sprites.get_mut(parent.get()) {
             let mut query_result = q_constructs.get_mut(sprite_parent.get());
-            let (construct_facing, sprite_position) = match query_result {
-                Ok((ref mut facing, p)) => (Some(facing), *p),
+            let (construct_facing, sprite_position, construct_resources) = match query_result {
+                Ok((ref mut facing, p, r)) => (Some(facing), *p, r.copied()),
                 // TODO(tec27): This demonstrates why it would be better to store the Positions
                 // that get mapped to Transforms in the Sprite entities rather than on the Construct
-                _ => (None, Position::default()),
+                _ => (None, Position::default(), None),
             };
 
             let context = IscriptExecContext {
@@ -462,6 +487,7 @@ pub fn exec_iscripts(
                 parent_sprite_entity: sprite_entity,
                 parent_sprite: &mut sprite,
                 construct_facing,
+                construct_resources,
                 sprite_position,
                 rand: &mut rand,
                 tileset,
