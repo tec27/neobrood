@@ -452,6 +452,9 @@ pub fn update_location_offsets(
             };
 
             image.offset = I16Vec2::new(offset.x as i16, offset.y as i16);
+            if from_image.flip_x {
+                image.offset.x = -image.offset.x;
+            }
             commands.entity(entity).remove::<UseLocationOffset>();
             image.waiting_for_assets = false;
         } else {
