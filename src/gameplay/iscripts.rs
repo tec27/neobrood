@@ -11,7 +11,10 @@ use broodmap::chk::tileset::Tileset;
 use std::ops::DerefMut;
 
 use super::{
-    constructs::{ConstructImage, ConstructImageBundle, ConstructSprite, ImageOrder},
+    constructs::{
+        ConstructImage, ConstructImageBundle, ConstructSprite, ImageOrder, LocationOffsetKind,
+        UseLocationOffset,
+    },
     facing_direction::FacingDirection,
     resources::ResourceAmount,
     sounds::PlaySoundCommandsExt,
@@ -270,7 +273,7 @@ impl IscriptController {
                         ImageOrder::Below(Some(context.image_entity)),
                         &mut context,
                         commands,
-                    )
+                    );
                 }
                 IscriptCommand::FollowMainGraphic => {
                     // NOTE(tec27): This ends up copying the info at a later point than Blizzard's
@@ -307,10 +310,10 @@ impl IscriptController {
                     }
                 }
                 IscriptCommand::TempRemoveGraphicStart => {
-                    context.image.hidden = true;
+                    context.image.temp_hidden = true;
                 }
                 IscriptCommand::TempRemoveGraphicEnd => {
-                    context.image.hidden = false;
+                    context.image.temp_hidden = false;
                 }
                 IscriptCommand::SetFlingyDirection(direction) => {
                     if let Some(ref mut construct_facing) = context.construct_facing {
@@ -353,17 +356,23 @@ impl IscriptController {
                     let index = (context.rand.next_u8() % *num_sounds) as usize;
                     commands.play_sound_at(sounds[index].into(), context.sprite_position);
                 }
-                IscriptCommand::CreateGasOverlays(image_id) => {
+                IscriptCommand::CreateGasOverlays(overlay_image_id) => {
                     if let Some(ResourceAmount::Gas(amount)) = context.construct_resources {
-                        let image_id = if amount > 0 { 430 } else { 435 } + image_id.0 as u16;
-                        // TODO(tec27): Load LO* file for this to set offset?
-                        self.add_image(
+                        let image_id =
+                            if amount > 0 { 430 } else { 435 } + overlay_image_id.0 as u16;
+                        let entity = self.add_image(
                             image_id,
                             I16Vec2::ZERO,
                             ImageOrder::Above(None),
                             &mut context,
                             commands,
                         );
+
+                        commands.entity(entity).insert(UseLocationOffset {
+                            from: context.image_entity,
+                            kind: LocationOffsetKind::Special,
+                            overlay_offset: overlay_image_id.0 as usize,
+                        });
                     } else {
                         warn!(
                             "CreateGasOverlays called on Image {} without any gas",
@@ -398,7 +407,8 @@ impl IscriptController {
         order: ImageOrder,
         creating_context: &'a mut IscriptExecContext<'b, I, S, F>,
         commands: &mut Commands,
-    ) where
+    ) -> Entity
+    where
         'b: 'a,
         I: DerefMut<Target = ConstructImage>,
         S: DerefMut<Target = ConstructSprite>,
@@ -457,6 +467,8 @@ impl IscriptController {
         commands
             .entity(creating_context.parent_sprite_entity)
             .add_child(image_entity);
+
+        image_entity
     }
 }
 

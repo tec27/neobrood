@@ -1,3 +1,5 @@
+use std::num::NonZeroU32;
+
 #[allow(dead_code)]
 #[derive(Clone, Debug)]
 pub struct BwImage {
@@ -13,12 +15,12 @@ pub struct BwImage {
     pub render_style: Option<RenderStyle>,
     pub color_shift: u8,
     pub iscript: u32,
-    pub shield_overlay: u32,
-    pub attack_overlay: u32,
-    pub damage_overlay: u32,
-    pub special_overlay: u32,
-    pub landing_dust_overlay: u32,
-    pub lift_off_dust_overlay: u32,
+    pub shield_overlay: Option<NonZeroU32>,
+    pub attack_overlay: Option<NonZeroU32>,
+    pub damage_overlay: Option<NonZeroU32>,
+    pub special_overlay: Option<NonZeroU32>,
+    pub landing_dust_overlay: Option<NonZeroU32>,
+    pub lift_off_dust_overlay: Option<NonZeroU32>,
 }
 
 /// Describes a method of rendering a BwImage to change how it looks.

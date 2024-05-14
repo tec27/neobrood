@@ -3,8 +3,9 @@ use std::ops::Index;
 
 use crate::{
     gamedata::{
-        AnimFrameCount, BwImage, BwSoundRange, BwSprite, Construct, ConstructFlags,
-        ConstructTypeId, Flingy, LoadingAnimBundle, RenderStyle, CONSTRUCTS, IMAGES, SPRITES,
+        lo::LoAsset, AnimFrameCount, BwImage, BwSoundRange, BwSprite, Construct, ConstructFlags,
+        ConstructTypeId, Flingy, LoadingAnimBundle, RenderStyle, SpecialOverlay, CONSTRUCTS,
+        IMAGES, SPRITES,
     },
     maps::position::Position,
     math::{bounds::IBounds, FixedPoint},
@@ -25,9 +26,15 @@ pub fn plugin(app: &mut App) {
         .register_type::<ConstructSprite>()
         .register_type::<OwnedConstruct>()
         .register_type::<ConstructImageOrder>()
+        .register_type::<LocationOffsetKind>()
+        .register_type::<UseLocationOffset>()
         .add_systems(
             Update,
-            (update_construct_image_order, update_construct_image_frames)
+            (
+                update_construct_image_order,
+                update_location_offsets,
+                update_construct_image_frames,
+            )
                 .chain()
                 .after(apply_facing_to_images),
         );
@@ -338,9 +345,12 @@ pub struct ConstructImage {
     pub offset: I16Vec2,
     /// How to render this image (if any special handling is needed).
     pub render_style: Option<RenderStyle>,
-    /// Whether this image is currently hidden (not rendered). This is used for temporary hiding,
+    /// Whether this image is temporarily hidden (not rendered). This is used for temporary hiding,
     /// e.g. by the TempRemoveGraphicStart iscript operation.
-    pub hidden: bool,
+    pub temp_hidden: bool,
+    /// Whether this image is waiting for its full assets to be loaded before rendering (e.g. it
+    /// needs location offsets that haven't finished loading).
+    pub waiting_for_assets: bool,
 }
 
 impl ConstructImage {
@@ -391,6 +401,65 @@ pub fn update_construct_image_order(
         while let Some(mut image_order) = images.fetch_next() {
             image_order.0 = i;
             i += 1;
+        }
+    }
+}
+
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Reflect)]
+pub enum LocationOffsetKind {
+    // TODO(tec27): Implement more location offset types
+    Special,
+}
+
+#[derive(Component, Debug, Copy, Clone, Reflect)]
+pub struct UseLocationOffset {
+    pub from: Entity,
+    pub kind: LocationOffsetKind,
+    pub overlay_offset: usize,
+}
+
+/// System to update the image offsets based on LO* files for images that use them.
+pub fn update_location_offsets(
+    mut commands: Commands,
+    mut q_update: Query<(Entity, &UseLocationOffset, &mut ConstructImage)>,
+    // TODO(tec27): Do we need to support images with UseLocationOffset that retrieve LOs from
+    // another UseLocationOffset image? If so we probably need a ParamSet here
+    q_from: Query<(&ConstructImage, Option<&SpecialOverlay>), Without<UseLocationOffset>>,
+    lo_assets: Res<Assets<LoAsset>>,
+) {
+    for (entity, offset_info, mut image) in q_update.iter_mut() {
+        let Ok((from_image, special_overlay)) = q_from.get(offset_info.from) else {
+            warn!(
+                "Found UseLocationOffset without a valid `from` entity: {:?}",
+                offset_info
+            );
+            continue;
+        };
+
+        let overlay = match offset_info.kind {
+            LocationOffsetKind::Special => special_overlay,
+        };
+
+        if let Some(lo) = overlay.and_then(|o| lo_assets.get(o)) {
+            // TODO(tec27): Handle cases that need to use frame offset (shields?)
+            let frame = from_image.frame_base;
+            let Some(offset) = lo.get(frame as usize, offset_info.overlay_offset) else {
+                warn!(
+                    "Couldn't find offset for frame {} overlay {} from image {:?}",
+                    frame, offset_info.overlay_offset, from_image.id,
+                );
+                continue;
+            };
+
+            image.offset = I16Vec2::new(offset.x as i16, offset.y as i16);
+            commands.entity(entity).remove::<UseLocationOffset>();
+            image.waiting_for_assets = false;
+        } else {
+            // TODO(tec27): Is this the best behavior? Does this cause issues with e.g. attack
+            // animations not showing up?
+            if !image.waiting_for_assets {
+                image.waiting_for_assets = true;
+            }
         }
     }
 }
@@ -450,9 +519,11 @@ pub fn update_construct_image_frames(
         // TODO(tec27): Deal with other render styles, and probably avoid clobbering the sprite
         // color better?
 
-        if image.hidden && *visibility != Visibility::Hidden {
+        if image.temp_hidden || image.waiting_for_assets && *visibility != Visibility::Hidden {
             *visibility = Visibility::Hidden;
-        } else if !image.hidden && *visibility == Visibility::Hidden {
+        } else if !(image.temp_hidden || image.waiting_for_assets)
+            && *visibility == Visibility::Hidden
+        {
             *visibility = Visibility::Inherited;
         }
     }

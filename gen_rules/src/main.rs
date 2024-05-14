@@ -129,6 +129,25 @@ fn load_tbl(bytes: &[u8]) -> anyhow::Result<Vec<String>> {
         .collect()
 }
 
+struct OverlayId(u32);
+
+impl ToTokens for OverlayId {
+    fn to_tokens(&self, tokens: &mut TokenStream) {
+        let value = self.0;
+        let code = if value == 0 {
+            quote! { None }
+        } else {
+            // All the values in this file assume that the IDs are 1-indexed with 0 being a sentinel
+            // index for "no overlay". We don't include this sentinel value in our TBL lists, so we
+            // just subtract 1 here to get the "actual" 0-indexed offset.
+            let value = value - 1;
+            quote! { Some(NonZeroU32::new_unchecked(#value)) }
+        };
+
+        code.to_tokens(tokens);
+    }
+}
+
 /// How many images are specified in the images.dat file.
 const NUM_IMAGE_DATA: usize = 999;
 /// How much data each image instance takes up in the images.dat file (in bytes).
@@ -207,12 +226,12 @@ fn write_images(data: ImageData) -> anyhow::Result<()> {
         };
         let color_shift = data.color_shift[i];
         let iscript = data.iscript[i];
-        let shield_overlay = data.shield_overlay[i];
-        let attack_overlay = data.attack_overlay[i];
-        let damage_overlay = data.damage_overlay[i];
-        let special_overlay = data.special_overlay[i];
-        let landing_dust_overlay = data.landing_dust_overlay[i];
-        let lift_off_dust_overlay = data.lift_off_dust_overlay[i];
+        let shield_overlay = OverlayId(data.shield_overlay[i]);
+        let attack_overlay = OverlayId(data.attack_overlay[i]);
+        let damage_overlay = OverlayId(data.damage_overlay[i]);
+        let special_overlay = OverlayId(data.special_overlay[i]);
+        let landing_dust_overlay = OverlayId(data.landing_dust_overlay[i]);
+        let lift_off_dust_overlay = OverlayId(data.lift_off_dust_overlay[i]);
 
         entries.push(quote! {
             BwImage {
@@ -236,10 +255,11 @@ fn write_images(data: ImageData) -> anyhow::Result<()> {
     }
 
     let tokens = quote! {
+        use std::num::NonZeroU32;
         use crate::gamedata::{BwImage, RenderStyle};
 
         /// Contains data for all images in the game.
-        pub const IMAGES: [BwImage; #NUM_IMAGE_DATA] = [#(#entries,)*];
+        pub const IMAGES: [BwImage; #NUM_IMAGE_DATA] = unsafe { [#(#entries,)*] };
     };
 
     let src = syn::parse2(tokens).expect("Couldn't parse generated image.rs");

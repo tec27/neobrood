@@ -8,6 +8,7 @@ use crate::{
 
 use self::{
     anim::{AnimAsset, AnimAssetLoader},
+    lo::{LoAsset, LoAssetLoader},
     rel::{RelAsset, RelAssetLoader},
     tbl::{TblAsset, TblAssetLoader},
 };
@@ -18,6 +19,7 @@ mod flingy;
 mod generated;
 mod image;
 mod iscript;
+pub mod lo;
 pub mod rel;
 mod sound;
 mod sprite;
@@ -41,15 +43,18 @@ pub struct GameDataPlugin;
 
 impl Plugin for GameDataPlugin {
     fn build(&self, app: &mut App) {
-        app.init_asset::<TblAsset>()
-            .init_asset_loader::<TblAssetLoader>()
+        app.init_asset::<AnimAsset>()
+            .init_asset_loader::<AnimAssetLoader>()
+            .init_asset::<LoAsset>()
+            .init_asset_loader::<LoAssetLoader>()
             .init_asset::<RelAsset>()
             .init_asset_loader::<RelAssetLoader>()
-            .init_asset::<AnimAsset>()
-            .init_asset_loader::<AnimAssetLoader>()
+            .init_asset::<TblAsset>()
+            .init_asset_loader::<TblAssetLoader>()
             .register_type::<LoadingAnim>()
             .register_type::<AnimOffsets>()
             .register_type::<AnimFrameCount>()
+            .register_type::<SpecialOverlay>()
             .add_systems(OnEnter(AppState::PreGame), load_game_data)
             .add_systems(
                 Update,
@@ -76,7 +81,6 @@ impl Plugin for GameDataPlugin {
 pub struct LoadingBwGameDataHandles {
     pub image_paths: Handle<TblAsset>,
     pub strings: Handle<TblAsset>,
-
     pub relations: Handle<RelAsset>,
 }
 
@@ -182,6 +186,15 @@ impl Default for AnimFrameCount {
     }
 }
 
+#[derive(Component, Debug, Clone, Reflect)]
+pub struct SpecialOverlay(pub Handle<LoAsset>);
+
+impl From<&SpecialOverlay> for AssetId<LoAsset> {
+    fn from(overlay: &SpecialOverlay) -> Self {
+        overlay.0.id()
+    }
+}
+
 /// Image ID of the Start Location graphic, which only exists in the standard asset pack.
 const START_LOCATION_ID: u16 = 588;
 
@@ -256,6 +269,24 @@ fn init_loaded_anims(
                 id
             ));
             commands.entity(entity).insert(handle);
+
+            let Some(image_def) = IMAGES.get(loading_anim.anim_id as usize) else {
+                warn!(
+                    "No image definition found for anim_id {}",
+                    loading_anim.anim_id
+                );
+                continue;
+            };
+            // TODO(tec27): implement other overlay types
+            if let Some(special_overlay) = image_def
+                .special_overlay
+                .and_then(|o| game_data.image_paths.get(o.get() as usize))
+            {
+                let handle: Handle<LoAsset> =
+                    asset_server.load(format!("casc-extracted\\unit\\{}", special_overlay));
+                commands.entity(entity).insert(SpecialOverlay(handle));
+            }
+
             continue;
         };
 

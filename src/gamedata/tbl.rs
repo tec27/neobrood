@@ -2,8 +2,8 @@ use std::ops::Index;
 
 use anyhow::{bail, Context};
 use bevy::{
-    asset::{io::Reader, Asset, AssetLoader, AsyncReadExt, LoadContext},
-    reflect::Reflect,
+    asset::{io::Reader, AssetLoader, AsyncReadExt, LoadContext},
+    prelude::*,
 };
 
 /// A bevy [AssetLoader] for TBL files.
