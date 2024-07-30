@@ -11,8 +11,8 @@ use crate::states::AppState;
 use bevy::input::mouse::MouseButtonInput;
 use bevy::input::ButtonState;
 use bevy::prelude::*;
-use bevy::utils::smallvec::SmallVec;
 use bevy::window::PrimaryWindow;
+use smallvec::SmallVec;
 
 use super::constructs::OwnedConstruct;
 use super::players::{ControlledPlayer, PlayerNumber};
@@ -120,7 +120,7 @@ fn drag_selection_setup(mut commands: Commands) {
                 border: UiRect::all(Val::Px(2.0)),
                 ..default()
             },
-            border_color: Color::rgba(0.2, 0.8, 0.4, 0.8).into(),
+            border_color: Color::srgba(0.2, 0.8, 0.4, 0.8).into(),
             visibility: Visibility::Hidden,
             ..default()
         },
@@ -494,9 +494,9 @@ fn play_selection_sounds(
 }
 
 // TODO(tec27): Pick a better/more accurate color for this
-const COLOR_SELF: Color = Color::rgb(0.1, 1.0, 0.3);
-const COLOR_ENEMY: Color = Color::rgb(1.0, 0.1, 0.3);
-const COLOR_NEUTRAL: Color = Color::rgb(1.0, 1.0, 0.3);
+const COLOR_SELF: Color = Color::srgb(0.1, 1.0, 0.3);
+const COLOR_ENEMY: Color = Color::srgb(1.0, 0.1, 0.3);
+const COLOR_NEUTRAL: Color = Color::srgb(1.0, 1.0, 0.3);
 
 // NOTE(tec27): This should be kept up to date with bevy's SpriteBundle, just remove the things that
 // would be overwritten by PreloadedAnimBundle to avoid an error on spawning both here.

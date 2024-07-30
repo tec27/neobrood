@@ -12,7 +12,7 @@ pub fn log_transitions<T: States>(mut transitions: EventReader<StateTransitionEv
     for transition in transitions.read() {
         info!(
             "transition: {:?} => {:?}",
-            transition.before, transition.after
+            transition.exited, transition.entered
         );
     }
 }

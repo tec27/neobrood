@@ -1,6 +1,6 @@
 use anyhow::anyhow;
 use bevy::asset::io::Reader;
-use bevy::asset::{AssetLoader, AsyncReadExt, BoxedFuture, LoadContext};
+use bevy::asset::{AssetLoader, AsyncReadExt, LoadContext};
 use bevy::prelude::*;
 use bevy::reflect::TypePath;
 use bevy::render::renderer::RenderDevice;
@@ -69,65 +69,63 @@ impl AssetLoader for MapAssetLoader {
     type Settings = MapAssetSettings;
     type Error = anyhow::Error;
 
-    fn load<'a>(
+    async fn load<'a>(
         &'a self,
-        reader: &'a mut Reader,
+        reader: &'a mut Reader<'_>,
         settings: &'a Self::Settings,
-        load_context: &'a mut LoadContext,
-    ) -> BoxedFuture<'a, Result<Self::Asset, Self::Error>> {
-        Box::pin(async move {
-            // TODO(tec27): At some point we'll need the MPQ to be able to load other assets
-            // (for UMS), but I don't want to deal with the lifetimes for now, so we just drop it
-            let mut bytes = Vec::new();
-            reader.read_to_end(&mut bytes).await?;
-            let (chk, _mpq) = broodmap::extract_chk_from_map(&bytes, None, None)?;
-            let tileset = chk.tileset();
-            let Ok(terrain) = chk.terrain() else {
-                return Err(anyhow!("Could not load map's terrain"));
-            };
+        load_context: &'a mut LoadContext<'_>,
+    ) -> Result<Self::Asset, Self::Error> {
+        // TODO(tec27): At some point we'll need the MPQ to be able to load other assets
+        // (for UMS), but I don't want to deal with the lifetimes for now, so we just drop it
+        let mut bytes = Vec::new();
+        reader.read_to_end(&mut bytes).await?;
+        let (chk, _mpq) = broodmap::extract_chk_from_map(&bytes, None, None)?;
+        let tileset = chk.tileset();
+        let Ok(terrain) = chk.terrain() else {
+            return Err(anyhow!("Could not load map's terrain"));
+        };
 
-            let Ok(placed_units) = chk.placed_units() else {
-                return Err(anyhow!("Could not load map's placed units"));
-            };
-            let Ok(sprites) = chk.sprites() else {
-                return Err(anyhow!("Could not load map's sprites"));
-            };
+        let Ok(placed_units) = chk.placed_units() else {
+            return Err(anyhow!("Could not load map's placed units"));
+        };
+        let Ok(sprites) = chk.sprites() else {
+            return Err(anyhow!("Could not load map's sprites"));
+        };
 
-            // TODO(tec27): Use load_context.labeled_asset_scope for these so that they get properly
-            // marked as dependencies (and probably load the files out of the casc via a loader
-            // call instead of doing it directly in these functions?)
-            info!("Loading mega tile lookup...");
-            let mega_tile_lookup = load_mega_tile_lookup(tileset, terrain, load_context).await?;
-            info!("Mega tile lookup has {} entries", mega_tile_lookup.len());
+        // TODO(tec27): Use load_context.labeled_asset_scope for these so that they get properly
+        // marked as dependencies (and probably load the files out of the casc via a loader
+        // call instead of doing it directly in these functions?)
+        info!("Loading mega tile lookup...");
+        let mega_tile_lookup = load_mega_tile_lookup(tileset, terrain, load_context).await?;
+        info!("Mega tile lookup has {} entries", mega_tile_lookup.len());
 
-            info!("Loading tileset textures...");
-            let (tile_textures, tile_texture_indices) = load_tile_textures(
-                tileset,
-                &mega_tile_lookup,
-                settings.quality,
-                settings.pack,
-                load_context,
-                self.supported_compressed_formats,
-            )
-            .await?;
-            info!("Loaded {} tile textures", tile_textures.len());
+        info!("Loading tileset textures...");
+        let (tile_textures, tile_texture_indices) = load_tile_textures(
+            tileset,
+            &mega_tile_lookup,
+            settings.quality,
+            settings.pack,
+            load_context,
+            self.supported_compressed_formats,
+        )
+        .await?;
+        info!("Loaded {} tile textures", tile_textures.len());
 
-            Ok(MapAsset {
-                name: chk
-                    .scenario_props()
-                    .ok()
-                    .and_then(|p| p.name.clone())
-                    .unwrap_or_default(),
-                width: chk.width() as u32,
-                height: chk.height() as u32,
-                tileset,
-                terrain: terrain.clone(),
-                mega_tile_lookup,
-                tile_textures,
-                tile_texture_indices,
-                placed_units: placed_units.clone(),
-                sprites: sprites.clone(),
-            })
+        Ok(MapAsset {
+            name: chk
+                .scenario_props()
+                .ok()
+                .and_then(|p| p.name.clone())
+                .unwrap_or_default(),
+            width: chk.width() as u32,
+            height: chk.height() as u32,
+            tileset,
+            terrain: terrain.clone(),
+            mega_tile_lookup,
+            tile_textures,
+            tile_texture_indices,
+            placed_units: placed_units.clone(),
+            sprites: sprites.clone(),
         })
     }
 

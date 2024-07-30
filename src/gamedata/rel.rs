@@ -1,7 +1,6 @@
 use bevy::{
     asset::{io::Reader, Asset, AssetLoader, AsyncReadExt, LoadContext},
     reflect::TypePath,
-    utils::BoxedFuture,
 };
 
 #[derive(Debug, Default)]
@@ -12,35 +11,33 @@ impl AssetLoader for RelAssetLoader {
     type Settings = ();
     type Error = anyhow::Error;
 
-    fn load<'a>(
+    async fn load<'a>(
         &'a self,
-        reader: &'a mut Reader,
+        reader: &'a mut Reader<'_>,
         _settings: &'a Self::Settings,
-        _load_context: &'a mut LoadContext,
-    ) -> BoxedFuture<'a, Result<Self::Asset, Self::Error>> {
-        Box::pin(async move {
-            let mut bytes = Vec::new();
-            reader.read_to_end(&mut bytes).await?;
+        _load_context: &'a mut LoadContext<'_>,
+    ) -> Result<Self::Asset, Self::Error> {
+        let mut bytes = Vec::new();
+        reader.read_to_end(&mut bytes).await?;
 
-            let entries = bytes
-                .chunks_exact(8)
-                .map(|chunk| {
-                    let rel_type = u32::from_le_bytes([chunk[0], chunk[1], chunk[2], chunk[3]]);
-                    let ref_image = u32::from_le_bytes([chunk[4], chunk[5], chunk[6], chunk[7]]);
+        let entries = bytes
+            .chunks_exact(8)
+            .map(|chunk| {
+                let rel_type = u32::from_le_bytes([chunk[0], chunk[1], chunk[2], chunk[3]]);
+                let ref_image = u32::from_le_bytes([chunk[4], chunk[5], chunk[6], chunk[7]]);
 
-                    RelEntry {
-                        rel_type,
-                        ref_image: if ref_image == 0xFFFFFFFF {
-                            None
-                        } else {
-                            Some(ref_image)
-                        },
-                    }
-                })
-                .collect();
+                RelEntry {
+                    rel_type,
+                    ref_image: if ref_image == 0xFFFFFFFF {
+                        None
+                    } else {
+                        Some(ref_image)
+                    },
+                }
+            })
+            .collect();
 
-            Ok(RelAsset { entries })
-        })
+        Ok(RelAsset { entries })
     }
 }
 

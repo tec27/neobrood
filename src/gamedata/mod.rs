@@ -295,10 +295,10 @@ fn init_loaded_anims(
                 .entity(entity)
                 .remove::<LoadingAnim>()
                 .insert(PreloadedAnimBundle::for_asset(anim, atlas.index));
-        } else if asset_server.load_state(handle) == LoadState::Failed {
+        } else if let LoadState::Failed(error) = asset_server.load_state(handle) {
             // TODO(tec27): Show a dialog or something instead?
             panic!(
-                "Failed to load anim asset for anim_id {}",
+                "Failed to load anim asset for anim_id {}: {error:?}",
                 loading_anim.anim_id
             );
         }

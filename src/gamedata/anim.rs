@@ -9,7 +9,7 @@ use std::io::{Cursor, Read, Seek, SeekFrom};
 use bevy::{
     asset::{io::Reader, Asset, AssetLoader, AsyncReadExt, Handle, LoadContext},
     log::{error, warn},
-    math::{Rect, Vec2},
+    math::{URect, UVec2, Vec2},
     reflect::TypePath,
     render::{render_asset::RenderAssetUsages, texture::Image},
     sprite::{Anchor, TextureAtlasLayout},
@@ -47,94 +47,96 @@ impl AssetLoader for AnimAssetLoader {
     type Settings = ();
     type Error = AnimError;
 
-    fn load<'a>(
+    async fn load<'a>(
         &'a self,
-        reader: &'a mut Reader,
+        reader: &'a mut Reader<'_>,
         _settings: &'a Self::Settings,
-        load_context: &'a mut LoadContext,
-    ) -> bevy::utils::BoxedFuture<'a, Result<Self::Asset, Self::Error>> {
-        Box::pin(async move {
-            let mut bytes = Vec::new();
-            reader.read_to_end(&mut bytes).await?;
+        load_context: &'a mut LoadContext<'_>,
+    ) -> Result<Self::Asset, Self::Error> {
+        let mut bytes = Vec::new();
+        reader.read_to_end(&mut bytes).await?;
 
-            let file = load_anim(Cursor::new(&bytes))?;
-            let AnimFile {
-                sprite:
-                    AnimFileSprite {
-                        frames,
-                        layers,
-                        width,
-                        height,
-                    },
-                scale,
-            } = file;
+        let file = load_anim(Cursor::new(&bytes))?;
+        let AnimFile {
+            sprite:
+                AnimFileSprite {
+                    frames,
+                    layers,
+                    width,
+                    height,
+                },
+            scale,
+        } = file;
 
-            let mut layer_handles = HashMap::with_capacity(layers.len());
-            for (name, texture) in layers.iter() {
-                let texture_cursor = Cursor::new(
-                    &bytes[texture.offset as usize..(texture.offset + texture.size) as usize],
-                );
-                let dyn_image = ImageReader::new(texture_cursor)
-                    .with_guessed_format()?
-                    .decode()?;
-                let handle = load_context.labeled_asset_scope(format!("layer_{name}"), |_| {
-                    Image::from_dynamic(dyn_image, true, RenderAssetUsages::RENDER_WORLD)
-                });
-                layer_handles.insert(name.clone(), handle);
+        let mut layer_handles = HashMap::with_capacity(layers.len());
+        for (name, texture) in layers.iter() {
+            let texture_cursor = Cursor::new(
+                &bytes[texture.offset as usize..(texture.offset + texture.size) as usize],
+            );
+            let dyn_image = ImageReader::new(texture_cursor)
+                .with_guessed_format()?
+                .decode()?;
+            let handle = load_context.labeled_asset_scope(format!("layer_{name}"), |_| {
+                Image::from_dynamic(dyn_image, true, RenderAssetUsages::RENDER_WORLD)
+            });
+            layer_handles.insert(name.clone(), handle);
+        }
+
+        let mut layout = TextureAtlasLayout::new_empty(UVec2::new(width.into(), height.into()));
+        let scale = FRAME_SCALE as f32 / scale as f32;
+        let use_offsets = if width == 0 && height == 0 {
+            // TODO(tec27): We should use the GRP sizes instead in this case
+            warn!(
+                "anim at {:?} has no specified size, not using offsets",
+                load_context.path()
+            );
+            false
+        } else {
+            true
+        };
+        let mut offsets = if use_offsets {
+            Vec::with_capacity(frames.len())
+        } else {
+            Vec::with_capacity(0)
+        };
+        let frame_count = frames.len();
+
+        let width = width as f32 / scale;
+        let height = height as f32 / scale;
+        for frame in frames {
+            let scaled_x = (frame.texture_x as f32 / scale).floor() as u32;
+            let scaled_y = (frame.texture_y as f32 / scale).floor() as u32;
+            let scaled_width = (frame.width as f32 / scale).ceil() as u32;
+            let scaled_height = (frame.height as f32 / scale).ceil() as u32;
+            let rect = URect::new(
+                scaled_x,
+                scaled_y,
+                scaled_x + scaled_width,
+                scaled_y + scaled_height,
+            );
+            // Convert offsets into Bevy Anchors. Offsets are expressed as pixel values relative
+            // to the top-left corner of the render position, whereas Bevy anchors are expressed
+            // relative to the center (0,0), and with +Y being up instead of down.
+            if use_offsets {
+                let offset_x = frame.offset_x as f32 / scale;
+                let offset_y = frame.offset_y as f32 / scale;
+                let anchor_point = Vec2::new(width / 2.0 - offset_x, height / 2.0 - offset_y);
+                offsets.push(Anchor::Custom(Vec2::new(
+                    anchor_point.x / rect.width() as f32 - 0.5,
+                    0.5 - anchor_point.y / rect.height() as f32,
+                )));
             }
+            layout.add_texture(rect);
+        }
 
-            let mut layout = TextureAtlasLayout::new_empty(Vec2::new(width as f32, height as f32));
-            let scale = FRAME_SCALE as f32 / scale as f32;
-            let use_offsets = if width == 0 && height == 0 {
-                // TODO(tec27): We should use the GRP sizes instead in this case
-                warn!(
-                    "anim at {:?} has no specified size, not using offsets",
-                    load_context.path()
-                );
-                false
-            } else {
-                true
-            };
-            let mut offsets = if use_offsets {
-                Vec::with_capacity(frames.len())
-            } else {
-                Vec::with_capacity(0)
-            };
-            let frame_count = frames.len();
+        let layout = load_context.labeled_asset_scope("layout".to_string(), |_| layout);
 
-            let width = width as f32 / scale;
-            let height = height as f32 / scale;
-            for frame in frames {
-                let rect = Rect::new(
-                    frame.texture_x as f32 / scale,
-                    frame.texture_y as f32 / scale,
-                    (frame.texture_x + frame.width) as f32 / scale,
-                    (frame.texture_y + frame.height) as f32 / scale,
-                );
-                // Convert offsets into Bevy Anchors. Offsets are expressed as pixel values relative
-                // to the top-left corner of the render position, whereas Bevy anchors are expressed
-                // relative to the center (0,0), and with +Y being up instead of down.
-                if use_offsets {
-                    let offset_x = frame.offset_x as f32 / scale;
-                    let offset_y = frame.offset_y as f32 / scale;
-                    let anchor_point = Vec2::new(width / 2.0 - offset_x, height / 2.0 - offset_y);
-                    offsets.push(Anchor::Custom(Vec2::new(
-                        anchor_point.x / rect.width() - 0.5,
-                        0.5 - anchor_point.y / rect.height(),
-                    )));
-                }
-                layout.add_texture(rect);
-            }
-
-            let layout = load_context.labeled_asset_scope("layout".to_string(), |_| layout);
-
-            Ok(AnimAsset {
-                size: Vec2::new(width, height),
-                layout,
-                frame_count,
-                offsets,
-                layers: layer_handles,
-            })
+        Ok(AnimAsset {
+            size: Vec2::new(width, height),
+            layout,
+            frame_count,
+            offsets,
+            layers: layer_handles,
         })
     }
 

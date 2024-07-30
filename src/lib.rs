@@ -56,7 +56,7 @@ pub fn create_app(settings: GameSettings, maps: Vec<PathBuf>) -> App {
     )
     .register_type::<GameSettings>()
     .insert_resource(settings)
-    .insert_resource(ClearColor(Color::rgb(0.0, 0.0, 0.0)))
+    .insert_resource(ClearColor(Color::srgb(0.0, 0.0, 0.0)))
     .insert_resource(LoadableMaps { maps, cur_index: 0 })
     .insert_resource(GlobalVolume::new(settings.volumes.global))
     .insert_resource(Time::<Fixed>::from_duration(
@@ -75,11 +75,7 @@ pub fn create_app(settings: GameSettings, maps: Vec<PathBuf>) -> App {
     ))
     .add_systems(Startup, setup)
     .add_systems(Update, update_fps_text)
-    .add_systems(Update, map_navigator.run_if(in_state(AppState::InGame)))
-    .add_systems(
-        Update,
-        bevy::window::close_on_esc.run_if(in_state(AppState::Menu)),
-    );
+    .add_systems(Update, map_navigator.run_if(in_state(AppState::InGame)));
 
     if has_map_args {
         app.insert_state(AppState::PreGame);
@@ -138,7 +134,7 @@ fn setup(
             TextStyle {
                 font,
                 font_size: 16.0,
-                color: Color::rgb(0.7, 0.7, 0.7),
+                color: Color::srgb(0.7, 0.7, 0.7),
             },
         )
         .with_style(Style {

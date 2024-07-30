@@ -72,9 +72,9 @@ fn handle_keys(
     }
 }
 
-const NORMAL_BUTTON: Color = Color::rgb(0.15, 0.15, 0.15);
-const HOVERED_BUTTON: Color = Color::rgb(0.25, 0.25, 0.25);
-const PRESSED_BUTTON: Color = Color::rgb(0.35, 0.75, 0.35);
+const NORMAL_BUTTON: Color = Color::srgb(0.15, 0.15, 0.15);
+const HOVERED_BUTTON: Color = Color::srgb(0.25, 0.25, 0.25);
+const PRESSED_BUTTON: Color = Color::srgb(0.35, 0.75, 0.35);
 
 fn update_button_colors(
     mut interaction_query: Query<
@@ -112,13 +112,13 @@ fn setup_general(mut commands: Commands, asset_server: Res<AssetServer>) {
     let button_text_style = TextStyle {
         font: body.clone(),
         font_size: 32.0,
-        color: Color::rgb(0.9, 0.9, 0.9),
+        color: Color::srgb(0.9, 0.9, 0.9),
     };
 
     commands
         .spawn((
             NodeBundle {
-                background_color: BackgroundColor(Color::rgba(0.0, 0.0, 0.0, 0.5)),
+                background_color: BackgroundColor(Color::srgba(0.0, 0.0, 0.0, 0.5)),
                 style: Style {
                     width: Val::Percent(100.0),
                     height: Val::Percent(100.0),
@@ -197,7 +197,7 @@ fn general_actions(
                     next_app_state.set(AppState::Menu);
                 }
                 GeneralMenuAction::Quit => {
-                    app_exit_events.send(AppExit);
+                    app_exit_events.send(AppExit::Success);
                 }
             }
         }

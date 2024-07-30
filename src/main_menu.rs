@@ -26,9 +26,9 @@ impl Plugin for MainMenuPlugin {
 #[derive(Component)]
 struct OnMainMenu;
 
-const NORMAL_BUTTON: Color = Color::rgb(0.15, 0.15, 0.15);
-const HOVERED_BUTTON: Color = Color::rgb(0.25, 0.25, 0.25);
-const PRESSED_BUTTON: Color = Color::rgb(0.35, 0.75, 0.35);
+const NORMAL_BUTTON: Color = Color::srgb(0.15, 0.15, 0.15);
+const HOVERED_BUTTON: Color = Color::srgb(0.25, 0.25, 0.25);
+const PRESSED_BUTTON: Color = Color::srgb(0.35, 0.75, 0.35);
 
 #[derive(Component, Debug)]
 enum MenuAction {
@@ -51,7 +51,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     let button_text_style = TextStyle {
         font: body.clone(),
         font_size: 32.0,
-        color: Color::rgb(0.9, 0.9, 0.9),
+        color: Color::srgb(0.9, 0.9, 0.9),
     };
 
     commands
@@ -88,7 +88,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                             TextStyle {
                                 font: brand,
                                 font_size: 80.0,
-                                color: Color::rgb(0.9, 0.9, 0.9),
+                                color: Color::srgb(0.9, 0.9, 0.9),
                             },
                         )
                         .with_style(Style {
@@ -103,7 +103,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                             TextStyle {
                                 font: body,
                                 font_size: 24.0,
-                                color: Color::rgb(0.7, 0.7, 0.7),
+                                color: Color::srgb(0.7, 0.7, 0.7),
                             },
                         )
                         .with_style(Style {
@@ -179,7 +179,7 @@ fn actions(
                     &settings,
                 ),
                 MenuAction::Quit => {
-                    app_exit_events.send(AppExit);
+                    app_exit_events.send(AppExit::Success);
                 }
             }
         }

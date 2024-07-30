@@ -1,4 +1,5 @@
-use bevy::{math::I16Vec2, prelude::*, utils::smallvec::SmallVec};
+use bevy::{math::I16Vec2, prelude::*};
+use smallvec::SmallVec;
 use std::ops::Index;
 
 use crate::{
@@ -388,7 +389,7 @@ impl ConstructImageBundle {
     }
 }
 
-const SHADOW_COLOR: Color = Color::rgba(0.0, 0.0, 0.0, 0.7);
+const SHADOW_COLOR: Color = Color::srgba(0.0, 0.0, 0.0, 0.7);
 
 /// System that applies a sprite's image ordering to the individual images.
 pub fn update_construct_image_order(

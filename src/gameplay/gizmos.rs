@@ -1,4 +1,4 @@
-use bevy::prelude::*;
+use bevy::{color::palettes::tailwind, prelude::*};
 
 use crate::{
     gamedata::ConstructTypeId,
@@ -17,7 +17,7 @@ pub struct ConstructGizmos {
 impl Default for ConstructGizmos {
     fn default() -> Self {
         Self {
-            bounds: Some(Color::RED),
+            bounds: Some(Color::from(tailwind::RED_600)),
         }
     }
 }

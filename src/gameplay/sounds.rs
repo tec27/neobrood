@@ -2,7 +2,7 @@ use std::ops::Index;
 
 use bevy::{
     audio::{PlaybackMode, Volume},
-    ecs::system::Command,
+    ecs::world::Command,
     prelude::*,
 };
 

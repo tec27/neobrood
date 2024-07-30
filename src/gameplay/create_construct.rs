@@ -605,7 +605,7 @@ mod tests {
         // those same-turn units
 
         let mut app = setup_app();
-        app.world.spawn(GameMapBundle {
+        app.world_mut().spawn(GameMapBundle {
             size: GameMapSize {
                 width: 128,
                 height: 128,
@@ -613,7 +613,7 @@ mod tests {
             ..default()
         });
         let hq_position = IVec2::new(3808, 2384);
-        app.world.spawn(ConstructBundle {
+        app.world_mut().spawn(ConstructBundle {
             construct_type: ConstructTypeId::TerranCommandCenter,
             position: hq_position.into(),
             ..default()
@@ -648,10 +648,10 @@ mod tests {
                 assert_eq!(count, expected.len());
             };
         let mut check_expected_pos_system = IntoSystem::into_system(check_expected_pos);
-        check_expected_pos_system.initialize(&mut app.world);
+        check_expected_pos_system.initialize(app.world_mut());
 
         for _ in 0..expected_positions.len() {
-            app.world.send_event(CreateConstructEvent {
+            app.world_mut().send_event(CreateConstructEvent {
                 construct_type: ConstructTypeId::TerranScv,
                 position: Some(hq_position.into()),
                 owner: None,
@@ -661,13 +661,13 @@ mod tests {
         }
 
         app.update();
-        check_expected_pos_system.run(expected_positions, &mut app.world);
+        check_expected_pos_system.run(expected_positions, app.world_mut());
     }
 
     #[test]
     fn bottleneck_right_side_scv_placement() {
         let mut app = setup_app();
-        app.world.spawn(GameMapBundle {
+        app.world_mut().spawn(GameMapBundle {
             size: GameMapSize {
                 width: 128,
                 height: 128,
@@ -675,7 +675,7 @@ mod tests {
             ..default()
         });
         let hq_position = IVec2::new(3808, 2384);
-        app.world.spawn(ConstructBundle {
+        app.world_mut().spawn(ConstructBundle {
             construct_type: ConstructTypeId::TerranCommandCenter,
             position: hq_position.into(),
             ..default()
@@ -793,10 +793,10 @@ mod tests {
                 }
             };
         let mut check_expected_pos_system = IntoSystem::into_system(check_expected_pos);
-        check_expected_pos_system.initialize(&mut app.world);
+        check_expected_pos_system.initialize(app.world_mut());
 
         for (i, &expected) in expected_positions.iter().enumerate() {
-            app.world.send_event(CreateConstructEvent {
+            app.world_mut().send_event(CreateConstructEvent {
                 construct_type: ConstructTypeId::TerranScv,
                 position: Some(hq_position.into()),
                 owner: None,
@@ -805,12 +805,12 @@ mod tests {
             });
             app.update();
 
-            check_expected_pos_system.run(Some((expected, i)), &mut app.world);
+            check_expected_pos_system.run(Some((expected, i)), app.world_mut());
         }
 
         // Check that the next placement would fall outside the search bounds (e.g. building exit
         // is blocked)
-        app.world.send_event(CreateConstructEvent {
+        app.world_mut().send_event(CreateConstructEvent {
             construct_type: ConstructTypeId::TerranScv,
             position: Some(hq_position.into()),
             owner: None,
@@ -819,7 +819,7 @@ mod tests {
         });
         app.update();
 
-        check_expected_pos_system.run(None, &mut app.world);
+        check_expected_pos_system.run(None, app.world_mut());
     }
 
     #[test]
@@ -829,7 +829,7 @@ mod tests {
 
         let mut app = setup_app();
 
-        app.world.spawn(GameMapBundle {
+        app.world_mut().spawn(GameMapBundle {
             size: GameMapSize {
                 width: 128,
                 height: 128,
@@ -837,7 +837,7 @@ mod tests {
             ..default()
         });
         let hq_position = IVec2::new(288, 2416);
-        app.world.spawn(ConstructBundle {
+        app.world_mut().spawn(ConstructBundle {
             construct_type: ConstructTypeId::TerranBarracks,
             position: hq_position.into(),
             ..default()
@@ -961,10 +961,10 @@ mod tests {
                 }
             };
         let mut check_expected_pos_system = IntoSystem::into_system(check_expected_pos);
-        check_expected_pos_system.initialize(&mut app.world);
+        check_expected_pos_system.initialize(app.world_mut());
 
         for (i, &expected) in expected_positions.iter().enumerate() {
-            app.world.send_event(CreateConstructEvent {
+            app.world_mut().send_event(CreateConstructEvent {
                 construct_type: ConstructTypeId::TerranMarine,
                 position: Some(hq_position.into()),
                 owner: None,
@@ -973,12 +973,12 @@ mod tests {
             });
             app.update();
 
-            check_expected_pos_system.run(Some((expected, i)), &mut app.world);
+            check_expected_pos_system.run(Some((expected, i)), app.world_mut());
         }
 
         // Check that the next placement would fall outside the search bounds (e.g. building exit
         // is blocked)
-        app.world.send_event(CreateConstructEvent {
+        app.world_mut().send_event(CreateConstructEvent {
             construct_type: ConstructTypeId::TerranMarine,
             position: Some(hq_position.into()),
             owner: None,
@@ -987,7 +987,7 @@ mod tests {
         });
         app.update();
 
-        check_expected_pos_system.run(None, &mut app.world);
+        check_expected_pos_system.run(None, app.world_mut());
     }
 
     #[test]
@@ -997,7 +997,7 @@ mod tests {
 
         let mut app = setup_app();
 
-        app.world.spawn(GameMapBundle {
+        app.world_mut().spawn(GameMapBundle {
             size: GameMapSize {
                 width: 128,
                 height: 128,
@@ -1005,7 +1005,7 @@ mod tests {
             ..default()
         });
         let hq_position = IVec2::new(288, 2416);
-        app.world.spawn(ConstructBundle {
+        app.world_mut().spawn(ConstructBundle {
             construct_type: ConstructTypeId::TerranBarracks,
             position: hq_position.into(),
             ..default()
@@ -1165,11 +1165,11 @@ mod tests {
                 }
             };
         let mut check_expected_pos_system = IntoSystem::into_system(check_expected_pos);
-        check_expected_pos_system.initialize(&mut app.world);
+        check_expected_pos_system.initialize(app.world_mut());
 
         for (i, &expected) in expected_positions.iter().enumerate() {
             // TODO(tec27): Unsure how to get a Commands but might be nice to use that instead
-            app.world.send_event(CreateConstructEvent {
+            app.world_mut().send_event(CreateConstructEvent {
                 construct_type: ConstructTypeId::TerranGhost,
                 position: Some(hq_position.into()),
                 owner: None,
@@ -1178,12 +1178,12 @@ mod tests {
             });
             app.update();
 
-            check_expected_pos_system.run(Some((expected, i)), &mut app.world);
+            check_expected_pos_system.run(Some((expected, i)), app.world_mut());
         }
 
         // Check that the next placement would fall outside the search bounds (e.g. building exit
         // is blocked)
-        app.world.send_event(CreateConstructEvent {
+        app.world_mut().send_event(CreateConstructEvent {
             construct_type: ConstructTypeId::TerranGhost,
             position: Some(hq_position.into()),
             owner: None,
@@ -1192,7 +1192,7 @@ mod tests {
         });
         app.update();
 
-        check_expected_pos_system.run(None, &mut app.world);
+        check_expected_pos_system.run(None, app.world_mut());
     }
 
     #[test]
@@ -1202,7 +1202,7 @@ mod tests {
 
         let mut app = setup_app();
 
-        app.world.spawn(GameMapBundle {
+        app.world_mut().spawn(GameMapBundle {
             size: GameMapSize {
                 width: 128,
                 height: 128,
@@ -1210,7 +1210,7 @@ mod tests {
             ..default()
         });
         let hq_position = IVec2::new(288, 2416);
-        app.world.spawn(ConstructBundle {
+        app.world_mut().spawn(ConstructBundle {
             construct_type: ConstructTypeId::TerranFactory,
             position: hq_position.into(),
             ..default()
@@ -1297,10 +1297,10 @@ mod tests {
                 }
             };
         let mut check_expected_pos_system = IntoSystem::into_system(check_expected_pos);
-        check_expected_pos_system.initialize(&mut app.world);
+        check_expected_pos_system.initialize(app.world_mut());
 
         for (i, &expected) in expected_positions.iter().enumerate() {
-            app.world.send_event(CreateConstructEvent {
+            app.world_mut().send_event(CreateConstructEvent {
                 construct_type: ConstructTypeId::TerranSiegeTank,
                 position: Some(hq_position.into()),
                 owner: None,
@@ -1309,12 +1309,12 @@ mod tests {
             });
             app.update();
 
-            check_expected_pos_system.run(Some((expected, i)), &mut app.world);
+            check_expected_pos_system.run(Some((expected, i)), app.world_mut());
         }
 
         // Check that the next placement would fall outside the search bounds (e.g. building exit
         // is blocked)
-        app.world.send_event(CreateConstructEvent {
+        app.world_mut().send_event(CreateConstructEvent {
             construct_type: ConstructTypeId::TerranSiegeTank,
             position: Some(hq_position.into()),
             owner: None,
@@ -1323,7 +1323,7 @@ mod tests {
         });
         app.update();
 
-        check_expected_pos_system.run(None, &mut app.world);
+        check_expected_pos_system.run(None, app.world_mut());
     }
 
     #[test]
@@ -1333,7 +1333,7 @@ mod tests {
 
         let mut app = setup_app();
 
-        app.world.spawn(GameMapBundle {
+        app.world_mut().spawn(GameMapBundle {
             size: GameMapSize {
                 width: 64,
                 height: 64,
@@ -1341,7 +1341,7 @@ mod tests {
             ..default()
         });
         let hq_position = IVec2::new(1984, 1936);
-        app.world.spawn(ConstructBundle {
+        app.world_mut().spawn(ConstructBundle {
             construct_type: ConstructTypeId::TerranFactory,
             position: hq_position.into(),
             ..default()
@@ -1403,11 +1403,11 @@ mod tests {
                 }
             };
         let mut check_expected_pos_system = IntoSystem::into_system(check_expected_pos);
-        check_expected_pos_system.initialize(&mut app.world);
+        check_expected_pos_system.initialize(app.world_mut());
 
         for (i, &expected) in expected_positions.iter().enumerate() {
             // TODO(tec27): Unsure how to get a Commands but might be nice to use that instead
-            app.world.send_event(CreateConstructEvent {
+            app.world_mut().send_event(CreateConstructEvent {
                 construct_type: ConstructTypeId::TerranSiegeTank,
                 position: Some(hq_position.into()),
                 owner: None,
@@ -1416,12 +1416,12 @@ mod tests {
             });
             app.update();
 
-            check_expected_pos_system.run(Some((expected, i)), &mut app.world);
+            check_expected_pos_system.run(Some((expected, i)), app.world_mut());
         }
 
         // Check that the next placement would fall outside the search bounds (e.g. building exit
         // is blocked)
-        app.world.send_event(CreateConstructEvent {
+        app.world_mut().send_event(CreateConstructEvent {
             construct_type: ConstructTypeId::TerranSiegeTank,
             position: Some(hq_position.into()),
             owner: None,
@@ -1430,7 +1430,7 @@ mod tests {
         });
         app.update();
 
-        check_expected_pos_system.run(None, &mut app.world);
+        check_expected_pos_system.run(None, app.world_mut());
     }
 
     #[test]
@@ -1440,7 +1440,7 @@ mod tests {
 
         let mut app = setup_app();
 
-        app.world.spawn(GameMapBundle {
+        app.world_mut().spawn(GameMapBundle {
             size: GameMapSize {
                 width: 64,
                 height: 64,
@@ -1448,7 +1448,7 @@ mod tests {
             ..default()
         });
         let hq_position = IVec2::new(64, 48);
-        app.world.spawn(ConstructBundle {
+        app.world_mut().spawn(ConstructBundle {
             construct_type: ConstructTypeId::TerranFactory,
             position: hq_position.into(),
             ..default()
@@ -1503,10 +1503,10 @@ mod tests {
                 }
             };
         let mut check_expected_pos_system = IntoSystem::into_system(check_expected_pos);
-        check_expected_pos_system.initialize(&mut app.world);
+        check_expected_pos_system.initialize(app.world_mut());
 
         for (i, &expected) in expected_positions.iter().enumerate() {
-            app.world.send_event(CreateConstructEvent {
+            app.world_mut().send_event(CreateConstructEvent {
                 construct_type: ConstructTypeId::TerranSiegeTank,
                 position: Some(hq_position.into()),
                 owner: None,
@@ -1515,12 +1515,12 @@ mod tests {
             });
             app.update();
 
-            check_expected_pos_system.run(Some((expected, i)), &mut app.world);
+            check_expected_pos_system.run(Some((expected, i)), app.world_mut());
         }
 
         // Check that the next placement would fall outside the search bounds (e.g. building exit
         // is blocked)
-        app.world.send_event(CreateConstructEvent {
+        app.world_mut().send_event(CreateConstructEvent {
             construct_type: ConstructTypeId::TerranSiegeTank,
             position: Some(hq_position.into()),
             owner: None,
@@ -1529,7 +1529,7 @@ mod tests {
         });
         app.update();
 
-        check_expected_pos_system.run(None, &mut app.world);
+        check_expected_pos_system.run(None, app.world_mut());
     }
 
     #[test]
@@ -1539,7 +1539,7 @@ mod tests {
 
         let mut app = setup_app();
 
-        app.world.spawn(GameMapBundle {
+        app.world_mut().spawn(GameMapBundle {
             size: GameMapSize {
                 width: 64,
                 height: 64,
@@ -1580,7 +1580,7 @@ mod tests {
                 }
             };
         let mut check_expected_pos_system = IntoSystem::into_system(check_expected_pos);
-        check_expected_pos_system.initialize(&mut app.world);
+        check_expected_pos_system.initialize(app.world_mut());
 
         let spawn_positions = [(1424, 1648), (1440, 1648), (1440, 1664), (1424, 1664)]
             .iter()
@@ -1588,7 +1588,7 @@ mod tests {
             .collect::<Vec<_>>();
 
         for (i, &expected) in expected_positions.iter().enumerate() {
-            app.world.send_event(CreateConstructEvent {
+            app.world_mut().send_event(CreateConstructEvent {
                 construct_type: ConstructTypeId::ProtossDragoon,
                 position: Some(spawn_positions[i].into()),
                 owner: None,
@@ -1597,7 +1597,7 @@ mod tests {
             });
             app.update();
 
-            check_expected_pos_system.run(Some((expected, i)), &mut app.world);
+            check_expected_pos_system.run(Some((expected, i)), app.world_mut());
         }
     }
 
@@ -1608,7 +1608,7 @@ mod tests {
 
         let mut app = setup_app();
 
-        app.world.spawn(GameMapBundle {
+        app.world_mut().spawn(GameMapBundle {
             size: GameMapSize {
                 width: 64,
                 height: 64,
@@ -1654,10 +1654,10 @@ mod tests {
                 }
             };
         let mut check_expected_pos_system = IntoSystem::into_system(check_expected_pos);
-        check_expected_pos_system.initialize(&mut app.world);
+        check_expected_pos_system.initialize(app.world_mut());
 
         for (i, &expected) in expected_positions.iter().enumerate() {
-            app.world.send_event(CreateConstructEvent {
+            app.world_mut().send_event(CreateConstructEvent {
                 construct_type: ConstructTypeId::SpecialPsiDisrupter,
                 position: Some(expected.into()),
                 owner: None,
@@ -1666,7 +1666,7 @@ mod tests {
             });
             app.update();
 
-            check_expected_pos_system.run(Some((expected, i)), &mut app.world);
+            check_expected_pos_system.run(Some((expected, i)), app.world_mut());
         }
     }
 }

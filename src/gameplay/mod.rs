@@ -91,7 +91,7 @@ impl Plugin for GameplayPlugin {
             .add_plugins(players::plugin)
             .register_type::<ConstructGizmos>()
             .init_resource::<GameMode>()
-            .insert_gizmo_group(
+            .insert_gizmo_config(
                 ConstructGizmos::default(),
                 GizmoConfig {
                     enabled: false,
