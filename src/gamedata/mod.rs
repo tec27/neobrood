@@ -70,6 +70,69 @@ impl Plugin for GameDataPlugin {
                     .before(TransformSystem::TransformPropagate)
                     .run_if(in_state(AppState::InGame)),
             );
+
+        app.world_mut()
+            .register_component_hooks::<LoadingAnim>()
+            .on_add(|mut world, entity, _component_id| {
+                let Some(game_data) = world.get_resource::<BwGameData>() else {
+                    error!("LoadingAnim added before game data has been loaded");
+                    return;
+                };
+                let Some(settings) = world.get_resource::<GameSettings>() else {
+                    error!("LoadingAnim added before GameSettings added");
+                    return;
+                };
+
+                let loading_anim = world.get::<LoadingAnim>(entity).unwrap();
+                let relation = game_data
+                    .relations
+                    .entries
+                    .get(loading_anim.anim_id as usize)
+                    .copied()
+                    .unwrap_or_default();
+                let id = if relation.is_image_reference() && relation.ref_image.is_some() {
+                    relation.ref_image.unwrap() as u16
+                } else {
+                    loading_anim.anim_id
+                };
+
+                let asset_pack = if id == START_LOCATION_ID {
+                    AssetPack::Standard
+                } else {
+                    settings.asset_pack
+                };
+
+                let asset_server = world.get_resource::<AssetServer>().unwrap();
+                let handle: Handle<AnimAsset> = asset_server.load(format!(
+                    "casc-extracted/{}anim/{}main_{:03}.anim",
+                    settings.asset_quality.asset_path(),
+                    asset_pack.asset_path(),
+                    id
+                ));
+
+                let Some(image_def) = IMAGES.get(loading_anim.anim_id as usize) else {
+                    warn!(
+                        "No image definition found for anim_id {}",
+                        loading_anim.anim_id
+                    );
+                    world.commands().entity(entity).insert(handle);
+                    return;
+                };
+                // TODO(tec27): implement other overlay types
+                if let Some(special_overlay) = image_def
+                    .special_overlay
+                    .and_then(|o| game_data.image_paths.get(o.get() as usize))
+                {
+                    let handle: Handle<LoAsset> =
+                        asset_server.load(format!("casc-extracted\\unit\\{}", special_overlay));
+                    world
+                        .commands()
+                        .entity(entity)
+                        .insert(SpecialOverlay(handle));
+                }
+
+                world.commands().entity(entity).insert(handle);
+            });
     }
 }
 
@@ -226,70 +289,11 @@ impl PreloadedAnimBundle {
 
 fn init_loaded_anims(
     mut commands: Commands,
-    mut query: Query<(
-        Entity,
-        &LoadingAnim,
-        Option<&Handle<AnimAsset>>,
-        &TextureAtlas,
-    )>,
+    mut query: Query<(Entity, &LoadingAnim, &Handle<AnimAsset>, &TextureAtlas)>,
     anim_assets: Res<Assets<AnimAsset>>,
-    game_data: Option<Res<BwGameData>>,
     asset_server: Res<AssetServer>,
-    settings: Res<GameSettings>,
 ) {
-    let Some(game_data) = game_data else {
-        // We don't have game data yet, so we can't do anything
-        return;
-    };
-
     for (entity, loading_anim, handle, atlas) in &mut query {
-        let Some(handle) = handle else {
-            let relation = game_data
-                .relations
-                .entries
-                .get(loading_anim.anim_id as usize)
-                .copied()
-                .unwrap_or_default();
-            let id = if relation.is_image_reference() && relation.ref_image.is_some() {
-                relation.ref_image.unwrap() as u16
-            } else {
-                loading_anim.anim_id
-            };
-
-            let asset_pack = if id == START_LOCATION_ID {
-                AssetPack::Standard
-            } else {
-                settings.asset_pack
-            };
-
-            let handle: Handle<AnimAsset> = asset_server.load(format!(
-                "casc-extracted/{}anim/{}main_{:03}.anim",
-                settings.asset_quality.asset_path(),
-                asset_pack.asset_path(),
-                id
-            ));
-            commands.entity(entity).insert(handle);
-
-            let Some(image_def) = IMAGES.get(loading_anim.anim_id as usize) else {
-                warn!(
-                    "No image definition found for anim_id {}",
-                    loading_anim.anim_id
-                );
-                continue;
-            };
-            // TODO(tec27): implement other overlay types
-            if let Some(special_overlay) = image_def
-                .special_overlay
-                .and_then(|o| game_data.image_paths.get(o.get() as usize))
-            {
-                let handle: Handle<LoAsset> =
-                    asset_server.load(format!("casc-extracted\\unit\\{}", special_overlay));
-                commands.entity(entity).insert(SpecialOverlay(handle));
-            }
-
-            continue;
-        };
-
         if let Some(anim) = anim_assets.get(handle) {
             commands
                 .entity(entity)
