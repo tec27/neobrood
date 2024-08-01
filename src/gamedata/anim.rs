@@ -16,7 +16,7 @@ use bevy::{
     utils::hashbrown::HashMap,
 };
 use byteorder::{LittleEndian, ReadBytesExt};
-use image::io::Reader as ImageReader;
+use image::ImageReader;
 use thiserror::Error;
 
 #[derive(Error, Debug)]
